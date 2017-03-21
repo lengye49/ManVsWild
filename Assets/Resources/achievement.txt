@@ -1,0 +1,36 @@
+id,name,desc,req
+1,Home Guardian,Protect the house from being stolen 10 times.,10
+2,Brave Man,Defeat 10 ghost.,10
+3,Ghost Hunter,Defeat 1 ghost boss.,1
+4,Night Keeper,Defeat 1 ghost king.,1
+5,Sommelier,Taste 3 kinds of liquor.,3
+6,Foodie,Cook 10 kinds of food.,10
+7,Rich Man,Store 999 gold.,999
+8,Opulent Lifestyle,Spend 999 gold.,999
+9,The Witcher,Get 100 Demon Point.,100
+10,Good Man,Get 100 Renown.,100
+11,Arms Dealer(¢ñ),Collect 10 kinds of Melee Weapon.,10
+12,Arms Dealer(¢ò),Collect 3 kinds of Magic Weapon.,3
+13,Arms Dealer(¢ó),Collect 3 kinds of Ranged Weapon.,3
+14,Cat Man,Capture 3 pets.,3
+15,Rider,Mount a pet.,1
+16,Wild Hunter,Kill 100 enemies.,100
+17,Architect(¢ñ),Construct all buildings.,1
+18,Meticulous Man,Search a place totally.,1
+19,Adventure Lover,Get to 10 different places.,10
+20,Don't Starve,Keep alive for 100 days.,100
+21,Otaku,Sleep for 100 hours.,100
+22,Oenophile,Drink 100 wine.,100
+23,What a Dream,Load memory for 1 time.,1
+24,Dungeon Explorer,Expore the 30th floor of the Dungeon.,30
+25,Bloodthirty,Perform melee attacks for 100 times.,100
+26,Keep a Distance,Perform ranged attacks for 100 times.,100
+27,Magic Maker,Perform magic attacks for 100 times.,100
+31,Walking Dictionary,Get to 20 different places.,20
+32,Dragon Slayer,Defeat 3 dragons.,3
+33,Architect(¢ò),Upgrade all buildings.,1
+34,Master Of Survival,Keep alive for 100 days,100
+35,Scientist,Upgrade all techniques.,1
+36,Dragon Rider,Mount a dragon.,1
+37,DND,Expore the 99th floor of the Dungeon.,99
+38,Hands Up!,Catch 3 legendary thieves.,3

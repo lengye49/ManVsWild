@@ -1,0 +1,11 @@
+id,Name,monsterId,weight
+100,A Mouse,1704,100
+101,A Crow,1703,100
+102,A Bandit,500,100
+103,A Burglar,401,90
+104,A Savage,1904,80
+200,Robert MacDougal,1904,60
+201,Joe Doddy,1904,60
+202,Cuma,1904,60
+203,Max Burdett,1904,40
+204,Simon Dermott,1904,40

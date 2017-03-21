@@ -1,0 +1,79 @@
+id,name,type,lv,maxLv,req,time,desc
+101,Backpack Upgrade(Lv.1),1,1,5,2105|10;2106|10;3402|2,1,Upgrade my backpack.
+102,Backpack Upgrade(Lv.2),1,2,5,2105|10;2106|10;3402|4,1,Upgrade my backpack.
+103,Backpack Upgrade(Lv.3),1,3,5,2105|10;2106|10;3402|8,1,Upgrade my backpack.
+104,Backpack Upgrade(Lv.4),1,4,5,2105|10;2106|10;3402|16,1,Upgrade my backpack.
+105,Backpack Upgrade(Lv.5),1,5,5,2105|10;2106|10;3402|32,1,Upgrade my backpack.
+201,Building Design(Lv.1),2,1,3,404|20,3,Accelerate construction progress by 20%.
+202,Building Design(Lv.2),2,2,3,404|50,6,Accelerate construction progress by 40%.
+203,Building Design(Lv.3),2,3,3,404|100,12,Accelerate construction progress by 60%.
+301,Lock Upgrade(Lv.1),3,1,3,2200|20;2201|20,5,Upgrade my warehouse lock and reduce the loss of theft.
+302,Lock Upgrade(Lv.2),3,2,3,2300|20;2301|20,5,Upgrade my warehouse lock and reduce the loss of theft.
+303,Lock Upgrade(Lv.3),3,3,3,2402|20;2400|20,5,Upgrade my warehouse lock and reduce the loss of theft.
+401,Hire Farmers(Lv.1),4,1,3,3100|50,1,Hire villagers for the job.
+402,Hire Farmers(Lv.2),4,2,3,3100|100,1,Hire more villagers for the job.
+403,Hire Farmers(Lv.3),4,3,3,3100|200,1,Hire more villagers for the job.
+501,Oenology(Lv.1),5,1,3,1100|30;2104|20,5,Make good barrels.
+502,Oenology(Lv.2),5,2,3,#N/A,5,Improved formula and use high quality raw materials¡£
+503,Oenology(Lv.3),5,3,3,3100|200,1,Hire professionals.
+601,Archery(Lv.1),6,1,20,3304|5,1,Improve my archery by +10 ranged damage.
+602,Archery(Lv.2),6,2,20,3304|10,1,Improve my archery by +20 ranged damage.
+603,Archery(Lv.3),6,3,20,3304|15,1,Improve my archery by +30 ranged damage.
+604,Archery(Lv.4),6,4,20,3304|20,1,Improve my archery by +40 ranged damage.
+605,Archery(Lv.5),6,5,20,3304|25,1,Improve my archery by +5% ranged hit.
+606,Archery(Lv.6),6,6,20,3304|30,1,Improve my archery by +50 ranged damage.
+607,Archery(Lv.7),6,7,20,3304|35,1,Improve my archery by +60 ranged damage.
+608,Archery(Lv.8),6,8,20,3304|40,1,Improve my archery by +70 ranged damage.
+609,Archery(Lv.9),6,9,20,3304|45,1,Improve my archery by +80 ranged damage.
+610,Archery(Lv.10),6,10,20,3304|50,1,Improve my archery by +10% ranged hit.
+611,Archery(Lv.11),6,11,20,3304|55,1,Improve my archery by +90 ranged damage.
+612,Archery(Lv.12),6,12,20,3304|60,1,Improve my archery by +100 ranged damage.
+613,Archery(Lv.13),6,13,20,3304|65,1,Improve my archery by +110 ranged damage.
+614,Archery(Lv.14),6,14,20,3304|70,1,Improve my archery by +120 ranged damage.
+615,Archery(Lv.15),6,15,20,3304|75,1,Improve my archery by +15% ranged hit.
+616,Archery(Lv.16),6,16,20,3304|80,1,Improve my archery by +130 ranged damage.
+617,Archery(Lv.17),6,17,20,3304|85,1,Improve my archery by +140 ranged damage.
+618,Archery(Lv.18),6,18,20,3304|90,1,Improve my archery by +150 ranged damage.
+619,Archery(Lv.19),6,19,20,3304|95,1,Improve my archery by +160 ranged damage.
+620,Archery(Lv.20),6,20,20,3304|100,1,Improve my archery by +20% ranged hit.
+701,Melee Skills(Lv.1),7,1,20,3302|5,1,Improve my melee skills by +10 ranged damage.
+702,Melee Skills(Lv.2),7,2,20,3302|10,1,Improve my melee skills by +20 ranged damage.
+703,Melee Skills(Lv.3),7,3,20,3302|15,1,Improve my melee skills by +30 ranged damage.
+704,Melee Skills(Lv.4),7,4,20,3302|20,1,Improve my melee skills by +40 ranged damage.
+705,Melee Skills(Lv.5),7,5,20,3302|25,1,Improve my melee skills by +5% ranged hit.
+706,Melee Skills(Lv.6),7,6,20,3302|30,1,Improve my melee skills by +50 ranged damage.
+707,Melee Skills(Lv.7),7,7,20,3302|35,1,Improve my melee skills by +60 ranged damage.
+708,Melee Skills(Lv.8),7,8,20,3302|40,1,Improve my melee skills by +70 ranged damage.
+709,Melee Skills(Lv.9),7,9,20,3302|45,1,Improve my melee skills by +80 ranged damage.
+710,Melee Skills(Lv.10),7,10,20,3302|50,1,Improve my melee skills by +10% ranged hit.
+711,Melee Skills(Lv.11),7,11,20,3302|55,1,Improve my melee skills by +90 ranged damage.
+712,Melee Skills(Lv.12),7,12,20,3302|60,1,Improve my melee skills by +100 ranged damage.
+713,Melee Skills(Lv.13),7,13,20,3302|65,1,Improve my melee skills by +110 ranged damage.
+714,Melee Skills(Lv.14),7,14,20,3302|70,1,Improve my melee skills by +120 ranged damage.
+715,Melee Skills(Lv.15),7,15,20,3302|75,1,Improve my melee skills by +15% ranged hit.
+716,Melee Skills(Lv.16),7,16,20,3302|80,1,Improve my melee skills by +130 ranged damage.
+717,Melee Skills(Lv.17),7,17,20,3302|85,1,Improve my melee skills by +140 ranged damage.
+718,Melee Skills(Lv.18),7,18,20,3302|90,1,Improve my melee skills by +150 ranged damage.
+719,Melee Skills(Lv.19),7,19,20,3302|95,1,Improve my melee skills by +160 ranged damage.
+720,Melee Skills(Lv.20),7,20,20,3302|100,1,Improve my melee skills by +20% ranged hit.
+801,Witchcraft Master(Lv.1),8,1,3,3305|10,1,Improve my witchcraft skills by +10% success rate.
+802,Witchcraft Master(Lv.2),8,2,3,3305|30,1,Improve my witchcraft skills by +20% success rate.
+803,Witchcraft Master(Lv.3),8,3,3,3305|50,1,Improve my witchcraft skills by +30% success rate.
+901,Soul Perspective,9,1,1,2202|20,2,I can check the success rate of a magic before casting.
+1001,Backfire Resistance(Lv.1),10,1,2,2202|10;2400|10,5,Reduce hp cost of a magic by 50% percent.
+1002,Backfire Resistance(Lv.2),10,2,2,2202|30;2400|30,10,My magic never cost hp any more.
+1101,Candy and Rod(Lv.1),11,1,3,4102|10;100|20,5,Increase the rate of capture a pet during a combat.
+1102,Candy and Rod(Lv.2),11,2,3,4102|20;101|20,5,Increase the rate of capture a pet during a combat.
+1103,Candy and Rod(Lv.3),11,3,3,4102|50;108|5,5,Increase the rate of capture a pet during a combat.
+1201,Disguise(Lv.1),12,1,2,2105|10;2108|10,4,Reduce the rate of being spotted by target while hunting. 
+1202,Disguise(Lv.2),12,2,2,2105|30;2108|30,6,Hugely reduce the rate of being spotted by target while hunting. 
+1301,Cartography,13,1,1,404|100,12,Accelerate my search progress and get more rewards each time.
+1401,Dungeon Mapping,14,1,1,404|50;3401|10,5,Locate the level where I left last time.
+1501,Blacksmith Technics(Lv.1),15,1,3,2200|30;2201|30,2,Reduce time cost of blacksmith by 20%.
+1502,Blacksmith Technics(Lv.2),15,2,3,2300|40;2301|40,4,Reduce time cost of blacksmith by 40%.
+1503,Blacksmith Technics(Lv.3),15,3,3,2400|20;2401|20;2402|20,8,Reduce time cost of blacksmith by 60%.
+1601,Cooking Skills(Lv.1),16,1,3,4102|10,2,Reduce cooking time and probably get more food.
+1602,Cooking Skills(Lv.2),16,2,3,4102|30,4,Reduce cooking time and probably get more food.
+1603,Cooking Skills(Lv.3),16,3,3,4102|100,8,Reduce cooking time and probably get more food.
+1701,Water Recycle(Lv.1),17,1,2,1100|20;1101|30,5,Increase collecting speed of my well by 20%.
+1702,Water Recycle(Lv.2),17,2,2,404|50;3100|120,10,Increase collecting speed of my well by 50%.
