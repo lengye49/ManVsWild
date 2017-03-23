@@ -92,6 +92,7 @@ public class PlayerData  {
 
 	public Dictionary<int,int> MapOpenState;
 	public int mapNow;
+	public int dungeonLevelMax;
 
 	public Dictionary<int,int> techLevels;
 
@@ -172,4 +173,6 @@ public class PlayerData  {
 	public int renown;//善恶值
 	public int petsCaptured;
 	public int wineDrinked;
+
+
 }

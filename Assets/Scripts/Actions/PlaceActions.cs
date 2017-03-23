@@ -31,11 +31,13 @@ public class PlaceActions : MonoBehaviour {
 	private int goodsNum;
 	private float popTime= 0.3f;
 
-	private int[] dungeonCellState;//0Can not open;1Can open;2Opened
+	private int[] dungeonCellState;//0 Cannot open;1 Can open;2 Opened;3 Door
 	public Button[] dungeonCells;
 	public Sprite frontImage;
 	public Sprite backImage;
+	public Sprite nextLevelImage;
 	private int dungeonLevel;
+	private int thisExitIndex;
 
 	void Start(){
 		placeCell = Instantiate (Resources.Load ("placeCell")) as GameObject;
@@ -46,7 +48,26 @@ public class PlaceActions : MonoBehaviour {
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		_panelManager = this.gameObject.GetComponentInParent<PanelManager> ();
+		UpdatePlace (1);
+	}
 
+	public void UpdatePlace(Maps m){
+		if (m.id == 19) {
+			dungeonLevel = GameData._playerData.dungeonLevelMax + 1;
+			InitializeDungeon ();
+		} else {
+			SetDetailPosition ();
+			SetPlace (m);
+		}
+	}
+
+	public void UpdatePlace(int lv){
+		dungeonLevel = lv;
+		InitializeDungeon ();
+	}
+
+	void InitializeDungeon(){
+		Debug.Log ("Welcome to Dungeon Lv." + dungeonLevel);
 		dungeonCellState = new int[20];
 		for (int i = 0; i < dungeonCellState.Length; i++) {
 			if (i == 0)
@@ -55,17 +76,9 @@ public class PlaceActions : MonoBehaviour {
 				dungeonCellState [i] = 0;
 		}
 		SetDungeonState ();
+		thisExitIndex = Algorithms.GetIndexByRange (1, 20);
 	}
 
-	public void UpdatePlace(Maps m){
-		if (m.id == 19) {
-			
-		} else {
-			SetDetailPosition ();
-			SetPlace (m);
-		}
-	}
-		
 	void SetDungeonState(){
 		for(int i=0;i<dungeonCells.Length;i++){
 			SetDungeonState (i);
@@ -81,41 +94,78 @@ public class PlaceActions : MonoBehaviour {
 			dungeonCells [i].image.sprite = frontImage;
 			dungeonCells [i].image.color = new Color (255, 255, 255, 255);
 			dungeonCells [i].interactable = true;
-		} else {
+		} else if (dungeonCellState [i] == 2) {
 			dungeonCells [i].image.sprite = backImage;				
 			dungeonCells [i].image.color = new Color (255, 255, 255, 255);
 			dungeonCells [i].interactable = true;			
+		} else if (dungeonCellState [i] == 3) {
+			dungeonCells [i].image.sprite = nextLevelImage;				
+			dungeonCells [i].image.color = new Color (255, 255, 255, 255);
+			dungeonCells [i].interactable = true;	
 		}
 	}
 
 	public void OpenDungeonCover(int index){
-		if (dungeonCellState [index] != 1)
-			return;
-		dungeonCellState [index] = 2;
-		CheckRoad(index);
-		ChangeImage (index);
-		//Get Dungeon Rewards According to the Level;
-		//1 Reward, 2 Monster, 3 Nothing: Text, 4 Buff&Debuff, 5 Trade,6 Door ***********Need a csv.
-		int r = Algorithms.GetIndexByRange(0,10000);
+		if (dungeonCellState [index] == 1) {
+			if (index == thisExitIndex) {
+				dungeonCellState [index] = 3;
+				Debug.Log ("Find the way down.");
+			} else {
+				dungeonCellState [index] = 2;
+				DungeonEvent ();
+			}
+			CheckRoad (index);
+			ChangeImage (index);
+		} else if (dungeonCellState [index] == 3) {
+			_gameData.StoreData ("DungeonLevelMax", dungeonLevel);
+			dungeonLevel++;
+			InitializeDungeon ();
+		}
+	}
 
+	void DungeonEvent(){
+		//Get Dungeon Rewards According to the Level;
+		//1 Reward 10%, 2 Monster 15%, 3 Buff&Debuff 10%, 4 Trade 3%, 5 Nothing: Text 12%, 6 Nothing ***********Need a csv.
+		int r = Algorithms.GetIndexByRange(0,100);
+		if (r < 10) {
+			Debug.Log ("Treasure Box");
+		} else if (r < 25) {
+			Debug.Log ("Monster List");
+		} else if (r < 35) {
+			Debug.Log ("Buff&Debuff");
+		} else if (r < 38) {
+			Debug.Log ("NPC Trade");
+		} else if (r < 50) {
+			Debug.Log ("Nothing Text");
+		} else {
+			Debug.Log ("Nothing");
+		}
 	}
 
 	void CheckRoad(int index){
 		if (index >= 5) {
-			dungeonCellState [index - 5] = (dungeonCellState [index - 5] == 2) ? 2 : 1;
-			SetDungeonState (index - 5);
+			if (dungeonCellState [index - 5] == 0) {
+				dungeonCellState [index - 5] = 1;
+				SetDungeonState (index - 5);
+			}
 		}
 		if (index <= 14) {
-			dungeonCellState [index + 5] = (dungeonCellState [index + 5] == 2) ? 2 : 1;
-			SetDungeonState (index + 5);
+			if (dungeonCellState [index + 5] == 0) {
+				dungeonCellState [index + 5] = 1;
+				SetDungeonState (index + 5);
+			}
 		}
 		if (index % 5 != 0) {
-			dungeonCellState [index - 1] = (dungeonCellState [index - 1] == 2) ? 2 : 1;
-			SetDungeonState (index -1);
+			if (dungeonCellState [index - 1] == 0) {
+				dungeonCellState [index - 1] = 1;
+				SetDungeonState (index - 1);
+			}
 		}
 		if (index % 5 != 4) {
-			dungeonCellState [index + 1] = (dungeonCellState [index + 1] == 2) ? 2 : 1;
-			SetDungeonState (index +1);
+			if (dungeonCellState [index + 1] == 0) {
+				dungeonCellState [index + 1] = 1;
+				SetDungeonState (index + 1);
+			}
 		}
 	}
 
@@ -127,7 +177,7 @@ public class PlaceActions : MonoBehaviour {
 	IEnumerator WaitAndTurn(int index){
 		yield return new WaitForSeconds (0.4f);
 		dungeonCells [index].gameObject.SetActive (false);
-		dungeonCells [index].image.sprite = backImage;
+		dungeonCells [index].image.sprite = (dungeonCellState [index] == 2) ? backImage : nextLevelImage;
 		dungeonCells [index].transform.Rotate (new Vector3 (0, -180, 0));
 		dungeonCells [index].gameObject.SetActive (true);
 		dungeonCells [index].transform.DOBlendableRotateBy (new Vector3 (0, 0, 0), 0.3f);
