@@ -162,6 +162,9 @@ public class PetsActions : MonoBehaviour {
 		} else {
 			_localPet.state = 1;
 			AddMount (_localPet);
+
+			//Achievement
+			this.gameObject.GetComponentInParent<AchieveActions> ().MountPet (_localPet.monsterId);
 		}
 		GameData._playerData.Pets [_localIndex] = _localPet;
 		StorePetState ();

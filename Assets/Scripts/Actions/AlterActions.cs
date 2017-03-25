@@ -78,6 +78,7 @@ public class AlterActions : MonoBehaviour {
 	}
 
 	public void RecoverMemory(){
+		this.gameObject.GetComponentInParent<AchieveActions> ().LoadMemmory (); //Achievement
 		_gameData.RebirthLoad ();
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 	}

@@ -438,6 +438,21 @@ public class BattleActions : MonoBehaviour {
 				int itemId = GenerateItemId (key);
 				_gameData.AddItem (itemId, drop [key]);
 				s += LoadTxt.MatDic [key].name + " ×" + drop [key] + ",";
+
+				//Achievement
+				switch (LoadTxt.MatDic [key].type) {
+				case 3:
+					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMeleeWeapon (key);
+					break;
+				case 4:
+					this.gameObject.GetComponentInParent<AchieveActions> ().CollectRangedWeapon (key);
+					break;
+				case 5:
+					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMagicWeapon (key);
+					break;
+				default:
+					break;
+				}
 			}
 			s = s.Substring (0, s.Length - 1) + ".";
 		} else {
@@ -556,6 +571,8 @@ public class BattleActions : MonoBehaviour {
 			_gameData.StoreData ("Pets", _gameData.GetstrFromPets (GameData._playerData.Pets));
 			AddLog ("New pet captured: " + enemy.name, 0);
 
+			//Achievement
+			this.gameObject.GetComponentInParent<AchieveActions> ().CapturePet ();
 			//战斗结束。。
 
 		}else{

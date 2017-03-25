@@ -697,6 +697,23 @@ public class TipManager : MonoBehaviour {
 		if (isKitchen)
 			combGet = (int)(LoadTxt.MatDic [targetId].combGet * Algorithms.GetIndexByRange (100, (int)(100 * GameData._playerData.CookingIncreaseRate) + 1) / 100);
 		_gameData.AddItem (GenerateItemId (targetId), combGet);
+
+		//Achievement
+		if (isKitchen)	
+			this.gameObject.GetComponentInParent<AchieveActions> ().CookFood (targetId);
+		switch (LoadTxt.MatDic [targetId].type) {
+		case 3:
+			this.gameObject.GetComponentInParent<AchieveActions> ().CollectMeleeWeapon (targetId);
+			break;
+		case 4:
+			this.gameObject.GetComponentInParent<AchieveActions> ().CollectRangedWeapon (targetId);
+			break;
+		case 5:
+			this.gameObject.GetComponentInParent<AchieveActions> ().CollectMagicWeapon (targetId);
+			break;
+		default:
+			break;
+		}
 	}
 
 	/// <summary>

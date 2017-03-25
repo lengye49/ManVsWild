@@ -927,9 +927,28 @@ public class PlaceActions : MonoBehaviour {
 			foreach (int key in rewards.Keys) {
 				_gameData.AddItem (key * 10000, rewards [key]);
 				newItems += LoadTxt.MatDic [key].name + " +" + rewards [key] + "\t";
+
+				//Achievement
+				switch (LoadTxt.MatDic [key].type) {
+				case 3:
+					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMeleeWeapon (key);
+					break;
+				case 4:
+					this.gameObject.GetComponentInParent<AchieveActions> ().CollectRangedWeapon (key);
+					break;
+				case 5:
+					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMagicWeapon (key);
+					break;
+				default:
+					break;
+				}
 			}
 			newItems = newItems.Substring (0, newItems.Length - 1);
 			_floating.CallInFloating (newItems, 0);
+
+			//Achievement
+			if (now == 0)
+				this.gameObject.GetComponentInParent<AchieveActions> ().TotalSearch ();
 		}
 
 		string a = "1;" + total + ";" + now + ";";
@@ -1018,6 +1037,9 @@ public class PlaceActions : MonoBehaviour {
 					GameData._playerData.MapOpenState [index] = 1;
 					_gameData.StoreData ("MapOpenState", _gameData.GetStrFromMapOpenState (GameData._playerData.MapOpenState));
 					_floating.CallInFloating ("New place : " + LoadTxt.MapDic [index].name,0);
+
+					//Achievement
+					this.gameObject.GetComponentInParent<AchieveActions> ().NewPlaceFind ();
 				} else {
 					_floating.CallInFloating ("Another way to : " + LoadTxt.MapDic [index].name, 0);
 				}
@@ -1041,6 +1063,21 @@ public class PlaceActions : MonoBehaviour {
 			} else {
 				_gameData.AddItem (key, index);
 				_floating.CallInFloating (LoadTxt.MatDic [key].name + " +" + index, 0);
+
+				//Achievement
+				switch (LoadTxt.MatDic [key].type) {
+				case 3:
+					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMeleeWeapon (key);
+					break;
+				case 4:
+					this.gameObject.GetComponentInParent<AchieveActions> ().CollectRangedWeapon (key);
+					break;
+				case 5:
+					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMagicWeapon (key);
+					break;
+				default:
+					break;
+				}
 			}
 		}
 	}

@@ -321,6 +321,8 @@ public class GameData : MonoBehaviour {
 				Debug.Log ("Death of Water");
 		}
 
+		//Achievement
+		this.gameObject.GetComponent<AchieveActions>().TimeChange();
 	}
 
 	/// <summary>
@@ -806,7 +808,7 @@ public class GameData : MonoBehaviour {
 			_playerData.bp.Remove (itemId);
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
 
-		if (LoadTxt.MatDic [id].tags.Contains ("Wine"))
+		if (LoadTxt.MatDic [id].tags.Contains ("Wine"))	//Achievement
 			this.gameObject.GetComponent<AchieveActions> ().TasteWine (id);
 
 		if (_playerData.Hotkey0 == itemId || _playerData.Hotkey1 == itemId)
