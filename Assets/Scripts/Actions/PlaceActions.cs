@@ -52,7 +52,7 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	public void UpdatePlace(Maps m){
-		if (m.id == 19) {
+		if (m.id == 21) {
 			dungeonLevel = GameData._playerData.dungeonLevelMax + 1;
 			InitializeDungeon ();
 		} else {
@@ -131,6 +131,11 @@ public class PlaceActions : MonoBehaviour {
 			Debug.Log ("Treasure Box");
 		} else if (r < 25) {
 			Debug.Log ("Monster List");
+			int n = Algorithms.GetIndexByRange (1, 5);
+			Monster[] ms = new Monster[n];
+			for (int i = 0; i < n; i++) {
+				ms [i] = GetNewMonster ();
+			}
 		} else if (r < 35) {
 			Debug.Log ("Buff&Debuff");
 		} else if (r < 38) {
@@ -140,6 +145,29 @@ public class PlaceActions : MonoBehaviour {
 		} else {
 			Debug.Log ("Nothing");
 		}
+	}
+
+	Monster GetNewMonster(){
+		int minLv=1;
+		int maxLv=35+(int)(dungeonLevel/10)*5;
+		int num=0;
+		if (dungeonLevel%10==0){
+			minLv=maxLv-5;
+		}
+		ArrayList monsterList = new ArrayList ();
+		foreach(int key in LoadTxt.MonsterDic.Keys){
+			if(LoadTxt.MonsterDic[key].level<minLv || LoadTxt.MonsterDic[key].level>maxLv)
+				continue;
+			num++;
+			monsterList.Add (LoadTxt.MonsterDic [key]);
+		}
+		if (num < 1) {
+			Debug.Log ("No Monster Found!");
+			return new Monster ();
+		}
+		int index = Algorithms.GetIndexByRange (1, num+1);
+		Monster m = monsterList [index] as Monster;
+		return m;
 	}
 
 	void CheckRoad(int index){
