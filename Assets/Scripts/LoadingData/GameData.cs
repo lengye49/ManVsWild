@@ -399,6 +399,9 @@ public class GameData : MonoBehaviour {
 			_playerData.bp.Add (itemId, num);
 		//要判断背包是否满了
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
+
+		//Achievement
+		this.gameObject.GetComponent<AchieveActions> ().GoldGet ();
 	}
 
 	/// <summary>
@@ -428,6 +431,10 @@ public class GameData : MonoBehaviour {
 
 		if ((int)(_playerData.Hotkey0 / 10000) == Id || (int)(_playerData.Hotkey1 / 10000) == Id)
 			CheckHotKeyState ();
+
+		//Achievement
+		if (Id == 3100)
+			this.gameObject.GetComponent<AchieveActions> ().GoldConsume (num);
 	}
 
 

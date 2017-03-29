@@ -598,6 +598,7 @@ public class TipManager : MonoBehaviour {
 		}
 
 		MoveBuildTip ();
+		this.gameObject.GetComponent<AchieveActions> ().ConstructBulding ();
 	}
 
 	public void OnBuildTipCover(){
@@ -700,16 +701,16 @@ public class TipManager : MonoBehaviour {
 
 		//Achievement
 		if (isKitchen)	
-			this.gameObject.GetComponentInParent<AchieveActions> ().CookFood (targetId);
+			this.gameObject.GetComponent<AchieveActions> ().CookFood (targetId);
 		switch (LoadTxt.MatDic [targetId].type) {
 		case 3:
-			this.gameObject.GetComponentInParent<AchieveActions> ().CollectMeleeWeapon (targetId);
+			this.gameObject.GetComponent<AchieveActions> ().CollectMeleeWeapon (targetId);
 			break;
 		case 4:
-			this.gameObject.GetComponentInParent<AchieveActions> ().CollectRangedWeapon (targetId);
+			this.gameObject.GetComponent<AchieveActions> ().CollectRangedWeapon (targetId);
 			break;
 		case 5:
-			this.gameObject.GetComponentInParent<AchieveActions> ().CollectMagicWeapon (targetId);
+			this.gameObject.GetComponent<AchieveActions> ().CollectMagicWeapon (targetId);
 			break;
 		default:
 			break;
@@ -795,6 +796,9 @@ public class TipManager : MonoBehaviour {
 		_floating.CallInFloating (LoadTxt.TechDic [techId].name + " Completed!", 0);
 		LearntTech (techId);
 		_studyActions.UpdateStudy();
+
+		//Achievement
+		this.gameObject.GetComponent<AchieveActions>().TechUpgrade();
 	}
 
 	void LearntTech(int techId){

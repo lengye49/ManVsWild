@@ -527,12 +527,14 @@ public class BattleActions : MonoBehaviour {
 		Fight (GameData._playerData.property [16], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], GameData._playerData.property [13], enemy.def, skillId, true);
 		myNextTurn += GameData._playerData.property [21];
 		SetPoint ();
+		_achieveActions.Fight ("Melee");
 	}
 	public void RangedFight(){
 		int skillId = LoadTxt.MatDic [(int)(GameData._playerData.RangedId/10000)].skillId;
 		Fight (GameData._playerData.property [17], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], GameData._playerData.property [14], enemy.def, skillId, true);
 		myNextTurn += GameData._playerData.property [22];
 		SetPoint ();
+		_achieveActions.Fight ("Ranged");
 	}
 	public void MagicFight(){
 		_gameData.ChangeProperty (2, -(int)(LoadTxt.MatDic [GameData._playerData.MagicId].castSpirit * GameData._playerData.MagicCostRate));
@@ -541,6 +543,7 @@ public class BattleActions : MonoBehaviour {
 		CheckBattleEnd ();
 		myNextTurn += 1;
 		SetPoint ();
+		_achieveActions.Fight ("Magic");
 	}
 	public void JumpForward(){
 		Move (true, GameData._playerData.property [23], false);

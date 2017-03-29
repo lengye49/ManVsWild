@@ -519,10 +519,10 @@ public class AchieveActions : MonoBehaviour {
 		}
 	}
 
-	public void GoldGet(int goldNow){
+	public void GoldGet(){
 		if (GameData._playerData.Achievements [7] == 1)
 			return;
-		if (goldNow >= LoadTxt.AchievementDic[7].req)
+		if (GameData._playerData.Gold >= LoadTxt.AchievementDic[7].req)
 			StoreAchievement (7);
 	}
 

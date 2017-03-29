@@ -362,6 +362,9 @@ public class PanelManager : MonoBehaviour {
 		m.type = 0;
 		GameData._playerData.Mails.Add (GameData._playerData.Mails.Count, m);
 		_gameData.StoreData ("Mails", _gameData.GetStrFromMails (GameData._playerData.Mails));
+
+		//Achievement
+		this.gameObject.GetComponentInParent<AchieveActions>().CatchThief(t.id);
 	}
 
 	void BeStolen(Thief t){
