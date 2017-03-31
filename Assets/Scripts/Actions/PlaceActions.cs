@@ -124,20 +124,87 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void DungeonEvent(){
+		
 		//Get Dungeon Rewards According to the Level;
+
 		//1 Reward 10%, 2 Monster 15%, 3 Buff&Debuff 10%, 4 Trade 3%, 5 Nothing: Text 12%, 6 Nothing ***********Need a csv.
 		int r = Algorithms.GetIndexByRange(0,100);
 		if (r < 10) {
-			Debug.Log ("Treasure Box");
+			Debug.Log ("You Found + Reward:");
 		} else if (r < 25) {
-			Debug.Log ("Monster List");
-			int n = Algorithms.GetIndexByRange (1, 5);
-			Monster[] ms = new Monster[n];
-			for (int i = 0; i < n; i++) {
+			Debug.Log ("You Found Monster List");
+			int r1 = Algorithms.GetIndexByRange (1, 5);
+			Monster[] ms = new Monster[r1];
+			for (int i = 0; i < r1; i++) {
 				ms [i] = GetNewMonster ();
 			}
 		} else if (r < 35) {
-			Debug.Log ("Buff&Debuff");
+			//Hp+3~5 10%,Hp-2~4 10%,Spirit+3~5 10% Spirit-2~4 10%,Water+4~8 10%,Food+4~8 10%,Temp+1~3 10%,Temp-1~3 10%,Hp+99 5%,Spirit+99 5%
+			//HpMax+1 1%,SpiritMax+1 1%,StrengthMax+1 2%,WaterMax+1 2%,FoodMax+1 2%,TempMax+1 1%,TempMin-1 1%
+			int r2 = Algorithms.GetIndexByRange (0, 100);
+			int r3;
+			if (r2 < 10) {
+				r3 = Algorithms.GetIndexByRange (3, 6);
+				_gameData.ChangeProperty (0, r3);
+				Debug.Log ("Add Hp");
+			} else if (r2 < 20) {
+				r3 = -Algorithms.GetIndexByRange (2, 5);
+				_gameData.ChangeProperty (0, r3);
+				Debug.Log ("Reduce Hp");
+			} else if (r2 < 30) {
+				r3 = Algorithms.GetIndexByRange (3, 6);
+				_gameData.ChangeProperty (2, r3);
+				Debug.Log ("Add Spirit");
+			} else if (r2 < 40) {
+				r3 = -Algorithms.GetIndexByRange (2, 5);
+				_gameData.ChangeProperty (2, r3);
+				Debug.Log ("Reduce Spirit");
+			} else if (r2 < 50) {
+				r3 = Algorithms.GetIndexByRange (4, 9);
+				_gameData.ChangeProperty (4, r3);
+				Debug.Log ("Add Food");
+			} else if (r2 < 60) {
+				r3 = Algorithms.GetIndexByRange (4, 9);
+				_gameData.ChangeProperty (6, r3);
+				Debug.Log ("Add Water");
+			} else if (r2 < 70) {
+				r3 = Algorithms.GetIndexByRange (1, 4);
+				_gameData.ChangeProperty (10, r3);
+				Debug.Log ("Add Temp");
+			} else if (r2 < 80) {
+				r3 = -Algorithms.GetIndexByRange (1, 4);
+				_gameData.ChangeProperty (10, r3);
+				Debug.Log ("Reduce Temp");
+			} else if (r2 < 85) {
+				_gameData.ChangeProperty (0, 99);
+				Debug.Log ("Add Hp");
+			} else if (r2 < 90) {
+				_gameData.ChangeProperty (2, 99);
+				Debug.Log ("Add Spirit");
+			} else if (r2 < 91) {
+				_gameData.ChangeProperty (1, 1);
+				Debug.Log ("Add MaxHp");
+			} else if (r2 < 92) {
+				_gameData.ChangeProperty (3, 1);
+				Debug.Log ("Add MaxSpirit");
+			} else if (r2 < 94) {
+				_gameData.ChangeProperty (5, 1);
+				Debug.Log ("Add MaxFood");
+			} else if (r2 < 96) {
+				_gameData.ChangeProperty (7, 1);
+				Debug.Log ("Add MaxWater");
+			} else if (r2 < 98) {
+				_gameData.ChangeProperty (9, 1);
+				Debug.Log ("Add MaxStrength");
+			} else if (r2 < 99) {
+				_gameData.ChangeProperty (11, -1);
+				Debug.Log ("Reduce TempMin");
+			} else if (r2 < 100) {
+				_gameData.ChangeProperty (12, 1);
+				Debug.Log ("Add TempMax");
+			} else {
+				Debug.Log ("Nothing Happened");
+			}
 		} else if (r < 38) {
 			Debug.Log ("NPC Trade");
 		} else if (r < 50) {

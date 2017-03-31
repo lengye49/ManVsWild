@@ -125,7 +125,7 @@ public class TipManager : MonoBehaviour {
 			ShowTip (waterPos, true, "Water","Vital for all forms of life.");
 			break;
 		case "Temp":
-			ShowTip (tempPos, false, "Temperature","Keep your body temp. from -60℃ to 60℃");
+			ShowTip (tempPos, false, "Temperature","Keep your body temp. from "+GameData._playerData.property[11]+"℃ to "+GameData._playerData.property[12]+"℃");
 			break;
 		case "Day":
 			int season = GameData._playerData.seasonNow;

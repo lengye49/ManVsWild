@@ -14,6 +14,14 @@ public class PlayerData  {
 	public int strengthNow;
 	public int tempNow;
 
+	public int HpMax;
+	public int SpiritMax;
+	public int FoodMax;
+	public int WaterMax;
+	public int StrengthMax;
+	public int TempMax;
+	public int TempMin;
+
 	public float[] property;
 
 	//Time Passed

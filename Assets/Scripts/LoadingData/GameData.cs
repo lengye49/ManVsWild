@@ -76,6 +76,14 @@ public class GameData : MonoBehaviour {
 		_playerData.strengthNow = PlayerPrefs.GetInt ("strengthNow" + s, 100);
 		_playerData.tempNow = PlayerPrefs.GetInt ("tempNow" + s, 20);
 
+		_playerData.HpMax = PlayerPrefs.GetInt ("HpMax" + s, 100);
+		_playerData.SpiritMax = PlayerPrefs.GetInt ("SpiritMax" + s, 100);
+		_playerData.FoodMax = PlayerPrefs.GetInt ("FoodMax" + s, 100);
+		_playerData.WaterMax = PlayerPrefs.GetInt ("Watermax" + s, 100);
+		_playerData.StrengthMax = PlayerPrefs.GetInt ("StrengthMax" + s, 100);
+		_playerData.TempMax = PlayerPrefs.GetInt ("TempMax" + s, 20);
+		_playerData.TempMin = PlayerPrefs.GetInt ("TempMin" + s, 20);
+
 		_playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" + s, 0);
 
 		_playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen" + s, 0);
@@ -193,6 +201,13 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("waterNow" + s, _playerData.waterNow);
 		PlayerPrefs.SetInt ("strengthNow" + s, _playerData.strengthNow);
 		PlayerPrefs.SetInt ("tempNow" + s, _playerData.tempNow);
+		PlayerPrefs.SetInt ("HpMax" + s, _playerData.HpMax);
+		PlayerPrefs.SetInt ("SpiritMax" + s, _playerData.SpiritMax);
+		PlayerPrefs.SetInt ("Watermax" + s, _playerData.WaterMax);
+		PlayerPrefs.SetInt ("FoodMax" + s, _playerData.FoodMax);
+		PlayerPrefs.SetInt ("StrengthMax" + s, _playerData.StrengthMax);
+		PlayerPrefs.SetInt ("TempMin" + s, _playerData.TempMin);
+		PlayerPrefs.SetInt ("TempMax" + s, _playerData.TempMax);
 
 		PlayerPrefs.SetInt ("minutesPassed" + s, _playerData.minutesPassed);
 
@@ -340,6 +355,12 @@ public class GameData : MonoBehaviour {
 			if (_playerData.hpNow <= 0)
 				Debug.Log ("Die of Hp");
 			break;
+		case 1:
+			_playerData.HpMax += value;
+			StoreData ("HpMax", _playerData.HpMax);
+			UpdateProperty (1, _playerData.HpMax);
+			_headUiManager.UpdateHeadUI ("hpMax");
+			break;
 		case 2:
 			_playerData.spiritNow = (int)((_playerData.spiritNow + value) >_playerData.property[3]? _playerData.property[3] : (_playerData.spiritNow + value));
 			StoreData ("spiritNow", _playerData.spiritNow);
@@ -347,6 +368,12 @@ public class GameData : MonoBehaviour {
 			UpdateProperty (2, _playerData.spiritNow);
 			if (_playerData.spiritNow <= 0)
 				Debug.Log ("Die of Spirit");
+			break;
+		case 3:
+			_playerData.SpiritMax += value;
+			StoreData ("SpiritMax", _playerData.SpiritMax);
+			UpdateProperty (3, _playerData.SpiritMax);
+			_headUiManager.UpdateHeadUI ("SpiritMax");
 			break;
 		case 4:
 			_playerData.foodNow = (int)((_playerData.foodNow + value) > _playerData.property[5] ? _playerData.property[5] : (_playerData.foodNow + value));
@@ -356,6 +383,12 @@ public class GameData : MonoBehaviour {
 			if (_playerData.foodNow <= 0)
 				Debug.Log ("Die of Food");
 			break;
+		case 5:
+			_playerData.FoodMax += value;
+			StoreData ("FoodMax", _playerData.FoodMax);
+			UpdateProperty (5, _playerData.FoodMax);
+			_headUiManager.UpdateHeadUI ("FoodMax");
+			break;
 		case 6:
 			_playerData.waterNow = (int)((_playerData.waterNow + value) > _playerData.property[7] ? _playerData.property[7]: (_playerData.waterNow + value));
 			StoreData ("waterNow", _playerData.waterNow);
@@ -364,11 +397,23 @@ public class GameData : MonoBehaviour {
 			if (_playerData.waterNow <= 0)
 				Debug.Log ("Die of Water");
 			break;
+		case 7:
+			_playerData.WaterMax += value;
+			StoreData ("WaterMax", _playerData.WaterMax);
+			UpdateProperty (7, _playerData.WaterMax);
+			_headUiManager.UpdateHeadUI ("WaterMax");
+			break;
 		case 8:
 			_playerData.strengthNow = (int)((_playerData.strengthNow + value) > _playerData.property[9]?_playerData.property[9] : (_playerData.strengthNow + value));
 			StoreData ("strengthNow", _playerData.strengthNow);
 			_headUiManager.UpdateHeadUI ("strengthNow");
 			UpdateProperty (8, _playerData.strengthNow);
+			break;
+		case 9:
+			_playerData.StrengthMax += value;
+			StoreData ("StrengthMax", _playerData.StrengthMax);
+			UpdateProperty (9, _playerData.StrengthMax);
+			_headUiManager.UpdateHeadUI ("StrengthMax");
 			break;
 		case 10:
 			_playerData.tempNow += value;
@@ -379,6 +424,16 @@ public class GameData : MonoBehaviour {
 				Debug.Log ("Die of Hot");
 			if (_playerData.tempNow < _playerData.property[11])
 				Debug.Log ("Die of Cold");
+			break;
+		case 11:
+			_playerData.TempMin += value;
+			StoreData ("TempMin", _playerData.TempMin);
+			UpdateProperty (11, _playerData.TempMin);
+			break;
+		case 12:
+			_playerData.TempMax += value;
+			StoreData ("TempMax", _playerData.TempMax);
+			UpdateProperty (12, _playerData.TempMax);
 			break;
 		default:
 			Debug.Log ("Wrong propName");
@@ -726,18 +781,18 @@ public class GameData : MonoBehaviour {
 	/// <param name="p">P.</param>
 	void UpdateStoreProperty(){
 		_playerData.property [0] = _playerData.hpNow;
-		_playerData.property [1] = GameConfigs.hpMax;
+		_playerData.property [1] = _playerData.HpMax;
 		_playerData.property [2] = _playerData.spiritNow;
-		_playerData.property [3] = GameConfigs.spiritMax;
+		_playerData.property [3] = _playerData.SpiritMax;
 		_playerData.property [4] = _playerData.foodNow;
-		_playerData.property [5] = GameConfigs.foodMax;
+		_playerData.property [5] = _playerData.FoodMax;
 		_playerData.property [6] = _playerData.waterNow;
-		_playerData.property [7] = GameConfigs.waterMax;
+		_playerData.property [7] = _playerData.WaterMax;
 		_playerData.property [8] = _playerData.strengthNow;
-		_playerData.property [9] = GameConfigs.strengthMax;
+		_playerData.property [9] = _playerData.StrengthMax;
 		_playerData.property [10] = _playerData.tempNow;
-		_playerData.property [11] = GameConfigs.tempMin;
-		_playerData.property [12] = GameConfigs.tempMax;
+		_playerData.property [11] = _playerData.TempMin;
+		_playerData.property [12] = _playerData.TempMax;
 	}
 
 	void UpdateEquipProperty(int id){

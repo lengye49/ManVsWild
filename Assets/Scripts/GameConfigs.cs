@@ -39,13 +39,13 @@ public class GameConfigs{
 	public static int WaterInWellPerDay = 5;
 	public static int WaterStoreMax = 100;
 
-	public static int hpMax = 100;
-	public static int spiritMax=100;
-	public static int foodMax=100;
-	public static int waterMax=100;
-	public static int strengthMax=100;
-	public static int tempMin=-60;
-	public static int tempMax=60;
+//	public static int hpMax = 100;
+//	public static int spiritMax=100;
+//	public static int foodMax=100;
+//	public static int waterMax=100;
+//	public static int strengthMax=100;
+//	public static int tempMin=-60;
+//	public static int tempMax=60;
 
 									//   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6  7  8  9 0 1 2 3 4 5 6 7 8
 	public static int[] BasicProperty = {0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,95,80,20,2,0,2,0,5,0,0,0,0,0};
