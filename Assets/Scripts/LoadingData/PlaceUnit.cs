@@ -12,3 +12,8 @@ public class Places{
 	public int id; // = mapId
 	public ArrayList placeUnits = new ArrayList();
 }
+
+public class DungeonTreasure{
+	public int id;
+	public Dictionary<int,int> reward;
+}

@@ -12,6 +12,7 @@ public class MakingActions : MonoBehaviour {
 
 	void Start(){
 		makingCell= Instantiate (Resources.Load ("makingCell")) as GameObject;
+		makingCell.SetActive (false);
 		makingCells = new ArrayList ();
 	}
 

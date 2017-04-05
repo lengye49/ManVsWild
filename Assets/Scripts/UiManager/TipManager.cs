@@ -31,6 +31,7 @@ public class TipManager : MonoBehaviour {
 	private WarehouseActions _warehouseActions;
 	private FloatingActions _floating;
 	private BackpackActions _backpackActions;
+	private LoadingBar _loadingBar;
 
 	private Vector3 hpPos;
 	private Vector3 foodPos;
@@ -52,6 +53,7 @@ public class TipManager : MonoBehaviour {
 		_warehouseActions = this.gameObject.GetComponentInChildren<WarehouseActions> ();
 		_floating = this.gameObject.GetComponentInChildren<FloatingActions> ();
 		_backpackActions = this.gameObject.GetComponentInChildren<BackpackActions> ();
+		_loadingBar = GameObject.Find ("LoadingBar").GetComponent<LoadingBar> ();
 
 		hpPos = new Vector3(-232,702,0);
 		foodPos = new Vector3(-232,635,0);
@@ -312,6 +314,16 @@ public class TipManager : MonoBehaviour {
 	}
 
 	public void ConstructBuilding(){
+		_loadingBar.CallInLoadingBar ();
+		WaitAndConstruct ();
+	}
+
+	IEnumerator WaitAndConstruct(){
+		yield return new WaitForSeconds (2f);
+		Construct ();
+	}
+
+	void Construct(){
 		string s = buildTipButton [1].gameObject.name;
 		switch (s) {
 		case "BedRoom":
@@ -606,7 +618,7 @@ public class TipManager : MonoBehaviour {
 	}
 	void MoveBuildTip(){
 		buildTip.gameObject.transform.DOBlendableScaleBy (new Vector3 (-1f, -1f, 0f), tipPanelEnlarge);
-		buildTip.gameObject.transform.localPosition = new Vector3 (2000f, 0, 0);
+		buildTip.gameObject.SetActive (false);
 	}
 
 
@@ -649,7 +661,7 @@ public class TipManager : MonoBehaviour {
 
 	void MoveMakingTipPanel(){
 		MakingTip.gameObject.transform.DOBlendableScaleBy (new Vector3 (-1f, -1f, 0f), tipPanelEnlarge);
-		MakingTip.gameObject.transform.localPosition = new Vector3 (2000f, 0, 0);
+		MakingTip.gameObject.SetActive (false);
 	}
 
 	void SetMakingTipDesc(Mats m){
@@ -784,7 +796,7 @@ public class TipManager : MonoBehaviour {
 
 	void MoveTechTipPanel(){
 		TechTip.gameObject.transform.DOBlendableScaleBy (new Vector3 (-1f, -1f, 0f), tipPanelEnlarge);
-		TechTip.gameObject.transform.localPosition = new Vector3 (2000f, 0, 0);
+		TechTip.gameObject.SetActive (false);
 	}
 
 	public void OnStudyTech(){
@@ -959,7 +971,7 @@ public class TipManager : MonoBehaviour {
 
 	void MoveCommonTipPanel(){
 		commonTipPanel.gameObject.transform.DOBlendableScaleBy (new Vector3 (-1f, -1f, 0f), tipPanelEnlarge);
-		commonTipPanel.gameObject.transform.localPosition = new Vector3 (2000f, 0, 0);
+		commonTipPanel.gameObject.SetActive (false);
 	}
 
 

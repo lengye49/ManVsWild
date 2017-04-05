@@ -29,6 +29,7 @@ public class BackpackActions : MonoBehaviour {
 
 	void Start () {
 		bpCell = Instantiate (Resources.Load ("bpCellNormal")) as GameObject;
+		bpCell.SetActive (false);
 		bpCells = new ArrayList ();
 		UpdataPanel ();
 	}
@@ -81,6 +82,7 @@ public class BackpackActions : MonoBehaviour {
 			int n = bpCells.Count;
 			for (int i = n; i < _bpNum; i++) {
 				GameObject o = Instantiate (bpCell) as GameObject;
+				o.SetActive (true);
 				o.transform.SetParent (contentB.transform);
 				o.transform.localPosition = Vector3.zero;
 				o.transform.localScale = Vector3.one;

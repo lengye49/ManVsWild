@@ -17,6 +17,7 @@ public class MailBoxActions : MonoBehaviour {
 
 	void Start(){
 		mailCell = Instantiate (Resources.Load ("mailCell")) as GameObject;
+		mailCell.SetActive (false);
 		mailCells = new ArrayList ();
 		localDetail = new Mails ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
@@ -33,6 +34,7 @@ public class MailBoxActions : MonoBehaviour {
 				o.SetActive (true);
 			} else {
 				o = Instantiate (mailCell) as GameObject;
+				o.SetActive (true);
 				o.transform.SetParent (contentM.transform);
 				o.transform.localPosition = Vector3.zero;
 				o.transform.localScale = new Vector3 (1, 1, 1);
@@ -75,8 +77,18 @@ public class MailBoxActions : MonoBehaviour {
 		}	
 	}
 
+	void CallInDetail(){
+		if (Detail.gameObject.activeSelf == true)
+			return;
+		Detail.gameObject.SetActive (true);
+		Detail.gameObject.transform.localPosition = Vector3.zero;
+		Detail.gameObject.transform.localScale = new Vector3 (0.01f, 0.01f, 1);
+		Detail.gameObject.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 0f), 0.3f);
+	}
+
 	public void CloseDetail(){
-		Detail.DOLocalMoveY (-2000, 0.3f);
+		Detail.gameObject.transform.localScale = new Vector3 (0.01f, 0.01f, 1);
+		Detail.gameObject.SetActive (false);
 		localDetail = new Mails ();
 		localIndex = 0;
 	}

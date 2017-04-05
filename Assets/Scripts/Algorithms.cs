@@ -27,6 +27,24 @@ public class Algorithms  {
 	}
 
 	/// <summary>
+	/// Gets the result by dic.
+	/// </summary>
+	/// <returns>The result by dic.</returns>
+	/// <param name="d">id and weight</param>
+	public static int GetResultByDic(Dictionary<int,int> d){
+		int[] r = new int[d.Count];
+		int[] w = new int[d.Count];
+		int index = 0;
+		foreach (int key in d.Keys){
+			r [index] = key;
+			w [index] = d [key];
+			index++;
+		}
+		int i = GetResultByWeight (w);
+		return r [i];
+	}
+
+	/// <summary>
 	/// min <= get < max
 	/// </summary>
 	/// <returns>The index by range.</returns>
@@ -150,5 +168,32 @@ public class Algorithms  {
 
 		return r;
 	}
+
+//	public static Mats GetRandomGoods(int level){
+//		int[] matId = new int[LoadTxt.MatDic.Count];
+//		int[] w = new int[LoadTxt.MatDic.Count];
+//		int j = 0;
+//		foreach (int key in LoadTxt.MatDic.Keys) {
+//			matId[j] = key;
+//			int l = (int)(level / 25)+1;
+//			int k = ((int)(key / 100)) % 10;
+//			if (k == l) {
+//				w [j] = 100;
+//			} else if (k == l + 1 || k == l - 1) {
+//				w [j] = 25;
+//			} else if (k == l + 2 || k == l - 2) {
+//				w [j] = 5;
+//			}else{
+//				w[j]=1;
+//			}
+//
+//			if (key == 3100)
+//				w [j] = 0;
+//
+//			j++;
+//		}
+//		j = GetResultByWeight (w);
+//		return LoadTxt.MatDic [matId [j]];
+//	}
 
 }

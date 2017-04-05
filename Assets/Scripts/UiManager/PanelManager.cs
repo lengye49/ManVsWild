@@ -189,7 +189,11 @@ public class PanelManager : MonoBehaviour {
 			else
 				_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);	
 			Place.DOLocalMoveX (0, tweenerTime);
-			Place.gameObject.GetComponent<PlaceActions> ().UpdatePlace (mapGoing);
+			if (_PanelNow == Battle) {
+				Place.gameObject.GetComponent<PlaceActions> ().UpdatePlace (mapGoing, false);
+			} else {
+				Place.gameObject.GetComponent<PlaceActions> ().UpdatePlace (mapGoing,true);
+			}
 			_GrandFatherPanel = _FatherPanel;
 			_FatherPanel = _PanelNow;
 			_PanelNow = Place;

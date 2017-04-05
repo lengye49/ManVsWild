@@ -54,6 +54,7 @@ public class BattleActions : MonoBehaviour {
 		this.gameObject.transform.localPosition = new Vector3 (-2000, 0, 0);
 		logs = new ArrayList ();
 		battleLog = Instantiate (Resources.Load ("battleLog")) as GameObject;
+		battleLog.SetActive (false);
 		_panelManager = this.gameObject.GetComponentInParent<PanelManager> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 		_achieveActions = this.gameObject.GetComponentInParent<AchieveActions> ();
@@ -202,8 +203,10 @@ public class BattleActions : MonoBehaviour {
 		Text t;
 		if (logs.Count > logIndex) {
 			t = logs [logIndex] as Text;
+			t.gameObject.SetActive (true);
 		} else {
 			GameObject o = Instantiate (battleLog) as GameObject;
+			o.SetActive (true);
 			t = o.GetComponent<Text> ();
 			o.gameObject.transform.SetParent (battleLogContainer.transform);
 			o.gameObject.transform.localPosition = Vector3.zero;
@@ -458,7 +461,7 @@ public class BattleActions : MonoBehaviour {
 		} else {
 			s="I killed "+enemy.name+" but found nothing.";
 		}
-		AddLog (s, 0);
+		AddLog (s,1);
 		_achieveActions.DefeatEnemy (enemy.monsterId);
 		StartCoroutine (WaitAndCheck ());
 	}
@@ -470,7 +473,7 @@ public class BattleActions : MonoBehaviour {
 		jumpForward.interactable = false;
 		jumpBackward.interactable = false;
 		capture.interactable = false;
-		yield return new WaitForSeconds (2f);
+		yield return new WaitForSeconds (1f);
 		CheckNextEnemy ();
 
 	}
@@ -611,6 +614,7 @@ public class BattleActions : MonoBehaviour {
 	}
 
 	public void OnReturn(){
+		CallOutBattlePanel ();
 		_panelManager.GoToPanel ("Father");
 	}
 }

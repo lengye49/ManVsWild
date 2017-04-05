@@ -24,6 +24,7 @@ public class PetsActions : MonoBehaviour {
 
 	void Start(){
 		petCell = Instantiate (Resources.Load ("petCell")) as GameObject;
+		petCell.SetActive (false);
 		petCells = new ArrayList ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
@@ -54,6 +55,7 @@ public class PetsActions : MonoBehaviour {
 		if (openPetCell > petCells.Count) {
 			for (int i = petCells.Count; i < openPetCell; i++) {
 				GameObject o = Instantiate (petCell) as GameObject;
+				o.SetActive (true);
 				o.transform.SetParent (contentP.transform);
 				o.transform.localPosition = Vector3.zero;
 				o.transform.localScale = Vector3.one;

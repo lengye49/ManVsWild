@@ -16,6 +16,7 @@ public class FloatingActions : MonoBehaviour {
 		floatingCells = new ArrayList ();
 		floatingCell = Instantiate (Resources.Load ("floatingCell")) as GameObject;
 		floatingCell.SetActive (false);
+		floatingCell.SetActive (false);
 	}
 
 	/// <summary>
@@ -30,6 +31,7 @@ public class FloatingActions : MonoBehaviour {
 			floatingCells.RemoveAt (0);
 		} else {
 			f = Instantiate (floatingCell) as GameObject;
+			f.SetActive (true);
 		}
 		f.transform.SetParent (this.gameObject.transform);
 		f.SetActive (true);

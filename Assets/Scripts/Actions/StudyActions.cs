@@ -12,6 +12,7 @@ public class StudyActions : MonoBehaviour {
 
 	void Start () {
 		studyCell= Instantiate (Resources.Load ("studyCell")) as GameObject;
+		studyCell.SetActive (false);
 		studyCells = new ArrayList ();
 	}
 

@@ -17,6 +17,7 @@ public class ExploreActions : MonoBehaviour {
 
 	void Start () {
 		mapCell = Instantiate (Resources.Load ("mapCell")) as GameObject;
+		mapCell.SetActive (false);
 		mapCells = new ArrayList ();
 		mapGoing = new Maps ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
@@ -24,7 +25,8 @@ public class ExploreActions : MonoBehaviour {
 	}
 	
 	public void UpdateExplore(){
-		detail.localPosition = new Vector3 (150, 2000, 0);
+
+		CallOutDetail ();
 		int openNum = 0;
 		foreach (int key in GameData._playerData.MapOpenState.Keys) {
 			if (GameData._playerData.MapOpenState [key] == 1)
@@ -39,6 +41,7 @@ public class ExploreActions : MonoBehaviour {
 		if (openNum-1 > mapCells.Count) {
 			for (int i = mapCells.Count; i < openNum-1; i++) {
 				GameObject o = Instantiate (mapCell) as GameObject;
+				o.SetActive (true);
 				o.transform.SetParent (contentE.transform);
 				o.transform.localPosition = Vector3.zero;
 				o.transform.localScale = Vector3.one;
@@ -77,8 +80,12 @@ public class ExploreActions : MonoBehaviour {
 	}
 
 	public void CallInDetail(Maps m){
-		if(detail.localPosition.y<-10 || detail.localPosition.y>10)
-			detail.DOLocalMoveY (0, 0.3f);
+		if (detail.gameObject.activeSelf == false) {
+			detail.gameObject.SetActive (true);
+			detail.gameObject.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+			detail.gameObject.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 0f), 0.3f);
+		}
+
 		mapGoing = m;
 		Text[] t = detail.gameObject.GetComponentsInChildren<Text> ();
 		t [0].text = m.name;
@@ -89,7 +96,9 @@ public class ExploreActions : MonoBehaviour {
 	}
 
 	public void CallOutDetail(){
-		detail.DOLocalMoveY (2000, 0.3f);
+		detail.localPosition = new Vector3 (150, 0, 0);
+		detail.gameObject.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+		detail.gameObject.SetActive (false);
 	}
 
 	public void GoToPlace(){

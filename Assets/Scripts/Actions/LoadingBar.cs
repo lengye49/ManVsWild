@@ -14,7 +14,7 @@ public class LoadingBar : MonoBehaviour {
 		loadingBar = this.gameObject.GetComponent<Slider> ();
 		loadingTxt = "Loading";
 		loadingText = this.gameObject.GetComponentInChildren<Text> ();
-		CallInLoadingBar ();
+//		CallInLoadingBar ();
 	}
 
 	public void CallInLoadingBar(){
@@ -46,7 +46,7 @@ public class LoadingBar : MonoBehaviour {
 
 	}
 	IEnumerator LoadingInProgress(){
-		float f = Algorithms.GetIndexByRange (2, 5) / 100;
+		float f = (float)Algorithms.GetIndexByRange (2, 5) / 100f;
 		yield return new WaitForSeconds (f);
 		StartLoading ();
 	}

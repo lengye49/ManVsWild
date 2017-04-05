@@ -12,6 +12,8 @@ public class PlaceActions : MonoBehaviour {
 	public RectTransform observeDetail;
 	public RectTransform treasureDetail;
 	public RectTransform goodsDetail;
+	public RectTransform placeRect;
+	public RectTransform dungeonRect;
 	public BattleActions _battleActions;
 
 	private GameObject placeCell;
@@ -42,17 +44,23 @@ public class PlaceActions : MonoBehaviour {
 	void Start(){
 		placeCell = Instantiate (Resources.Load ("placeCell")) as GameObject;
 		goodsCell = Instantiate (Resources.Load ("goodsCell")) as GameObject;
+		placeCell.SetActive (false);
+		goodsCell.SetActive (false);
 		placeCells = new ArrayList ();
 		goodsCells = new ArrayList ();
 		_loadTxt = this.gameObject.GetComponentInParent<LoadTxt> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		_panelManager = this.gameObject.GetComponentInParent<PanelManager> ();
-		UpdatePlace (1);
+//		UpdatePlace (1);
 	}
 
-	public void UpdatePlace(Maps m){
+	public void UpdatePlace(Maps m,bool newPlace){
+		_mapNow = m;
+		_place = LoadTxt.PlaceDic [m.id];
 		if (m.id == 21) {
+			if (!newPlace)
+				return;
 			dungeonLevel = GameData._playerData.dungeonLevelMax + 1;
 			InitializeDungeon ();
 		} else {
@@ -68,6 +76,8 @@ public class PlaceActions : MonoBehaviour {
 
 	void InitializeDungeon(){
 		Debug.Log ("Welcome to Dungeon Lv." + dungeonLevel);
+		dungeonRect.localPosition = Vector3.zero;
+		placeRect.localPosition = new Vector3 (-3000, 0, 0);
 		dungeonCellState = new int[20];
 		for (int i = 0; i < dungeonCellState.Length; i++) {
 			if (i == 0)
@@ -127,10 +137,17 @@ public class PlaceActions : MonoBehaviour {
 		
 		//Get Dungeon Rewards According to the Level;
 
-		//1 Reward 10%, 2 Monster 15%, 3 Buff&Debuff 10%, 4 Trade 3%, 5 Nothing: Text 12%, 6 Nothing ***********Need a csv.
+		//1 Reward 10%, 2 Monster 15%, 3 Buff&Debuff 10%, 4 Trade 1%, 5 Nothing: Text 12%, 6 Nothing ***********Need a csv.
 		int r = Algorithms.GetIndexByRange(0,100);
 		if (r < 10) {
 			Debug.Log ("You Found + Reward:");
+			int r4 = (int)(dungeonLevel / 10) + 1;
+			int matId = Algorithms.GetResultByDic (LoadTxt.DungeonTreasureList [r4].reward);
+			int num = 1;
+			if (LoadTxt.MatDic [matId].price < 100) {
+				num = Algorithms.GetIndexByRange (1, 4);
+			}
+			_gameData.AddItem (matId * 10000, num);
 		} else if (r < 25) {
 			Debug.Log ("You Found Monster List");
 			int r1 = Algorithms.GetIndexByRange (1, 5);
@@ -138,6 +155,10 @@ public class PlaceActions : MonoBehaviour {
 			for (int i = 0; i < r1; i++) {
 				ms [i] = GetNewMonster ();
 			}
+			_panelManager.GoToPanel ("Battle");
+			r1 = Algorithms.GetIndexByRange(0,100);
+			bool isSpoted = r1 < (GameData._playerData.SpotRate * 100);
+			_battleActions.InitializeBattleField (ms, isSpoted);
 		} else if (r < 35) {
 			//Hp+3~5 10%,Hp-2~4 10%,Spirit+3~5 10% Spirit-2~4 10%,Water+4~8 10%,Food+4~8 10%,Temp+1~3 10%,Temp-1~3 10%,Hp+99 5%,Spirit+99 5%
 			//HpMax+1 1%,SpiritMax+1 1%,StrengthMax+1 2%,WaterMax+1 2%,FoodMax+1 2%,TempMax+1 1%,TempMin-1 1%
@@ -205,14 +226,41 @@ public class PlaceActions : MonoBehaviour {
 			} else {
 				Debug.Log ("Nothing Happened");
 			}
-		} else if (r < 38) {
-			Debug.Log ("NPC Trade");
+//		} else if (r < 99) {
+//			SetDungeonShop ();
+//			Debug.Log ("NPC Trade");
 		} else if (r < 50) {
 			Debug.Log ("Nothing Text");
 		} else {
 			Debug.Log ("Nothing");
 		}
 	}
+
+//	void SetDungeonShop(){
+//		CallInObserveDetail ();
+//		int j = 0;
+//		int r = Algorithms.GetIndexByRange (2, 5);
+//		for (int i = 0; i < r; i++) {
+//			GameObject o;
+//			if (goodsCells.Count <= j) {
+//				o = Instantiate (goodsCell) as GameObject;
+//				o.transform.SetParent (contentG.transform);
+//				o.transform.localPosition = Vector3.zero;
+//				o.transform.localScale = Vector3.one;
+//				goodsCells.Add (o);
+//			} else {
+//				o = goodsCells [i] as GameObject;
+//				o.SetActive (true);
+//			}
+//
+//			ShopItem shopItem = new ShopItem(Algorithms.GetRandomGoods(dungeonLevel));
+//			o.gameObject.name = shopItem.itemId.ToString ();
+//			Text[] _texts = o.gameObject.GetComponentsInChildren<Text> ();
+//			_texts [0].text = GetGoodsName (shopItem.reward);
+//
+//			j++;
+//		}
+//	}
 
 	Monster GetNewMonster(){
 		int minLv=1;
@@ -279,8 +327,9 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void SetPlace(Maps m){
-		_mapNow = m;
-		_place = LoadTxt.PlaceDic [m.id];
+		dungeonRect.localPosition = new Vector3 (-3000, 420, 0);
+		placeRect.localPosition = Vector3.zero;
+
 		int count = 0;
 
 		for (int i = 0; i < _place.placeUnits.Count; i++) {
@@ -298,6 +347,7 @@ public class PlaceActions : MonoBehaviour {
 		if (count > placeCells.Count) {
 			for (int i = placeCells.Count; i < count; i++) {
 				GameObject o = Instantiate (placeCell) as GameObject;
+				o.SetActive (true);
 				o.transform.SetParent (contentP.transform);
 				o.transform.localPosition = Vector3.zero;
 				o.transform.localScale = Vector3.one;
@@ -412,10 +462,6 @@ public class PlaceActions : MonoBehaviour {
 			CallInObserveDetail ();
 			SetObserving (pu);
 			break;
-		case 8:
-			CallInTreasureDetail ();
-			SetTreasureChest (pu);
-			break;
 		default:
 			Debug.Log ("wrong unitId " + unitId);
 			break;
@@ -423,52 +469,46 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void SetDetailPosition(){
-		observeDetail.localPosition = new Vector3 (0, -3000, 0);
-		resourceDetail.localPosition = new Vector3 (150, -3000, 0);
-		treasureDetail.localPosition = new Vector3 (150, -3000, 0);
-		goodsDetail.localPosition = new Vector3 (150, -3000, 0);
+		observeDetail.localPosition = new Vector3 (0, 0, 0);
+		resourceDetail.localPosition = new Vector3 (150, 0, 0);
+		treasureDetail.localPosition = new Vector3 (150, 0, 0);
+		goodsDetail.localPosition = new Vector3 (150, 0, 0);
+
+		observeDetail.gameObject.SetActive (false);
+		resourceDetail.gameObject.SetActive (false);
+		treasureDetail.gameObject.SetActive (false);
+		goodsDetail.gameObject.SetActive (false);
 	}
 
 	void CallInResourceDetail(){
-		if(observeDetail.localPosition.y>=-10 &&observeDetail.localPosition.y<=10 )
-			observeDetail.DOLocalMoveY (-3000, popTime);
+		observeDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+		observeDetail.gameObject.SetActive (false);
+		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+		treasureDetail.gameObject.SetActive (false);
 
-		if(treasureDetail.localPosition.y>=-10 &&treasureDetail.localPosition.y<=10 )
-			treasureDetail.DOLocalMoveY (-1000, popTime);
-
-		if(resourceDetail.localPosition.y<-10 || resourceDetail.localPosition.y>10)
-			resourceDetail.DOLocalMoveY (0, popTime);
+		resourceDetail.gameObject.SetActive (true);
+		resourceDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+		resourceDetail.gameObject.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 0f), 0.3f);
 	}
 
 	void CallInObserveDetail(){
-		if(resourceDetail.localPosition.y>=-10 &&resourceDetail.localPosition.y<=10 )
-			resourceDetail.DOLocalMoveY (-3000, popTime);
+		resourceDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+		resourceDetail.gameObject.SetActive (false);
+		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+		treasureDetail.gameObject.SetActive (false);
 
-		if(treasureDetail.localPosition.y>=-10 &&treasureDetail.localPosition.y<=10 )
-			treasureDetail.DOLocalMoveY (-1000, popTime);
-
-		if(observeDetail.localPosition.y<-10 || observeDetail.localPosition.y>10)
-			observeDetail.DOLocalMoveY (0, popTime);
-	}
-
-	void CallInTreasureDetail(){
-		if(observeDetail.localPosition.y>=-10 &&observeDetail.localPosition.y<=10 )
-			observeDetail.DOLocalMoveY (-3000, popTime);
-
-		if(resourceDetail.localPosition.y>=-10 &&resourceDetail.localPosition.y<=10 )
-			resourceDetail.DOLocalMoveY (-1000, popTime);
-
-		if(treasureDetail.localPosition.y<-10 || treasureDetail.localPosition.y>10)
-			treasureDetail.DOLocalMoveY (0, popTime);
+		observeDetail.gameObject.SetActive (true);
+		observeDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+		observeDetail.gameObject.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 0f), 0.3f);
 	}
 
 	public void CallOutDetail(){
-		if(resourceDetail.localPosition.y>=-10 &&resourceDetail.localPosition.y<=10 )
-			resourceDetail.DOLocalMoveY (-3000, popTime);
-		if(observeDetail.localPosition.y>=-10 &&observeDetail.localPosition.y<=10 )
-			observeDetail.DOLocalMoveY (-3000, popTime);
-		if(treasureDetail.localPosition.y>=-10 &&treasureDetail.localPosition.y<=10 )
-			treasureDetail.DOLocalMoveY (-3000, popTime);
+		resourceDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+		resourceDetail.gameObject.SetActive (false);
+		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+		treasureDetail.gameObject.SetActive (false);
+		observeDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+		observeDetail.gameObject.SetActive (false);
 	}
 
 	void SetCuttingWood(PlaceUnit pu){
@@ -649,6 +689,7 @@ public class PlaceActions : MonoBehaviour {
 		}
 
 		int j = 0;
+
 		for (int i = 0; i < thisShop.shopItemList.Count; i++) {
 			ShopItem shopItem = thisShop.shopItemList [i] as ShopItem;
 			if (CheckSaleOut (shopItem))
@@ -657,6 +698,7 @@ public class PlaceActions : MonoBehaviour {
 			GameObject o;
 			if (goodsCells.Count <= j) {
 				o = Instantiate (goodsCell) as GameObject;
+				o.SetActive (true);
 				o.transform.SetParent (contentG.transform);
 				o.transform.localPosition = Vector3.zero;
 				o.transform.localScale = Vector3.one;
@@ -668,10 +710,12 @@ public class PlaceActions : MonoBehaviour {
 
 			o.gameObject.name = shopItem.itemId.ToString ();
 			Text[] _texts = o.gameObject.GetComponentsInChildren<Text> ();
-			_texts [0].text = GetGoodsName(shopItem.reward);
+			_texts [0].text = GetGoodsName (shopItem.reward);
 
 			j++;
+
 		}
+
 		contentG.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(540,65 * j);
 	}
 		
@@ -763,7 +807,7 @@ public class PlaceActions : MonoBehaviour {
 		
 		if (goodsDetail.localPosition.y > 10 || goodsDetail.localPosition.y < -10)
 			goodsDetail.DOLocalMoveY (-300, popTime);
-		goodsDetail.gameObject.name = shopItemId.ToString ();
+		goodsDetail.gameObject.name = LoadTxt.MatDic [shopItemId].name;
 		_shopItemSelected = LoadTxt.ShopItemDic [shopItemId];
 		Text[] t = goodsDetail.gameObject.GetComponentsInChildren<Text> ();
 		t [0].text = GetGoodsName (_shopItemSelected.reward);
@@ -1195,8 +1239,9 @@ public class PlaceActions : MonoBehaviour {
 		if (s.Length < 5)
 			return;
 		int monsterId = int.Parse (s [4]);
-		Debug.Log (monsterId);
-		Debug.Log ("Robbing " + LoadTxt.MonsterDic [monsterId].name + "...");
+		Monster[] m = new Monster[1];
+		m [0] = LoadTxt.MonsterDic [monsterId];
+		_battleActions.InitializeBattleField (m, false);
 	}
 
 

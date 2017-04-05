@@ -23,6 +23,7 @@ public class LoadTxt : MonoBehaviour {
 	public static Dictionary<int,Technique> TechDic;
 	public static Dictionary<int,Thief> ThiefDic;
 	public static Dictionary<int,Achievement> AchievementDic;
+	public static Dictionary<int,DungeonTreasure> DungeonTreasureList;
 
 	void Awake () {
 		MatDic = new Dictionary<int, Mats> ();
@@ -41,6 +42,7 @@ public class LoadTxt : MonoBehaviour {
 		TechDic = new Dictionary<int, Technique> ();
 		ThiefDic = new Dictionary<int, Thief> ();
 		AchievementDic = new Dictionary<int, Achievement> ();
+		DungeonTreasureList = new Dictionary<int, DungeonTreasure> ();
 
 		LoadBuildings ();
 		LoadMats ();
@@ -51,6 +53,7 @@ public class LoadTxt : MonoBehaviour {
 		LoadExtra ();
 		LoadThief ();
 		LoadAchievement ();
+		LoadDungeonTreeasure ();
 	}
 
 	void LoadBuildings()
@@ -319,6 +322,23 @@ public class LoadTxt : MonoBehaviour {
 			}
 
 			ExtraRanged.Add (ex [i].id, ex [i]);
+		}
+	}
+
+	void LoadDungeonTreeasure(){
+		string[][] strs = ReadTxt.ReadText("dungeon_treasure");
+		DungeonTreasure[] dt = new DungeonTreasure[strs.Length - 1];
+		for (int i = 0; i < dt.Length; i++) {
+			dt [i] = new DungeonTreasure ();
+			dt [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+
+			string[][] p = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
+			dt [i].reward = new Dictionary<int, int> ();
+			for (int j = 0; j < p.Length; j++) {
+				dt [i].reward.Add (int.Parse (p [j] [0]), int.Parse (p [j] [1]));
+			}
+
+			DungeonTreasureList.Add (dt [i].id, dt [i]);
 		}
 	}
 

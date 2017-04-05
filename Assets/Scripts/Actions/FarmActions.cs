@@ -18,6 +18,7 @@ public class FarmActions : MonoBehaviour {
 
 	void Start () {
 		farmCell = Instantiate (Resources.Load ("farmCell")) as GameObject;
+		farmCell.SetActive (false);
 		farmCells = new ArrayList ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
@@ -37,6 +38,7 @@ public class FarmActions : MonoBehaviour {
 		if (openFarmlands > farmCells.Count) {
 			for (int i = farmCells.Count; i < openFarmlands; i++) {
 				GameObject o = Instantiate (farmCell) as GameObject;
+				o.SetActive (true);
 				o.transform.SetParent (ContentF.transform);
 				o.transform.localPosition = Vector3.zero;
 				o.transform.localScale = Vector3.one;

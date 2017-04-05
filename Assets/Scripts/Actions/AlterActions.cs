@@ -25,6 +25,7 @@ public class AlterActions : MonoBehaviour {
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		_achieveActions = this.gameObject.GetComponentInParent<AchieveActions> ();
 		achievementCell = Instantiate (Resources.Load ("achievementCell")) as GameObject;
+		achievementCell.SetActive (false);
 		achievementCells = new ArrayList ();
 	}
 
@@ -49,6 +50,7 @@ public class AlterActions : MonoBehaviour {
 
 		for (int i = achievementCells.Count; i < LoadTxt.AchievementDic.Count; i++) {
 			GameObject o = Instantiate (achievementCell) as GameObject;
+			o.SetActive (true);
 			o.transform.SetParent (ContentA.transform);
 			o.transform.localPosition = Vector3.zero;
 			o.transform.localScale = Vector3.one;
