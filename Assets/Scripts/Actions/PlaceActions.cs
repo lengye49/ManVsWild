@@ -127,7 +127,8 @@ public class PlaceActions : MonoBehaviour {
 			CheckRoad (index);
 			ChangeImage (index);
 		} else if (dungeonCellState [index] == 3) {
-			_gameData.StoreData ("DungeonLevelMax", dungeonLevel);
+			if (GameData._playerData.dungeonLevelMax < dungeonLevel)
+				_gameData.StoreData ("DungeonLevelMax", dungeonLevel);
 			dungeonLevel++;
 			InitializeDungeon ();
 		}
@@ -328,7 +329,7 @@ public class PlaceActions : MonoBehaviour {
 
 	void SetPlace(Maps m){
 		dungeonRect.localPosition = new Vector3 (-3000, 420, 0);
-		placeRect.localPosition = Vector3.zero;
+		placeRect.localPosition = new Vector3 (0, 420, 0);
 
 		int count = 0;
 

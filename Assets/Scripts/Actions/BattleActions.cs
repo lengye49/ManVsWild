@@ -166,6 +166,7 @@ public class BattleActions : MonoBehaviour {
 		enemy.hit_Vital = m.bodyPart[1];
 		enemy.hit_Move = m.bodyPart [2];
 		enemy.canCapture = m.canCapture;
+		Debug.Log ("Hp:" + enemy.hp + " Spirit:" + enemy.spirit + " hit:" + enemy.hit);
 	}
 
 	void ResetPanel(){
@@ -262,7 +263,7 @@ public class BattleActions : MonoBehaviour {
 			AddLog (enemy.name + " moved " + s, 0);
 		} else {
 			myNextTurn += 1;
-			AddLog ("I moved " + s, 0);
+			AddLog ("You moved " + s, 0);
 		}
 
 		enemyDistance.text = distance + "m";
@@ -323,7 +324,7 @@ public class BattleActions : MonoBehaviour {
 						AddLog (enemy.name + " is slowed down for 2s.", 0);
 					} else {
 						myNextTurn += 2;
-						AddLog ("I'm slowed down for 2s.", 0);
+						AddLog ("You're slowed down for 2s.", 0);
 					}
 					break;
 				case 101:
@@ -332,7 +333,7 @@ public class BattleActions : MonoBehaviour {
 						AddLog (enemy.name + " is confused for 3s.", 0);
 					} else {
 						myNextTurn += 3;
-						AddLog ("I'm confused for 3s.", 0);
+						AddLog ("You're confused for 3s.", 0);
 					}
 					break;
 				case 102:
@@ -341,7 +342,7 @@ public class BattleActions : MonoBehaviour {
 						AddLog (enemy.name + " is deluded for 5s.", 0);
 					} else {
 						myNextTurn += 5;
-						AddLog ("I'm deluded for 5s.", 0);
+						AddLog ("You're deluded for 5s.", 0);
 					}
 					break;
 				case 103:
@@ -350,7 +351,7 @@ public class BattleActions : MonoBehaviour {
 						AddLog (enemy.name + " is dizzied for 7s.", 0);
 					} else {
 						myNextTurn += 7;
-						AddLog ("I'm dizzied for 7s.", 0);
+						AddLog ("You're dizzied for 7s.", 0);
 					}
 					break;
 				case 104:
@@ -360,8 +361,8 @@ public class BattleActions : MonoBehaviour {
 					} else {
 						myNextTurn += 7;
 						_gameData.ChangeProperty (10, -5);
-						AddLog ("I'm frozen for 7s.", 0);
-						AddLog ("I feel a bit hot, temperature +5", 0);
+						AddLog ("You're frozen for 7s.", 0);
+						AddLog ("You feel a bit hot, temperature +5", 0);
 					}
 					break;
 				case 105:
@@ -370,18 +371,18 @@ public class BattleActions : MonoBehaviour {
 						AddLog (enemy.name + " is petrified for 5s.", 0);
 					} else {
 						myNextTurn += 5;
-						AddLog ("I'm petrified for 5s.", 0);
+						AddLog ("You're petrified for 5s.", 0);
 					}
 					break;
 				case 106:
 					if (isMyAtk) {
 						_gameData.ChangeProperty (2, 5);
 						enemy.spirit -= 5;
-						AddLog ("I recovered 5 spirit, " + enemy.name + " lost 5 spirit.", 0);
+						AddLog ("You recovered 5 spirit, " + enemy.name + " lost 5 spirit.", 0);
 					} else {
 						_gameData.ChangeProperty (2, -5);
 						enemy.spirit += 5;
-						AddLog ("I lost 5 spirit, " + enemy.name + " recovered 5 spirit.", 0);
+						AddLog ("You lost 5 spirit, " + enemy.name + " recovered 5 spirit.", 0);
 					}
 					break;
 				case 107:
@@ -390,14 +391,14 @@ public class BattleActions : MonoBehaviour {
 						AddLog (enemy.name + " is chained for 5s.", 0);
 					} else {
 						myNextTurn += 5;
-						AddLog ("I'm chained for 5s.", 0);
+						AddLog ("You're chained for 5s.", 0);
 					}
 					break;
 				case 109:
 					int hpPlus = (int)(dam * 0.3f);
 					if (isMyAtk) {
 						_gameData.ChangeProperty (0, hpPlus);
-						AddLog ("I recovered " + hpPlus + " hp", 0);
+						AddLog ("You recovered " + hpPlus + " hp", 0);
 					} else {
 						enemy.hp += hpPlus;
 						AddLog (enemy.name + " recovered " + hpPlus + " hp", 0);
@@ -407,7 +408,7 @@ public class BattleActions : MonoBehaviour {
 					int hpPlus1 = (int)(dam * 0.5f);
 					if (isMyAtk) {
 						_gameData.ChangeProperty (0, hpPlus1);
-						AddLog ("I recovered " + hpPlus1 + " hp", 0);
+						AddLog ("You recovered " + hpPlus1 + " hp", 0);
 					} else {
 						enemy.hp += hpPlus1;
 						AddLog (enemy.name + " recovered " + hpPlus1 + " hp", 0);
@@ -416,7 +417,7 @@ public class BattleActions : MonoBehaviour {
 				case 111:
 					if (!isMyAtk) {
 						_gameData.ChangeProperty (10, 5);
-						AddLog ("I feel a bit hot, temperature +5", 0);
+						AddLog ("You feel a bit hot, temperature +5", 0);
 					}
 					break;
 				default:
@@ -430,13 +431,15 @@ public class BattleActions : MonoBehaviour {
 	}
 
 	void CheckBattleEnd(){
-		if (enemy.hp > 0)
+		if (enemy.hp > 0) {
+			CheckEnemyAction ();
 			return;
+		}
 
 		Dictionary<int,int> drop = Algorithms.GetReward (enemy.drop);
 		string s = "";
 		if (drop.Count > 0) {
-			s="I killed "+enemy.name+" and found ";
+			s="You killed "+enemy.name+" and got ";
 			foreach (int key in drop.Keys) {
 				int itemId = GenerateItemId (key);
 				_gameData.AddItem (itemId, drop [key]);
@@ -459,7 +462,7 @@ public class BattleActions : MonoBehaviour {
 			}
 			s = s.Substring (0, s.Length - 1) + ".";
 		} else {
-			s="I killed "+enemy.name+" but found nothing.";
+			s="You killed "+enemy.name+" but got nothing.";
 		}
 		AddLog (s,1);
 		_achieveActions.DefeatEnemy (enemy.monsterId);
@@ -527,27 +530,29 @@ public class BattleActions : MonoBehaviour {
 
 	public void MeleeFight(){
 		int skillId = LoadTxt.MatDic [(int)(GameData._playerData.MeleeId/10000)].skillId;
-		Fight (GameData._playerData.property [16], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], GameData._playerData.property [13], enemy.def, skillId, true);
 		myNextTurn += GameData._playerData.property [21];
 		SetPoint ();
+		Fight (GameData._playerData.property [16], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], GameData._playerData.property [13], enemy.def, skillId, true);
 		//Achievement
 		_achieveActions.Fight ("Melee");
 	}
 	public void RangedFight(){
 		int skillId = LoadTxt.MatDic [(int)(GameData._playerData.RangedId/10000)].skillId;
-		Fight (GameData._playerData.property [17], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], GameData._playerData.property [14], enemy.def, skillId, true);
 		myNextTurn += GameData._playerData.property [22];
 		SetPoint ();
+		Fight (GameData._playerData.property [17], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], GameData._playerData.property [14], enemy.def, skillId, true);
+
 		//Achievement
 		_achieveActions.Fight ("Ranged");
 	}
 	public void MagicFight(){
+		myNextTurn += 1;
+		SetPoint ();
 		_gameData.ChangeProperty (2, -(int)(LoadTxt.MatDic [GameData._playerData.MagicId].castSpirit * GameData._playerData.MagicCostRate));
 		int dam = (int)(GameData._playerData.property [24] * GameData._playerData.MagicPower * Algorithms.GetIndexByRange (80, 120) / 100);
 		enemy.hp -= dam;
 		CheckBattleEnd ();
-		myNextTurn += 1;
-		SetPoint ();
+
 		//Achievement
 		_achieveActions.Fight ("Magic");
 	}
@@ -599,10 +604,9 @@ public class BattleActions : MonoBehaviour {
 
 	void CastSkill(){
 		int index = Algorithms.GetIndexByRange (0, enemy.skills.Length);
-		Debug.Log ("enemy => castSkill => skillID => " + enemy.skills [index]);
-		Fight (enemy.hit, GameData._playerData.property [18], 90, enemy.spirit, enemy.atk, GameData._playerData.property [15], enemy.skills [index], false);
 		enemyNextTurn += LoadTxt.skillDic [enemy.skills [index]].castSpeed * (1 - enemy.castSpeedBonus);
 		SetPoint ();
+		Fight (enemy.hit, GameData._playerData.property [18], 90, enemy.spirit, enemy.atk, GameData._playerData.property [15], enemy.skills [index], false);
 	}
 
 	public void OnAuto(){

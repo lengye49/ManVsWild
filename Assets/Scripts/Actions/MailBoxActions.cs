@@ -18,6 +18,7 @@ public class MailBoxActions : MonoBehaviour {
 	void Start(){
 		mailCell = Instantiate (Resources.Load ("mailCell")) as GameObject;
 		mailCell.SetActive (false);
+		Detail.gameObject.SetActive (false);
 		mailCells = new ArrayList ();
 		localDetail = new Mails ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
@@ -57,8 +58,8 @@ public class MailBoxActions : MonoBehaviour {
 	}
 
 	public void OpenMail(int index){
-		if (Detail.localPosition.y != 0)
-			Detail.DOLocalMoveY (0, 0.3f);
+		if (!Detail.gameObject.activeSelf)
+			CallInDetail ();
 		Mails m = GameData._playerData.Mails [index];
 		localDetail = m;
 		localIndex = index;

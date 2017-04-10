@@ -64,10 +64,12 @@ public class Algorithms  {
 	/// <param name="vitalSensibility">Vital sensibility.</param>
 	/// <param name="spirit">Spirit.</param>
 	public static int IsDodgeOrCrit(float hit, float dodge,float vitalSensibility ,float spirit){
-		float hitRate = 1 - dodge * dodge / (dodge + 3 * hit) * SpiritParam (spirit);
+		float hitRate = 1 - dodge * dodge / (dodge + 3 * hit)/100 * SpiritParam (spirit);
 		float dodgeRate =1-hitRate;
-		float critRate = hit * hit / (hit + dodge * 8) * (1 - vitalSensibility/100f) * SpiritParam (spirit);
+		float critRate = hit * hit / (hit + dodge * 8)/100 * (1 - vitalSensibility/100f) * SpiritParam (spirit);
+		Debug.Log ("Dodge:" + dodgeRate + " Crit:" + critRate);
 		float r = Random.Range (0F, 1F);
+//		Debug.Log ("Random:" + r);
 		if (r < dodgeRate)
 			return 0;
 		else if (r < dodgeRate + critRate)

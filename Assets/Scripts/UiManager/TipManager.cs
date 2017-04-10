@@ -31,7 +31,7 @@ public class TipManager : MonoBehaviour {
 	private WarehouseActions _warehouseActions;
 	private FloatingActions _floating;
 	private BackpackActions _backpackActions;
-	private LoadingBar _loadingBar;
+	public LoadingBar _loadingBar;
 
 	private Vector3 hpPos;
 	private Vector3 foodPos;
@@ -53,7 +53,6 @@ public class TipManager : MonoBehaviour {
 		_warehouseActions = this.gameObject.GetComponentInChildren<WarehouseActions> ();
 		_floating = this.gameObject.GetComponentInChildren<FloatingActions> ();
 		_backpackActions = this.gameObject.GetComponentInChildren<BackpackActions> ();
-		_loadingBar = GameObject.Find ("LoadingBar").GetComponent<LoadingBar> ();
 
 		hpPos = new Vector3(-232,702,0);
 		foodPos = new Vector3(-232,635,0);
@@ -313,17 +312,252 @@ public class TipManager : MonoBehaviour {
 		}
 	}
 
+	IEnumerator WaitAndBuildRoom(Building b){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		BuildRoom (b);
+	}
+	void BuildRoom(Building b){
+		foreach (int key in b.combReq.Keys) {
+			_gameData.ConsumeItem (key, b.combReq [key]);
+		}
+		GameData._playerData.BedRoomOpen++;
+		_gameData.StoreData ("BedRoomOpen", GameData._playerData.BedRoomOpen);
+		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
+
+		if (GameData._playerData.BedRoomOpen == 1) {
+			_floating.CallInFloating ("Bedroom is built.", 0);
+		} else {
+			_floating.CallInFloating ("Bedroom has upgraded to Lv." + GameData._playerData.BedRoomOpen, 0);
+		}
+
+		_homeManager.UpdateContent ();
+		this.gameObject.GetComponentInChildren<RoomActions> ().UpdateRoomStates ();
+	}
+
+	IEnumerator WaitAndBuildWarehouse(Building b){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		BuildWarehouse (b);
+	}
+	void BuildWarehouse(Building b){
+		foreach (int key in b.combReq.Keys) {
+			_gameData.ConsumeItem (key, b.combReq [key]);
+		}
+
+		GameData._playerData.WarehouseOpen++;
+		_gameData.StoreData ("WarehouseOpen", GameData._playerData.WarehouseOpen);
+
+		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
+
+		if (GameData._playerData.WarehouseOpen == 1) {
+			_floating.CallInFloating ("Warehouse is built.", 0);
+		} else {
+			_floating.CallInFloating ("Warehouse has upgraded to Lv." + GameData._playerData.WarehouseOpen, 0);
+		}
+
+		_homeManager.UpdateContent ();
+		this.gameObject.GetComponentInChildren<WarehouseActions> ().UpdatePanel ();
+	}
+
+	IEnumerator WaitAndBuildKitchen(Building b){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		BuildKitchen (b);
+	}
+	void BuildKitchen(Building b){
+		foreach (int key in b.combReq.Keys)
+			_gameData.ConsumeItem (key, b.combReq [key]);
+
+		GameData._playerData.KitchenOpen++;
+		_gameData.StoreData ("KitchenOpen", GameData._playerData.KitchenOpen);
+
+		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
+
+		if (GameData._playerData.KitchenOpen == 1) {
+			_floating.CallInFloating ("Kitchen is built.", 0);
+		} else {
+			_floating.CallInFloating ("Kitchen has upgraded to Lv." + GameData._playerData.KitchenOpen, 0);
+		}
+
+		_homeManager.UpdateContent ();
+	}
+
+	IEnumerator WaitAndBuildWorkshop(Building b){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		BuildWorkshop (b);
+	}
+	void BuildWorkshop(Building b){
+		foreach (int key in b.combReq.Keys)
+			_gameData.ConsumeItem (key, b.combReq [key]);
+
+		GameData._playerData.WorkshopOpen++;
+		_gameData.StoreData ("WorkshopOpen", GameData._playerData.WorkshopOpen);
+
+		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
+
+		if (GameData._playerData.WorkshopOpen == 1) {
+			_floating.CallInFloating ("Workshop is built.", 0);
+		} else {
+			_floating.CallInFloating ("Workshop has upgraded to Lv." + GameData._playerData.WorkshopOpen, 0);
+		}
+
+		_homeManager.UpdateContent ();
+	}
+
+	IEnumerator WaitAndBuildStudy(Building b){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		BuildStudy (b);
+	}
+	void BuildStudy(Building b){
+		foreach (int key in b.combReq.Keys)
+			_gameData.ConsumeItem (key, b.combReq [key]);
+
+		GameData._playerData.StudyOpen++;
+		_gameData.StoreData ("StudyOpen", GameData._playerData.StudyOpen);
+
+		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
+
+		if (GameData._playerData.StudyOpen == 1) {
+			_floating.CallInFloating ("Study is built.", 0);
+		} else {
+			_floating.CallInFloating ("Study has upgraded to Lv." + GameData._playerData.StudyOpen, 0);
+		}
+
+		_homeManager.UpdateContent ();
+	}
+
+	IEnumerator WaitAndBuildFarm(Building b){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		BuildFarm (b);
+	}
+	void BuildFarm(Building b){
+		foreach (int key in b.combReq.Keys)
+			_gameData.ConsumeItem (key, b.combReq [key]);
+
+		GameData._playerData.FarmOpen++;
+		_gameData.StoreData ("FarmOpen", GameData._playerData.FarmOpen);
+
+		//farm state starts from 3 to 6
+		if (GameData._playerData.FarmOpen == 1) {
+			GameData._playerData.Farms [3].open = 1;
+			_gameData.StoreData ("FarmOpen", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
+		} else if (GameData._playerData.FarmOpen <= 4) {
+			GameData._playerData.Farms [GameData._playerData.FarmOpen + 2].open = 1;
+			_gameData.StoreData ("FarmOpen", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
+		}
+
+		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
+
+		if (GameData._playerData.FarmOpen == 1) {
+			_floating.CallInFloating ("Farm is built.", 0);
+		} else {
+			_floating.CallInFloating ("Farm has upgraded to Lv." + GameData._playerData.FarmOpen, 0);
+		}
+		this.gameObject.GetComponentInChildren<FarmActions> ().UpdateFarm ();
+		_homeManager.UpdateContent ();
+	}
+
+	IEnumerator WaitAndBuildPets(Building b){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		BuildPets (b);
+	}
+	void BuildPets(Building b){
+		foreach (int key in b.combReq.Keys)
+			_gameData.ConsumeItem (key, b.combReq [key]);
+
+		GameData._playerData.PetsOpen++;
+		_gameData.StoreData ("PetsOpen", GameData._playerData.PetsOpen);
+
+		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
+
+		if (GameData._playerData.PetsOpen == 1) {
+			_floating.CallInFloating ("Pets is built.", 0);
+		} else {
+			_floating.CallInFloating ("Pets has upgraded to Lv." + GameData._playerData.PetsOpen, 0);
+		}
+
+		_homeManager.UpdateContent ();
+	}
+
+	IEnumerator WaitAndBuildWell(Building b){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		BuildWell (b);
+	}
+	void BuildWell(Building b){
+		foreach (int key in b.combReq.Keys)
+			_gameData.ConsumeItem (key, b.combReq [key]);
+
+		GameData._playerData.WellOpen++;
+		_gameData.StoreData ("WellOpen", GameData._playerData.WellOpen);
+
+		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
+
+		if (GameData._playerData.WellOpen == 1) {
+			_floating.CallInFloating ("Well is built.", 0);
+		} else {
+			_floating.CallInFloating ("Well has upgraded to Lv." + GameData._playerData.WellOpen, 0);
+		}
+
+		_homeManager.UpdateContent ();
+
+		GameData._playerData.LastWithdrawWaterTime = GameData._playerData.minutesPassed;
+		_gameData.StoreData ("LastWithdrawWaterTime", GameData._playerData.LastWithdrawWaterTime);
+
+	}
+
+	IEnumerator WaitAndBuildMail(Building b){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		BuildMail (b);
+	}
+	void BuildMail(Building b){
+		foreach (int key in b.combReq.Keys)
+			_gameData.ConsumeItem (key, b.combReq [key]);
+
+		GameData._playerData.MailBoxOpen++;
+		_gameData.StoreData ("MailBoxOpen", GameData._playerData.MailBoxOpen);
+
+		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
+
+		if (GameData._playerData.MailBoxOpen == 1) {
+			_floating.CallInFloating ("MailBox is built.", 0);
+		} else {
+			_floating.CallInFloating ("MailBox has upgraded to Lv." + GameData._playerData.MailBoxOpen, 0);
+		}
+
+		_homeManager.UpdateContent ();
+	}
+
+	IEnumerator WaitAndBuildAltar(Building b){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		BuildAltar (b);
+	}
+	void BuildAltar(Building b){
+		foreach (int key in b.combReq.Keys)
+			_gameData.ConsumeItem (key, b.combReq [key]);
+
+		GameData._playerData.AltarOpen++;
+		_gameData.StoreData ("AltarOpen", GameData._playerData.AltarOpen);
+
+		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
+
+		if (GameData._playerData.AltarOpen == 1) {
+			_floating.CallInFloating ("Altar is built.", 0);
+		} else {
+			_floating.CallInFloating ("Altar has upgraded to Lv." + GameData._playerData.AltarOpen, 0);
+		}
+
+		_homeManager.UpdateContent ();
+	}
+
 	public void ConstructBuilding(){
-		_loadingBar.CallInLoadingBar ();
-		WaitAndConstruct ();
-	}
-
-	IEnumerator WaitAndConstruct(){
-		yield return new WaitForSeconds (2f);
-		Construct ();
-	}
-
-	void Construct(){
 		string s = buildTipButton [1].gameObject.name;
 		switch (s) {
 		case "BedRoom":
@@ -332,28 +566,11 @@ public class TipManager : MonoBehaviour {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
-						foreach (int key in b.combReq.Keys) {
-							_gameData.ConsumeItem (key, b.combReq [key]);
-						}
-
-						GameData._playerData.BedRoomOpen++;
-						_gameData.StoreData ("BedRoomOpen", GameData._playerData.BedRoomOpen);
-
-						_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
-
-						if (GameData._playerData.BedRoomOpen == 1) {
-							_floating.CallInFloating ("Bedroom is built.", 0);
-						} else {
-							_floating.CallInFloating ("Bedroom has upgraded to Lv." + GameData._playerData.BedRoomOpen, 0);
-						}
-
-						_homeManager.UpdateContent ();
-						this.gameObject.GetComponentInChildren<RoomActions> ().UpdateRoomStates ();
+						StartCoroutine (WaitAndBuildRoom (b));
 						break;
 					}
 				}
 			}
-
 			break;
 		case "Warehouse":
 			foreach (Building b in LoadTxt.buildings) {
@@ -361,28 +578,11 @@ public class TipManager : MonoBehaviour {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
-						foreach (int key in b.combReq.Keys) {
-							_gameData.ConsumeItem (key, b.combReq [key]);
-						}
-
-						GameData._playerData.WarehouseOpen++;
-						_gameData.StoreData ("WarehouseOpen", GameData._playerData.WarehouseOpen);
-
-						_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
-
-						if (GameData._playerData.WarehouseOpen == 1) {
-							_floating.CallInFloating ("Warehouse is built.", 0);
-						} else {
-							_floating.CallInFloating ("Warehouse has upgraded to Lv." + GameData._playerData.WarehouseOpen, 0);
-						}
-
-						_homeManager.UpdateContent ();
-						this.gameObject.GetComponentInChildren<WarehouseActions> ().UpdatePanel ();
+						StartCoroutine (WaitAndBuildWarehouse (b));
 						break;
 					}
 				}
 			}
-
 			break;
 		case "Kitchen":
 			foreach (Building b in LoadTxt.buildings) {
@@ -390,21 +590,7 @@ public class TipManager : MonoBehaviour {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
-						foreach (int key in b.combReq.Keys)
-							_gameData.ConsumeItem (key, b.combReq [key]);
-
-						GameData._playerData.KitchenOpen++;
-						_gameData.StoreData ("KitchenOpen", GameData._playerData.KitchenOpen);
-
-						_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
-
-						if (GameData._playerData.KitchenOpen == 1) {
-							_floating.CallInFloating ("Kitchen is built.", 0);
-						} else {
-							_floating.CallInFloating ("Kitchen has upgraded to Lv." + GameData._playerData.KitchenOpen, 0);
-						}
-
-						_homeManager.UpdateContent ();
+						StartCoroutine (WaitAndBuildKitchen (b));
 						break;
 					}
 				}
@@ -416,21 +602,7 @@ public class TipManager : MonoBehaviour {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
-						foreach (int key in b.combReq.Keys)
-							_gameData.ConsumeItem (key, b.combReq [key]);
-
-						GameData._playerData.WorkshopOpen++;
-						_gameData.StoreData ("WorkshopOpen", GameData._playerData.WorkshopOpen);
-
-						_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
-
-						if (GameData._playerData.WorkshopOpen == 1) {
-							_floating.CallInFloating ("Workshop is built.", 0);
-						} else {
-							_floating.CallInFloating ("Workshop has upgraded to Lv." + GameData._playerData.WorkshopOpen, 0);
-						}
-
-						_homeManager.UpdateContent ();
+						StartCoroutine (WaitAndBuildWorkshop (b));
 						break;
 					}
 				}
@@ -442,21 +614,7 @@ public class TipManager : MonoBehaviour {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
-						foreach (int key in b.combReq.Keys)
-							_gameData.ConsumeItem (key, b.combReq [key]);
-
-						GameData._playerData.StudyOpen++;
-						_gameData.StoreData ("StudyOpen", GameData._playerData.StudyOpen);
-
-						_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
-
-						if (GameData._playerData.StudyOpen == 1) {
-							_floating.CallInFloating ("Study is built.", 0);
-						} else {
-							_floating.CallInFloating ("Study has upgraded to Lv." + GameData._playerData.StudyOpen, 0);
-						}
-
-						_homeManager.UpdateContent ();
+						StartCoroutine (WaitAndBuildStudy (b));
 						break;
 					}
 				}
@@ -468,30 +626,7 @@ public class TipManager : MonoBehaviour {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
-						foreach (int key in b.combReq.Keys)
-							_gameData.ConsumeItem (key, b.combReq [key]);
-
-						GameData._playerData.FarmOpen++;
-						_gameData.StoreData ("FarmOpen", GameData._playerData.FarmOpen);
-
-						//farm state starts from 3 to 6
-						if (GameData._playerData.FarmOpen == 1) {
-							GameData._playerData.Farms [3].open = 1;
-							_gameData.StoreData ("FarmOpen", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-						} else if (GameData._playerData.FarmOpen <= 4) {
-							GameData._playerData.Farms [GameData._playerData.FarmOpen + 2].open = 1;
-							_gameData.StoreData ("FarmOpen", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-						}
-
-						_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
-
-						if (GameData._playerData.FarmOpen == 1) {
-							_floating.CallInFloating ("Farm is built.", 0);
-						} else {
-							_floating.CallInFloating ("Farm has upgraded to Lv." + GameData._playerData.FarmOpen, 0);
-						}
-						this.gameObject.GetComponentInChildren<FarmActions> ().UpdateFarm ();
-						_homeManager.UpdateContent ();
+						StartCoroutine (WaitAndBuildFarm (b));
 						break;
 					}
 				}
@@ -503,21 +638,7 @@ public class TipManager : MonoBehaviour {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
-						foreach (int key in b.combReq.Keys)
-							_gameData.ConsumeItem (key, b.combReq [key]);
-
-						GameData._playerData.PetsOpen++;
-						_gameData.StoreData ("PetsOpen", GameData._playerData.PetsOpen);
-
-						_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
-
-						if (GameData._playerData.PetsOpen == 1) {
-							_floating.CallInFloating ("Pets is built.", 0);
-						} else {
-							_floating.CallInFloating ("Pets has upgraded to Lv." + GameData._playerData.PetsOpen, 0);
-						}
-
-						_homeManager.UpdateContent ();
+						StartCoroutine (WaitAndBuildPets (b));
 						break;
 					}
 				}
@@ -529,25 +650,7 @@ public class TipManager : MonoBehaviour {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
-						foreach (int key in b.combReq.Keys)
-							_gameData.ConsumeItem (key, b.combReq [key]);
-
-						GameData._playerData.WellOpen++;
-						_gameData.StoreData ("WellOpen", GameData._playerData.WellOpen);
-
-						_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
-
-						if (GameData._playerData.WellOpen == 1) {
-							_floating.CallInFloating ("Well is built.", 0);
-						} else {
-							_floating.CallInFloating ("Well has upgraded to Lv." + GameData._playerData.WellOpen, 0);
-						}
-
-						_homeManager.UpdateContent ();
-
-						GameData._playerData.LastWithdrawWaterTime = GameData._playerData.minutesPassed;
-						_gameData.StoreData ("LastWithdrawWaterTime", GameData._playerData.LastWithdrawWaterTime);
-
+						StartCoroutine (WaitAndBuildWell (b));
 						break;
 					}
 				}
@@ -559,21 +662,7 @@ public class TipManager : MonoBehaviour {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
-						foreach (int key in b.combReq.Keys)
-							_gameData.ConsumeItem (key, b.combReq [key]);
-
-						GameData._playerData.MailBoxOpen++;
-						_gameData.StoreData ("MailBoxOpen", GameData._playerData.MailBoxOpen);
-
-						_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
-
-						if (GameData._playerData.MailBoxOpen == 1) {
-							_floating.CallInFloating ("MailBox is built.", 0);
-						} else {
-							_floating.CallInFloating ("MailBox has upgraded to Lv." + GameData._playerData.MailBoxOpen, 0);
-						}
-
-						_homeManager.UpdateContent ();
+						StartCoroutine (WaitAndBuildMail (b));
 						break;
 					}
 				}
@@ -585,21 +674,7 @@ public class TipManager : MonoBehaviour {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
-						foreach (int key in b.combReq.Keys)
-							_gameData.ConsumeItem (key, b.combReq [key]);
-
-						GameData._playerData.AltarOpen++;
-						_gameData.StoreData ("AltarOpen", GameData._playerData.AltarOpen);
-
-						_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
-
-						if (GameData._playerData.AltarOpen == 1) {
-							_floating.CallInFloating ("Altar is built.", 0);
-						} else {
-							_floating.CallInFloating ("Altar has upgraded to Lv." + GameData._playerData.AltarOpen, 0);
-						}
-
-						_homeManager.UpdateContent ();
+						StartCoroutine (WaitAndBuildAltar (b));
 						break;
 					}
 				}

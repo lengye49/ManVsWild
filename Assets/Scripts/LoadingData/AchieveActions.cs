@@ -13,7 +13,7 @@ public class AchieveActions : MonoBehaviour {
 		string s = "";
 		switch (id) {
 		case 1:
-			s+=GameData._playerData.thiefCaught +"/"+ LoadTxt.AchievementDic[1].req;
+			s += GameData._playerData.thiefCaught + "/" + LoadTxt.AchievementDic [1].req;
 			break;
 		case 2:
 			s += GameData._playerData.ghostKill + "/" + LoadTxt.AchievementDic [2].req;
@@ -28,52 +28,52 @@ public class AchieveActions : MonoBehaviour {
 			s += GameData._playerData.wineTasted.Length + "/" + LoadTxt.AchievementDic [5].req;
 			break;
 		case 6:
-			s +=  GameData._playerData.foodCooked.Length+"/" + LoadTxt.AchievementDic [6].req;
+			s += GameData._playerData.foodCooked.Length + "/" + LoadTxt.AchievementDic [6].req;
 			break;
 		case 7:
-			s+=GameData._playerData.Gold+"/"+LoadTxt.AchievementDic[7].req;
+			s += GameData._playerData.Gold + "/" + LoadTxt.AchievementDic [7].req;
 			break;
 		case 8:
-			s += GameData._playerData.goldConsume+ "/" + LoadTxt.AchievementDic [8].req;
+			s += GameData._playerData.goldConsume + "/" + LoadTxt.AchievementDic [8].req;
 			break;
 		case 9:
-			s += GameData._playerData.demonPoint+ "/" + LoadTxt.AchievementDic [9].req;
+			s += GameData._playerData.demonPoint + "/" + LoadTxt.AchievementDic [9].req;
 			break;
 		case 10:
-			s += GameData._playerData.renown+ "/" + LoadTxt.AchievementDic [10].req;
+			s += GameData._playerData.renown + "/" + LoadTxt.AchievementDic [10].req;
 			break;
 		case 11:
-			s += GameData._playerData.meleeCollected.Length+ "/" + LoadTxt.AchievementDic [11].req;
+			s += GameData._playerData.meleeCollected.Length + "/" + LoadTxt.AchievementDic [11].req;
 			break;
 		case 12:
-			s += GameData._playerData.rangedCollected.Length+ "/" + LoadTxt.AchievementDic [12].req;
+			s += GameData._playerData.rangedCollected.Length + "/" + LoadTxt.AchievementDic [12].req;
 			break;
 		case 13:
-			s += GameData._playerData.magicCollected.Length+ "/" + LoadTxt.AchievementDic [13].req;
+			s += GameData._playerData.magicCollected.Length + "/" + LoadTxt.AchievementDic [13].req;
 			break;
 		case 14:
-			s += GameData._playerData.petsCaptured+ "/" + LoadTxt.AchievementDic [14].req;
+			s += GameData._playerData.petsCaptured + "/" + LoadTxt.AchievementDic [14].req;
 			break;
 		case 15:
 			if (GameData._playerData.Achievements [15] == 0)
-				s="0/1";
+				s = "0/1";
 			else
-				s="1/1";
+				s = "1/1";
 			break;
 		case 16:
-			s += GameData._playerData.monsterKilled+ "/" + LoadTxt.AchievementDic [16].req;
+			s += GameData._playerData.monsterKilled + "/" + LoadTxt.AchievementDic [16].req;
 			break;
 		case 17:
 			if (GameData._playerData.Achievements [17] == 0)
-				s="0/1";
+				s = "0/1";
 			else
-				s="1/1";
+				s = "1/1";
 			break;
 		case 18:
 			if (GameData._playerData.Achievements [18] == 0)
-				s="0/1";
+				s = "0/1";
 			else
-				s="1/1";
+				s = "1/1";
 			break;
 		case 19:
 			foreach (int key in GameData._playerData.MapOpenState.Keys) {
@@ -82,31 +82,31 @@ public class AchieveActions : MonoBehaviour {
 			s += openCount + "/" + LoadTxt.AchievementDic [19].req;
 			break;
 		case 20:
-			s += GameData._playerData.dayNow+ "/" + LoadTxt.AchievementDic [20].req;
+			s += GameData._playerData.dayNow + "/" + LoadTxt.AchievementDic [20].req;
 			break;
 		case 21:
-			s += GameData._playerData.sleepTime+ "/" + LoadTxt.AchievementDic [21].req;
+			s += GameData._playerData.sleepTime + "/" + LoadTxt.AchievementDic [21].req;
 			break;
 		case 22:
-			s += GameData._playerData.wineDrinked+ "/" + LoadTxt.AchievementDic [22].req;
+			s += GameData._playerData.wineDrinked + "/" + LoadTxt.AchievementDic [22].req;
 			break;
 		case 23:
 			if (GameData._playerData.Achievements [23] == 0)
-				s="0/1";
+				s = "0/1";
 			else
-				s="1/1";
+				s = "1/1";
 			break;
 		case 24:
-			s +=  "/" + LoadTxt.AchievementDic [24].req;
+			s += GameData._playerData.dungeonLevelMax + "/" + LoadTxt.AchievementDic [24].req;
 			break;
 		case 25:
-			s += GameData._playerData.meleeAttackCount+ "/" + LoadTxt.AchievementDic [25].req;
+			s += GameData._playerData.meleeAttackCount + "/" + LoadTxt.AchievementDic [25].req;
 			break;
 		case 26:
-			s += GameData._playerData.rangedAttackCount+ "/" + LoadTxt.AchievementDic [26].req;
+			s += GameData._playerData.rangedAttackCount + "/" + LoadTxt.AchievementDic [26].req;
 			break;
 		case 27:
-			s += GameData._playerData.magicAttackCount+ "/" + LoadTxt.AchievementDic [27].req;
+			s += GameData._playerData.magicAttackCount + "/" + LoadTxt.AchievementDic [27].req;
 			break;
 		case 28:
 			break;
@@ -118,34 +118,34 @@ public class AchieveActions : MonoBehaviour {
 			foreach (int key in GameData._playerData.MapOpenState.Keys) {
 				openCount += GameData._playerData.MapOpenState [key];
 			}
-			s += openCount +  "/" + LoadTxt.AchievementDic [31].req;
+			s += openCount + "/" + LoadTxt.AchievementDic [31].req;
 			break;
 		case 32:
-			s += GameData._playerData.dragonKilled+ "/" + LoadTxt.AchievementDic [32].req;
+			s += GameData._playerData.dragonKilled + "/" + LoadTxt.AchievementDic [32].req;
 			break;
 		case 33:
 			if (GameData._playerData.Achievements [23] == 0)
-				s="0/1";
+				s = "0/1";
 			else
-				s="1/1";
+				s = "1/1";
 			break;
 		case 34:
-			s += GameData._playerData.dayNow+ "/" + LoadTxt.AchievementDic [34].req;
+			s += GameData._playerData.dayNow + "/" + LoadTxt.AchievementDic [34].req;
 			break;
 		case 35:
-			s +=  "/" + LoadTxt.AchievementDic [35].req;
+			s += GameData._playerData.dungeonLevelMax + "/" + LoadTxt.AchievementDic [35].req;
 			break;
 		case 36:
 			if (GameData._playerData.Achievements [23] == 0)
-				s="0/1";
+				s = "0/1";
 			else
-				s="1/1";
+				s = "1/1";
 			break;
 		case 37:
-			s +=  "/" + LoadTxt.AchievementDic [37].req;
+			s += "/" + LoadTxt.AchievementDic [37].req;
 			break;
 		case 38:
-			s += GameData._playerData.legendThiefCaught+ "/" + LoadTxt.AchievementDic [38].req;
+			s += GameData._playerData.legendThiefCaught + "/" + LoadTxt.AchievementDic [38].req;
 			break;
 		case 39:
 			break;
