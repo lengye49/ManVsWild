@@ -28,8 +28,8 @@ public class PanelManager : MonoBehaviour {
 	private RectTransform _FatherPanel;
 	private RectTransform _PanelNow;
 	private RectTransform _GrandFatherPanel;
-	private float restPointLeftX = -1000f;
-	private float restPointRightX = 1000f;
+	private float restPointLeftX = -3000f;
+	private float restPointRightX = 3000f;
 	private float tweenerTime = 0.5f;
 	private Maps mapGoing;
 	private GameData _gameData;

@@ -15,6 +15,7 @@ public class PlaceActions : MonoBehaviour {
 	public RectTransform placeRect;
 	public RectTransform dungeonRect;
 	public BattleActions _battleActions;
+	public LoadingBar _loadingBar;
 
 	private GameObject placeCell;
 	private ArrayList placeCells;
@@ -77,7 +78,7 @@ public class PlaceActions : MonoBehaviour {
 	void InitializeDungeon(){
 		Debug.Log ("Welcome to Dungeon Lv." + dungeonLevel);
 		dungeonRect.localPosition = Vector3.zero;
-		placeRect.localPosition = new Vector3 (-3000, 0, 0);
+		placeRect.localPosition = new Vector3 (-10000, 0, 0);
 		dungeonCellState = new int[20];
 		for (int i = 0; i < dungeonCellState.Length; i++) {
 			if (i == 0)
@@ -872,25 +873,52 @@ public class PlaceActions : MonoBehaviour {
 		string t = resourceDetail.gameObject.GetComponentInChildren<Button> ().gameObject.GetComponentInChildren<Text> ().text;
 		switch (t) {
 		case "Cut":
-			Cut ();
+			StartCoroutine (StartCut ());
 			break;
 		case "Dig":
-			Dig ();
+			StartCoroutine (StartDig ());
 			break;
 		case "Fetch":
-			Fetch ();
+			StartCoroutine (StartFetch ());
+			break;
+		case "Collect":
+			StartCoroutine (StartFetch ());
 			break;
 		case "Search":
-			Search ();
+			StartCoroutine (StartSearch ());
 			break;
 		case "Hunt":
-			Hunt();
+			Hunt ();
 			break;
 		default:
 			Debug.Log ("Wrong action : " + t);
 			break;
 		}
 		SetPlace (_mapNow);
+	}
+
+	IEnumerator StartCut(){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		Cut();
+	}
+
+	IEnumerator StartDig(){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		Dig();
+	}
+
+	IEnumerator StartFetch(){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		Fetch();
+	}
+
+	IEnumerator StartSearch(){
+		int t = _loadingBar.CallInLoadingBar ();
+		yield return new WaitForSeconds (t);
+		Search();
 	}
 
 	bool CheckGhost(){
