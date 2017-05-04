@@ -13,7 +13,6 @@ public class GameData : MonoBehaviour {
 	public int meleeIdUsedData;
 	public int rangedIdUsedData;
 
-	// Use this for initialization
 	void Awake () {
 		PlayerPrefs.DeleteAll ();
 		_playerData = new PlayerData ();
@@ -97,15 +96,15 @@ public class GameData : MonoBehaviour {
 		_playerData.MailBoxOpen = PlayerPrefs.GetInt ("MailBoxOpen" + s, 1);
 		_playerData.AltarOpen = PlayerPrefs.GetInt ("AltarOpen" + s, 0);
 
-		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "11000000|1000;11010000|1000;21000000|1000;21020000|1000;21030000|1000;21040000|1000;41000000|1000;42140000|1000;31020000|1000;42000000|1000"));
-		_playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" + s, "11000000|100"));
+		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "11000000|50;11010000|10;42000000|5;41000000|5"));
+		_playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" + s, ""));
 
 		_playerData.HasMemmory = PlayerPrefs.GetInt ("HasMemmory" + s, 0);
 
 		_playerData.LearnedBlueprints = GetDicFormStr (PlayerPrefs.GetString ("LearnedBlueprints" + s, ""));
 
-		_playerData.MeleeId = PlayerPrefs.GetInt ("MeleeId" + s, 1111000);
-		_playerData.RangedId = PlayerPrefs.GetInt ("RangedId" + s, 2022000);
+		_playerData.MeleeId = PlayerPrefs.GetInt ("MeleeId" + s, 1000000);
+		_playerData.RangedId = PlayerPrefs.GetInt ("RangedId" + s, 0);
 		_playerData.MagicId = PlayerPrefs.GetInt ("MagicId" + s, 0);
 		_playerData.HeadId = PlayerPrefs.GetInt ("HeadId" + s, 0);
 		_playerData.BodyId = PlayerPrefs.GetInt ("BodyId" + s, 0);
@@ -113,24 +112,24 @@ public class GameData : MonoBehaviour {
 		_playerData.AccessoryId = PlayerPrefs.GetInt ("AccessoryId" + s, 0);
 		_playerData.AmmoId = PlayerPrefs.GetInt ("AmmoId" + s, 0);
 		_playerData.AmmoNum = PlayerPrefs.GetInt ("AmmoNum" + s, 0);
-		_playerData.Mount = GetMount (PlayerPrefs.GetString ("Mount" + s, "100|1|50|15|Hello"));
+		_playerData.Mount = GetMount (PlayerPrefs.GetString ("Mount" + s, ""));
 
 		_playerData.Hotkey0 = PlayerPrefs.GetInt ("Hotkey0" + s, 0);
 		_playerData.Hotkey1 = PlayerPrefs.GetInt ("Hotkey1" + s, 0);
 
 		_playerData.LastWithdrawWaterTime = PlayerPrefs.GetInt ("LastWithdrawWaterTime" + s, 0);
 
-		_playerData.SoulStone = PlayerPrefs.GetInt ("SoulStone" + s, 1000);
-		_playerData.Gold = PlayerPrefs.GetInt ("Gold" + s, 1000);
+		_playerData.SoulStone = PlayerPrefs.GetInt ("SoulStone" + s, 0);
+		_playerData.Gold = PlayerPrefs.GetInt ("Gold" + s, 0);
 
 		_playerData.Farms = GetFarmStateFromStr (PlayerPrefs.GetString ("Farms" + s, "0|0|1|0;1|0|2|0;2|0|3|0;3|0|0|0;4|0|0|0;5|0|0|0;6|0|0|0;7|0|0|0"));
 
-		_playerData.Mails = GetMailsFromStr (PlayerPrefs.GetString ("Mails" + s, "0|Hi,Glad to meet you!|Li Shujuan|I Love You|1100|10|0"));
+		_playerData.Mails = GetMailsFromStr (PlayerPrefs.GetString ("Mails" + s, "")); //"0|Hi,Glad to meet you!|Li Shujuan|I Love You|1100|10|0"));
 
-		_playerData.Pets = GetPetListFromStr(PlayerPrefs.GetString ("Pets" + s, "100|1|50|15|Hello;100|0|20|10|Kitty"));
+		_playerData.Pets = GetPetListFromStr (PlayerPrefs.GetString ("Pets" + s, ""));//"100|1|50|15|Hello;100|0|20|10|Kitty"));
 
 
-		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1|1|0|0|0|0|0|0|0|0"));
+		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
 		_playerData.mapNow = PlayerPrefs.GetInt ("mapNow" + s, 0);
 		_playerData.dungeonLevelMax = PlayerPrefs.GetInt ("DungeonLevelMax" + s, 0);
 
@@ -179,6 +178,8 @@ public class GameData : MonoBehaviour {
 		_playerData.renown = PlayerPrefs.GetInt ("Renown", 0);
 		_playerData.petsCaptured = PlayerPrefs.GetInt ("PetsCaptured", 0);
 		_playerData.wineDrinked = PlayerPrefs.GetInt ("WineDrinked", 0);
+
+		_playerData.placeNowId = PlayerPrefs.GetInt ("PlaceNowId", 0);
 
 		if (isMemory) {
 			_loadTxt.LoadPlaces (isMemory);
@@ -281,6 +282,8 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("Renown" + s, _playerData.renown);
 		PlayerPrefs.SetInt ("PetsCaptured" + s, _playerData.petsCaptured);
 		PlayerPrefs.SetInt ("WineDrinked" + s, _playerData.wineDrinked);
+
+		PlayerPrefs.SetInt ("PlaceNowId" + s, _playerData.placeNowId);
 
 		_loadTxt.StorePlaceMemmory (isRebirth);
 		_loadTxt.StoreShopMemmory (isRebirth);

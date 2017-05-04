@@ -32,6 +32,10 @@ public class PlayerData  {
 		get{ return minutesPassed % 60;}
 	}
 
+	/// <summary>
+	/// Gets the hour now by format 24h.
+	/// </summary>
+	/// <value>The hour now.</value>
 	public int hourNow {
 		get{ return (int)((minutesPassed % (60 * 24)) / 60);}
 	}
@@ -182,4 +186,5 @@ public class PlayerData  {
 	public int petsCaptured;
 	public int wineDrinked;
 
+	public int placeNowId;
 }

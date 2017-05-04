@@ -54,6 +54,14 @@ public class LoadTxt : MonoBehaviour {
 		LoadThief ();
 		LoadAchievement ();
 		LoadDungeonTreeasure ();
+		LoadTest ();
+	}
+
+	void LoadTest(){
+		string[][] strs = ReadTxt.ReadText ("test");
+		for (int i = 0; i < strs.Length; i++)
+			for (int j = 0; j < strs [i].Length; j++)
+				Debug.Log (strs [i] [j]);
 	}
 
 	void LoadBuildings()

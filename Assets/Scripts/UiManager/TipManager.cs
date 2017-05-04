@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class TipManager : MonoBehaviour {
 
-	public GameObject headTipPanel;
+//	public GameObject headTipPanel;
 	public GameObject commonTipPanel;
 	public GameObject buildTip;
 	public GameObject MakingTip;
@@ -33,35 +33,35 @@ public class TipManager : MonoBehaviour {
 	private BackpackActions _backpackActions;
 	public LoadingBar _loadingBar;
 
-	private Vector3 hpPos;
-	private Vector3 foodPos;
-	private Vector3 strengthPos;
-	private Vector3 spiritPos;
-	private Vector3 waterPos;
-	private Vector3 tempPos;
-	private Vector3 dayPos;
-	private Vector3 timePos;
+//	private Vector3 hpPos;
+//	private Vector3 foodPos;
+//	private Vector3 strengthPos;
+//	private Vector3 spiritPos;
+//	private Vector3 waterPos;
+//	private Vector3 tempPos;
+//	private Vector3 dayPos;
+//	private Vector3 timePos;
 
 	//tipPanelEnlargeTimePeriod
 	private float tipPanelEnlarge = 0.3f;
 
 	// Use this for initialization
 	void Start () {
-		tipText = headTipPanel.GetComponentsInChildren<Text> ();
+//		tipText = headTipPanel.GetComponentsInChildren<Text> ();
 		_gameData = this.gameObject.GetComponent<GameData> ();
 		_homeManager = this.gameObject.GetComponentInChildren<HomeManager> ();
 		_warehouseActions = this.gameObject.GetComponentInChildren<WarehouseActions> ();
 		_floating = this.gameObject.GetComponentInChildren<FloatingActions> ();
 		_backpackActions = this.gameObject.GetComponentInChildren<BackpackActions> ();
 
-		hpPos = new Vector3(-232,702,0);
-		foodPos = new Vector3(-232,635,0);
-		strengthPos = new Vector3(-232,574,0);
-		spiritPos = new Vector3(103,702,0);
-		waterPos = new Vector3(103,635,0);
-		tempPos = new Vector3(103,574,0);
-		dayPos =new Vector3(-295,783,0);
-		timePos =new Vector3(-295,783,0);
+//		hpPos = new Vector3(-232,702,0);
+//		foodPos = new Vector3(-232,635,0);
+//		strengthPos = new Vector3(-232,574,0);
+//		spiritPos = new Vector3(103,702,0);
+//		waterPos = new Vector3(103,635,0);
+//		tempPos = new Vector3(103,574,0);
+//		dayPos =new Vector3(-295,783,0);
+//		timePos =new Vector3(-295,783,0);
 
 		commonTipText = commonTipPanel.gameObject.GetComponentsInChildren<Text> ();
 		commonTipButton = commonTipPanel.gameObject.GetComponentsInChildren<Button> ();
@@ -84,81 +84,81 @@ public class TipManager : MonoBehaviour {
 	/// <param name="left">If set to <c>true</c> left.</param>
 	/// <param name="tipHead">Tip head.</param>
 	/// <param name="tipContent">Tip content.</param>
-	public void ShowTip(Vector3 p,bool left,string tipHead,string tipContent){
-		bool isStartCo = false;
-		if (!headTipPanel.gameObject.activeSelf) {
-			headTipPanel.gameObject.SetActive (true);
-			isStartCo = true;
-		}
-		headTipPanel.transform.localPosition = p;
-		tipText [0].text = tipHead;
-		tipText [1].text = tipContent;
-		if (isStartCo) {
-			StartCoroutine (WaitAndDisappearTips ());
-			isStartCo = false;
-		}
-	}
-		
-	IEnumerator WaitAndDisappearTips(){
-		yield return new WaitForSeconds (10.0f);
-		headTipPanel.gameObject.SetActive (false);
-	}
+//	public void ShowTip(Vector3 p,bool left,string tipHead,string tipContent){
+//		bool isStartCo = false;
+//		if (!headTipPanel.gameObject.activeSelf) {
+//			headTipPanel.gameObject.SetActive (true);
+//			isStartCo = true;
+//		}
+//		headTipPanel.transform.localPosition = p;
+//		tipText [0].text = tipHead;
+//		tipText [1].text = tipContent;
+//		if (isStartCo) {
+//			StartCoroutine (WaitAndDisappearTips ());
+//			isStartCo = false;
+//		}
+//	}
+//		
+//	IEnumerator WaitAndDisappearTips(){
+//		yield return new WaitForSeconds (10.0f);
+//		headTipPanel.gameObject.SetActive (false);
+//	}
 
-	/// <summary>
-	/// Shows HeadTips.
-	/// </summary>
-	/// <param name="tipName">Tip name.</param>
-	public void ShowTip(string tipName){
-		switch (tipName) {
-		case "Hp":
-			ShowTip (hpPos, true, "Hp","Be careful with the monsters!");
-			break;
-		case "Food":
-			ShowTip (foodPos, true, "Food","Never Starve!");
-			break;
-		case "Strength":
-			ShowTip (strengthPos, false, "Strength","Ability to cut,dig,and fish.");
-			break;
-		case "Spirit":
-			ShowTip (spiritPos, true, "Spirit","Affect your accuracy and magic weapon.");
-			break;
-		case "Water":
-			ShowTip (waterPos, true, "Water","Vital for all forms of life.");
-			break;
-		case "Temp":
-			ShowTip (tempPos, false, "Temperature","Keep your body temp. from "+GameData._playerData.property[11]+"℃ to "+GameData._playerData.property[12]+"℃");
-			break;
-		case "Day":
-			int season = GameData._playerData.seasonNow;
-			string s = "";
-			switch (season) {
-			case 0:
-				s = "It's Spring now.\nEnjoy your adventure!";
-				break;
-			case 1:
-				s = "It's Summer now.\nKeep cool!";
-				break;
-			case 2:
-				s = "It's Autumn now.\nWinter is coming!";
-				break;
-			case 3:
-				s = "It's Winter now.\nStay warm, stay alive!";
-				break;
-			default:
-				Debug.Log ("wrong season!");
-				break;	
-			}
-			string daysPassed = (GameData._playerData.dayNow - 1) + " days have passed. \n" + s;
-			ShowTip (dayPos, true, "Days Passed",daysPassed);
-			break;
-		case "Time":
-			ShowTip (timePos, false, "Time Now","Beware of ghosts at night!");
-			break;
-		default:
-			Debug.Log ("tipName is Wrong with " + tipName);
-			break;
-		}
-	}
+//	/// <summary>
+//	/// Shows HeadTips.
+//	/// </summary>
+//	/// <param name="tipName">Tip name.</param>
+//	public void ShowTip(string tipName){
+//		switch (tipName) {
+//		case "Hp":
+//			ShowTip (hpPos, true, "Hp","Be careful with the monsters!");
+//			break;
+//		case "Food":
+//			ShowTip (foodPos, true, "Food","Never Starve!");
+//			break;
+//		case "Strength":
+//			ShowTip (strengthPos, false, "Strength","Ability to cut,dig,and fish.");
+//			break;
+//		case "Spirit":
+//			ShowTip (spiritPos, true, "Spirit","Affect your accuracy and magic weapon.");
+//			break;
+//		case "Water":
+//			ShowTip (waterPos, true, "Water","Vital for all forms of life.");
+//			break;
+//		case "Temp":
+//			ShowTip (tempPos, false, "Temperature","Keep your body temp. from "+GameData._playerData.property[11]+"℃ to "+GameData._playerData.property[12]+"℃");
+//			break;
+//		case "Day":
+//			int season = GameData._playerData.seasonNow;
+//			string s = "";
+//			switch (season) {
+//			case 0:
+//				s = "It's Spring now.\nEnjoy your adventure!";
+//				break;
+//			case 1:
+//				s = "It's Summer now.\nKeep cool!";
+//				break;
+//			case 2:
+//				s = "It's Autumn now.\nWinter is coming!";
+//				break;
+//			case 3:
+//				s = "It's Winter now.\nStay warm, stay alive!";
+//				break;
+//			default:
+//				Debug.Log ("wrong season!");
+//				break;	
+//			}
+//			string daysPassed = (GameData._playerData.dayNow - 1) + " days have passed. \n" + s;
+//			ShowTip (dayPos, true, "Days Passed",daysPassed);
+//			break;
+//		case "Time":
+//			ShowTip (timePos, false, "Time Now","Beware of ghosts at night!");
+//			break;
+//		default:
+//			Debug.Log ("tipName is Wrong with " + tipName);
+//			break;
+//		}
+//	}
 
 	/// <summary>
 	/// Shows the building construct (Tip).
@@ -168,18 +168,19 @@ public class TipManager : MonoBehaviour {
 		ShowBuidTip ();
 		ClearBuildTip ();
 
-		buildTipText [0].text = buildingName;
+//		buildTipText [0].text = buildingName;
 		buildTipButton [0].gameObject.SetActive (true);
-		buildTipButton[0].gameObject.GetComponentInChildren<Text>().text = "Cancel";
+		buildTipButton[0].gameObject.GetComponentInChildren<Text>().text = "取消";
 //		commonTipButton [1].gameObject.SetActive (false);
 		buildTipButton [1].gameObject.SetActive (true);
-		buildTipButton[1].gameObject.GetComponentInChildren<Text>().text = "Build"; 
+		buildTipButton[1].gameObject.GetComponentInChildren<Text>().text = "开工"; 
 		buildTipButton [1].gameObject.name = buildingName;
 
 		switch (buildingName) {
 		case "BedRoom":
 			foreach (Building b in LoadTxt.buildings) {
 				if (b.name == buildingName && b.id == GameData._playerData.BedRoomOpen + 1) {
+					buildTipText [0].text = "休息室";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
 					break;
@@ -189,6 +190,7 @@ public class TipManager : MonoBehaviour {
 		case "Warehouse":
 			foreach (Building b in LoadTxt.buildings) {
 				if (b.name == buildingName && b.id == GameData._playerData.WarehouseOpen + 1) {
+					buildTipText [0].text = "仓库";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
 					break;
@@ -198,6 +200,7 @@ public class TipManager : MonoBehaviour {
 		case "Kitchen":
 			foreach (Building b in LoadTxt.buildings) {
 				if (b.name == buildingName && b.id == GameData._playerData.KitchenOpen + 1) {
+					buildTipText [0].text = "厨房";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
 					break;
@@ -207,6 +210,7 @@ public class TipManager : MonoBehaviour {
 		case "Workshop":
 			foreach (Building b in LoadTxt.buildings) {
 				if (b.name == buildingName && b.id == GameData._playerData.WorkshopOpen + 1) {
+					buildTipText [0].text = "工作台";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
 					break;
@@ -216,6 +220,7 @@ public class TipManager : MonoBehaviour {
 		case "Well":
 			foreach (Building b in LoadTxt.buildings) {
 				if (b.name == buildingName && b.id == GameData._playerData.WellOpen + 1) {
+					buildTipText [0].text= "水井";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
 					break;
@@ -225,6 +230,7 @@ public class TipManager : MonoBehaviour {
 		case "Study":
 			foreach (Building b in LoadTxt.buildings) {
 				if (b.name == buildingName && b.id == GameData._playerData.StudyOpen + 1) {
+					buildTipText [0].text = "研究室";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
 					break;
@@ -234,6 +240,7 @@ public class TipManager : MonoBehaviour {
 		case "Farm":
 			foreach (Building b in LoadTxt.buildings) {
 				if (b.name == buildingName && b.id == GameData._playerData.FarmOpen + 1) {
+					buildTipText [0].text = "农田";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
 					break;
@@ -243,6 +250,7 @@ public class TipManager : MonoBehaviour {
 		case "Pets":
 			foreach (Building b in LoadTxt.buildings) {
 				if (b.name == buildingName && b.id == GameData._playerData.PetsOpen + 1) {
+					buildTipText [0].text = "宠物区";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
 					break;
@@ -261,6 +269,7 @@ public class TipManager : MonoBehaviour {
 		case "Altar":
 			foreach (Building b in LoadTxt.buildings) {
 				if (b.name == buildingName && b.id == GameData._playerData.AltarOpen + 1) {
+					buildTipText [0].text = "祭坛";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
 					break;

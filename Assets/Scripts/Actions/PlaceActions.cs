@@ -10,7 +10,7 @@ public class PlaceActions : MonoBehaviour {
 	public GameObject contentG;
 	public RectTransform resourceDetail;
 	public RectTransform observeDetail;
-	public RectTransform treasureDetail;
+//	public RectTransform treasureDetail;
 	public RectTransform goodsDetail;
 	public RectTransform placeRect;
 	public RectTransform dungeonRect;
@@ -473,20 +473,20 @@ public class PlaceActions : MonoBehaviour {
 	void SetDetailPosition(){
 		observeDetail.localPosition = new Vector3 (0, 0, 0);
 		resourceDetail.localPosition = new Vector3 (150, 0, 0);
-		treasureDetail.localPosition = new Vector3 (150, 0, 0);
+//		treasureDetail.localPosition = new Vector3 (150, 0, 0);
 		goodsDetail.localPosition = new Vector3 (150, 0, 0);
 
 		observeDetail.gameObject.SetActive (false);
 		resourceDetail.gameObject.SetActive (false);
-		treasureDetail.gameObject.SetActive (false);
+//		treasureDetail.gameObject.SetActive (false);
 		goodsDetail.gameObject.SetActive (false);
 	}
 
 	void CallInResourceDetail(){
 		observeDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
 		observeDetail.gameObject.SetActive (false);
-		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
-		treasureDetail.gameObject.SetActive (false);
+//		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+//		treasureDetail.gameObject.SetActive (false);
 
 		resourceDetail.gameObject.SetActive (true);
 		resourceDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
@@ -496,8 +496,8 @@ public class PlaceActions : MonoBehaviour {
 	void CallInObserveDetail(){
 		resourceDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
 		resourceDetail.gameObject.SetActive (false);
-		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
-		treasureDetail.gameObject.SetActive (false);
+//		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+//		treasureDetail.gameObject.SetActive (false);
 
 		observeDetail.gameObject.SetActive (true);
 		observeDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
@@ -507,8 +507,8 @@ public class PlaceActions : MonoBehaviour {
 	public void CallOutDetail(){
 		resourceDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
 		resourceDetail.gameObject.SetActive (false);
-		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
-		treasureDetail.gameObject.SetActive (false);
+//		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+//		treasureDetail.gameObject.SetActive (false);
 		observeDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
 		observeDetail.gameObject.SetActive (false);
 	}
@@ -922,6 +922,8 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	bool CheckGhost(){
+		if (GameData._playerData.hourNow >= 5 && GameData._playerData.hourNow <= 19)
+			return false;
 		int r = Algorithms.GetIndexByRange (0, 100);
 		if (r < (100f * GameData._playerData.GhostComingProp))
 			return true;

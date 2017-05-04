@@ -23,7 +23,7 @@ public class PanelManager : MonoBehaviour {
 	public RectTransform Place;
 	public RectTransform Battle;
 
-	public Text locationText;
+//	public Text locationText;
 
 	private RectTransform _FatherPanel;
 	private RectTransform _PanelNow;
@@ -43,7 +43,12 @@ public class PanelManager : MonoBehaviour {
 	void Start(){
 		_tipManager = this.gameObject.GetComponentInParent<TipManager> ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
-		GoToPanel ("Home");
+		if (GameData._playerData.placeNowId == 0)
+			GoToPanel ("Home");
+		else {
+			mapGoing = LoadTxt.MapDic [GameData._playerData.placeNowId];
+			GoToPanel ("Place");
+		}
 	}
 
 	public void GoToPanel(string panelName){
@@ -56,6 +61,8 @@ public class PanelManager : MonoBehaviour {
 			if (_PanelNow == Place)
 				CheckThiefActivities ();
 			_PanelNow = Home;
+			GameData._playerData.placeNowId = 0;
+			_gameData.StoreData ("PlaceNowId", 0);
 			UpdateLocation ("Home");
 			break;
 		case "BedRoom":
@@ -194,6 +201,8 @@ public class PanelManager : MonoBehaviour {
 			} else {
 				Place.gameObject.GetComponent<PlaceActions> ().UpdatePlace (mapGoing,true);
 			}
+			GameData._playerData.placeNowId = mapGoing.id;
+			_gameData.StoreData ("PlaceNowId", mapGoing.id);
 			_GrandFatherPanel = _FatherPanel;
 			_FatherPanel = _PanelNow;
 			_PanelNow = Place;
@@ -310,7 +319,7 @@ public class PanelManager : MonoBehaviour {
 	}
 
 	void UpdateLocation(string location){
-		locationText.text = location;
+//		locationText.text = location;
 	}
 
 	void CheckThiefActivities(){

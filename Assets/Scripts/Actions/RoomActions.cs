@@ -60,7 +60,7 @@ public class RoomActions : MonoBehaviour {
 
 	void SetRestState(){
 		restTimeText.text = restTime + "h";
-		restRecoverText.text = "Strength +" + GameConfigs.StrengthRecoverPerRestHour[GameData._playerData.BedRoomOpen-1] * restTime + ", Spirit +" + GameConfigs.SpiritRecoverPerRestHour * restTime;
+		restRecoverText.text = "可增加" + GameConfigs.StrengthRecoverPerRestHour [GameData._playerData.BedRoomOpen - 1] * restTime + "点力量, " + GameConfigs.SpiritRecoverPerRestHour * restTime + "点精神";
 		addButton.interactable = !(restTime >= restTimeMax);
 		reduceButton.interactable = !(restTime <= restTimeMin);
 	}
@@ -73,8 +73,8 @@ public class RoomActions : MonoBehaviour {
 	}
 
 	void SetNormalBathState(){
-		bathMatText.text = "Water ×" + GameConfigs.WaterForBath;
-		normalBathRecoverText.text = "Temperature " + GameConfigs.TempRecoverPerNormalBath + ", Spirit + " + GameConfigs.SpiritRecoverPerBath;
+		bathMatText.text = "水 ×" + GameConfigs.WaterForBath;
+		normalBathRecoverText.text = "可降低" + GameConfigs.TempRecoverPerNormalBath + "℃体温, 增加 " + GameConfigs.SpiritRecoverPerBath+"点精神";
 		if (!GameData._playerData.bp.ContainsKey (GameConfigs.WaterId)) {
 			bathMatText.color = Color.red;
 			normalBathButton.interactable = false;
@@ -88,9 +88,9 @@ public class RoomActions : MonoBehaviour {
 	}
 
 	void SetHotBathState(){
-		hotBathMat1Text.text = "Water ×" + GameConfigs.WaterForBath;
-		hotBathMat2Text.text = "Wood ×" + GameConfigs.WoodForHotBath;
-		hotBathRecoverText.text = "Temperature +" + GameConfigs.TempRecoverPerHotBath + ", Spirit + " + GameConfigs.SpiritRecoverPerBath;
+		hotBathMat1Text.text = "水 ×" + GameConfigs.WaterForBath;
+		hotBathMat2Text.text = "木头 ×" + GameConfigs.WoodForHotBath;
+		hotBathRecoverText.text = "可增加" + GameConfigs.TempRecoverPerHotBath + "℃体温, 增加" + GameConfigs.SpiritRecoverPerBath+"点精神";
 		if (!GameData._playerData.bp.ContainsKey (GameConfigs.WaterId)) {
 			hotBathMat1Text.color = Color.red;
 		} else if (GameData._playerData.bp [GameConfigs.WaterId] < GameConfigs.WaterForBath) {
