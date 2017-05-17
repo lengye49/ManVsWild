@@ -1,33 +1,32 @@
 id,name,maxLv,req,tips,timeCost
-1,BedRoom,4,1100|10,A simple bed made of wood.,1
-2,BedRoom,4,1100|30;1101|20,A bed in stone shelter.,6
-3,BedRoom,4,1101|50;2102|50,A bedroom with shower.,10
-4,BedRoom,4,1100|50;1101|50;2104|30,Take a hot shower and  never feel homesick!,16
-1,Warehouse,10,1100|20;1101|20,Building where you keep your private belongings.(10 places).,2
-2,Warehouse,10,1100|40;1101|40,Building where you keep your private belongings.(20 places).,4
-3,Warehouse,10,1100|40;1101|40,Building where you keep your private belongings.(30 places).,4
-4,Warehouse,10,1100|60;1101|60,Building where you keep your private belongings.(40 places).,8
-5,Warehouse,10,1100|60;1101|60,Building where you keep your private belongings.(50 places).,8
-6,Warehouse,10,1100|80;1101|80,Building where you keep your private belongings.(60 places).,12
-7,Warehouse,10,1100|80;1101|80,Building where you keep your private belongings.(70 places).,12
-8,Warehouse,10,1100|100;1101|100,Building where you keep your private belongings.(80 places).,16
-9,Warehouse,10,1100|100;1101|100,Building where you keep your private belongings.(90 places).,16
-10,Warehouse,10,1100|100;1101|100,Building where you keep your private belongings.(100 places).,20
-1,Kitchen,2,1100|20,Simple stove for simple dishes only.,2
-2,Kitchen,2,1101|50;2200|20,You can try different kinds of food here.,5
-1,Workshop,3,1101|30,Stone work Bentch.,3
-2,Workshop,3,2200|30;2201|30,Here comes the master of all BlackSmith!,8
-3,Workshop,3,2300|30;2301|30,You can forge the Frostmourne here.,15
-1,Study,1,1100|50;1101|50,Knowledge is productivity.,5
-1,Farm,4,3102|20;4100|20,Don't starve!,10
-2,Farm,4,3102|20;4100|20,Don't starve!,10
-3,Farm,4,3102|20;4100|20,Don't starve!,10
-4,Farm,4,3102|20;4100|20,Don't starve!,10
-1,Pets,5,1100|20;2104|20;2103|20,Death is not the most terrible thing in the world�,5
-2,Pets,5,1100|20;2104|20;2103|20,Starve is not the most terrible thing in the world�(+10 space),5
-3,Pets,5,1100|20;2104|20;2103|20,Ailment is not the most terrible thing in the world�(+10 space),5
-4,Pets,5,1100|20;2104|20;2103|20,Homeless is not the most terrible thing in the world�(+10 space),5
-5,Pets,5,1100|20;2104|20;2103|20,Loneliness is.(+10 space),5
-1,Well,1,1100|30;1101|30,A well which provides water.,10
-1,MailBox,1,,"Mailbox with a big ""C.N."" mark on it.",0
-1,Altar,1,1101|30;2100|30,An ancient altar carved with mysterious lines.,20
+1,休息室,3,1100|10,一张普通木板床，勉强可以用来休息。,1
+2,休息室,3,1101|50;2102|50,增加淋浴设施。,10
+3,休息室,3,1100|50;1101|50;2104|30,增加热水设施。洗个热水澡，不再想家。,16
+1,仓库,10,1100|20;1101|20,仓库(10空间),2
+2,仓库,10,1100|40;1101|40,仓库(+10空间),4
+3,仓库,10,1100|40;1101|40,仓库(+10空间),4
+4,仓库,10,1100|60;1101|60,仓库(+10空间),8
+5,仓库,10,1100|60;1101|60,仓库(+10空间),8
+6,仓库,10,1100|80;1101|80,仓库(+10空间),12
+7,仓库,10,1100|80;1101|80,仓库(+10空间),12
+8,仓库,10,1100|100;1101|100,仓库(+10空间),16
+9,仓库,10,1100|100;1101|100,仓库(+10空间),16
+10,仓库,10,1100|100;1101|100,仓库(+10空间),20
+1,厨房,2,1100|20,用石头垒成的简单灶台。,2
+2,厨房,2,1101|50;2200|20,高级灶台，可以制作不同风味的美食。,5
+1,工作台,3,1101|30,简单的石制工作台。,3
+2,工作台,3,2200|30;2201|30,制造大师的起点。,8
+3,工作台,3,2300|30;2301|30,高级工作台，据说冰霜之刃就是在这打造的。,15
+1,研究室,1,1100|50;1101|50,科技就是生产力。,5
+1,农田,4,3102|20;4100|20,Don't starve!,10
+2,农田,4,3102|20;4100|20,Don't starve!,10
+3,农田,4,3102|20;4100|20,Don't starve!,10
+4,农田,4,3102|20;4100|20,Don't starve!,10
+1,宠物笼,5,1100|20;2104|20;2103|20,贫穷不是世界上最可怕的事情(+10宠物空间)。,5
+2,宠物笼,5,1100|20;2104|20;2103|20,饥饿不是世界上最可怕的事情(+10宠物空间)。,5
+3,宠物笼,5,1100|20;2104|20;2103|20,病痛不是世界上最可怕的事情(+10宠物空间)。,5
+4,宠物笼,5,1100|20;2104|20;2103|20,死亡不是世界上最可怕的事情(+10宠物空间)。,5
+5,宠物笼,5,1100|20;2104|20;2103|20,孤独是世界上最可怕的事情(+10宠物空间)。,5
+1,水井,1,1100|30;1101|30,吃水不忘挖井人。,10
+1,邮箱,1,,"Mailbox with a big ""C.N."" mark on it.",0
+1,祭坛,1,1101|30;2100|30,古老的祭坛，布满了沧桑的纹路。,20

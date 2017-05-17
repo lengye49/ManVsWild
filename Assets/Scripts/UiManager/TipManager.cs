@@ -13,6 +13,7 @@ public class TipManager : MonoBehaviour {
 	public GameObject TechTip;
 
 	public StudyActions _studyActions;
+	public LogManager _logManager;
 
 	private Text[] tipText;
 
@@ -54,15 +55,6 @@ public class TipManager : MonoBehaviour {
 		_floating = this.gameObject.GetComponentInChildren<FloatingActions> ();
 		_backpackActions = this.gameObject.GetComponentInChildren<BackpackActions> ();
 
-//		hpPos = new Vector3(-232,702,0);
-//		foodPos = new Vector3(-232,635,0);
-//		strengthPos = new Vector3(-232,574,0);
-//		spiritPos = new Vector3(103,702,0);
-//		waterPos = new Vector3(103,635,0);
-//		tempPos = new Vector3(103,574,0);
-//		dayPos =new Vector3(-295,783,0);
-//		timePos =new Vector3(-295,783,0);
-
 		commonTipText = commonTipPanel.gameObject.GetComponentsInChildren<Text> ();
 		commonTipButton = commonTipPanel.gameObject.GetComponentsInChildren<Button> ();
 
@@ -76,89 +68,6 @@ public class TipManager : MonoBehaviour {
 		techTipButton = TechTip.gameObject.GetComponentsInChildren<Button> ();
 	}
 
-
-	/// <summary>
-	/// Shows head tip.
-	/// </summary>
-	/// <param name="p">P.</param>
-	/// <param name="left">If set to <c>true</c> left.</param>
-	/// <param name="tipHead">Tip head.</param>
-	/// <param name="tipContent">Tip content.</param>
-//	public void ShowTip(Vector3 p,bool left,string tipHead,string tipContent){
-//		bool isStartCo = false;
-//		if (!headTipPanel.gameObject.activeSelf) {
-//			headTipPanel.gameObject.SetActive (true);
-//			isStartCo = true;
-//		}
-//		headTipPanel.transform.localPosition = p;
-//		tipText [0].text = tipHead;
-//		tipText [1].text = tipContent;
-//		if (isStartCo) {
-//			StartCoroutine (WaitAndDisappearTips ());
-//			isStartCo = false;
-//		}
-//	}
-//		
-//	IEnumerator WaitAndDisappearTips(){
-//		yield return new WaitForSeconds (10.0f);
-//		headTipPanel.gameObject.SetActive (false);
-//	}
-
-//	/// <summary>
-//	/// Shows HeadTips.
-//	/// </summary>
-//	/// <param name="tipName">Tip name.</param>
-//	public void ShowTip(string tipName){
-//		switch (tipName) {
-//		case "Hp":
-//			ShowTip (hpPos, true, "Hp","Be careful with the monsters!");
-//			break;
-//		case "Food":
-//			ShowTip (foodPos, true, "Food","Never Starve!");
-//			break;
-//		case "Strength":
-//			ShowTip (strengthPos, false, "Strength","Ability to cut,dig,and fish.");
-//			break;
-//		case "Spirit":
-//			ShowTip (spiritPos, true, "Spirit","Affect your accuracy and magic weapon.");
-//			break;
-//		case "Water":
-//			ShowTip (waterPos, true, "Water","Vital for all forms of life.");
-//			break;
-//		case "Temp":
-//			ShowTip (tempPos, false, "Temperature","Keep your body temp. from "+GameData._playerData.property[11]+"℃ to "+GameData._playerData.property[12]+"℃");
-//			break;
-//		case "Day":
-//			int season = GameData._playerData.seasonNow;
-//			string s = "";
-//			switch (season) {
-//			case 0:
-//				s = "It's Spring now.\nEnjoy your adventure!";
-//				break;
-//			case 1:
-//				s = "It's Summer now.\nKeep cool!";
-//				break;
-//			case 2:
-//				s = "It's Autumn now.\nWinter is coming!";
-//				break;
-//			case 3:
-//				s = "It's Winter now.\nStay warm, stay alive!";
-//				break;
-//			default:
-//				Debug.Log ("wrong season!");
-//				break;	
-//			}
-//			string daysPassed = (GameData._playerData.dayNow - 1) + " days have passed. \n" + s;
-//			ShowTip (dayPos, true, "Days Passed",daysPassed);
-//			break;
-//		case "Time":
-//			ShowTip (timePos, false, "Time Now","Beware of ghosts at night!");
-//			break;
-//		default:
-//			Debug.Log ("tipName is Wrong with " + tipName);
-//			break;
-//		}
-//	}
 
 	/// <summary>
 	/// Shows the building construct (Tip).
@@ -179,7 +88,7 @@ public class TipManager : MonoBehaviour {
 		switch (buildingName) {
 		case "BedRoom":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == buildingName && b.id == GameData._playerData.BedRoomOpen + 1) {
+				if (b.name == "休息室" && b.id == GameData._playerData.BedRoomOpen + 1) {
 					buildTipText [0].text = "休息室";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
@@ -189,7 +98,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Warehouse":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == buildingName && b.id == GameData._playerData.WarehouseOpen + 1) {
+				if (b.name == "仓库" && b.id == GameData._playerData.WarehouseOpen + 1) {
 					buildTipText [0].text = "仓库";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
@@ -199,7 +108,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Kitchen":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == buildingName && b.id == GameData._playerData.KitchenOpen + 1) {
+				if (b.name == "厨房" && b.id == GameData._playerData.KitchenOpen + 1) {
 					buildTipText [0].text = "厨房";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
@@ -209,7 +118,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Workshop":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == buildingName && b.id == GameData._playerData.WorkshopOpen + 1) {
+				if (b.name == "工作台" && b.id == GameData._playerData.WorkshopOpen + 1) {
 					buildTipText [0].text = "工作台";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
@@ -219,7 +128,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Well":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == buildingName && b.id == GameData._playerData.WellOpen + 1) {
+				if (b.name == "水井" && b.id == GameData._playerData.WellOpen + 1) {
 					buildTipText [0].text= "水井";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
@@ -229,7 +138,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Study":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == buildingName && b.id == GameData._playerData.StudyOpen + 1) {
+				if (b.name == "研究室" && b.id == GameData._playerData.StudyOpen + 1) {
 					buildTipText [0].text = "研究室";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
@@ -239,7 +148,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Farm":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == buildingName && b.id == GameData._playerData.FarmOpen + 1) {
+				if (b.name == "农田" && b.id == GameData._playerData.FarmOpen + 1) {
 					buildTipText [0].text = "农田";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
@@ -250,7 +159,7 @@ public class TipManager : MonoBehaviour {
 		case "Pets":
 			foreach (Building b in LoadTxt.buildings) {
 				if (b.name == buildingName && b.id == GameData._playerData.PetsOpen + 1) {
-					buildTipText [0].text = "宠物区";
+					buildTipText [0].text = "宠物笼";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
 					break;
@@ -268,7 +177,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Altar":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == buildingName && b.id == GameData._playerData.AltarOpen + 1) {
+				if (b.name == "祭坛" && b.id == GameData._playerData.AltarOpen + 1) {
 					buildTipText [0].text = "祭坛";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
@@ -335,9 +244,11 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.BedRoomOpen == 1) {
-			_floating.CallInFloating ("Bedroom is built.", 0);
+			_floating.CallInFloating ("休息室已建造完毕。", 0);
+			_logManager.AddLog ("休息室已建造完毕。");
 		} else {
-			_floating.CallInFloating ("Bedroom has upgraded to Lv." + GameData._playerData.BedRoomOpen, 0);
+			_floating.CallInFloating ("休息室已升级到等级" + GameData._playerData.BedRoomOpen, 0);
+			_logManager.AddLog ("休息室已升级到等级"+ GameData._playerData.BedRoomOpen);
 		}
 
 		_homeManager.UpdateContent ();
@@ -360,9 +271,11 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.WarehouseOpen == 1) {
-			_floating.CallInFloating ("Warehouse is built.", 0);
+			_floating.CallInFloating ("仓库已建造完毕。", 0);
+			_logManager.AddLog ("仓库已建造完毕。");
 		} else {
-			_floating.CallInFloating ("Warehouse has upgraded to Lv." + GameData._playerData.WarehouseOpen, 0);
+			_floating.CallInFloating ("仓库已升级到等级" + GameData._playerData.WarehouseOpen, 0);
+			_logManager.AddLog ("仓库已升级到等级"+ GameData._playerData.WarehouseOpen);
 		}
 
 		_homeManager.UpdateContent ();
@@ -384,9 +297,11 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.KitchenOpen == 1) {
-			_floating.CallInFloating ("Kitchen is built.", 0);
+			_floating.CallInFloating ("厨房已建造完毕。", 0);
+			_logManager.AddLog ("厨房已建造完毕。");
 		} else {
-			_floating.CallInFloating ("Kitchen has upgraded to Lv." + GameData._playerData.KitchenOpen, 0);
+			_floating.CallInFloating ("厨房已升级到等级" + GameData._playerData.KitchenOpen, 0);
+			_logManager.AddLog ("厨房已升级到等级"+ GameData._playerData.KitchenOpen);
 		}
 
 		_homeManager.UpdateContent ();
@@ -407,9 +322,11 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.WorkshopOpen == 1) {
-			_floating.CallInFloating ("Workshop is built.", 0);
+			_floating.CallInFloating ("工作台已建造完毕。", 0);
+			_logManager.AddLog ("工作台已建造完毕。");
 		} else {
-			_floating.CallInFloating ("Workshop has upgraded to Lv." + GameData._playerData.WorkshopOpen, 0);
+			_floating.CallInFloating ("工作台已升级到等级" + GameData._playerData.WorkshopOpen, 0);
+			_logManager.AddLog ("工作台已升级到等级"+ GameData._playerData.WorkshopOpen);
 		}
 
 		_homeManager.UpdateContent ();
@@ -430,9 +347,11 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.StudyOpen == 1) {
-			_floating.CallInFloating ("Study is built.", 0);
+			_floating.CallInFloating ("研究室已建造完毕。", 0);
+			_logManager.AddLog ("研究室已建造完毕。");
 		} else {
-			_floating.CallInFloating ("Study has upgraded to Lv." + GameData._playerData.StudyOpen, 0);
+			_floating.CallInFloating ("研究室已升级到等级" + GameData._playerData.StudyOpen, 0);
+			_logManager.AddLog ("研究室已升级到等级"+ GameData._playerData.StudyOpen);
 		}
 
 		_homeManager.UpdateContent ();
@@ -462,9 +381,11 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.FarmOpen == 1) {
-			_floating.CallInFloating ("Farm is built.", 0);
+			_floating.CallInFloating ("农田已准备妥当。", 0);
+			_logManager.AddLog ("农田已准备妥当。");
 		} else {
-			_floating.CallInFloating ("Farm has upgraded to Lv." + GameData._playerData.FarmOpen, 0);
+			_floating.CallInFloating ("农田已升级到等级" + GameData._playerData.FarmOpen, 0);
+			_logManager.AddLog ("农田已升级到等级"+ GameData._playerData.FarmOpen);
 		}
 		this.gameObject.GetComponentInChildren<FarmActions> ().UpdateFarm ();
 		_homeManager.UpdateContent ();
@@ -486,8 +407,10 @@ public class TipManager : MonoBehaviour {
 
 		if (GameData._playerData.PetsOpen == 1) {
 			_floating.CallInFloating ("Pets is built.", 0);
+			_logManager.AddLog ("宠物笼已建造完毕。");
 		} else {
-			_floating.CallInFloating ("Pets has upgraded to Lv." + GameData._playerData.PetsOpen, 0);
+			_floating.CallInFloating ("宠物笼已升级到等级" + GameData._playerData.PetsOpen, 0);
+			_logManager.AddLog ("宠物笼已升级到等级"+ GameData._playerData.PetsOpen);
 		}
 
 		_homeManager.UpdateContent ();
@@ -508,9 +431,11 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.WellOpen == 1) {
-			_floating.CallInFloating ("Well is built.", 0);
+			_floating.CallInFloating ("水井已建造完毕。", 0);
+			_logManager.AddLog ("水井已建造完毕。");
 		} else {
-			_floating.CallInFloating ("Well has upgraded to Lv." + GameData._playerData.WellOpen, 0);
+			_floating.CallInFloating ("水井已升级到等级" + GameData._playerData.WellOpen, 0);
+			_logManager.AddLog ("水井已升级到等级"+ GameData._playerData.WellOpen);
 		}
 
 		_homeManager.UpdateContent ();
@@ -535,9 +460,11 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.MailBoxOpen == 1) {
-			_floating.CallInFloating ("MailBox is built.", 0);
+			_floating.CallInFloating ("邮箱已建造完毕。", 0);
+			_logManager.AddLog ("邮箱已建造完毕。");
 		} else {
-			_floating.CallInFloating ("MailBox has upgraded to Lv." + GameData._playerData.MailBoxOpen, 0);
+			_floating.CallInFloating ("邮箱已升级到等级" + GameData._playerData.MailBoxOpen, 0);
+			_logManager.AddLog ("邮箱已升级到等级"+ GameData._playerData.MailBoxOpen);
 		}
 
 		_homeManager.UpdateContent ();
@@ -558,9 +485,11 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.AltarOpen == 1) {
-			_floating.CallInFloating ("Altar is built.", 0);
+			_floating.CallInFloating ("祭坛已建造完毕。", 0);
+			_floating.CallInFloating ("祭坛已建造完毕。", 0);
 		} else {
-			_floating.CallInFloating ("Altar has upgraded to Lv." + GameData._playerData.AltarOpen, 0);
+			_floating.CallInFloating ("祭坛已升级到等级" + GameData._playerData.AltarOpen, 0);
+			_logManager.AddLog ("祭坛已升级到等级"+ GameData._playerData.AltarOpen);
 		}
 
 		_homeManager.UpdateContent ();
@@ -571,7 +500,7 @@ public class TipManager : MonoBehaviour {
 		switch (s) {
 		case "BedRoom":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "BedRoom" && b.id == GameData._playerData.BedRoomOpen + 1) {
+				if (b.name == "休息室" && b.id == GameData._playerData.BedRoomOpen + 1) {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
@@ -583,7 +512,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Warehouse":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "Warehouse" && b.id == GameData._playerData.WarehouseOpen + 1) {
+				if (b.name == "仓库" && b.id == GameData._playerData.WarehouseOpen + 1) {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
@@ -595,7 +524,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Kitchen":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "Kitchen" && b.id == GameData._playerData.KitchenOpen + 1) {
+				if (b.name == "厨房" && b.id == GameData._playerData.KitchenOpen + 1) {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
@@ -607,7 +536,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Workshop":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "Workshop" && b.id == GameData._playerData.WorkshopOpen + 1) {
+				if (b.name == "工作台" && b.id == GameData._playerData.WorkshopOpen + 1) {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
@@ -619,7 +548,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Study":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "Study" && b.id == GameData._playerData.StudyOpen + 1) {
+				if (b.name == "研究室" && b.id == GameData._playerData.StudyOpen + 1) {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
@@ -631,7 +560,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Farm":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "Farm" && b.id == GameData._playerData.FarmOpen + 1) {
+				if (b.name == "农田" && b.id == GameData._playerData.FarmOpen + 1) {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
@@ -643,7 +572,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Pets":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "Pets" && b.id == GameData._playerData.PetsOpen + 1) {
+				if (b.name == "宠物笼" && b.id == GameData._playerData.PetsOpen + 1) {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
@@ -655,7 +584,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Well":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "Well" && b.id == GameData._playerData.WellOpen + 1) {
+				if (b.name == "水井" && b.id == GameData._playerData.WellOpen + 1) {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
@@ -667,7 +596,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "MailBox":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "MailBox" && b.id == GameData._playerData.MailBoxOpen + 1) {
+				if (b.name == "邮箱" && b.id == GameData._playerData.MailBoxOpen + 1) {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
@@ -679,7 +608,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Altar":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "Altar" && b.id == GameData._playerData.AltarOpen + 1) {
+				if (b.name == "祭坛" && b.id == GameData._playerData.AltarOpen + 1) {
 					if (!CheckReq (b.combReq))
 						break;
 					else {
@@ -734,7 +663,7 @@ public class TipManager : MonoBehaviour {
 	}
 
 	void ClearMakingTipTexts(){
-		for (int i = 0; i < makingTipText.Length; i++) {
+		for (int i = 2; i < makingTipText.Length; i++) {
 			makingTipText [i].text = "";
 		}
 	}
@@ -749,33 +678,38 @@ public class TipManager : MonoBehaviour {
 	}
 
 	void SetMakingTipDesc(Mats m){
-		string[] tags = m.tags.Split (',');
-		for (int j = 0; j < tags.Length; j++) {
-			makingTipText [j + 1].text = tags [j];
-		}
-		int i = 4;
+		int i = 2;
 		if (m.property != null) {
 			foreach (int key in m.property.Keys) {
 				makingTipText [i].text = PlayerData.GetPropName (key) + " " + (m.property [key] > 0 ? "+" : "") + m.property [key];
 				i++;
+				makingTipText [i].alignment = TextAnchor.MiddleCenter;
 			}
 		} else {
-			makingTipText[i].text = "Can not be used directly.";
+			makingTipText [i].text = "Can not be used directly.";
+			makingTipText [i].alignment = TextAnchor.MiddleCenter;
+			i++;
 		}
-		i = 8;
+		makingTipText [i].text = "原料:";
+		makingTipText [i].color = Color.black;
+		makingTipText [i].alignment = TextAnchor.MiddleLeft;
+		i++;
 		foreach (int key in m.combReq.Keys) {
 			if (_gameData.CountInBp (key) < m.combReq [key]) {
 				makingTipText [i].text = LoadTxt.MatDic [key].name + " × " + m.combReq [key] + " /" + _gameData.CountInBp (key);
 				makingTipText [i].color = Color.red;
+				makingTipText [i].alignment = TextAnchor.MiddleCenter;
 			} else {
 				makingTipText [i].text = LoadTxt.MatDic [key].name + " × " + m.combReq [key] + " /" + _gameData.CountInBp (key);
 				makingTipText [i].color = Color.green;
+				makingTipText [i].alignment = TextAnchor.MiddleCenter;
 			}
 			i++;
 		}
 		float discount = (m.makingType == "Kitchen") ? GameData._playerData.CookingTimeDiscount : GameData._playerData.BlackSmithTimeDiscount;
-		makingTipText [i].text = GetTime (m.makingTime * discount);
+		makingTipText [i].text = "耗时: " + GetTime (m.makingTime * discount);
 		makingTipText [i].color = Color.white;
+		makingTipText [i].alignment = TextAnchor.MiddleCenter;
 	}
 
 	public void OnMakingItem(){

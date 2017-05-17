@@ -54,15 +54,15 @@ public class LoadTxt : MonoBehaviour {
 		LoadThief ();
 		LoadAchievement ();
 		LoadDungeonTreeasure ();
-		LoadTest ();
+//		LoadTest ();
 	}
 
-	void LoadTest(){
-		string[][] strs = ReadTxt.ReadText ("test");
-		for (int i = 0; i < strs.Length; i++)
-			for (int j = 0; j < strs [i].Length; j++)
-				Debug.Log (strs [i] [j]);
-	}
+//	void LoadTest(){
+//		string[][] strs = ReadTxt.ReadText ("test");
+//		for (int i = 0; i < strs.Length; i++)
+//			for (int j = 0; j < strs [i].Length; j++)
+//				Debug.Log (strs [i] [j]);
+//	}
 
 	void LoadBuildings()
 	{
@@ -87,38 +87,38 @@ public class LoadTxt : MonoBehaviour {
 
 	void SetMaxLv(string buildingName,int maxLv){
 		switch (buildingName) {
-		case "BedRoom":
+		case "休息室":
 			GameConfigs.MaxLv_BedRoom = maxLv;
 			break;
-		case "Warehouse":
+		case "仓库":
 			GameConfigs.MaxLv_Warehouse = maxLv;
 			break;
-		case "Kitchen":
+		case "厨房":
 			GameConfigs.MaxLv_Kitchen = maxLv;
 			break;
-		case "Workshop":
+		case "工作台":
 			GameConfigs.MaxLv_Workshop = maxLv;
 			break;
-		case "Study":
+		case "研究室":
 			GameConfigs.MaxLv_Study = maxLv;
 			break;
-		case "Farm":
+		case "农田":
 			GameConfigs.MaxLv_Farm = maxLv;
 			break;
-		case "Pets":
+		case "宠物笼":
 			GameConfigs.MaxLv_Pets = maxLv;
 			break;
-		case "Well":
+		case "水井":
 			GameConfigs.MaxLv_Well = maxLv;
 			break;
-		case "MailBox":
+		case "邮箱":
 			GameConfigs.MaxLv_MailBox = maxLv;
 			break;
-		case "Altar":
+		case "祭坛":
 			GameConfigs.MaxLv_Altar = maxLv;
 			break;
 		default:
-			Debug.Log ("Wrong Building Name");
+			Debug.Log ("Wrong Building Name" + buildingName);
 			break;
 		}
 	}
