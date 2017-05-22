@@ -96,7 +96,7 @@ public class GameData : MonoBehaviour {
 		_playerData.MailBoxOpen = PlayerPrefs.GetInt ("MailBoxOpen" + s, 1);
 		_playerData.AltarOpen = PlayerPrefs.GetInt ("AltarOpen" + s, 0);
 
-		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "11000000|50;11010000|10;42000000|5;41000000|5"));
+		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "11000000|500;11010000|100;42000000|50;41000000|50"));
 		_playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" + s, ""));
 
 		_playerData.HasMemmory = PlayerPrefs.GetInt ("HasMemmory" + s, 0);

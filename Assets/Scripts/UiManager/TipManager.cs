@@ -646,8 +646,8 @@ public class TipManager : MonoBehaviour {
 		ShowMakingTip ();
 		ClearMakingTipTexts ();
 		makingTipText [0].text = LoadTxt.MatDic[matId].name;
-		makingTipButton[0].gameObject.GetComponentInChildren<Text>().text ="Cancel"; 
-		makingTipButton[1].gameObject.GetComponentInChildren<Text>().text ="Make"; 
+		makingTipButton[0].gameObject.GetComponentInChildren<Text>().text ="取消"; 
+		makingTipButton[1].gameObject.GetComponentInChildren<Text>().text ="制作"; 
 		makingTipButton [1].interactable = CheckReq (LoadTxt.MatDic[matId].combReq);
 		makingTipButton [1].gameObject.name = matId.ToString ();
 		SetMakingTipDesc (LoadTxt.MatDic [matId]);
@@ -665,6 +665,7 @@ public class TipManager : MonoBehaviour {
 	void ClearMakingTipTexts(){
 		for (int i = 2; i < makingTipText.Length; i++) {
 			makingTipText [i].text = "";
+			makingTipText [i].color = Color.white;
 		}
 	}
 
