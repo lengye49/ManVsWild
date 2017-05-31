@@ -79,7 +79,7 @@ public class GameConfigs{
 	public static int defParam = 33;
 	public static int luck = 100;//影响掉落概率
 
-	public static int BasicBpNum = 20;//背包基础数量
+	public static int BasicBpNum = 100;//背包基础数量   测试数据
 	public static int IncBpNum=10;//每级增加背包数量
 	public static float[] ConstructionDiscount = {1f,0.8f,0.6f,0.4f};
 	public static float[] TheftDiscount={1f,0.8f,0.6f,0.4f};

@@ -374,32 +374,32 @@ public class PlaceActions : MonoBehaviour {
 		switch (pu.actionType) {
 		case 0:
 			t [2].text = GameConfigs.CuttingTime + "m";
-			t [3].text = GameConfigs.CuttingStrength + " Strength";
-			t [4].text = "";
+			t [3].text = GameConfigs.CuttingStrength + " 力量";
+//			t [4].text = "";
 			break;
 		case 1:
 			t [2].text = GameConfigs.DiggingTime + "m";
-			t [3].text = GameConfigs.DiggingStrength + " Strength";
-			t [4].text = "";
+			t [3].text = GameConfigs.DiggingStrength + " 力量";
+//			t [4].text = "";
 			break;
 		case 2:
 			t [2].text = GameConfigs.FetchingTime + "m";
-			t [3].text = GameConfigs.FetchingStrength + " Strength";
-			t [4].text = "";
+			t [3].text = GameConfigs.FetchingStrength + " 力量";
+//			t [4].text = "";
 			break;
 		case 3:
-			t [2].text ="";
+			t [2].text = GameConfigs.SearchTime + "m";
 			t [3].text = "";
-			t [4].text = GameConfigs.SearchTime + "m";
+//			t [4].text = GameConfigs.SearchTime + "m";
 			break;
 		case 4:
 			t [2].text = GameConfigs.CollectTime + "m";
-			t [3].text = GameConfigs.CollectStrength + " Strength";
+			t [3].text = GameConfigs.CollectStrength + " 力量";
 			break;
 		case 5:
-			t [2].text ="";
+			t [2].text = GameConfigs.HuntTime + "m";
 			t [3].text = "";
-			t [4].text = GameConfigs.HuntTime + "m";
+//			t [4].text = GameConfigs.HuntTime + "m";
 			break;
 		default:
 			t [2].text = "";

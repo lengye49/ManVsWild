@@ -216,14 +216,12 @@ public class AchieveActions : MonoBehaviour {
 
 		int[] w = GameData._playerData.wineTasted;
 		int[] wNew = new int[w.Length + 1];
-		for (int i = 0; i < wNew.Length; i++) {
+		for (int i = 0; i < wNew.Length-1; i++) {
 			if (w [i] == itemId)
 				return;
-			if (i < w.Length)
-				wNew [i] = w [i];
-			else
-				wNew [i] = itemId;
+			wNew [i] = w [i];
 		}
+		wNew [wNew.Length - 1] = itemId;
 		GameData._playerData.wineTasted = wNew;
 		_gameData.StoreData ("WineTasted", _gameData.GetStrFromInt (wNew));
 		if (GameData._playerData.Achievements [5] == 0) {
@@ -247,14 +245,12 @@ public class AchieveActions : MonoBehaviour {
 		int[] f = GameData._playerData.foodCooked;
 		int[] fNew = new int[f.Length + 1];
 
-		for (int i = 0; i < fNew.Length; i++) {
+		for (int i = 0; i < fNew.Length-1; i++) {
 			if (f [i] == itemId)
 				return;
-			if (i < f.Length)
-				fNew [i] = f [i];
-			else
-				fNew [i] = itemId;
+			fNew [i] = f [i];
 		}
+		fNew [fNew.Length - 1] = itemId;
 		GameData._playerData.foodCooked = fNew;
 		_gameData.StoreData ("FoodCooked", _gameData.GetStrFromInt (fNew));
 
@@ -274,14 +270,15 @@ public class AchieveActions : MonoBehaviour {
 		int[] m = GameData._playerData.meleeCollected;
 		int[] mNew = new int[m.Length + 1];
 
-		for (int i = 0; i < mNew.Length; i++) {
+
+		for (int i = 0; i < m.Length; i++) {
 			if (m [i] == itemId)
 				return;
-			if (i < m.Length)
-				mNew [i] = m [i];
 			else
-				mNew [i] = itemId;
+				mNew [i] = m [i];		
 		}
+		mNew [mNew.Length - 1] = itemId;
+
 		GameData._playerData.meleeCollected = mNew;
 		_gameData.StoreData ("MeleeCollected", _gameData.GetStrFromInt (mNew));
 
@@ -301,14 +298,12 @@ public class AchieveActions : MonoBehaviour {
 		int[] r = GameData._playerData.rangedCollected;
 		int[] rNew = new int[r.Length + 1];
 
-		for (int i = 0; i < rNew.Length; i++) {
+		for (int i = 0; i < rNew.Length-1; i++) {
 			if (r [i] == itemId)
 				return;
-			if (i < r.Length)
-				rNew [i] = r [i];
-			else
-				rNew [i] = itemId;
+			rNew [i] = r [i];
 		}
+		rNew [rNew.Length-1] = itemId;
 		GameData._playerData.rangedCollected = rNew;
 		_gameData.StoreData ("RangedCollected", _gameData.GetStrFromInt (rNew));
 
@@ -328,14 +323,12 @@ public class AchieveActions : MonoBehaviour {
 		int[] m = GameData._playerData.magicCollected;
 		int[] mNew = new int[m.Length + 1];
 
-		for (int i = 0; i < mNew.Length; i++) {
+		for (int i = 0; i < mNew.Length-1; i++) {
 			if (m [i] == itemId)
 				return;
-			if (i < m.Length)
-				mNew [i] = m [i];
-			else
-				mNew [i] = itemId;
+			mNew [i] = m [i];
 		}
+		mNew [mNew.Length - 1] = itemId;
 		GameData._playerData.magicCollected = mNew;
 		_gameData.StoreData ("MagicCollected", _gameData.GetStrFromInt (mNew));
 
@@ -411,8 +404,11 @@ public class AchieveActions : MonoBehaviour {
 
 	public void TechUpgrade(){
 		foreach (int key in GameData._playerData.techLevels.Keys) {
-			if (GameData._playerData.techLevels [key] < LoadTxt.TechDic [key].maxLv)
-				return;
+			foreach (int k in LoadTxt.TechDic.Keys) {
+				if ((key == LoadTxt.TechDic [k].type) && (GameData._playerData.techLevels [key]< LoadTxt.TechDic [k].maxLv)) {
+					return;
+				}
+			}
 		}
 		StoreAchievement (35);
 	}

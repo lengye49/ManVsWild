@@ -50,7 +50,7 @@ public class PetsActions : MonoBehaviour {
 			openPetCell++;
 			usedSpace += LoadTxt.MonsterDic [GameData._playerData.Pets [key].monsterId].canCapture;
 		}
-		spaceText.text = "Space(" + usedSpace + "/" + petSpace + ")";
+		spaceText.text = "空间(" + usedSpace + "/" + petSpace + ")";
 
 		if (openPetCell > petCells.Count) {
 			for (int i = petCells.Count; i < openPetCell; i++) {

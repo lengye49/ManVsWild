@@ -67,63 +67,53 @@ public class FarmActions : MonoBehaviour {
 
 	void SetFarmState(GameObject o, FarmState f,int j,int key){
 		Text[] t = o.GetComponentsInChildren<Text> ();
-		Button[] b = o.GetComponentsInChildren<Button> ();
+		Button b = o.GetComponentInChildren<Button> ();
 
 		if (f.plantType==0)
-			t[0].text = "Farmland";
+			t[0].text = "农田";
 		else
-			t[0].text = "Cellar";
+			t[0].text = "酒窖";
 
 		if (f.plantTime <= 0) {
-			t [1].text = "(Empty)";
+			t [1].text = "(闲置)";
 			t [1].color = Color.grey;
 			if (f.plantType == 0)
-				t [2].text = "I can grow crops here.";
+				t [2].text = "可在此种植作物。";
 			else if (f.plantType == 1)
-				t [2].text = "I can make wine here.";
+				t [2].text = "可在此酿造红酒";
 			else if (f.plantType == 2)
-				t [2].text = "I can make beer here.";
+				t [2].text = "可在此酿造啤酒";
 			else if (f.plantType == 3)
-				t [2].text = "I can make whiskey here.";
+				t [2].text = "可在此酿造白酒";
 			else
 				Debug.Log ("wrong plantType!!");
-			t [3].text = "";
-			t [4].text = "Remove";
-			b [0].interactable = false;
-			b [0].name = key.ToString();
-			t [5].text = "Prepare";
-			b [1].interactable = true;
-			b[1].name= "Prepare";
+			b.interactable = true;
+			b.name = key.ToString()+"|Prepare";
+			t [3].text = "准备";
 		} else {
 			bool isMature = IsMature (f.plantTime, LoadTxt.PlantsDic [f.plantType]);
-			t [1].text = isMature ? "(Ready)" : "(In Progress)";
+			t [1].text = isMature ? "(收获)" : "(等待)";
 			t [1].color = isMature ? Color.green : Color.black;
 			if (isMature) {
 				if (f.plantType == 0)
-					t [2].text = "The crops are mature.";
+					t [2].text = "作物已经成熟。";
 				else if (f.plantType == 1)
-					t [2].text = "The wine is ready.";
+					t [2].text = "红酒已经酿制完成。";
 				else if (f.plantType == 2)
-					t [2].text = "The beer is ready.";
+					t [2].text = "啤酒已经酿制完成。";
 				else if (f.plantType == 3)
-					t [2].text = "The whiskey is ready.";
+					t [2].text = "白酒已经酿制完成。";
 				else
 					Debug.Log ("wrong plantType!!");
 
-				t [4].text = "Remove";
-				b [0].interactable = true;
-				b [0].name = key.ToString();
-				t [5].text = "Charge";
-				b [1].interactable = true;
-				b[1].name= "Charge";
+				b .interactable = true;
+				b.name = key.ToString()+"|Charge";
+				t [3].text = "收获";
 			} else {
 				t [2].text = "Time left : " + GetLeftTime (f.plantTime, LoadTxt.PlantsDic [f.plantType]);
-				t [4].text = "Remove";
-				b [0].interactable = true;
-				b [0].name = key.ToString();
-				t [5].text = "Charge";
-				b [1].interactable = false;
-				b[1].name= "Charge";
+				b .interactable = false;
+				b .name = key.ToString()+"|Charge";
+				t [3].text = "收获";
 			}
 		}
 	}

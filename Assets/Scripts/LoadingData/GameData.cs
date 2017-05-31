@@ -85,18 +85,18 @@ public class GameData : MonoBehaviour {
 
 		_playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" + s, 0);
 
-		_playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen" + s, 0);
-		_playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" + s, 0);
-		_playerData.KitchenOpen = PlayerPrefs.GetInt ("KitchenOpen" + s, 0);
-		_playerData.WorkshopOpen = PlayerPrefs.GetInt ("WorkshopOpen" + s, 0);
-		_playerData.StudyOpen = PlayerPrefs.GetInt ("StudyOpen" + s, 0);
-		_playerData.FarmOpen = PlayerPrefs.GetInt ("FarmOpen" + s, 0);
-		_playerData.PetsOpen = PlayerPrefs.GetInt ("PetsOpen" + s, 0);
-		_playerData.WellOpen = PlayerPrefs.GetInt ("WellOpen" + s, 0);
+		_playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen" + s, 1);
+		_playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" + s, 1);
+		_playerData.KitchenOpen = PlayerPrefs.GetInt ("KitchenOpen" + s, 1);
+		_playerData.WorkshopOpen = PlayerPrefs.GetInt ("WorkshopOpen" + s, 1);
+		_playerData.StudyOpen = PlayerPrefs.GetInt ("StudyOpen" + s, 1);
+		_playerData.FarmOpen = PlayerPrefs.GetInt ("FarmOpen" + s, 1);
+		_playerData.PetsOpen = PlayerPrefs.GetInt ("PetsOpen" + s, 1);
+		_playerData.WellOpen = PlayerPrefs.GetInt ("WellOpen" + s, 1);
 		_playerData.MailBoxOpen = PlayerPrefs.GetInt ("MailBoxOpen" + s, 1);
 		_playerData.AltarOpen = PlayerPrefs.GetInt ("AltarOpen" + s, 0);
 
-		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "11000000|500;11010000|100;42000000|50;41000000|50"));
+		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "41000000|999;11000000|999;11010000|999;21000000|999;21010000|999;21020000|999;21030000|999;21040000|999;21050000|999;21060000|999;21070000|999;21080000|999;21090000|999;22000000|999;22010000|999;22020000|999;23000000|999;23010000|999;23020000|999;23030000|999;24000000|999;24010000|999;24020000|999;24030000|999;24040000|999;24050000|999;24060000|999;24070000|999;24080000|999;24090000|999;31000000|999;31020000|999;31030000|999;31040000|999;31050000|999;31060000|999;31070000|999;31080000|999;31090000|999"));
 		_playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" + s, ""));
 
 		_playerData.HasMemmory = PlayerPrefs.GetInt ("HasMemmory" + s, 0);
@@ -504,6 +504,7 @@ public class GameData : MonoBehaviour {
 		if (_playerData.Hotkey0 == itemId || _playerData.Hotkey1 == itemId)
 			CheckHotKeyState ();
 	}
+		
 
 	public void DeleteItemInWh(int itemId){
 		_playerData.wh.Remove (itemId);
@@ -993,6 +994,7 @@ public class GameData : MonoBehaviour {
 			break;
 		}
 		UpdateProperty ();
+		DeleteItemInBp (equipId);
 	}
 
 	public int GetUsedPetSpace(){

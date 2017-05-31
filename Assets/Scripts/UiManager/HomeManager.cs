@@ -66,7 +66,7 @@ public class HomeManager : MonoBehaviour {
 
 							Pets.gameObject.SetActive (true);
 							Pets.gameObject.GetComponent<Image> ().color = GameData._playerData.PetsOpen > 0 ? Color.white : Color.gray;
-							Pets.gameObject.GetComponentInChildren<Text> ().text = "宠物区";
+							Pets.gameObject.GetComponentInChildren<Text> ().text = "宠物笼";
 							Pets.gameObject.GetComponentInChildren<Text> ().color = GameData._playerData.PetsOpen > 0 ? Color.white : Color.gray;
 
 							Well.gameObject.SetActive (true);

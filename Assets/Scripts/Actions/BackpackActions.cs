@@ -98,6 +98,8 @@ public class BackpackActions : MonoBehaviour {
 
 		int j = 0;
 		foreach (int key in GameData._playerData.bp.Keys) {
+			if (j >= _bpNum)
+				return;
 			GameObject o = bpCells [j] as GameObject;
 			o.gameObject.name = key.ToString ();
 			o.GetComponent<Button> ().interactable = true;

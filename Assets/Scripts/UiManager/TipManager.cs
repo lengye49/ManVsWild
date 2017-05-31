@@ -944,8 +944,8 @@ public class TipManager : MonoBehaviour {
 			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "Use";
 			bool canUse = !(m.property == null);
 			commonTipButton [1].interactable = canUse;
-			commonTipButton [2].gameObject.SetActive (canUse);
-			commonTipButton [3].gameObject.SetActive (canUse);
+			commonTipButton [2].gameObject.SetActive (m.type==2);
+			commonTipButton [3].gameObject.SetActive (m.type==2);
 			break;
 		case 3:
 		case 4:
@@ -1094,6 +1094,7 @@ public class TipManager : MonoBehaviour {
 		case 10:
 			_gameData.ChangeEquip (itemId);
 			OnNormalTipCover ();
+			_backpackActions.UpdataPanel ();
 			break;
 		default:
 			break;

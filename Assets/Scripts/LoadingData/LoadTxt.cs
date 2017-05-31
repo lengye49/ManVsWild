@@ -267,7 +267,7 @@ public class LoadTxt : MonoBehaviour {
 			}
 			techs[i].timeCost = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
 			techs[i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 7);
-
+//			Debug.Log (techs [i].id + "," + techs [i].name);
 			TechDic.Add (techs [i].id, techs [i]);
 		}
 	}
