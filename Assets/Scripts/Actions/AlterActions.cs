@@ -32,14 +32,14 @@ public class AlterActions : MonoBehaviour {
 	public void UpdateAltar(){
 		memories.DOLocalMoveX (0, tweenerTime);
 		achievements.DOLocalMoveX (-2000, tweenerTime);
-		changeButton.gameObject.GetComponentInChildren<Text> ().text = "Achievements";
+		changeButton.gameObject.GetComponentInChildren<Text> ().text = "成就";
 
 		ssNum.text = GameData._playerData.SoulStone.ToString ();
 		ssNum.color = (GameData._playerData.SoulStone >= GameConfigs.SoulStoneForStoreMem) ? Color.green : Color.red;
 		storeButton.interactable = (GameData._playerData.SoulStone >= GameConfigs.SoulStoneForStoreMem);
 
 		bool s = GameData._playerData.HasMemmory > 0;
-		memoryPoolState.text = s ? "Full" : "Empty";
+		memoryPoolState.text = s ? "已保存" : "未保存";
 		memoryPoolState.color = s ? Color.green : Color.red;
 		recoverButton.interactable = s;
 	}
@@ -92,10 +92,10 @@ public class AlterActions : MonoBehaviour {
 
 	public void Exchange(){
 		if (memories.localPosition.x == 0) {
-			changeButton.gameObject.GetComponentInChildren<Text> ().text = "Memories";
+			changeButton.gameObject.GetComponentInChildren<Text> ().text = "存档";
 			UpdateAchievement ();
 		} else {
-			changeButton.gameObject.GetComponentInChildren<Text> ().text = "Achievements";
+			changeButton.gameObject.GetComponentInChildren<Text> ().text = "成就";
 			UpdateAltar ();
 		}
 	}

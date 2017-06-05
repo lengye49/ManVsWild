@@ -11,7 +11,7 @@ public class ExploreActions : MonoBehaviour {
 
 	private GameObject mapCell;
 	private ArrayList mapCells;
-	private Maps mapGoing;
+	public Maps mapGoing;
 	private GameData _gameData;
 	private PanelManager _panelManager;
 
@@ -66,10 +66,11 @@ public class ExploreActions : MonoBehaviour {
 	void SetMapCell(GameObject o,int mapId){
 		Text[] t = o.GetComponentsInChildren<Text> ();
 		t [0].text = LoadTxt.MapDic [mapId].name;
-//		t [1].text = LoadTxt.MapDic [mapId].desc;
 		int m = TravelTime (LoadTxt.MapDic [GameData._playerData.mapNow].distances [mapId]);
 		string s = GetTimeFormat (m);
+		t [1].text = LoadTxt.MapDic [mapId].desc;
 		t [2].text = s;
+		t [3].text = "出发";
 	}
 
 	void ClearContents(GameObject o){
@@ -89,7 +90,6 @@ public class ExploreActions : MonoBehaviour {
 		mapGoing = m;
 		Text[] t = detail.gameObject.GetComponentsInChildren<Text> ();
 		t [0].text = m.name;
-//		t [1].text = "    " + m.desc;
 		int min = TravelTime (LoadTxt.MapDic [GameData._playerData.mapNow].distances [m.id]);
 		string s = GetTimeFormat (min);
 		t [2].text = s;
@@ -103,7 +103,7 @@ public class ExploreActions : MonoBehaviour {
 
 	public void GoToPlace(){
 		if (GameData._playerData.MapOpenState [mapGoing.id] == 0) {
-			Debug.Log ("This map is not open yet!");
+			Debug.Log ("未知地域!");
 			return;
 		}
 		int min = TravelTime (LoadTxt.MapDic [GameData._playerData.mapNow].distances [mapGoing.id]);
@@ -118,11 +118,11 @@ public class ExploreActions : MonoBehaviour {
 	string GetTimeFormat(int m){
 		string s = "";
 		if (m < 60)
-			s = m + "m";
+			s = m + "分";
 		else if (m % 60 == 0)
-			s = (int)(m / 60) + "h";
+			s = (int)(m / 60) + "时";
 		else
-			s = (int)(m / 60) + "h" + (m % 60) + "m";
+			s = (int)(m / 60) + "时" + (m % 60) + "分";
 
 		return s;
 	}

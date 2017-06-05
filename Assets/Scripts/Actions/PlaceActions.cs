@@ -329,7 +329,7 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void SetPlace(Maps m){
-		dungeonRect.localPosition = new Vector3 (-3000, 420, 0);
+		dungeonRect.localPosition = new Vector3 (-6000, 420, 0);
 		placeRect.localPosition = new Vector3 (0, 420, 0);
 
 		int count = 0;
@@ -370,41 +370,32 @@ public class PlaceActions : MonoBehaviour {
 	void SetPlaceCellState(GameObject o,PlaceUnit pu){
 		Text[] t = o.GetComponentsInChildren<Text> ();
 		t [0].text = pu.name;
-		t [1].text = pu.actionParam;
+		t [1].text = pu.desc;
+		t [2].text = "";
 		switch (pu.actionType) {
 		case 0:
-			t [2].text = GameConfigs.CuttingTime + "m";
-			t [3].text = GameConfigs.CuttingStrength + " 力量";
-//			t [4].text = "";
+			t [3].text ="伐木";
 			break;
 		case 1:
-			t [2].text = GameConfigs.DiggingTime + "m";
-			t [3].text = GameConfigs.DiggingStrength + " 力量";
-//			t [4].text = "";
+			t [3].text ="挖矿";
 			break;
 		case 2:
-			t [2].text = GameConfigs.FetchingTime + "m";
-			t [3].text = GameConfigs.FetchingStrength + " 力量";
-//			t [4].text = "";
+			t [3].text ="提水";
 			break;
 		case 3:
-			t [2].text = GameConfigs.SearchTime + "m";
-			t [3].text = "";
-//			t [4].text = GameConfigs.SearchTime + "m";
+			t [3].text = "探索";
 			break;
 		case 4:
-			t [2].text = GameConfigs.CollectTime + "m";
-			t [3].text = GameConfigs.CollectStrength + " 力量";
+			t [3].text = "收获";
 			break;
 		case 5:
-			t [2].text = GameConfigs.HuntTime + "m";
-			t [3].text = "";
-//			t [4].text = GameConfigs.HuntTime + "m";
+			t [3].text = "出发";
+			break;
+		case 6:
+			t [3].text = "交谈";
 			break;
 		default:
-			t [2].text = "";
 			t [3].text = "";
-			t [4].text = "";
 			break;
 		}
 
@@ -473,20 +464,16 @@ public class PlaceActions : MonoBehaviour {
 	void SetDetailPosition(){
 		observeDetail.localPosition = new Vector3 (0, 0, 0);
 		resourceDetail.localPosition = new Vector3 (150, 0, 0);
-//		treasureDetail.localPosition = new Vector3 (150, 0, 0);
 		goodsDetail.localPosition = new Vector3 (150, 0, 0);
 
 		observeDetail.gameObject.SetActive (false);
 		resourceDetail.gameObject.SetActive (false);
-//		treasureDetail.gameObject.SetActive (false);
 		goodsDetail.gameObject.SetActive (false);
 	}
 
 	void CallInResourceDetail(){
 		observeDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
 		observeDetail.gameObject.SetActive (false);
-//		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
-//		treasureDetail.gameObject.SetActive (false);
 
 		resourceDetail.gameObject.SetActive (true);
 		resourceDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
@@ -496,8 +483,6 @@ public class PlaceActions : MonoBehaviour {
 	void CallInObserveDetail(){
 		resourceDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
 		resourceDetail.gameObject.SetActive (false);
-//		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
-//		treasureDetail.gameObject.SetActive (false);
 
 		observeDetail.gameObject.SetActive (true);
 		observeDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
@@ -507,8 +492,6 @@ public class PlaceActions : MonoBehaviour {
 	public void CallOutDetail(){
 		resourceDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
 		resourceDetail.gameObject.SetActive (false);
-//		treasureDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
-//		treasureDetail.gameObject.SetActive (false);
 		observeDetail.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
 		observeDetail.gameObject.SetActive (false);
 	}
@@ -540,15 +523,15 @@ public class PlaceActions : MonoBehaviour {
 
 		Text[] t = resourceDetail.gameObject.GetComponentsInChildren<Text> ();
 		t [0].text = _puNow.name;
-		t [1].text = "pu.desc";
-		t [2].text = "Grow: " + GameConfigs.TreeGrowSpeed + " /Day" + "\nLeft: " + ((int)nowTrees).ToString ();
-		t [3].text = "Get:";
+		t [1].text = "";
+		t [2].text = "增速: " + GameConfigs.TreeGrowSpeed + " /天" + "\n剩余: " + ((int)nowTrees).ToString ();
+		t [3].text = "可能获得:";
 		t [4].text = ac;
-		t [5].text = "Cost:";
-		t [6].text = GameConfigs.CuttingTime + " Minutes," + GameConfigs.CuttingStrength + " Strength";
+		t [5].text = "耗时: "+GameConfigs.CuttingTime + "分";
+		t [6].text = "消耗:"+ GameConfigs.CuttingStrength + "力量";
 
 		Button[] b = resourceDetail.gameObject.GetComponentsInChildren<Button> ();
-		b [0].gameObject.GetComponentInChildren<Text> ().text = "Cut";
+		b [0].gameObject.GetComponentInChildren<Text> ().text = "伐木";
 		b [0].interactable = (nowTrees >= 1);
 	}
 
@@ -567,15 +550,15 @@ public class PlaceActions : MonoBehaviour {
 			
 		Text[] t = resourceDetail.gameObject.GetComponentsInChildren<Text> ();
 		t [0].text = pu.name;
-		t [1].text = "pu.desc";
-		t [2].text = "Resources Left:" + now.ToString()+"/"+total.ToString ();
-		t [3].text = "Get:";
-		t [4].text = ac;
-		t [5].text = "Cost:";
-		t [6].text = GameConfigs.DiggingTime + " Minutes," + GameConfigs.DiggingStrength + " Strength";
+		t [1].text = "";
+		t [2].text = "剩余:" + now.ToString()+"/"+total.ToString ();
+		t [3].text = "可能获得:";
+		t [4].text = "石料,各类矿产";
+		t [5].text = "耗时: "+GameConfigs.DiggingTime + "分";
+		t [6].text = "消耗: " + GameConfigs.DiggingStrength + "力量";
 
 		Button b = resourceDetail.gameObject.GetComponentInChildren<Button> ();
-		b.gameObject.GetComponentInChildren<Text> ().text = "Dig";
+		b.gameObject.GetComponentInChildren<Text> ().text = "挖掘";
 		b.interactable = (now > 0);
 	}
 
@@ -592,15 +575,15 @@ public class PlaceActions : MonoBehaviour {
 
 		Text[] t = resourceDetail.gameObject.GetComponentsInChildren<Text> ();
 		t [0].text = pu.name;
-		t [1].text = "pu.desc";
+		t [1].text = "";
 		t [2].text = "";
-		t [3].text = "Get:";
+		t [3].text = "可能获得:";
 		t [4].text = ac;
-		t [5].text = "Cost:";
-		t [6].text = GameConfigs.FetchingTime + " Minutes," + GameConfigs.FetchingStrength + " Strength";
+		t [5].text = "耗时: "+GameConfigs.FetchingTime + "分";
+		t [6].text = "消耗: " + GameConfigs.FetchingStrength + " 力量";
 
 		Button b = resourceDetail.gameObject.GetComponentInChildren<Button> ();
-		b.gameObject.GetComponentInChildren<Text> ().text = "Fetch";
+		b.gameObject.GetComponentInChildren<Text> ().text = "提水";
 		b.interactable = true;
 	}
 
@@ -610,24 +593,24 @@ public class PlaceActions : MonoBehaviour {
 		string[] s=pu.actionParam.Split(';');
 		int total = int.Parse (s [1]);
 		int now = int.Parse (s [2]);
-		string ac = "";
-		for (int i = 3; i < s.Length; i++) {
-			string[] ss = s [i].Split ('|');
-			ac+=LoadTxt.MatDic[int.Parse(ss[0])].name + ",";
-		}
-		ac = ac.Substring (0, ac.Length - 1);
+//		string ac = "";
+//		for (int i = 3; i < s.Length; i++) {
+//			string[] ss = s [i].Split ('|');
+//			ac+=LoadTxt.MatDic[int.Parse(ss[0])].name + ",";
+//		}
+//		ac = ac.Substring (0, ac.Length - 1);
 
 		Text[] t = resourceDetail.gameObject.GetComponentsInChildren<Text> ();
 		t[0].text = pu.name;
-		t [1].text = "pu.desc";
-		t [2].text = "Progress: " + (int)(now / total) + "%";
-		t [3].text = "Get:";
-		t [4].text = ac;
-		t [5].text = "Cost:";
-		t [6].text = GameConfigs.SearchTime + " Minutes";
+		t [1].text = "";
+		t [2].text = "";
+		t [3].text = "探索进度:";
+		t [4].text = (100 - (int)(now * 100 / total)) + "%";
+		t [5].text = "耗时: "+GameConfigs.SearchTime + "分";
+		t [6].text = "";
 
 		Button b = resourceDetail.gameObject.GetComponentInChildren<Button> ();
-		b.gameObject.GetComponentInChildren<Text>().text = "Search";
+		b.gameObject.GetComponentInChildren<Text>().text = "探索";
 		b.interactable = (now > 0);
 	}
 
@@ -644,15 +627,15 @@ public class PlaceActions : MonoBehaviour {
 
 		Text[] t = resourceDetail.gameObject.GetComponentsInChildren<Text> ();
 		t[0].text = pu.name;
-		t [1].text = "pu.desc";
+		t [1].text = "";
 		t [2].text = "";
-		t [3].text = "Get:";
+		t [3].text = "可能获得:";
 		t [4].text = ac;
-		t [5].text = "Cost:";
-		t [6].text = GameConfigs.CollectTime + " Minutes," + GameConfigs.CollectStrength + " Strength";
+		t [5].text = "耗时: "+GameConfigs.CollectTime + "分";
+		t [6].text = "消耗: " + GameConfigs.CollectStrength + "力量";
 
 		Button b = resourceDetail.gameObject.GetComponentInChildren<Button> ();
-		b.gameObject.GetComponentInChildren<Text>().text = "Collect";
+		b.gameObject.GetComponentInChildren<Text>().text = "收获";
 		b.interactable = true;
 
 	}
@@ -662,15 +645,15 @@ public class PlaceActions : MonoBehaviour {
 		//open;id|weight;...
 		Text[] t = resourceDetail.gameObject.GetComponentsInChildren<Text> ();
 		t[0].text = pu.name;
-		t [1].text = "pu.desc";
+		t [1].text = "";
 		t [2].text = "";
-		t [3].text = "Target:";
-		t [4].text = "";
-		t [5].text = "Cost:";
-		t [6].text = GameConfigs.HuntTime + " Minutes";
+		t [3].text = "猎物:";
+		t [4].text = "各类野兽";
+		t [5].text = "耗时: "+GameConfigs.HuntTime + "分";
+		t [6].text = "";
 
 		Button b = resourceDetail.gameObject.GetComponentInChildren<Button> ();
-		b.gameObject.GetComponentInChildren<Text>().text = "Hunt";
+		b.gameObject.GetComponentInChildren<Text>().text = "捕猎";
 		b.interactable = true;
 	}
 
@@ -763,9 +746,9 @@ public class PlaceActions : MonoBehaviour {
 	string GetGoodsName(Dictionary<int,int> d){
 		foreach (int key in d.Keys) {
 			if (key == 0)
-				return "A Map";
+				return "地图";
 			else if (key == 1)
-				return "Fomula of " + LoadTxt.MatDic [d [key]].name;
+				return "卷轴:" + LoadTxt.MatDic [d [key]].name;
 			else
 				return LoadTxt.MatDic [key].name + "×" + d [key];
 		}
@@ -775,9 +758,9 @@ public class PlaceActions : MonoBehaviour {
 	string GetDescription(Dictionary<int,int> d){
 		foreach (int key in d.Keys) {
 			if (key == 0)
-				return "A small piece of map, very normal.";
+				return "一张普通的地图。";
 			else if (key == 1)
-				return "Learn how to make " + LoadTxt.MatDic [d[key]].name;
+				return "学习制作" + LoadTxt.MatDic [d[key]].name;
 			else
 				return LoadTxt.MatDic [key].desc;
 		}
@@ -786,7 +769,7 @@ public class PlaceActions : MonoBehaviour {
 
 	string GetCost(Dictionary<int,int> d){
 		if(d.Count==0)
-			return "Accept Mission";
+			return "接受任务";
 		foreach (int key in d.Keys) {
 			return LoadTxt.MatDic [key].name + " ×" + d [key];
 		}
@@ -872,22 +855,22 @@ public class PlaceActions : MonoBehaviour {
 
 		string t = resourceDetail.gameObject.GetComponentInChildren<Button> ().gameObject.GetComponentInChildren<Text> ().text;
 		switch (t) {
-		case "Cut":
+		case "伐木":
 			StartCoroutine (StartCut ());
 			break;
-		case "Dig":
+		case "挖矿":
 			StartCoroutine (StartDig ());
 			break;
-		case "Fetch":
+		case "提水":
 			StartCoroutine (StartFetch ());
 			break;
-		case "Collect":
+		case "收获":
 			StartCoroutine (StartFetch ());
 			break;
-		case "Search":
+		case "探索":
 			StartCoroutine (StartSearch ());
 			break;
-		case "Hunt":
+		case "捕猎":
 			Hunt ();
 			break;
 		default:
@@ -944,7 +927,7 @@ public class PlaceActions : MonoBehaviour {
 
 	void Cut(){
 		if (GameData._playerData.strengthNow < GameConfigs.CuttingStrength) {
-			_floating.CallInFloating ("Insufficient Strength", 1);
+			_floating.CallInFloating ("力量不足", 1);
 			return;
 		}
 		//open;lastTrees;lastTime;id|num|prop;...
@@ -992,7 +975,7 @@ public class PlaceActions : MonoBehaviour {
 
 	void Dig(){
 		if (GameData._playerData.strengthNow < GameConfigs.DiggingStrength) {
-			_floating.CallInFloating ("Insufficient Strength", 1);
+			_floating.CallInFloating ("力量不足", 1);
 			return;
 		}
 		//open;totalAmount;nowAmount;id|num|prop;...
@@ -1036,7 +1019,7 @@ public class PlaceActions : MonoBehaviour {
 
 	void Fetch(){
 		if (GameData._playerData.strengthNow < GameConfigs.FetchingStrength) {
-			_floating.CallInFloating ("Insufficient Strength", 1);
+			_floating.CallInFloating ("力量不足", 1);
 			return;
 		}
 		//open;id|num|prop;id|num|prop...
@@ -1161,7 +1144,7 @@ public class PlaceActions : MonoBehaviour {
 		if (goodsNum < 1)
 			return;
 		if (!CheckIsEnough (_shopItemSelected.cost)) {
-			_floating.CallInFloating ("Insufficient Resources", 1);
+			_floating.CallInFloating ("资源不足", 1);
 		} else {
 			TradeProcess ();
 		}
@@ -1206,29 +1189,29 @@ public class PlaceActions : MonoBehaviour {
 				if (GameData._playerData.MapOpenState [index] == 0) {
 					GameData._playerData.MapOpenState [index] = 1;
 					_gameData.StoreData ("MapOpenState", _gameData.GetStrFromMapOpenState (GameData._playerData.MapOpenState));
-					_floating.CallInFloating ("New place : " + LoadTxt.MapDic [index].name,0);
+					_floating.CallInFloating ("发现新地点 : " + LoadTxt.MapDic [index].name,0);
 
 					//Achievement
 					this.gameObject.GetComponentInParent<AchieveActions> ().NewPlaceFind ();
 				} else {
-					_floating.CallInFloating ("Another way to : " + LoadTxt.MapDic [index].name, 0);
+					_floating.CallInFloating ("发现新路径 : " + LoadTxt.MapDic [index].name, 0);
 				}
 			} else if (key == 1) {
 				if (index == 4209) {
 					GameData._playerData.Farms [0].open = 1;
 					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-					_floating.CallInFloating ("I can make Wine in my farms now", 0);
+					_floating.CallInFloating ("你学会了酿制红酒。", 0);
 				} else if (index == 4210) {
 					GameData._playerData.Farms [1].open = 1;
 					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-					_floating.CallInFloating ("I can make Beer in my farms now", 0);
+					_floating.CallInFloating ("你学会了酿制啤酒。", 0);
 				} else if (index == 4208) {
 					GameData._playerData.Farms [2].open = 1;
 					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-					_floating.CallInFloating ("I can make Whiskey in my farms now", 0);
+					_floating.CallInFloating ("你学会了酿制白酒。", 0);
 				} else {
 					_gameData.LearnBlueprint (index);
-					_floating.CallInFloating ("I can make " + LoadTxt.MatDic [index].name + " in my farms now", 0);
+					_floating.CallInFloating ("你学会了制造" + LoadTxt.MatDic [index].name + "。", 0);
 				}
 			} else {
 				_gameData.AddItem (key, index);

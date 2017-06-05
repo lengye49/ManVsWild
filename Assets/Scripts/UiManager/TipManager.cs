@@ -158,7 +158,7 @@ public class TipManager : MonoBehaviour {
 			break;
 		case "Pets":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == buildingName && b.id == GameData._playerData.PetsOpen + 1) {
+				if (b.name == "宠物笼" && b.id == GameData._playerData.PetsOpen + 1) {
 					buildTipText [0].text = "宠物笼";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
@@ -211,9 +211,9 @@ public class TipManager : MonoBehaviour {
 	string GetTime(float hFloat){
 		int hInt = (int)hFloat;
 		if (hFloat - hInt == 0)
-			return hInt + "h";
+			return hInt + "时";
 		else {
-			return hInt + "h" + (int)(60 * hFloat - 60 * hInt) + "m";
+			return hInt + "时" + (int)(60 * hFloat - 60 * hInt) + "分";
 		}
 	}
 
@@ -412,7 +412,7 @@ public class TipManager : MonoBehaviour {
 			_floating.CallInFloating ("宠物笼已升级到等级" + GameData._playerData.PetsOpen, 0);
 			_logManager.AddLog ("宠物笼已升级到等级"+ GameData._playerData.PetsOpen);
 		}
-
+		this.gameObject.GetComponentInChildren<PetsActions> ().UpdatePets ();
 		_homeManager.UpdateContent ();
 	}
 

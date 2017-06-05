@@ -30,29 +30,29 @@ public class ReadTxt
 		return textArray [nRow] [nCol];
 	}
 
-	public static string GetDataByIdAndName(string[][] textArray, int id, string name)
-	{
-		if (textArray.Length <= 0)
-			return "";
-		int nRow = textArray.Length;
-		int nCol = textArray [0].Length;
-
-		for (int i=0; i<nRow; ++i) 
-		{
-			string strId = string.Format("\r{0}",id);
-
-			if(textArray[i][0] == strId)
-			{
-				for(int j=0;j<nCol;++j)
-				{
-					if(textArray[0][j] == name)
-						return textArray[i][j];
-				}
-			}
-		}
-
-		return "";
-	}
+//	public static string GetDataByIdAndName(string[][] textArray, int id, string name)
+//	{
+//		if (textArray.Length <= 0)
+//			return "";
+//		int nRow = textArray.Length;
+//		int nCol = textArray [0].Length;
+//
+//		for (int i=0; i<nRow; ++i) 
+//		{
+//			string strId = string.Format("\r{0}",id);
+//
+//			if(textArray[i][0] == strId)
+//			{
+//				for(int j=0;j<nCol;++j)
+//				{
+//					if(textArray[0][j] == name)
+//						return textArray[i][j];
+//				}
+//			}
+//		}
+//
+//		return "";
+//	}
 
 	public static string[][] GetRequire(string req)
 	{

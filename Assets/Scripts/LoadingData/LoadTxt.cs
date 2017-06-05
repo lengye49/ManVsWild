@@ -54,15 +54,8 @@ public class LoadTxt : MonoBehaviour {
 		LoadThief ();
 		LoadAchievement ();
 		LoadDungeonTreeasure ();
-//		LoadTest ();
 	}
-
-//	void LoadTest(){
-//		string[][] strs = ReadTxt.ReadText ("test");
-//		for (int i = 0; i < strs.Length; i++)
-//			for (int j = 0; j < strs [i].Length; j++)
-//				Debug.Log (strs [i] [j]);
-//	}
+		
 
 	void LoadBuildings()
 	{
@@ -295,6 +288,8 @@ public class LoadTxt : MonoBehaviour {
 			a [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
 			a [i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
 			a [i].req = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+
+			Debug.Log ("id = " + a [i].id + ", name = " + a [i].name + ", req = " + a [i].req);
 			AchievementDic.Add (a [i].id, a [i]);
 		}
 	}
@@ -430,7 +425,6 @@ public class LoadTxt : MonoBehaviour {
 			m [i] = new Maps ();
 			m[i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
 			m[i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
-//			m[i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
 			string[][] ss = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
 			if (ss != null) {
 				m [i].distances = new Dictionary<int, int> ();
@@ -438,6 +432,7 @@ public class LoadTxt : MonoBehaviour {
 					m [i].distances.Add (int.Parse (ss [j] [0]), int.Parse (ss [j] [1]));
 				}
 			}
+			m[i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 3);
 			MapDic.Add (m [i].id, m [i]);
 		}
 	}
@@ -459,6 +454,7 @@ public class LoadTxt : MonoBehaviour {
 				p [i].actionParam = PlayerPrefs.GetString (s, "");
 			}
 			p [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 3);
+			p [i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 4);
 		}
 
 		for (int i = 0; i < MapDic.Count; i++) {

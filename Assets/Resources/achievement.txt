@@ -1,36 +1,36 @@
 id,name,desc,req
-1,Home Guardian,Protect the house from being stolen 10 times.,10
-2,Brave Man,Defeat 10 ghost.,10
-3,Ghost Hunter,Defeat 1 ghost boss.,1
-4,Night Keeper,Defeat 1 ghost king.,1
-5,Sommelier,Taste 3 kinds of liquor.,3
-6,Foodie,Cook 10 kinds of food.,10
-7,Rich Man,Store 999 gold.,999
-8,Opulent Lifestyle,Spend 999 gold.,999
-9,The Witcher,Get 100 Demon Point.,100
-10,Good Man,Get 100 Renown.,100
-11,Arms Dealer(��),Collect 10 kinds of Melee Weapon.,10
-12,Arms Dealer(��),Collect 3 kinds of Magic Weapon.,3
-13,Arms Dealer(��),Collect 3 kinds of Ranged Weapon.,3
-14,Cat Man,Capture 3 pets.,3
-15,Rider,Mount a pet.,1
-16,Wild Hunter,Kill 100 enemies.,100
-17,Architect(��),Construct all buildings.,1
-18,Meticulous Man,Search a place totally.,1
-19,Adventure Lover,Get to 10 different places.,10
-20,Don't Starve,Keep alive for 100 days.,100
-21,Otaku,Sleep for 100 hours.,100
-22,Oenophile,Drink 100 wine.,100
-23,What a Dream,Load memory for 1 time.,1
-24,Dungeon Explorer,Expore the 30th floor of the Dungeon.,30
-25,Bloodthirty,Perform melee attacks for 100 times.,100
-26,Keep a Distance,Perform ranged attacks for 100 times.,100
-27,Magic Maker,Perform magic attacks for 100 times.,100
-31,Walking Dictionary,Get to 20 different places.,20
-32,Dragon Slayer,Defeat 3 dragons.,3
-33,Architect(��),Upgrade all buildings.,1
-34,Master Of Survival,Keep alive for 100 days,100
-35,Scientist,Upgrade all techniques.,1
-36,Dragon Rider,Mount a dragon.,1
-37,DND,Expore the 99th floor of the Dungeon.,99
-38,Hands Up!,Catch 3 legendary thieves.,3
+1,家园守护者,抵御10名盗贼的入侵。,10
+2,鬼怪猎手,击杀10只鬼怪。,10
+3,鬼怪克星,击杀1只鬼怪Boss。,1
+4,鬼见愁,击杀1只鬼怪领主。,1
+5,品酒师,品尝3种美酒。,3
+6,美食家,烹饪10种美食。,10
+7,土豪,囤积999金块。,999
+8,挥金如土,消费999金块。,999
+9,猎魔人,猎魔点数到达100点。,100
+10,好人好报,善恶点到达100点。,100
+11,武器专家,收集10种近战武器。,10
+12,魔法爱好者,收集3种魔法武器。,3
+13,狙击精英,收集3种远程武器。,3
+14,驯兽师,捕获3只宠物。,3
+15,骑士,骑乘1只坐骑。,1
+16,怪物猎人,击败100个敌人。,100
+17,建筑者,所有建筑全部建造完成。,1
+18,强迫症,完全探索1张地图。,1
+19,探索者,开放10张地图。,10
+20,生存者,存活100天。,100
+21,美容觉,睡觉时间超过100小时。,100
+22,嗜酒如命,使用100酒。,100
+23,往事如梦,加载一次记忆。,1
+24,地牢探险者,地牢探索到30层。,30
+25,嗜血,使用100次近战攻击。,100
+26,风筝流,使用100次远程攻击。,100
+27,赌命之徒,使用100次魔法攻击。,100
+31,活地图,开启20个新的地点。,20
+32,屠龙勇士,击败3只龙。,3
+33,建造大师,将所有建筑升至满级。,1
+34,不死之躯,活到1000天,1000
+35,科研专家,升满所有科技。,1
+36,龙骑士,获得1只飞龙坐骑。,1
+37,地下城与勇士,地牢探索到99层。,99
+38,举起手来!,抵御3名传奇盗贼。,3

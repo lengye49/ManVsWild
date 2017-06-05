@@ -71,19 +71,20 @@ public class BattleActions : MonoBehaviour {
 
 		if (isAttacked) {
 			if (monsters.Length > 1)
-				AddLog ("Caution,Surrounded by " + monsters.Length + " enemies!", 2);
+				AddLog ("注意，你被" + monsters.Length + "名敌人围攻了!", 0);
 			else
-				AddLog ("Caution,Attacked by " + monsters [0].name, 2);
+				AddLog ("注意，你被" + monsters [0].name + "偷袭了！", 0);
 		} else {
 			if (monsters.Length > 1)
-				AddLog (monsters.Length + " targets found!", 0);
+				AddLog ("你发现了" + monsters.Length + "名敌人!", 0);
 			else
-				AddLog (monsters [0].name + " found!", 0);
+				AddLog ("你发现了" + monsters [0].name + "!", 0);
 		}
 
 		SetEnemy ();
-//		if (isAuto)
-//			AutoFight ();
+
+		if (isAttacked)
+			EnemyCastSkill ();
 	}
 
 	void SetEnemy(){
@@ -221,7 +222,7 @@ public class BattleActions : MonoBehaviour {
 		else if (isGood == 2)
 			t.color = Color.red;
 		else
-			t.color = Color.black;
+			t.color = Color.white;
 
 		battleLogContainer.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(800,50 * logIndex);
 	}
@@ -247,7 +248,7 @@ public class BattleActions : MonoBehaviour {
 				if (distance > enemy.range) {
 					Move (true, enemy.speed,true);
 				} else {
-					CastSkill ();
+					EnemyCastSkill ();
 				}
 			}
 		}
@@ -257,16 +258,16 @@ public class BattleActions : MonoBehaviour {
 
 		int f = forward ? -1 : 1;
 		distance = Mathf.Max (0, distance + speed * f);
-		string s = forward ? "forward" : "backward";
+		string s = forward ? "前进" : "后退";
 		if (isEnemyMove) {
 			enemyNextTurn += 1;
-			AddLog (enemy.name + " moved " + s, 0);
+			AddLog (enemy.name  + s + "了", 0);
 		} else {
 			myNextTurn += 1;
-			AddLog ("You moved " + s, 0);
+			AddLog ("You moved " + s + "了" , 0);
 		}
 
-		enemyDistance.text = distance + "m";
+		enemyDistance.text = distance + "米";
 		SetPoint ();
 		SetActions ();
 	}
@@ -280,12 +281,12 @@ public class BattleActions : MonoBehaviour {
 		string hitPart = "";
 		if (hitRate == 0) {
 			Debug.Log ("Missed!");
-			AddLog ((isMyAtk ? "" : enemy.name) + " Tried to hit " + (isMyAtk ? enemy.name : "you") + "but missed!",0);
+			AddLog ((isMyAtk ? "你" : enemy.name) + "发起攻击，但是" + (isMyAtk ? enemy.name : "你") + "灵巧地躲开了!",0);
 			return;
 		} else if (hitRate == 1) {
-			hitPart = isMyAtk ? GetHitPart (enemy.hit_Body) : "body";
+			hitPart = isMyAtk ? GetHitPart (enemy.hit_Body) : "身体";
 		} else {
-			hitPart = isMyAtk ? GetHitPart (enemy.hit_Vital) : "face";
+			hitPart = isMyAtk ? GetHitPart (enemy.hit_Vital) : "头部";
 		}
 
 		int dam = Algorithms.CalculateDamage (atk, def, skillId, hitRate,isMyAtk);
@@ -295,12 +296,12 @@ public class BattleActions : MonoBehaviour {
 			SetEnemyHpSlider ();
 			if(skillId>0)
 				AddEffect (LoadTxt.skillDic [skillId], isMyAtk, dam);
-			AddLog ("Hit " + enemy.name + " int the " + hitPart + ".", 0);
+			AddLog ("你击中了" + enemy.name + "的" + hitPart + "。", 0);
 		} else {
 			_gameData.ChangeProperty (0, -dam);
 			SetMyHpSlider ();
 			AddEffect (LoadTxt.skillDic [skillId], isMyAtk, dam);
-			AddLog (enemy.name + " hit you in the " + hitPart + ".", 0);
+			AddLog (enemy.name + "击中了你的" + hitPart + "。", 0);
 		}
 
 		CheckBattleEnd ();
@@ -439,7 +440,7 @@ public class BattleActions : MonoBehaviour {
 		Dictionary<int,int> drop = Algorithms.GetReward (enemy.drop);
 		string s = "";
 		if (drop.Count > 0) {
-			s="You killed "+enemy.name+" and got ";
+			s="你击败了"+enemy.name+"，获得";
 			foreach (int key in drop.Keys) {
 				int itemId = GenerateItemId (key);
 				_gameData.AddItem (itemId, drop [key]);
@@ -462,7 +463,7 @@ public class BattleActions : MonoBehaviour {
 			}
 			s = s.Substring (0, s.Length - 1) + ".";
 		} else {
-			s="You killed "+enemy.name+" but got nothing.";
+			s="你击败了"+enemy.name+"，但什么也没找到。";
 		}
 		AddLog (s,1);
 		_achieveActions.DefeatEnemy (enemy.monsterId);
@@ -521,9 +522,13 @@ public class BattleActions : MonoBehaviour {
 		Color c = new Color ();
 
 		if (value > 0.5)
-			c = new Color ((1f - value) * 300f / 255f, 150f / 255F, 0F);
+			c = new Color ((1f - value) * 300f / 255f, 150f / 255F, 0F,1f);
+		else if (value <= 0)
+			c = new Color (1f, 1f, 1f, 0f);
 		else
-			c = new Color (150f / 255f, value * 300f / 255f, 0f);
+			c = new Color (150f / 255f, value * 300f / 255f, 0f,1f);
+
+
 
 		return c;
 	}
@@ -568,7 +573,7 @@ public class BattleActions : MonoBehaviour {
 		if (enemy.canCapture == 0 || (enemy.hp / enemyMaxHp > 0.3f) || captureFailTime >= 3)
 			return;
 		if (_gameData.GetUsedPetSpace () + enemy.canCapture > GameData._playerData.PetsOpen * 10) {
-			_floating.CallInFloating ("No more space for this pet!", 1);
+			_floating.CallInFloating ("宠物笼空间不足!", 1);
 			return;
 		}
 		float rate = 0.1f - enemy.level / 100 * 0.5f;
@@ -583,7 +588,7 @@ public class BattleActions : MonoBehaviour {
 			p.name = enemy.name;
 			GameData._playerData.Pets.Add (p.monsterId, p);
 			_gameData.StoreData ("Pets", _gameData.GetstrFromPets (GameData._playerData.Pets));
-			AddLog ("New pet captured: " + enemy.name, 0);
+			AddLog ("你捕获了新宠物: " + enemy.name, 0);
 
 			//Achievement
 			this.gameObject.GetComponentInParent<AchieveActions> ().CapturePet ();
@@ -591,18 +596,18 @@ public class BattleActions : MonoBehaviour {
 
 		}else{
 			captureFailTime++;
-			AddLog ("Tried to capture " + enemy.name + " but failed.", 0);
+			AddLog ("你试图抓捕" + enemy.name + "，但是失败了。", 0);
 			CheckEnemyAction ();
 		}
 	}
 
 	void CheckEnemyAction(){
 		while (enemyNextTurn < myNextTurn) {
-			CastSkill ();
+			EnemyCastSkill ();
 		}
 	}
 
-	void CastSkill(){
+	void EnemyCastSkill(){
 		int index = Algorithms.GetIndexByRange (0, enemy.skills.Length);
 		enemyNextTurn += LoadTxt.skillDic [enemy.skills [index]].castSpeed * (1 - enemy.castSpeedBonus);
 		SetPoint ();

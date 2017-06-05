@@ -6,6 +6,7 @@ public class PlaceUnit  {
 	public int actionType;
 	public string actionParam;
 	public string name;
+	public string desc;
 }
 
 public class Places{

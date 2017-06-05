@@ -83,7 +83,7 @@ public class HomeManager : MonoBehaviour {
 								if (GameData._playerData.AltarOpen > 0) {
 									MailBox.gameObject.SetActive (true);
 									MailBox.gameObject.GetComponent<Image> ().color = Color.white;
-									MailBox.gameObject.GetComponentInChildren<Text> ().text = "成就";
+									MailBox.gameObject.GetComponentInChildren<Text> ().text = "信件";
 								}
 							}
 						}

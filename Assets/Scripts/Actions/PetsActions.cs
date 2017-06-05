@@ -10,6 +10,7 @@ public class PetsActions : MonoBehaviour {
 	public RectTransform Detail;
 	public FloatingActions _floating;
 	public Text spaceText;
+	public GameObject upgradeButton;
 
 	private GameObject petCell;
 	private ArrayList petCells;
@@ -33,6 +34,7 @@ public class PetsActions : MonoBehaviour {
 	public void UpdatePets(){
 		Detail.localPosition = new Vector3 (150, -2000, 0);
 		SetPetCells ();
+		upgradeButton.SetActive (!(GameData._playerData.PetsOpen >= GameConfigs.MaxLv_Pets));
 	}
 
 	void SetPetCells(){
