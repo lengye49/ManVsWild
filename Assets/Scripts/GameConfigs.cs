@@ -85,10 +85,10 @@ public class GameConfigs{
 	public static float[] TheftDiscount={1f,0.8f,0.6f,0.4f};
 	public static float[] HarvestIncrease={1f,1.3f,1.6f,2f};
 	public static float[] OenologyIncrease={1f,1.3f,1.6f,2f};
-	public static int[] ArcheryRangedDamage = {10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200};
-	public static int[] ArcheryRangedPrecise = {0,0,0,0,5,0,0,0,0,10,0,0,0,0,15,0,0,0,0,20};
-	public static int[] ArcheryMeleeDamage = {10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200};
-	public static int[] ArcheryMeleePrecise = {0,0,0,0,5,0,0,0,0,10,0,0,0,0,15,0,0,0,0,20};
+	public static int[] ArcheryRangedDamage = {0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200};
+	public static int[] ArcheryRangedPrecise = {0,0,0,0,0,5,0,0,0,0,10,0,0,0,0,15,0,0,0,0,20};
+	public static int[] ArcheryMeleeDamage = {0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200};
+	public static int[] ArcheryMeleePrecise = {0,0,0,0,0,5,0,0,0,0,10,0,0,0,0,15,0,0,0,0,20};
 	public static float[] WitchcraftPower = {1f,1.1f,1.25f,1.5f};
 	public static float[] WitchcraftCostRate={1f,0.8f,0.5f};
 	public static float[] CaptureRate = {1f,1.2f,1.5f,2f};

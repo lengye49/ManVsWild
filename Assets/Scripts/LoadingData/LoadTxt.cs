@@ -289,7 +289,7 @@ public class LoadTxt : MonoBehaviour {
 			a [i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
 			a [i].req = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
 
-			Debug.Log ("id = " + a [i].id + ", name = " + a [i].name + ", req = " + a [i].req);
+//			Debug.Log ("id = " + a [i].id + ", name = " + a [i].name + ", req = " + a [i].req);
 			AchievementDic.Add (a [i].id, a [i]);
 		}
 	}

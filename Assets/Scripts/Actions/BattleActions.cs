@@ -27,6 +27,7 @@ public class BattleActions : MonoBehaviour {
 	public Button capture;
 	public Button autoButton;
 	public Button returnButton;
+	public Text[] battleLogs = new Text[9];
 
 	public Image autoOn;
 	public Image autoOff;
@@ -38,9 +39,9 @@ public class BattleActions : MonoBehaviour {
 	private GameData _gameData;
 	private PanelManager _panelManager;
 	private FloatingActions _floating;
-	private ArrayList logs;
-	private int logIndex;
-	private GameObject battleLog;
+//	private ArrayList logs;
+//	private int logIndex;
+//	private GameObject battleLog;
 	private float enemyMaxHp;
 	private bool isAuto;
 	private int captureFailTime;
@@ -52,9 +53,9 @@ public class BattleActions : MonoBehaviour {
 	void Start(){
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		this.gameObject.transform.localPosition = new Vector3 (-2000, 0, 0);
-		logs = new ArrayList ();
-		battleLog = Instantiate (Resources.Load ("battleLog")) as GameObject;
-		battleLog.SetActive (false);
+//		logs = new ArrayList ();
+//		battleLog = Instantiate (Resources.Load ("battleLog")) as GameObject;
+//		battleLog.SetActive (false);
 		_panelManager = this.gameObject.GetComponentInParent<PanelManager> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 		_achieveActions = this.gameObject.GetComponentInParent<AchieveActions> ();
@@ -109,12 +110,9 @@ public class BattleActions : MonoBehaviour {
 	}
 		
 	void ClearLog(){
-		for (int i = 0; i < logs.Count; i++) {
-			Text t = logs [i] as Text;
-			t.gameObject.SetActive (false);
-			t.text = "";
+		for (int i = 0; i < battleLogs.Length; i++) {
+			battleLogs [i].text = "";
 		}
-		logIndex = 0;
 	}
 
 	void SetActions(){
@@ -201,30 +199,36 @@ public class BattleActions : MonoBehaviour {
 	/// <param name="s">S.</param>
 	/// <param name="isGood">Is good:0normal 1good 2bad.</param>
 	void AddLog(string s,int isGood){
-		logIndex++;
-		Text t;
-		if (logs.Count > logIndex) {
-			t = logs [logIndex] as Text;
-			t.gameObject.SetActive (true);
-		} else {
-			GameObject o = Instantiate (battleLog) as GameObject;
-			o.SetActive (true);
-			t = o.GetComponent<Text> ();
-			o.gameObject.transform.SetParent (battleLogContainer.transform);
-			o.gameObject.transform.localPosition = Vector3.zero;
-			o.gameObject.transform.localScale = Vector3.one;
-			logs.Add (t);
+//		logIndex++;
+//		Text t;
+//		if (logs.Count > logIndex) {
+//			t = logs [logIndex] as Text;
+//			t.gameObject.SetActive (true);
+//		} else {
+//			GameObject o = Instantiate (battleLog) as GameObject;
+//			o.SetActive (true);
+//			t = o.GetComponent<Text> ();
+//			o.gameObject.transform.SetParent (battleLogContainer.transform);
+//			o.gameObject.transform.localPosition = Vector3.zero;
+//			o.gameObject.transform.localScale = Vector3.one;
+//			logs.Add (t);
+//		}
+
+
+		for (int i = 0; i < 8; i++) {
+			battleLogs [i].text = battleLogs [i + 1].text;
+			battleLogs [i].color = new Color (battleLogs [i + 1].color.r, battleLogs [i + 1].color.g, battleLogs [i + 1].color.b, battleLogs [i + 1].color.a - 0.1f);
 		}
-		t.text = "→" + s;
 
+		battleLogs[8].text =  "→" + s;
 		if (isGood == 1)
-			t.color = Color.green;
+			battleLogs[8].color = new Color(0f,1f,0f,1f);
 		else if (isGood == 2)
-			t.color = Color.red;
+			battleLogs[8].color = new Color(1f,0f,0f,1f);
 		else
-			t.color = Color.white;
+			battleLogs[8].color = new Color(1f,1f,1f,1f);
 
-		battleLogContainer.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(800,50 * logIndex);
+//		battleLogContainer.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(800,50 * logIndex);
 	}
 
 	void AutoFight(){
@@ -290,6 +294,7 @@ public class BattleActions : MonoBehaviour {
 		}
 
 		int dam = Algorithms.CalculateDamage (atk, def, skillId, hitRate,isMyAtk);
+		Debug.Log ("Atk = " + atk + ", Dam = " + dam);
 
 		if (isMyAtk) {
 			enemy.hp -= dam;

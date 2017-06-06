@@ -805,7 +805,6 @@ public class GameData : MonoBehaviour {
 		foreach (int key in LoadTxt.MatDic[(int)(id/10000)].property.Keys) {
 			_playerData.property [key] += LoadTxt.MatDic [(int)(id / 10000)].property [key];
 		}
-
 		int extra = (int)((id % 10000) / 1000);
 		if (LoadTxt.MatDic [(int)(id / 10000)].type == 3) {
 			Extra_Weapon ew = LoadTxt.ExtraMelee [extra];
@@ -813,7 +812,6 @@ public class GameData : MonoBehaviour {
 				_playerData.property [key] += ew.property [key];
 			}
 		}
-
 		if (LoadTxt.MatDic [(int)(id / 10000)].type != 4) {
 			Extra_Weapon ew = LoadTxt.ExtraRanged [extra];
 			foreach (int key in ew.property.Keys) {
@@ -830,8 +828,8 @@ public class GameData : MonoBehaviour {
 	void UpdateTechniqueProperty(){
 		_playerData.property [14] += GameConfigs.ArcheryRangedDamage [_playerData.techLevels [6]];
 		_playerData.property [17] += GameConfigs.ArcheryRangedPrecise [_playerData.techLevels [6]];
-		_playerData.property [13] += GameConfigs.ArcheryRangedDamage [_playerData.techLevels [7]];
-		_playerData.property [16] += GameConfigs.ArcheryRangedPrecise [_playerData.techLevels [7]];
+		_playerData.property [13] += GameConfigs.ArcheryMeleeDamage [_playerData.techLevels [7]];
+		_playerData.property [16] += GameConfigs.ArcheryMeleePrecise [_playerData.techLevels [7]];
 	}
 
 	public void SetHotkey(int index,int itemId){
