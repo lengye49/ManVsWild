@@ -301,12 +301,12 @@ public class BattleActions : MonoBehaviour {
 			SetEnemyHpSlider ();
 			if(skillId>0)
 				AddEffect (LoadTxt.skillDic [skillId], isMyAtk, dam);
-			AddLog ("你击中了" + enemy.name + "的" + hitPart + "。", 0);
+			AddLog ("你击中了" + enemy.name + "的" + hitPart + "，造成"+dam+"点伤害。", 0);
 		} else {
 			_gameData.ChangeProperty (0, -dam);
 			SetMyHpSlider ();
 			AddEffect (LoadTxt.skillDic [skillId], isMyAtk, dam);
-			AddLog (enemy.name + "击中了你的" + hitPart + "。", 0);
+			AddLog (enemy.name + "击中了你的" + hitPart + "，造成"+dam+"点伤害。", 0);
 		}
 
 		CheckBattleEnd ();

@@ -646,6 +646,7 @@ public class TipManager : MonoBehaviour {
 		ShowMakingTip ();
 		ClearMakingTipTexts ();
 		makingTipText [0].text = LoadTxt.MatDic[matId].name;
+		makingTipText [0].color = GameConfigs.MatColor [LoadTxt.MatDic [matId].quality];
 		makingTipButton[0].gameObject.GetComponentInChildren<Text>().text ="取消"; 
 		makingTipButton[1].gameObject.GetComponentInChildren<Text>().text ="制作"; 
 		makingTipButton [1].interactable = CheckReq (LoadTxt.MatDic[matId].combReq);
@@ -904,6 +905,7 @@ public class TipManager : MonoBehaviour {
 
 		Mats m = LoadTxt.MatDic [(int)(itemId / 10000)];
 		commonTipText [0].text = m.name + ((type == 4) ? (" ×" + GameData._playerData.AmmoNum) : "");
+		commonTipText [0].color = GameConfigs.MatColor [m.quality];
 		string[] tags = m.tags.Split (',');
 		for (int j = 0; j < tags.Length; j++) {
 			commonTipText [j + 1].text = tags [j];

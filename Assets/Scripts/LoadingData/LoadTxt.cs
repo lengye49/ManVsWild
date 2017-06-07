@@ -145,7 +145,7 @@ public class LoadTxt : MonoBehaviour {
 			mats [i].castSpirit = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 10));
 			mats [i].tags = ReadTxt.GetDataByRowAndCol (strs, i + 1, 11);
 			mats [i].skillId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 12));
-
+			mats [i].quality = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 13));
 			MatDic.Add (mats [i].id, mats [i]);
 		}
 	}

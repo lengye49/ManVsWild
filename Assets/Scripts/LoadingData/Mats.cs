@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 
@@ -32,4 +31,6 @@ public class Mats  {
 	public int castSpirit;
 	public string tags;
 	public int skillId;
+	public int quality;
 }
+	

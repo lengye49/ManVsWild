@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameConfigs{
 	
@@ -104,4 +105,12 @@ public class GameConfigs{
 	public static int StartGhostEvent = 0;
 																		//Ghost     Boss     King
 	public static Dictionary<int,int> GhostDic = new Dictionary<int, int>{{100,50},{101,20},{102,10}};
+
+	public static Color[] MatColor = {	
+		new Color(0, 0, 0, 1f),
+		new Color (152f / 255f, 235f / 255f, 164f / 255f, 1f),
+		new Color (30f / 255f, 134f / 255f, 241f / 255f, 1f),
+		new Color (251f / 255f, 50f / 255f, 239f / 255f, 1f),
+		new Color (222f / 255f, 170f / 255f, 48f / 255f, 1f)
+	};
 }
