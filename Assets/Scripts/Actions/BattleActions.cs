@@ -327,103 +327,102 @@ public class BattleActions : MonoBehaviour {
 				case 100:
 					if (isMyAtk) {
 						enemyNextTurn += 2;
-						AddLog (enemy.name + " is slowed down for 2s.", 0);
+						AddLog (enemy.name + "受到[减速]效果，2秒内无法行动。", 0);
 					} else {
 						myNextTurn += 2;
-						AddLog ("You're slowed down for 2s.", 0);
+						AddLog ("你受到[减速]效果，2秒内无法行动。", 0);
 					}
 					break;
 				case 101:
 					if (isMyAtk) {
 						enemyNextTurn += 3;
-						AddLog (enemy.name + " is confused for 3s.", 0);
+						AddLog (enemy.name + "受到[减速]效果，3秒内无法行动。", 0);
 					} else {
 						myNextTurn += 3;
-						AddLog ("You're confused for 3s.", 0);
+						AddLog ("你受到[混乱]效果，3秒内无法行动。", 0);
 					}
 					break;
 				case 102:
 					if (isMyAtk) {
 						enemyNextTurn += 5;
-						AddLog (enemy.name + " is deluded for 5s.", 0);
+						AddLog (enemy.name + "受到[魅惑]效果，5秒内无法行动。", 0);
 					} else {
 						myNextTurn += 5;
-						AddLog ("You're deluded for 5s.", 0);
+						AddLog ("你受到[魅惑]效果，5秒内无法行动。", 0);
 					}
 					break;
 				case 103:
 					if (isMyAtk) {
 						enemyNextTurn += 7;
-						AddLog (enemy.name + " is dizzied for 7s.", 0);
+						AddLog (enemy.name + "受到[眩晕]效果，7秒内无法行动。", 0);
 					} else {
 						myNextTurn += 7;
-						AddLog ("You're dizzied for 7s.", 0);
+						AddLog ("你受到[眩晕]效果，7秒内无法行动", 0);
 					}
 					break;
 				case 104:
 					if (isMyAtk) {
 						enemyNextTurn += 7;
-						AddLog (enemy.name + " is frozen for 7s.", 0);
+						AddLog (enemy.name + "受到[冰冻]效果，7秒内无法行动。", 0);
 					} else {
 						myNextTurn += 7;
 						_gameData.ChangeProperty (10, -5);
-						AddLog ("You're frozen for 7s.", 0);
-						AddLog ("You feel a bit hot, temperature +5", 0);
+						AddLog ("你受到[冰冻]效果，7秒内无法行动，温度-5℃。", 0);
 					}
 					break;
 				case 105:
 					if (isMyAtk) {
 						enemyNextTurn += 5;
-						AddLog (enemy.name + " is petrified for 5s.", 0);
+						AddLog (enemy.name + "被石化了5秒。", 0);
 					} else {
 						myNextTurn += 5;
-						AddLog ("You're petrified for 5s.", 0);
+						AddLog ("你被石化了5秒。", 0);
 					}
 					break;
 				case 106:
 					if (isMyAtk) {
 						_gameData.ChangeProperty (2, 5);
 						enemy.spirit -= 5;
-						AddLog ("You recovered 5 spirit, " + enemy.name + " lost 5 spirit.", 0);
+						AddLog ("你吸取了" + enemy.name + "5点精神。", 0);
 					} else {
 						_gameData.ChangeProperty (2, -5);
 						enemy.spirit += 5;
-						AddLog ("You lost 5 spirit, " + enemy.name + " recovered 5 spirit.", 0);
+						AddLog (enemy.name + "吸取了你5点精神。", 0);
 					}
 					break;
 				case 107:
 					if (isMyAtk) {
 						enemyNextTurn += 5;
-						AddLog (enemy.name + " is chained for 5s.", 0);
+						AddLog (enemy.name + "受到[束缚]效果，5秒内无法行动。", 0);
 					} else {
 						myNextTurn += 5;
-						AddLog ("You're chained for 5s.", 0);
+						AddLog ("你受到[束缚]效果，5秒内无法行动。", 0);
 					}
 					break;
 				case 109:
 					int hpPlus = (int)(dam * 0.3f);
 					if (isMyAtk) {
 						_gameData.ChangeProperty (0, hpPlus);
-						AddLog ("You recovered " + hpPlus + " hp", 0);
+						AddLog ("并吸取了" + hpPlus + "点生命。", 0);
 					} else {
 						enemy.hp += hpPlus;
-						AddLog (enemy.name + " recovered " + hpPlus + " hp", 0);
+						AddLog ("并吸取了" + hpPlus + "点生命。", 0);
 					}
 					break;
 				case 110:
 					int hpPlus1 = (int)(dam * 0.5f);
 					if (isMyAtk) {
 						_gameData.ChangeProperty (0, hpPlus1);
-						AddLog ("You recovered " + hpPlus1 + " hp", 0);
+						AddLog ("并吸取了" + hpPlus1 + "点生命。", 0);
 					} else {
 						enemy.hp += hpPlus1;
-						AddLog (enemy.name + " recovered " + hpPlus1 + " hp", 0);
+						AddLog ("并吸取了" + hpPlus1 + "点生命。", 0);
 					}
 					break;
 				case 111:
 					if (!isMyAtk) {
 						_gameData.ChangeProperty (10, 5);
-						AddLog ("You feel a bit hot, temperature +5", 0);
+						AddLog ("温度+5℃。", 0);
 					}
 					break;
 				default:

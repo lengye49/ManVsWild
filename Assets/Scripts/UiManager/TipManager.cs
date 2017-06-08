@@ -688,12 +688,12 @@ public class TipManager : MonoBehaviour {
 				makingTipText [i].alignment = TextAnchor.MiddleCenter;
 			}
 		} else {
-			makingTipText [i].text = "Can not be used directly.";
+			makingTipText [i].text = "无法直接使用。";
 			makingTipText [i].alignment = TextAnchor.MiddleCenter;
 			i++;
 		}
 		makingTipText [i].text = "原料:";
-		makingTipText [i].color = Color.black;
+		makingTipText [i].color = new Color (24f / 255f, 193f / 255f, 172f / 255f, 1f);
 		makingTipText [i].alignment = TextAnchor.MiddleLeft;
 		i++;
 		foreach (int key in m.combReq.Keys) {
@@ -709,9 +709,9 @@ public class TipManager : MonoBehaviour {
 			i++;
 		}
 		float discount = (m.makingType == "Kitchen") ? GameData._playerData.CookingTimeDiscount : GameData._playerData.BlackSmithTimeDiscount;
-		makingTipText [i].text = "耗时: " + GetTime (m.makingTime * discount);
-		makingTipText [i].color = Color.white;
-		makingTipText [i].alignment = TextAnchor.MiddleCenter;
+		makingTipText [i].text = "耗时: "+GetTime (m.makingTime * discount);
+		makingTipText [i].color = new Color (24f / 255f, 193f / 255f, 172f / 255f, 1f);
+		makingTipText [i].alignment = TextAnchor.MiddleLeft;
 	}
 
 	public void OnMakingItem(){
@@ -773,8 +773,8 @@ public class TipManager : MonoBehaviour {
 		ShowTechTip ();
 		ClearTechTipTexts ();
 		techTipText [0].text = LoadTxt.TechDic[techId].name;
-		techTipButton[0].gameObject.GetComponentInChildren<Text>().text ="Cancel"; 
-		techTipButton[1].gameObject.GetComponentInChildren<Text>().text ="Study"; 
+		techTipButton[0].gameObject.GetComponentInChildren<Text>().text ="取消"; 
+		techTipButton[1].gameObject.GetComponentInChildren<Text>().text ="研究"; 
 		techTipButton [1].interactable = CheckReq (LoadTxt.TechDic[techId].req);
 		techTipButton [1].gameObject.name = techId.ToString ();
 		SetTechTipDesc (LoadTxt.TechDic [techId]);
@@ -890,7 +890,7 @@ public class TipManager : MonoBehaviour {
 			GameData._playerData.WaterCollectingRate = GameConfigs.WaterCollectingRate [t.lv];
 			break;
 		default:
-			Debug.Log ("Wrong techId = " + techId);
+			Debug.Log ("错误的科技ID = " + techId);
 			break;
 		}
 	}
@@ -917,33 +917,33 @@ public class TipManager : MonoBehaviour {
 				i++;
 			}
 		} else {
-			commonTipText[i].text = "Can not be used directly.";
+			commonTipText[i].text = "无法直接使用。";
 		}
 		//Extra....
 
-		commonTipButton [0].gameObject.GetComponentInChildren<Text> ().text = "Drop";
-		commonTipButton [2].gameObject.GetComponentInChildren<Text> ().text = "Hotkey1";
-		commonTipButton [3].gameObject.GetComponentInChildren<Text> ().text = "Hotkey2";
+		commonTipButton [0].gameObject.GetComponentInChildren<Text> ().text = "丢弃";
+		commonTipButton [2].gameObject.GetComponentInChildren<Text> ().text = "快捷键1";
+		commonTipButton [3].gameObject.GetComponentInChildren<Text> ().text = "快捷键2";
 		commonTipButton [1].gameObject.SetActive (true);
 		switch (type) {
 		case 0:
 			commonTipButton [0].gameObject.SetActive (true);
 			commonTipButton[0].gameObject.name = "warehouse_warehouse|"+itemId;
-			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "Withdraw";
+			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "取出";
 			commonTipButton [2].gameObject.SetActive (false);
 			commonTipButton [3].gameObject.SetActive (false);
 			break;
 		case 1:
 			commonTipButton [0].gameObject.SetActive (true);
 			commonTipButton[0].gameObject.name = "warehouse_backpack|"+itemId;
-			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "Store";
+			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "存放";
 			commonTipButton [2].gameObject.SetActive (false);
 			commonTipButton [3].gameObject.SetActive (false);
 			break;
 		case 2:
 			commonTipButton [0].gameObject.SetActive (true);
 			commonTipButton[0].gameObject.name = "backpack_backpack|"+itemId;
-			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "Use";
+			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "使用";
 			bool canUse = !(m.property == null);
 			commonTipButton [1].interactable = canUse;
 			commonTipButton [2].gameObject.SetActive (m.type==2);
@@ -952,7 +952,7 @@ public class TipManager : MonoBehaviour {
 		case 3:
 		case 4:
 			commonTipButton [0].gameObject.SetActive (false);
-			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "Take Off";
+			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "卸下";
 			commonTipButton [2].gameObject.SetActive (false);
 			commonTipButton [3].gameObject.SetActive (false);
 			break;
@@ -966,9 +966,9 @@ public class TipManager : MonoBehaviour {
 		ShowTipPanel ();
 		ClearCommonTipTexts ();
 		commonTipText [0].text = m.name;
-		commonTipText[1].text = "Pet";
-		commonTipText [4].text = "Alertness: " + m.alertness;
-		commonTipText [4].text = "Speed: " + m.speed;
+		commonTipText[1].text = "宠物";
+		commonTipText [4].text = "警戒值: " + m.alertness;
+		commonTipText [4].text = "速度: " + m.speed;
 		commonTipButton [0].gameObject.SetActive (false);
 		commonTipButton [1].gameObject.SetActive (false);
 		commonTipButton [2].gameObject.SetActive (false);
@@ -1034,21 +1034,21 @@ public class TipManager : MonoBehaviour {
 		Debug.Log (itemId);
 		int equipType = LoadTxt.MatDic [(int)(itemId / 10000)].type;
 		switch (actionType) {
-		case "Withdraw":
+		case "取出":
 			_gameData.WithdrawItem (itemId);
 			_warehouseActions.UpdatePanel ();
 			MoveCommonTipPanel ();
 			break;
-		case "Store":
+		case "存放":
 			_gameData.StoreItem (itemId);
 			_warehouseActions.UpdatePanel ();
 			MoveCommonTipPanel ();
 			break;
-		case "Take Off":
+		case "卸下":
 			TakeOffEquip (equipType);
 			MoveCommonTipPanel ();
 			break;
-		case "Use":
+		case "使用":
 			UseItem (itemId);
 			break;
 		default:
@@ -1068,7 +1068,7 @@ public class TipManager : MonoBehaviour {
 
 		switch (m.type) {
 		case 0:
-			_floating.CallInFloating("Can not use directly!",1);
+			_floating.CallInFloating("该物品无法直接使用!",1);
 			break;
 //		case 1:
 //			//blueprint&recipe,learn a new blueprint if not learnt yet
@@ -1106,18 +1106,18 @@ public class TipManager : MonoBehaviour {
 	public void SetHotkey(int index){
 		int itemId = int.Parse (commonTipButton [1].gameObject.name);
 		_gameData.SetHotkey (index, itemId);
-		_floating.CallInFloating ("Hotkey Set", 0);
+		_floating.CallInFloating ("成功设置快捷键！", 0);
 	}
 
 	public void OnHotkey0(){
 		int itemId = GameData._playerData.Hotkey0;
-		Debug.Log ("Hotkey0" + itemId);
+//		Debug.Log ("Hotkey0" + itemId);
 		UseItem (itemId);
 	}
 
 	public void OnHotkey1(){
 		int itemId = GameData._playerData.Hotkey1;
-		Debug.Log ("Hotkey1" + itemId);
+//		Debug.Log ("Hotkey1" + itemId);
 		UseItem (itemId);
 	}
 }
