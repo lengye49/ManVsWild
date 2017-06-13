@@ -68,6 +68,8 @@ public class BattleActions : MonoBehaviour {
 		thisEnemyIndex = 0;
 		autoButton.gameObject.SetActive (true);
 		returnButton.gameObject.SetActive (false);
+		if (isAuto)
+			OnAuto ();
 		ClearLog ();
 
 		if (isAttacked) {
@@ -100,7 +102,7 @@ public class BattleActions : MonoBehaviour {
 		myNextTurn = 0;
 		enemyNextTurn = 0;
 		captureFailTime = 0;
-		isAuto = false;
+//		isAuto = false;
 	}
 
 	void CallOutBattlePanel(){
@@ -129,7 +131,10 @@ public class BattleActions : MonoBehaviour {
 			magicAttack.interactable = (GameData._playerData.MagicId > 0);
 			jumpForward.interactable = true;
 			jumpBackward.interactable = true;
-			capture.interactable = ((enemy.hp <= enemyMaxHp * 0.3f) && enemy.canCapture > 0 && captureFailTime < 3);
+			Debug.Log ((enemy.hp <= (enemyMaxHp * 0.5f)));
+			Debug.Log (enemy.canCapture > 0);
+			Debug.Log (captureFailTime < 3);
+			capture.interactable = ((enemy.hp <= (enemyMaxHp * 0.5f)) && enemy.canCapture > 0 && captureFailTime < 3);
 		}
 	}
 
@@ -178,6 +183,11 @@ public class BattleActions : MonoBehaviour {
 		SetEnemyHpSlider ();
 		SetPoint ();
 		SetActions ();
+
+		if (isAuto) {
+			isAuto = false;
+			OnAuto ();
+		}
 	}
 
 	private float maxTime = 0f;
@@ -438,6 +448,7 @@ public class BattleActions : MonoBehaviour {
 	void CheckBattleEnd(){
 		if (enemy.hp > 0) {
 			CheckEnemyAction ();
+			SetActions ();
 			return;
 		}
 
@@ -574,13 +585,16 @@ public class BattleActions : MonoBehaviour {
 		CheckEnemyAction ();
 	}
 	public void Capture(){
-		if (enemy.canCapture == 0 || (enemy.hp / enemyMaxHp > 0.3f) || captureFailTime >= 3)
+		if (enemy.canCapture == 0 || (enemy.hp / enemyMaxHp > 0.5f) || captureFailTime >= 3)
 			return;
 		if (_gameData.GetUsedPetSpace () + enemy.canCapture > GameData._playerData.PetsOpen * 10) {
 			_floating.CallInFloating ("宠物笼空间不足!", 1);
 			return;
 		}
-		float rate = 0.1f - enemy.level / 100 * 0.5f;
+
+		myNextTurn++;
+		SetPoint ();
+		float rate = 1f;//0.2f - enemy.level / 100 * 0.5f;
 		rate *= GameData._playerData.CaptureRate;
 		int i = Algorithms.GetIndexByRange (0, 10000);
 		if (i < (int)(rate * 10000)) {
@@ -590,14 +604,13 @@ public class BattleActions : MonoBehaviour {
 			p.alertness = enemy.level;
 			p.speed = (int)enemy.speed;
 			p.name = enemy.name;
-			GameData._playerData.Pets.Add (p.monsterId, p);
-			_gameData.StoreData ("Pets", _gameData.GetstrFromPets (GameData._playerData.Pets));
+			_gameData.AddPet (p);
 			AddLog ("你捕获了新宠物: " + enemy.name, 0);
 
 			//Achievement
 			this.gameObject.GetComponentInParent<AchieveActions> ().CapturePet ();
 			//战斗结束。。
-
+			StartCoroutine (WaitAndCheck ());
 		}else{
 			captureFailTime++;
 			AddLog ("你试图抓捕" + enemy.name + "，但是失败了。", 0);

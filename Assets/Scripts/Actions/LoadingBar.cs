@@ -21,7 +21,7 @@ public class LoadingBar : MonoBehaviour {
 		totalTime = Algorithms.GetIndexByRange (2, 4);
 		value = 0;
 		this.gameObject.SetActive (true);
-		this.gameObject.transform.localPosition = Vector3.zero;
+		this.gameObject.transform.localPosition = new Vector3 (0f, -666f, 0f);
 		StartLoading ();
 		return totalTime + 1;
 	}

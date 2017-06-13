@@ -89,16 +89,16 @@ public class PetsActions : MonoBehaviour {
 		t [0].text = LoadTxt.MonsterDic[p.monsterId].name;
 		switch (p.state) {
 		case 0:
-			t [1].text = "Free Range";
+			t [1].text = "放养";
 			break;
 		case 1:
-			t [1].text = "Riding";
+			t [1].text = "骑乘";
 			break;
 		case 2:
-			t [1].text = "Patrolling";
+			t [1].text = "巡逻";
 			break;
 		default:
-			t [1].text = "Free Range";
+			t [1].text = "放养";
 			break;
 		}
 		t[2].text = LoadTxt.MonsterDic[p.monsterId].canCapture.ToString();
@@ -115,17 +115,17 @@ public class PetsActions : MonoBehaviour {
 		Pet p = _localPet;
 		Text[] t = Detail.gameObject.GetComponentsInChildren<Text> ();
 		t [0].text = LoadTxt.MonsterDic [p.monsterId].name;
-		t [1].text = "DESC";
+		t [1].text = "描述";
 
 		switch (p.state) {
 		case 0:
-			t [2].text = "Free Range";
+			t [2].text = "放养";
 			break;
 		case 1:
-			t [2].text = "Riding";
+			t [2].text = "骑乘";
 			break;
 		case 2:
-			t [2].text = "Patrolling";
+			t [2].text = "巡逻";
 			break;
 		default:
 			break;

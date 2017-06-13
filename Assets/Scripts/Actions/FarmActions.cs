@@ -180,25 +180,25 @@ public class FarmActions : MonoBehaviour {
 
 		switch (plantType) {
 		case 0:
-			t [0].text = "Crops";
+			t [0].text = "作物";
 			break;
 		case 1:
-			t [0].text = "Wine";
+			t [0].text = "红酒";
 			break;
 		case 2:
-			t [0].text = "Beer";
+			t [0].text = "啤酒";
 			break;
 		case 3:
-			t [0].text = "Whiskey";
+			t [0].text = "白酒";
 			break;
 		default:
 			break;
 		}
 
 		t[2].text = GetReq (LoadTxt.PlantsDic [plantType].plantReq);
-		t[4].text=LoadTxt.PlantsDic [plantType].plantTime + " hours";
-		t[6].text = LoadTxt.PlantsDic[plantType].plantGrowCycle + " days";
-		t[7].text= "Prepare";
+		t[4].text=LoadTxt.PlantsDic [plantType].plantTime + " 时";
+		t[6].text = LoadTxt.PlantsDic[plantType].plantGrowCycle + " 天";
+		t[7].text= "准备";
 	}
 
 	public void Prepare(){

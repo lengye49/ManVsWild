@@ -5,11 +5,17 @@ public class ClickPetCell : MonoBehaviour {
 
 	public void OnClick(){
 		int i = int.Parse (this.gameObject.name);
-		Debug.Log (i);
+		int j = 0;
+		Pet p = new Pet ();
 		foreach (int key in GameData._playerData.Pets.Keys) {
-			Debug.Log (key);
+			if (j == i) {
+				p = GameData._playerData.Pets [key];
+				break;
+			} else {
+				j++;
+			}
 		}
-		Pet p = GameData._playerData.Pets [i];
+
 		this.gameObject.GetComponentInParent<PetsActions> ().CallInDetail (p,i);
 	}
 }

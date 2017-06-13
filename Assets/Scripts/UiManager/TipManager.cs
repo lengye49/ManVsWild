@@ -204,7 +204,7 @@ public class TipManager : MonoBehaviour {
 			}
 			i++;
 		}
-		buildTipText [i].text = "Time: " + GetTime (b.timeCost * GameData._playerData.ConstructTimeDiscount);
+		buildTipText [i].text = "耗时: " + GetTime (b.timeCost * GameData._playerData.ConstructTimeDiscount);
 		buildTipText [i].color = Color.white;
 	}
 
@@ -305,6 +305,7 @@ public class TipManager : MonoBehaviour {
 		}
 
 		_homeManager.UpdateContent ();
+		this.gameObject.GetComponentInChildren<MakingActions> ().UpdatePanel ("Kitchen");
 	}
 
 	IEnumerator WaitAndBuildWorkshop(Building b){
@@ -406,7 +407,7 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.PetsOpen == 1) {
-			_floating.CallInFloating ("Pets is built.", 0);
+			_floating.CallInFloating ("宠物笼已建造完毕。", 0);
 			_logManager.AddLog ("宠物笼已建造完毕。");
 		} else {
 			_floating.CallInFloating ("宠物笼已升级到等级" + GameData._playerData.PetsOpen, 0);
@@ -914,10 +915,12 @@ public class TipManager : MonoBehaviour {
 		if (m.property != null) {
 			foreach (int key in m.property.Keys) {
 				commonTipText [i].text = PlayerData.GetPropName (key) + " " + (m.property [key] > 0 ? "+" : "") + m.property [key];
+				commonTipText [i].color = Color.white;
 				i++;
 			}
 		} else {
 			commonTipText[i].text = "无法直接使用。";
+			commonTipText [i].color = Color.white;
 		}
 		//Extra....
 

@@ -142,8 +142,12 @@ public class PanelManager : MonoBehaviour {
 			break;
 		case "Backpack":
 			if (_PanelNow == Backpack) {
-				if (_FatherPanel == Explore)
-					GoToPanel ("Home");
+				if (_FatherPanel == Explore) {
+					if (GameData._playerData.placeNowId == 0)
+						GoToPanel ("Home");
+					else
+						GoToPanel ("Explore");
+				}
 				else
 					GoToPanel ("Father");
 				break;

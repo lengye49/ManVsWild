@@ -87,9 +87,9 @@ public class GameData : MonoBehaviour {
 
 		_playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen" + s, 1);
 		_playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" + s, 1);
-		_playerData.KitchenOpen = PlayerPrefs.GetInt ("KitchenOpen" + s, 0);
-		_playerData.WorkshopOpen = PlayerPrefs.GetInt ("WorkshopOpen" + s, 0);
-		_playerData.StudyOpen = PlayerPrefs.GetInt ("StudyOpen" + s, 0);
+		_playerData.KitchenOpen = PlayerPrefs.GetInt ("KitchenOpen" + s, 1);
+		_playerData.WorkshopOpen = PlayerPrefs.GetInt ("WorkshopOpen" + s, 1);
+		_playerData.StudyOpen = PlayerPrefs.GetInt ("StudyOpen" + s, 1);
 		_playerData.FarmOpen = PlayerPrefs.GetInt ("FarmOpen" + s, 0);
 		_playerData.PetsOpen = PlayerPrefs.GetInt ("PetsOpen" + s, 0);
 		_playerData.WellOpen = PlayerPrefs.GetInt ("WellOpen" + s, 0);
@@ -127,7 +127,7 @@ public class GameData : MonoBehaviour {
 		_playerData.Mails = GetMailsFromStr (PlayerPrefs.GetString ("Mails" + s, "")); //"0|Hi,Glad to meet you!|Li Shujuan|I Love You|1100|10|0"));
 
 		_playerData.Pets = GetPetListFromStr (PlayerPrefs.GetString ("Pets" + s, ""));//"100|1|50|15|Hello;100|0|20|10|Kitty"));
-
+		_playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
 
 		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
 		_playerData.mapNow = PlayerPrefs.GetInt ("mapNow" + s, 0);
@@ -254,6 +254,7 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetString ("Mails" + s, GetStrFromMails (_playerData.Mails));
 
 		PlayerPrefs.SetString ("Pets" + s, GetstrFromPets (_playerData.Pets));
+		PlayerPrefs.SetInt ("PetRecord" + s, _playerData.PetRecord);
 
 		PlayerPrefs.SetString ("MapOpenState" + s, GetStrFromMapOpenState (_playerData.MapOpenState));
 		PlayerPrefs.SetInt ("mapNow" + s, _playerData.mapNow);
@@ -900,41 +901,57 @@ public class GameData : MonoBehaviour {
 	public void TakeOffEquip(int equipType){
 		switch (equipType) {
 		case 3:
+			if (_playerData.MeleeId == 0)
+				return;
 			AddItem (_playerData.MeleeId, 1);
 			_playerData.MeleeId = 0;
 			StoreData ("MeleeId", 0);
 			break;
 		case 4:
+			if (_playerData.RangedId == 0)
+				return;
 			AddItem (_playerData.RangedId, 1);
 			_playerData.RangedId = 0;
 			StoreData ("RangedId", 0);
 			break;
 		case 5:
+			if (_playerData.MagicId == 0)
+				return;
 			AddItem (_playerData.MagicId, 1);
 			_playerData.MagicId = 0;
 			StoreData ("MagicId", 0);
 			break;
 		case 6:
+			if (_playerData.HeadId == 0)
+				return;
 			AddItem (_playerData.HeadId, 1);
 			_playerData.HeadId = 0;
 			StoreData ("HeadId", 0);
 			break;
 		case 7:
+			if (_playerData.BodyId == 0)
+				return;
 			AddItem (_playerData.BodyId, 1);
 			_playerData.BodyId = 0;
 			StoreData ("BodyId", 0);
 			break;
 		case 8:
+			if (_playerData.ShoeId == 0)
+				return;
 			AddItem (_playerData.ShoeId, 1);
 			_playerData.ShoeId = 0;
 			StoreData ("ShoeId", 0);
 			break;
 		case 9:
+			if (_playerData.AccessoryId == 0)
+				return;
 			AddItem (_playerData.AccessoryId, 1);
 			_playerData.AccessoryId = 0;
 			StoreData ("AccessoryId", 0);
 			break;
 		case 10:
+			if (_playerData.AmmoId == 0 || _playerData.AmmoNum == 0)
+				return;
 			AddItem (_playerData.AmmoId, _playerData.AmmoNum);
 			_playerData.AmmoId = 0;
 			StoreData ("AmmoId", 0);
@@ -948,7 +965,9 @@ public class GameData : MonoBehaviour {
 	}
 
 	public void ChangeEquip(int equipId){
-		switch (LoadTxt.MatDic [(int)(equipId / 10000)].type) {
+		int equipType = LoadTxt.MatDic [(int)(equipId / 10000)].type;
+		TakeOffEquip (equipType);
+		switch (equipType) {
 		case 3:
 			_playerData.MeleeId = equipId;
 			StoreData ("MeleeId", equipId);
@@ -1001,6 +1020,13 @@ public class GameData : MonoBehaviour {
 			usedPetSpace += LoadTxt.MonsterDic [GameData._playerData.Pets [key].monsterId].canCapture;
 		}
 		return usedPetSpace;
+	}
+
+	public void AddPet(Pet p){
+		_playerData.Pets.Add (_playerData.PetRecord, p);
+		StoreData ("Pets", GetstrFromPets (GameData._playerData.Pets));
+		_playerData.PetRecord++;
+		StoreData ("PetRecord", _playerData.PetRecord);
 	}
 
 }

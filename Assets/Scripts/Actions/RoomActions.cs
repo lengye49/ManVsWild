@@ -35,13 +35,13 @@ public class RoomActions : MonoBehaviour {
 		restTime = 5;
 		SetRestState ();
 		SetUpgradeState ();
-		if (GameData._playerData.BedRoomOpen >= 3) {
+		if (GameData._playerData.BedRoomOpen >= 2) {
 			normalBath.SetActive (true);
 			SetNormalBathState ();
 		} else
 			normalBath.SetActive (false);
 
-		if (GameData._playerData.BedRoomOpen >= 4) {
+		if (GameData._playerData.BedRoomOpen >= 3) {
 			hotBath.SetActive (true);
 			SetHotBathState ();
 		} else
@@ -66,7 +66,7 @@ public class RoomActions : MonoBehaviour {
 	}
 
 	void SetUpgradeState(){
-		if (GameData._playerData.BedRoomOpen >= 4)
+		if (GameData._playerData.BedRoomOpen >= GameConfigs.MaxLv_BedRoom)
 			upgradeButton.gameObject.SetActive (false);
 		else
 			upgradeButton.gameObject.SetActive (true);

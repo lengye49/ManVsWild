@@ -343,6 +343,7 @@ public class PlaceActions : MonoBehaviour {
 
 		for (int i = 0; i < placeCells.Count; i++) {
 			GameObject o = placeCells [i] as GameObject;
+			o.SetActive (true);
 			ClearContents (o);
 		}
 
@@ -364,7 +365,13 @@ public class PlaceActions : MonoBehaviour {
 			o.gameObject.name = pu.unitId.ToString ();
 			SetPlaceCellState (o, pu);
 		}
-		contentP.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(900,115 * placeCells.Count);
+
+		if (placeCells.Count > count)
+			for (int i = count; i < placeCells.Count; i++) {
+				GameObject o = placeCells [i] as GameObject;
+				o.SetActive (false);
+			}
+		contentP.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2 (900, 115 * count);
 	}
 
 	void SetPlaceCellState(GameObject o,PlaceUnit pu){
@@ -464,7 +471,7 @@ public class PlaceActions : MonoBehaviour {
 	void SetDetailPosition(){
 		observeDetail.localPosition = new Vector3 (0, 0, 0);
 		resourceDetail.localPosition = new Vector3 (150, 0, 0);
-		goodsDetail.localPosition = new Vector3 (150, 0, 0);
+		goodsDetail.localPosition = new Vector3 (150, -3000, 0);
 
 		observeDetail.gameObject.SetActive (false);
 		resourceDetail.gameObject.SetActive (false);
@@ -696,7 +703,7 @@ public class PlaceActions : MonoBehaviour {
 			o.gameObject.name = shopItem.itemId.ToString ();
 			Text[] _texts = o.gameObject.GetComponentsInChildren<Text> ();
 			_texts [0].text = GetGoodsName (shopItem.reward);
-
+			_texts[1].text = "(交易)";
 			j++;
 
 		}
@@ -746,7 +753,7 @@ public class PlaceActions : MonoBehaviour {
 	string GetGoodsName(Dictionary<int,int> d){
 		foreach (int key in d.Keys) {
 			if (key == 0)
-				return "地图";
+				return "一张地图";
 			else if (key == 1)
 				return "卷轴:" + LoadTxt.MatDic [d [key]].name;
 			else
@@ -789,9 +796,11 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	public void CallInGoodsDetail(int shopItemId){
-		
-		if (goodsDetail.localPosition.y > 10 || goodsDetail.localPosition.y < -10)
-			goodsDetail.DOLocalMoveY (-300, popTime);
+
+		goodsDetail.gameObject.SetActive (true);
+		if (goodsDetail.localPosition.y > 10 || goodsDetail.localPosition.y < -10) {
+			goodsDetail.DOLocalMoveY (-150, popTime);
+		}
 		goodsDetail.gameObject.name = LoadTxt.MatDic [shopItemId].name;
 		_shopItemSelected = LoadTxt.ShopItemDic [shopItemId];
 		Text[] t = goodsDetail.gameObject.GetComponentsInChildren<Text> ();
@@ -831,10 +840,6 @@ public class PlaceActions : MonoBehaviour {
 
 	public void CallOutGoodsDetail(){
 		goodsDetail.DOLocalMoveY (-3000, popTime);
-	}
-		
-	void SetTreasureChest(PlaceUnit pu){
-
 	}
 
 	public void ResourceAct(){
@@ -1104,7 +1109,11 @@ public class PlaceActions : MonoBehaviour {
 				this.gameObject.GetComponentInParent<AchieveActions> ().TotalSearch ();
 		}
 
-		string a = "1;" + total + ";" + now + ";";
+		string a = "";
+		if (now > 0)
+			a = "1;" + total + ";" + now + ";";
+		else
+			a = "0;" + total + ";" + now + ";";
 		for (int i = 3; i < s.Length; i++) {
 			a += s [i] + ";";
 		}
@@ -1255,6 +1264,8 @@ public class PlaceActions : MonoBehaviour {
 		int monsterId = int.Parse (s [4]);
 		Monster[] m = new Monster[1];
 		m [0] = LoadTxt.MonsterDic [monsterId];
+		Debug.Log ("Challange Monster : " + m [0].name);
+		_panelManager.GoToPanel ("Battle");
 		_battleActions.InitializeBattleField (m, false);
 	}
 

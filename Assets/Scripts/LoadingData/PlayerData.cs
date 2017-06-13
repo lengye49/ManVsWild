@@ -101,6 +101,7 @@ public class PlayerData  {
 	public Dictionary<int,Mails> Mails;
 
 	public Dictionary<int,Pet> Pets;
+	public int PetRecord;
 
 	public Dictionary<int,int> MapOpenState;
 	public int mapNow;

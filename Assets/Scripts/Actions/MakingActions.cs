@@ -18,7 +18,8 @@ public class MakingActions : MonoBehaviour {
 
 	public void UpdatePanel(string makingType){
 		ClearContents ();
-		if (makingType == "Kitchen")
+//		Debug.Log(GameData._playerData.KitchenOpen + "")
+		if (makingType == "Kitchen" && GameData._playerData.KitchenOpen<GameConfigs.MaxLv_Kitchen)
 			upgradeButton.SetActive (true);
 		else
 			upgradeButton.SetActive (false);
