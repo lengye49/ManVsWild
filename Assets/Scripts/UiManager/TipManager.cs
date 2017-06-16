@@ -231,7 +231,7 @@ public class TipManager : MonoBehaviour {
 	}
 
 	IEnumerator WaitAndBuildRoom(Building b){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
 		yield return new WaitForSeconds (t);
 		BuildRoom (b);
 	}
@@ -256,7 +256,7 @@ public class TipManager : MonoBehaviour {
 	}
 
 	IEnumerator WaitAndBuildWarehouse(Building b){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
 		yield return new WaitForSeconds (t);
 		BuildWarehouse (b);
 	}
@@ -283,7 +283,7 @@ public class TipManager : MonoBehaviour {
 	}
 
 	IEnumerator WaitAndBuildKitchen(Building b){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
 		yield return new WaitForSeconds (t);
 		BuildKitchen (b);
 	}
@@ -309,7 +309,7 @@ public class TipManager : MonoBehaviour {
 	}
 
 	IEnumerator WaitAndBuildWorkshop(Building b){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
 		yield return new WaitForSeconds (t);
 		BuildWorkshop (b);
 	}
@@ -334,7 +334,7 @@ public class TipManager : MonoBehaviour {
 	}
 
 	IEnumerator WaitAndBuildStudy(Building b){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
 		yield return new WaitForSeconds (t);
 		BuildStudy (b);
 	}
@@ -359,7 +359,7 @@ public class TipManager : MonoBehaviour {
 	}
 
 	IEnumerator WaitAndBuildFarm(Building b){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
 		yield return new WaitForSeconds (t);
 		BuildFarm (b);
 	}
@@ -393,7 +393,7 @@ public class TipManager : MonoBehaviour {
 	}
 
 	IEnumerator WaitAndBuildPets(Building b){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
 		yield return new WaitForSeconds (t);
 		BuildPets (b);
 	}
@@ -418,7 +418,7 @@ public class TipManager : MonoBehaviour {
 	}
 
 	IEnumerator WaitAndBuildWell(Building b){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
 		yield return new WaitForSeconds (t);
 		BuildWell (b);
 	}
@@ -447,7 +447,7 @@ public class TipManager : MonoBehaviour {
 	}
 
 	IEnumerator WaitAndBuildMail(Building b){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
 		yield return new WaitForSeconds (t);
 		BuildMail (b);
 	}
@@ -472,7 +472,7 @@ public class TipManager : MonoBehaviour {
 	}
 
 	IEnumerator WaitAndBuildAltar(Building b){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
 		yield return new WaitForSeconds (t);
 		BuildAltar (b);
 	}
@@ -715,7 +715,19 @@ public class TipManager : MonoBehaviour {
 		makingTipText [i].alignment = TextAnchor.MiddleLeft;
 	}
 
+
+
 	public void OnMakingItem(){
+		StartCoroutine (StartMakeLoading ());
+	}
+
+	IEnumerator StartMakeLoading(){
+		int t = _loadingBar.CallInLoadingBar (60);
+		yield return new WaitForSeconds (t);
+		MakeItem();
+	}
+
+	void MakeItem(){
 		int targetId = int.Parse (makingTipButton [1].gameObject.name);
 		foreach (int key in LoadTxt.MatDic[targetId].combReq.Keys) {
 			_gameData.ConsumeItem (key, LoadTxt.MatDic [targetId].combReq [key]);
@@ -821,6 +833,16 @@ public class TipManager : MonoBehaviour {
 	}
 
 	public void OnStudyTech(){
+		StartCoroutine (StartStudyLoading ());
+	}
+
+	IEnumerator StartStudyLoading(){
+		int t = _loadingBar.CallInLoadingBar (60);
+		yield return new WaitForSeconds (t);
+		StudyTech();
+	}
+
+	void StudyTech(){
 		int techId = int.Parse (techTipButton [1].gameObject.name);
 		foreach (int key in LoadTxt.TechDic[techId].req.Keys) {
 			_gameData.ConsumeItem (key, LoadTxt.TechDic [techId].req [key]);

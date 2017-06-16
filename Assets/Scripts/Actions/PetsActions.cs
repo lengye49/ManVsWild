@@ -160,6 +160,7 @@ public class PetsActions : MonoBehaviour {
 	}
 
 	public void Ride(){
+		float speed1 = GameData._playerData.property [23];
 		if (_localPet.state == 1) {
 			RemoveMount ();
 			_localPet.state = 0;
@@ -169,6 +170,12 @@ public class PetsActions : MonoBehaviour {
 
 			//Achievement
 			this.gameObject.GetComponentInParent<AchieveActions> ().MountPet (_localPet.monsterId);
+		}
+		float speed2 = GameData._playerData.property [23];
+		if (speed1 > speed2) {
+			_floating.CallInFloating ("速度 -" + (speed2 - speed1),1);
+		}else if(speed1<speed2){
+			_floating.CallInFloating ("速度 +" + (speed2 - speed1),0);
 		}
 		GameData._playerData.Pets [_localIndex] = _localPet;
 		StorePetState ();

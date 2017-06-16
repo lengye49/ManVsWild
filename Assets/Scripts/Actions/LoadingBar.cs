@@ -17,8 +17,9 @@ public class LoadingBar : MonoBehaviour {
 		loadingText = this.gameObject.GetComponentInChildren<Text> ();
 	}
 
-	public int CallInLoadingBar(){
-		totalTime = Algorithms.GetIndexByRange (2, 4);
+	public int CallInLoadingBar(int costMin){
+		int max = Mathf.Min (5000, 1000 + costMin * 4);
+		totalTime = (int)(Random.Range (1000, max)/1000);
 		value = 0;
 		this.gameObject.SetActive (true);
 		this.gameObject.transform.localPosition = new Vector3 (0f, -666f, 0f);

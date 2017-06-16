@@ -1,6 +1,7 @@
 ﻿//Load and Store Player Data
 //Application.LoadLevel(Application.loadedLevel); // 重新调用当前场景
 using UnityEngine;
+using UnityEngine.UI;//测试用
 using System.Collections;
 using System.Collections.Generic;
 
@@ -91,12 +92,12 @@ public class GameData : MonoBehaviour {
 		_playerData.WorkshopOpen = PlayerPrefs.GetInt ("WorkshopOpen" + s, 1);
 		_playerData.StudyOpen = PlayerPrefs.GetInt ("StudyOpen" + s, 1);
 		_playerData.FarmOpen = PlayerPrefs.GetInt ("FarmOpen" + s, 0);
-		_playerData.PetsOpen = PlayerPrefs.GetInt ("PetsOpen" + s, 0);
+		_playerData.PetsOpen = PlayerPrefs.GetInt ("PetsOpen" + s, 1);
 		_playerData.WellOpen = PlayerPrefs.GetInt ("WellOpen" + s, 0);
 		_playerData.MailBoxOpen = PlayerPrefs.GetInt ("MailBoxOpen" + s, 0);
 		_playerData.AltarOpen = PlayerPrefs.GetInt ("AltarOpen" + s, 0);
 
-		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "41000000|999;11000000|999;11010000|999;21000000|999;21010000|999;21020000|999;21030000|999;21040000|999;21050000|999;21060000|999;21070000|999;21080000|999;21090000|999;22000000|999;22010000|999;22020000|999;23000000|999;23010000|999;23020000|999;23030000|999;24000000|999;24010000|999;24020000|999;24030000|999;24040000|999;24050000|999;24060000|999;24070000|999;24080000|999;24090000|999;31000000|999;31020000|999;31030000|999;31040000|999;31050000|999;31060000|999;31070000|999;31080000|999;31090000|999"));
+		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "34020000|100"));
 		_playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" + s, ""));
 
 		_playerData.HasMemmory = PlayerPrefs.GetInt ("HasMemmory" + s, 0);
@@ -1027,6 +1028,13 @@ public class GameData : MonoBehaviour {
 		StoreData ("Pets", GetstrFromPets (GameData._playerData.Pets));
 		_playerData.PetRecord++;
 		StoreData ("PetRecord", _playerData.PetRecord);
+	}
+
+
+	public Text inputWords;
+	public void AddItemById(){
+		int id = int.Parse (inputWords.text);
+		AddItem (id, 100);
 	}
 
 }

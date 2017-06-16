@@ -11,7 +11,6 @@ public class WarehouseActions : MonoBehaviour {
 	public Button upgradeWarehouse;
 	private GameObject bpCell;
 	private GameObject whCell;
-//	private GameData _gameData;
 
 	private int _bpNum;
 	private int _bpUsed;
@@ -22,7 +21,6 @@ public class WarehouseActions : MonoBehaviour {
 	private ArrayList bpCells;
 
 	void Start(){
-//		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		whCells = new ArrayList ();
 		bpCells = new ArrayList ();
 	}
@@ -41,9 +39,9 @@ public class WarehouseActions : MonoBehaviour {
 
 	void SetState(){
 		stateW.text="("+_warehouseUsed+"/"+_warehouseNum+")";
-		stateW.color = (_warehouseUsed >= _warehouseNum) ? Color.yellow : Color.black;
+		stateW.color = (_warehouseUsed >= _warehouseNum) ? Color.yellow : Color.white;
 		stateB.text="("+_bpUsed+"/"+_bpNum+")";
-		stateB.color = (_bpUsed >= _bpNum) ? Color.yellow : Color.black;
+		stateB.color = (_bpUsed >= _bpNum) ? Color.yellow : Color.white;
 	}
 
 	void UpdateWhContent(){
@@ -68,6 +66,7 @@ public class WarehouseActions : MonoBehaviour {
 		int j = 0;
 		foreach (int key in GameData._playerData.wh.Keys) {
 			GameObject o = whCells [j] as GameObject;
+			o.GetComponentInChildren<Image> ().color = new Color (1f, 1f, 1f, 100f / 255f);
 			o.gameObject.name = key.ToString ();
 			o.GetComponent<Button> ().interactable = true;
 			Text[] t = o.GetComponentsInChildren<Text> ();
@@ -100,6 +99,7 @@ public class WarehouseActions : MonoBehaviour {
 		int j = 0;
 		foreach (int key in GameData._playerData.bp.Keys) {
 			GameObject o = bpCells [j] as GameObject;
+			o.GetComponentInChildren<Image> ().color = new Color (1f, 1f, 1f, 100f / 255f);
 			o.gameObject.name = key.ToString ();
 			o.GetComponent<Button> ().interactable = true;
 			Text[] t = o.GetComponentsInChildren<Text> ();
@@ -114,5 +114,6 @@ public class WarehouseActions : MonoBehaviour {
 		for (int i = 0; i < ts.Length; i++)
 			ts [i].text = "";
 		o.GetComponent<Button> ().interactable = false;
+		o.GetComponentInChildren<Image> ().color = new Color (0f, 0f, 0f, 0f);
 	}
 }

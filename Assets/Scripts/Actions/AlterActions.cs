@@ -31,7 +31,7 @@ public class AlterActions : MonoBehaviour {
 
 	public void UpdateAltar(){
 		memories.DOLocalMoveX (0, tweenerTime);
-		achievements.DOLocalMoveX (-2000, tweenerTime);
+		achievements.DOLocalMoveX (-5000, tweenerTime);
 		changeButton.gameObject.GetComponentInChildren<Text> ().text = "成就";
 
 		ssNum.text = GameData._playerData.SoulStone.ToString ();
@@ -45,7 +45,7 @@ public class AlterActions : MonoBehaviour {
 	}
 
 	public void UpdateAchievement(){
-		memories.DOLocalMoveX (2000, tweenerTime);
+		memories.DOLocalMoveX (5000, tweenerTime);
 		achievements.DOLocalMoveX (0, tweenerTime);
 
 		for (int i = achievementCells.Count; i < LoadTxt.AchievementDic.Count; i++) {

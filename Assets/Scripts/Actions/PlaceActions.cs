@@ -886,25 +886,25 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	IEnumerator StartCut(){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (60);
 		yield return new WaitForSeconds (t);
 		Cut();
 	}
 
 	IEnumerator StartDig(){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (60);
 		yield return new WaitForSeconds (t);
 		Dig();
 	}
 
 	IEnumerator StartFetch(){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (60);
 		yield return new WaitForSeconds (t);
 		Fetch();
 	}
 
 	IEnumerator StartSearch(){
-		int t = _loadingBar.CallInLoadingBar ();
+		int t = _loadingBar.CallInLoadingBar (60);
 		yield return new WaitForSeconds (t);
 		Search();
 	}

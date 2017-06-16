@@ -14,6 +14,8 @@ public class ExploreActions : MonoBehaviour {
 	public Maps mapGoing;
 	private GameData _gameData;
 	private PanelManager _panelManager;
+	public LoadingBar _loadingBar;
+	public LogManager _logManager;
 
 	void Start () {
 		mapCell = Instantiate (Resources.Load ("mapCell")) as GameObject;
@@ -111,7 +113,19 @@ public class ExploreActions : MonoBehaviour {
 		GameData._playerData.mapNow = mapGoing.id;
 		_gameData.StoreData ("mapNow", mapGoing.id);
 
+		StartCoroutine (StartLoading (min));
+
+	}
+
+	IEnumerator StartLoading(int costTime){
+		int t = _loadingBar.CallInLoadingBar (costTime);
+		yield return new WaitForSeconds (t);
+		GoToMap();
+	}
+
+	void GoToMap(){
 		_panelManager.MapGoing = mapGoing;
+		_logManager.AddLog ("你抵达了" + mapGoing.name+"。");
 		_panelManager.GoToPanel ("Place");
 	}
 
