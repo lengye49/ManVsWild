@@ -15,7 +15,11 @@ public class GameData : MonoBehaviour {
 	public int rangedIdUsedData;
 
 	void Awake () {
+
+		/*测试代码，删除所有数据
 		PlayerPrefs.DeleteAll ();
+		*******************/
+
 		_playerData = new PlayerData ();
 		LoadAchievements ();
 		LoadAllData (false);
@@ -32,8 +36,8 @@ public class GameData : MonoBehaviour {
 	/// Data that will not be changed when dying or restart.
 	/// </summary>
 	void LoadStaticData(){
-		meleeIdUsedData = PlayerPrefs.GetInt ("MeleeIdUsed", 0);
-		rangedIdUsedData= PlayerPrefs.GetInt ("RangedIdUsed", 0);
+		meleeIdUsedData = PlayerPrefs.GetInt ("MeleeIdUsed", 1);
+		rangedIdUsedData= PlayerPrefs.GetInt ("RangedIdUsed", 1);
 	}
 
 	void LoadAchievements(){

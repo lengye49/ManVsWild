@@ -44,6 +44,7 @@ public class MakingActions : MonoBehaviour {
 			o.name = m.id.ToString();
 			Text[] t = o.GetComponentsInChildren<Text> ();
 			t [0].text = m.name;
+			t [1].text = "×" + m.combGet;
 			i++;
 		}
 		if (i < makingCells.Count) {

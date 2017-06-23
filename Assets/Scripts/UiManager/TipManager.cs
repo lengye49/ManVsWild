@@ -926,8 +926,21 @@ public class TipManager : MonoBehaviour {
 		ShowTipPanel ();
 		ClearCommonTipTexts ();
 
-		Mats m = LoadTxt.MatDic [(int)(itemId / 10000)];
-		commonTipText [0].text = m.name + ((type == 4) ? (" ×" + GameData._playerData.AmmoNum) : "");
+		int orgId = (int)(itemId / 10000);
+		int ex = (int)((itemId % 10000) / 1000);
+		Mats m = LoadTxt.MatDic [orgId];
+
+		string itemName = m.name;
+		if (itemId % 10000 != 0) {
+			if (LoadTxt.MatDic [orgId].type == 3) {
+				itemName += "[" +LoadTxt.ExtraMelee [ex].name +"]";
+			}
+			if (LoadTxt.MatDic [orgId].type == 4) {
+				itemName += "[" + LoadTxt.ExtraRanged [ex].name +"]";
+			}
+		}
+
+		commonTipText [0].text = itemName + ((type == 4) ? (" ×" + GameData._playerData.AmmoNum) : "");
 		commonTipText [0].color = GameConfigs.MatColor [m.quality];
 		string[] tags = m.tags.Split (',');
 		for (int j = 0; j < tags.Length; j++) {
@@ -936,15 +949,57 @@ public class TipManager : MonoBehaviour {
 		int i = 4;
 		if (m.property != null) {
 			foreach (int key in m.property.Keys) {
-				commonTipText [i].text = PlayerData.GetPropName (key) + " " + (m.property [key] > 0 ? "+" : "") + m.property [key];
+				commonTipText [i].text = PlayerData.GetPropName (key) + " " + (m.property [key] > 0 ? "+" : "-") + m.property [key];
 				commonTipText [i].color = Color.white;
 				i++;
 			}
 		} else {
 			commonTipText[i].text = "无法直接使用。";
 			commonTipText [i].color = Color.white;
+			i++;
 		}
-		//Extra....
+
+		//附加属性
+		string de="";
+		float p;
+		if (itemId % 10000 != 0) {
+			if (LoadTxt.MatDic [orgId].type == 3) {
+				foreach (int key in LoadTxt.ExtraMelee[ex].property.Keys) {
+					de = PlayerData.GetPropName (key)+" ";
+					p = LoadTxt.ExtraMelee [ex].property [key];
+					de += (p > 0 ? "+" : "-");
+					if (key < 25)
+						de += p.ToString ();
+					else
+						de += ((int)(p * 100f)).ToString () + "%";
+					commonTipText [i].text = de;
+
+					if(p>0)
+						commonTipText [i].color = Color.green;
+					else
+						commonTipText [i].color = Color.red;
+					i++;
+				}
+			}
+			if (LoadTxt.MatDic [orgId].type == 4) {
+				foreach (int key in LoadTxt.ExtraRanged[ex].property.Keys) {
+					de = PlayerData.GetPropName (key)+" ";
+					p = LoadTxt.ExtraRanged [ex].property [key];
+					de += (p > 0 ? "+" : "-");
+					if (key < 25)
+						de += p.ToString ();
+					else
+						de += ((int)(p * 100f)).ToString () + "%";
+					commonTipText [i].text = de;
+
+					if(p>0)
+						commonTipText [i].color = Color.green;
+					else
+						commonTipText [i].color = Color.red;
+					i++;
+				}
+			}
+		}
 
 		commonTipButton [0].gameObject.GetComponentInChildren<Text> ().text = "丢弃";
 		commonTipButton [2].gameObject.GetComponentInChildren<Text> ().text = "快捷键1";
@@ -986,6 +1041,8 @@ public class TipManager : MonoBehaviour {
 		}
 		commonTipButton [1].gameObject.name = itemId.ToString ();
 	}
+
+
 
 	public void ShowMountTips(Pet m){
 		ShowTipPanel ();

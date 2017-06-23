@@ -136,10 +136,10 @@ public class PlayerData  {
 		case 22: return "远程攻击速度";
 		case 23: return "速度";
 		case 24: return "魔法伤害";
-		case 25: return "魔法伤害比例";
-		case 26: return "远程伤害比例";
-		case 27: return "近战攻击速度比例";
-		case 28: return "远程攻击速度比例";
+		case 25: return "近战伤害";//比例
+		case 26: return "远程伤害";//比例
+		case 27: return "近战攻速";//比例
+		case 28: return "远程攻速";//比例
 		default:
 			return "Wrong Prop Id = " + propId;
 		}
