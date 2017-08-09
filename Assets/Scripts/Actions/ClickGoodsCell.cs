@@ -9,6 +9,7 @@ public class ClickGoodsCell : MonoBehaviour {
 	}
 	
 	public void OnClickGoods(){
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
 		int itemId = int.Parse (this.gameObject.name);
 		_placeActions.CallInGoodsDetail (itemId);
 	}

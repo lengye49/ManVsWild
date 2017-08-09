@@ -44,18 +44,9 @@ public class PlayerData  {
 		get{ return (int)(minutesPassed / 60 / 24 + 1);}
 	}
 
-	public int monthNow{
-		get{ return (int)(minutesPassed / 60 / 24 / 30);}
-	}
-
 	public int seasonNow
 	{
-		get{return (int)(minutesPassed / 60 / 24 / 90);}
-	}
-
-	public int yearNow
-	{
-		get{return (int)(minutesPassed / 60 / 24 / 360);}
+		get{return (int)(minutesPassed / 60 / 24 / 90) % 4;}
 	}
 
 	public int BedRoomOpen;

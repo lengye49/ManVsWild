@@ -72,7 +72,7 @@ public class ExploreActions : MonoBehaviour {
 		string s = GetTimeFormat (m);
 		t [1].text = LoadTxt.MapDic [mapId].desc;
 		t [2].text = s;
-		t [3].text = "出发";
+//		t [3].text = "出发";
 	}
 
 	void ClearContents(GameObject o){
@@ -125,7 +125,10 @@ public class ExploreActions : MonoBehaviour {
 
 	void GoToMap(){
 		_panelManager.MapGoing = mapGoing;
-		_logManager.AddLog ("你抵达了" + mapGoing.name+"。");
+		if (mapGoing.id == 0) {
+			_logManager.AddLog ("回到家中。");
+		} else
+			_logManager.AddLog ("你抵达了" + mapGoing.name + "。");
 		_panelManager.GoToPanel ("Place");
 	}
 

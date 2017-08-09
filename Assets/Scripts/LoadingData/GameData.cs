@@ -18,7 +18,7 @@ public class GameData : MonoBehaviour {
 
 		/*测试代码，删除所有数据
 		PlayerPrefs.DeleteAll ();
-		*******************/
+		/*******************/
 
 		_playerData = new PlayerData ();
 		LoadAchievements ();
@@ -101,7 +101,7 @@ public class GameData : MonoBehaviour {
 		_playerData.MailBoxOpen = PlayerPrefs.GetInt ("MailBoxOpen" + s, 0);
 		_playerData.AltarOpen = PlayerPrefs.GetInt ("AltarOpen" + s, 0);
 
-		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "34020000|100"));
+		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "11000000|50;11010000|20;41000000|5;42000000|2"));
 		_playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" + s, ""));
 
 		_playerData.HasMemmory = PlayerPrefs.GetInt ("HasMemmory" + s, 0);
@@ -134,7 +134,7 @@ public class GameData : MonoBehaviour {
 		_playerData.Pets = GetPetListFromStr (PlayerPrefs.GetString ("Pets" + s, ""));//"100|1|50|15|Hello;100|0|20|10|Kitty"));
 		_playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
 
-		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
+		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
 		_playerData.mapNow = PlayerPrefs.GetInt ("mapNow" + s, 0);
 		_playerData.dungeonLevelMax = PlayerPrefs.GetInt ("DungeonLevelMax" + s, 0);
 
@@ -153,7 +153,7 @@ public class GameData : MonoBehaviour {
 		_playerData.CookingTimeDiscount = GameConfigs.CookingTimeDiscount [_playerData.techLevels [16]];
 		_playerData.CookingIncreaseRate = GameConfigs.CookingIncreaseRate [_playerData.techLevels [16]];
 		_playerData.WaterCollectingRate = GameConfigs.WaterCollectingRate [_playerData.techLevels [17]];
-		_playerData.GhostComingProp = GameConfigs.GhostComingProp [0];
+		_playerData.GhostComingProp = GameConfigs.GhostComingProp [0];//这个科技还没做
 		_playerData.ThiefDefence = 0.3f;
 		//科技结束
 
@@ -321,6 +321,8 @@ public class GameData : MonoBehaviour {
 	/// <param name="minutes">Minutes.</param>
 	public void ChangeTime(int minutes){
 		int lastHour = _playerData.hourNow;
+		int lastDay = _playerData.dayNow;
+		int lastSeason = _playerData.seasonNow;
 
 		_playerData.minutesPassed += minutes;
 		StoreData ("minutesPassed", _playerData.minutesPassed);
@@ -345,8 +347,43 @@ public class GameData : MonoBehaviour {
 				Debug.Log ("Death of Water");
 		}
 
+		if (_playerData.dayNow != lastDay) {
+			ChangeDay ();
+		}
+
+		if (_playerData.seasonNow != lastSeason) {
+			ChangeSeason ();
+		}
+
 		//Achievement
 		this.gameObject.GetComponent<AchieveActions>().TimeChange();
+	}
+
+	void ChangeDay(){
+		string txt = "第" + _playerData.dayNow + "天开始了，加油！";
+		GetComponentInChildren<LogManager> ().AddLog (txt);
+	}
+
+	void ChangeSeason(){
+		string s = "";
+		switch (_playerData.seasonNow) {
+		case 0:
+			s += "春天来了";
+			break;
+		case 1:
+			s += "夏天来了";
+			break;
+		case 2:
+			s += "秋天来了";
+			break;
+		case 3:
+			s += "冬天来了";
+			break;
+		default:
+			break;
+		}
+		GetComponentInChildren<LogManager> ().AddLog (s);
+		GetComponentInChildren<FloatingActions> ().CallInFloating (s, 0);
 	}
 
 	/// <summary>
@@ -502,7 +539,10 @@ public class GameData : MonoBehaviour {
 	}
 
 
-
+	/// <summary>
+	/// 删除背包物品，id是8位.
+	/// </summary>
+	/// <param name="itemId">Item identifier.</param>
 	public void DeleteItemInBp(int itemId){
 		_playerData.bp.Remove (itemId);
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
@@ -510,7 +550,23 @@ public class GameData : MonoBehaviour {
 		if (_playerData.Hotkey0 == itemId || _playerData.Hotkey1 == itemId)
 			CheckHotKeyState ();
 	}
-		
+
+	/// <summary>
+	///  删除背包物品，id是8位.
+	/// </summary>
+	/// <param name="itemId">Item identifier.</param>
+	/// <param name="num">Number.</param>
+	void DeleteItemInBp(int itemId,int num){
+		if(_playerData.bp[itemId]>num)
+			_playerData.bp[itemId] -= num;
+		else
+			_playerData.bp.Remove (itemId);
+
+		StoreData ("bp", GetStrFromDic (_playerData.bp));
+
+		if (_playerData.Hotkey0 == itemId || _playerData.Hotkey1 == itemId)
+			CheckHotKeyState ();
+	}
 
 	public void DeleteItemInWh(int itemId){
 		_playerData.wh.Remove (itemId);
@@ -972,6 +1028,7 @@ public class GameData : MonoBehaviour {
 	public void ChangeEquip(int equipId){
 		int equipType = LoadTxt.MatDic [(int)(equipId / 10000)].type;
 		TakeOffEquip (equipType);
+		int num = 1;
 		switch (equipType) {
 		case 3:
 			_playerData.MeleeId = equipId;
@@ -1011,12 +1068,13 @@ public class GameData : MonoBehaviour {
 				_playerData.AmmoNum = _playerData.bp [_playerData.AmmoId];
 				StoreData ("AmmoNum", _playerData.bp [_playerData.AmmoId]);
 			}
+			num = _playerData.bp [_playerData.AmmoId];
 			break;
 		default:
 			break;
 		}
 		UpdateProperty ();
-		DeleteItemInBp (equipId);
+		DeleteItemInBp (equipId, num);
 	}
 
 	public int GetUsedPetSpace(){

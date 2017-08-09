@@ -370,13 +370,13 @@ public class TipManager : MonoBehaviour {
 		GameData._playerData.FarmOpen++;
 		_gameData.StoreData ("FarmOpen", GameData._playerData.FarmOpen);
 
-		//farm state starts from 3 to 6
+		//田地的序号从3开始
 		if (GameData._playerData.FarmOpen == 1) {
 			GameData._playerData.Farms [3].open = 1;
-			_gameData.StoreData ("FarmOpen", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
+			_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
 		} else if (GameData._playerData.FarmOpen <= 4) {
 			GameData._playerData.Farms [GameData._playerData.FarmOpen + 2].open = 1;
-			_gameData.StoreData ("FarmOpen", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
+			_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
 		}
 
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
@@ -736,7 +736,7 @@ public class TipManager : MonoBehaviour {
 		bool isKitchen = LoadTxt.MatDic [targetId].makingType == "Kitchen";
 		float discount = isKitchen ? GameData._playerData.CookingTimeDiscount : GameData._playerData.BlackSmithTimeDiscount;
 		_gameData.ChangeTime ((int)(LoadTxt.MatDic [targetId].makingTime * 60 *discount));
-		MoveMakingTipPanel ();
+//		MoveMakingTipPanel ();
 
 		_floating.CallInFloating (LoadTxt.MatDic [targetId].name + " +" + LoadTxt.MatDic[targetId].combGet, 0);
 		int combGet = LoadTxt.MatDic [targetId].combGet;
@@ -771,14 +771,18 @@ public class TipManager : MonoBehaviour {
 		if (LoadTxt.MatDic [orgId].type == 3) {
 			i = Algorithms.GetIndexByRange (0, 10);
 			j = _gameData.meleeIdUsedData;
-			PlayerPrefs.SetInt ("MeleeIdUsed", j++);
+			_gameData.meleeIdUsedData++;
+			PlayerPrefs.SetInt ("MeleeIdUsed", _gameData.meleeIdUsedData);
+
 		} else if (LoadTxt.MatDic [orgId].type == 4) {
 			i = Algorithms.GetIndexByRange (0, 10);
 			j = _gameData.rangedIdUsedData;
-			PlayerPrefs.SetInt ("RangedIdUsed", j++);
+			_gameData.rangedIdUsedData++;
+			PlayerPrefs.SetInt ("RangedIdUsed", _gameData.rangedIdUsedData);
 		} 
-
-		return orgId * 10000 + i * 1000 + j;
+		int newId = orgId * 10000 + i * 1000 + j;
+		Debug.Log ("new itemId = " +newId);
+		return newId;
 	}
 
 
@@ -1192,12 +1196,14 @@ public class TipManager : MonoBehaviour {
 	}
 
 	public void OnHotkey0(){
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
 		int itemId = GameData._playerData.Hotkey0;
 //		Debug.Log ("Hotkey0" + itemId);
 		UseItem (itemId);
 	}
 
 	public void OnHotkey1(){
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
 		int itemId = GameData._playerData.Hotkey1;
 //		Debug.Log ("Hotkey1" + itemId);
 		UseItem (itemId);

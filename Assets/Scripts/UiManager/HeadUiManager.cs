@@ -25,6 +25,8 @@ public class HeadUiManager : MonoBehaviour {
 	public Text dateNow;
 	public Text timeNow;
 
+	public Text seasonNow;
+
 	public Button hotkey0;
 	public Button hotkey1;
 
@@ -66,6 +68,7 @@ public class HeadUiManager : MonoBehaviour {
 
 		dateNow.text = GetDate ();
 		timeNow.text = GetTime ();
+		SetSeason ();
 	}
 
 	public void UpdateHeadUI(string propName){
@@ -136,6 +139,7 @@ public class HeadUiManager : MonoBehaviour {
 			break;
 		case "timeNow":
 			timeNow.text = GetTime ();
+			SetSeason ();
 			break;
 		default:
 			Debug.Log ("Wrong propName with " + propName);
@@ -167,15 +171,41 @@ public class HeadUiManager : MonoBehaviour {
 
 	string GetDate(){
 		string s = "";
-		s += (GameData._playerData.yearNow > 9 ? "" : "0") + GameData._playerData.yearNow.ToString () + "/";
-		s += (GameData._playerData.monthNow > 9 ? "" : "0") + GameData._playerData.monthNow.ToString () + "/";
-		s += (GameData._playerData.dayNow > 9 ? "" : "0") + GameData._playerData.dayNow.ToString ();
+		s = "第" + GameData._playerData.dayNow + "天";
+
 		return s;
+	}
+
+	void SetSeason(){
+		string s = "";
+		Color c = new Color();
+		switch (GameData._playerData.seasonNow) {
+		case 0:
+			s += "春";
+			c = Color.green;
+			break;
+		case 1:
+			s += "夏";
+			c = Color.red;
+			break;
+		case 2:
+			s += "秋";
+			c = Color.yellow;
+			break;
+		case 3:
+			s += "冬";
+			c = Color.white;
+			break;
+		default:
+			break;
+		}
+		seasonNow.text = s;
+		seasonNow.color = c;
 	}
 
 	string GetTime(){
 		string s = "";
-		s += GameData._playerData.hourNow >= 12 ? "PM " : "AM ";
+		s += GameData._playerData.hourNow >= 12 ? "下午 " : "上午 ";
 		s += (GameData._playerData.hourNow > 9 ? "" : "0") + GameData._playerData.hourNow.ToString () + ":";
 		s += (GameData._playerData.minuteNow > 9 ? "" : "0") + GameData._playerData.minuteNow.ToString ();
 		return s;

@@ -94,17 +94,17 @@ public class GameConfigs{
 	public static float[] WitchcraftCostRate={1f,0.8f,0.5f};
 	public static float[] CaptureRate = {1f,1.2f,1.5f,2f};
 	public static float[] SpotRate = {0.5f,0.4f,0.25f};
-	public static float[] SearchRate = {1f,1.5f};
-	public static float[] BlackSmithTimeDiscount={1f,0.9f,0.7f,0.5f};
-	public static float[] CookingTimeDiscount = {1f,0.8f,0.5f};
-	public static float[] CookingIncreaseRate = {1f,1.5f,2.5f};
-	public static float[] WaterCollectingRate = {1f,1.2f,1.5f};
-	public static float[] GhostComingProp = {0.2f,0.1f,0.05f};
+	public static float[] SearchRate = { 1f, 1.5f };
+	public static float[] BlackSmithTimeDiscount = { 1f, 0.9f, 0.7f, 0.5f };
+	public static float[] CookingTimeDiscount = { 1f, 0.8f, 0.5f };
+	public static float[] CookingIncreaseRate = { 1f, 1.5f, 2.5f };
+	public static float[] WaterCollectingRate = { 1f, 1.2f, 1.5f };
+	public static float[] GhostComingProp = { 0.1f, 0.05f, 0.02f };
 
-	public static int StartThiefEvent = 0;
-	public static int StartGhostEvent = 0;
+	public static int StartThiefEvent = 0;//测试数据
+	public static int StartGhostEvent = 0;//测试数据
 																		//Ghost     Boss     King
-	public static Dictionary<int,int> GhostDic = new Dictionary<int, int>{{100,50},{101,20},{102,10}};
+	public static Dictionary<int,int> GhostDic = new Dictionary<int, int>{{1,50},{2,20},{3,10}};
 
 	public static Color[] MatColor = {	
 		new Color(0, 0, 0, 1f),

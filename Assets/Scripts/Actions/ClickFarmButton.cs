@@ -12,6 +12,7 @@ public class ClickFarmButton : MonoBehaviour {
 	}
 
 	public void OnChargeOrPrepare(){
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
 		string[] s = b.name.Split ('|');
 
 		int i = int.Parse (s [0]);

@@ -4,6 +4,8 @@ using System.Collections;
 public class ClickPetCell : MonoBehaviour {
 
 	public void OnClick(){
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
+
 		int i = int.Parse (this.gameObject.name);
 		int j = 0;
 		Pet p = new Pet ();

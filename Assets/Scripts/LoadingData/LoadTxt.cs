@@ -53,7 +53,7 @@ public class LoadTxt : MonoBehaviour {
 		LoadExtra ();
 		LoadThief ();
 		LoadAchievement ();
-		LoadDungeonTreeasure ();
+		LoadDungeonTreasure ();
 	}
 		
 
@@ -163,6 +163,7 @@ public class LoadTxt : MonoBehaviour {
 			m [i].speed = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
 			m [i].range = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
 			m [i].vitalSensibility = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
+//			Debug.Log ("This monster id = " + m [i].id);
 
 			string s = ReadTxt.GetDataByRowAndCol (strs, i + 1, 8);
 			if (s.Contains ("|")) {
@@ -184,7 +185,7 @@ public class LoadTxt : MonoBehaviour {
 			string[][] re = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 10));
 			if (re != null) {
 				m[i].drop = new Dictionary<int,float>();
-				for (int j = 1; j < re.Length; j++)
+				for (int j = 0; j < re.Length; j++)
 					m [i].drop.Add (int.Parse (re [j] [0]), float.Parse (re [j] [1]));
 			}
 
@@ -328,7 +329,7 @@ public class LoadTxt : MonoBehaviour {
 		}
 	}
 
-	void LoadDungeonTreeasure(){
+	void LoadDungeonTreasure(){
 		string[][] strs = ReadTxt.ReadText("dungeon_treasure");
 		DungeonTreasure[] dt = new DungeonTreasure[strs.Length - 1];
 		for (int i = 0; i < dt.Length; i++) {
@@ -394,14 +395,16 @@ public class LoadTxt : MonoBehaviour {
 			}
 			s [i].itemType = ReadTxt.GetDataByRowAndCol (strs, i + 1, 4);
 
+			//根据存档加载购买次数
 			string name = "ShopItem" + s [i].itemId + "BuyTimes" + (isRebirth ? "_Memmory" : "");
 			s [i].buyTimes = PlayerPrefs.GetInt (name, 0);
 
 			ShopItemDic.Add (s [i].itemId, s[i]);
 
-			if (!ShopDic.ContainsKey (s [i].shopId))
-				ShopDic.Add (s [i].shopId, new Shop());
-			ShopDic [s [i].shopId].shopItemList = new ArrayList ();
+			if (!ShopDic.ContainsKey (s [i].shopId)) {
+				ShopDic.Add (s [i].shopId, new Shop ());
+				ShopDic [s [i].shopId].shopItemList = new ArrayList ();
+			}
 			ShopDic [s [i].shopId].shopItemList.Add (s [i]);
 		}
 	}

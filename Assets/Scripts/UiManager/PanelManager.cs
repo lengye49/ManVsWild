@@ -22,6 +22,7 @@ public class PanelManager : MonoBehaviour {
 	public RectTransform Explore;
 	public RectTransform Place;
 	public RectTransform Battle;
+	public LogManager _logManager;
 
 //	public Text locationText;
 
@@ -49,6 +50,7 @@ public class PanelManager : MonoBehaviour {
 			mapGoing = LoadTxt.MapDic [GameData._playerData.placeNowId];
 			GoToPanel ("Place");
 		}
+			
 	}
 
 	public void GoToPanel(string panelName){
@@ -56,10 +58,11 @@ public class PanelManager : MonoBehaviour {
 		case "Home":
 			Home.DOLocalMoveX (0, tweenerTime);
 			Home.gameObject.GetComponentInChildren<HomeManager> ().UpdateContent ();
+			if (_PanelNow == Explore && _FatherPanel == Place)
+				CheckThiefActivities ();
 			_FatherPanel = null;
 			_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-			if (_PanelNow == Place)
-				CheckThiefActivities ();
+
 			_PanelNow = Home;
 			GameData._playerData.placeNowId = 0;
 			_gameData.StoreData ("PlaceNowId", 0);
@@ -191,6 +194,8 @@ public class PanelManager : MonoBehaviour {
 			_PanelNow = Battle;
 			break;
 		case "Place":
+			Place.gameObject.GetComponent<PlaceActions> ().PlayBackGroundMusic (mapGoing.id);
+
 			if (mapGoing.id == 0) {
 				GoToPanel ("Home");
 				break;
@@ -203,8 +208,9 @@ public class PanelManager : MonoBehaviour {
 			if (_PanelNow == Battle) {
 				Place.gameObject.GetComponent<PlaceActions> ().UpdatePlace (mapGoing, false);
 			} else {
-				Place.gameObject.GetComponent<PlaceActions> ().UpdatePlace (mapGoing,true);
+				Place.gameObject.GetComponent<PlaceActions> ().UpdatePlace (mapGoing, true);
 			}
+
 			GameData._playerData.placeNowId = mapGoing.id;
 			_gameData.StoreData ("PlaceNowId", mapGoing.id);
 			_GrandFatherPanel = _FatherPanel;
@@ -326,14 +332,20 @@ public class PanelManager : MonoBehaviour {
 //		locationText.text = location;
 	}
 
+
+
+
 	void CheckThiefActivities(){
-		Debug.Log ("Check Thief Activities");
+
 		if (GameData._playerData.dayNow <= GameConfigs.StartThiefEvent)
 			return;
 		if (GameData._playerData.lastThiefTime >= GameData._playerData.dayNow - 3)
 			return;
 		if (Algorithms.GetIndexByRange (0, 100) >= (int)(GameData._playerData.ThiefDefence*100f))
 			return;
+
+		GameData._playerData.lastThiefTime = GameData._playerData.dayNow;
+		_gameData.StoreData ("LastThiefTime", GameData._playerData.lastThiefTime);
 
 		int[] weight = new int[LoadTxt.ThiefDic.Count];
 		int[] ids = new int[weight.Length];
@@ -346,7 +358,21 @@ public class PanelManager : MonoBehaviour {
 		i = Algorithms.GetResultByWeight (weight);
 		Thief _thisThief = LoadTxt.ThiefDic [ids [i]];
 
-		if (LoadTxt.MonsterDic [_thisThief.monsterId].level <= GetGuardAlert ()) {
+		int antiAlert = LoadTxt.MonsterDic [_thisThief.monsterId].level;
+		int alert = GetGuardAlert ();
+
+		//发现概率
+		int p = 0;
+		if (alert > 2 * antiAlert)
+			p = 10000;
+		else if (antiAlert > alert * 5)
+			p = 0;
+		else
+			p = alert * 10000 / (alert + antiAlert);
+
+		int r = Random.Range (0, 10000);
+
+		if (r <= p) {
 			CatchThief (_thisThief);
 		} else {
 			BeStolen (_thisThief);
@@ -354,32 +380,28 @@ public class PanelManager : MonoBehaviour {
 	}
 
 	int GetGuardAlert(){
+		//警惕性 = 宠物的等级
 		int alert = 0;
 		foreach (int key in GameData._playerData.Pets.Keys) {
 			if (GameData._playerData.Pets [key].state == 2) {
-				alert = GameData._playerData.Pets [key].alertness;
+				alert += GameData._playerData.Pets [key].alertness;
 			}
 		}
+		//获得警惕性之和再除以3
 		return (int)(alert / 3f);
 	}
 
 	void CatchThief(Thief t){
-		Mails m = new Mails ();
-		m.addresser="Marks";
-		m.subject="Notice";
-		m.mainText = t.name+"was trying to invade my house but was caught by you guard.";
-
+		
+		string s = "你获得了";
 		Dictionary<int,int> drop = Algorithms.GetReward (LoadTxt.MonsterDic [t.monsterId].drop);
 		foreach (int key in drop.Keys) {
-			m.attachmentId = key;
-			m.attachmentNum = drop [key];
+			_gameData.AddItem (key * 10000, drop [key]);
+			s += LoadTxt.MatDic [key].name + " ×" + drop [key];
 			break;
 		}
-		m.isRead = 0;
-		m.type = 0;
-		GameData._playerData.Mails.Add (GameData._playerData.Mails.Count, m);
-		_gameData.StoreData ("Mails", _gameData.GetStrFromMails (GameData._playerData.Mails));
-
+		_logManager.AddLog (t.name + "试图盗窃，但是被守卫抓住了。" + s);
+//		Debug.Log (t.name + "试图盗窃，但是被守卫抓住了。" + s);
 		//Achievement
 		this.gameObject.GetComponentInParent<AchieveActions>().CatchThief(t.id);
 	}
@@ -388,42 +410,53 @@ public class PanelManager : MonoBehaviour {
 
 		Dictionary<int,int> target = new Dictionary<int, int> ();
 
-		int totalValue = 0;
+		int totalValue = 0;//计算总价值
 		foreach (int key in GameData._playerData.wh.Keys) {
 			totalValue += LoadTxt.MatDic [(int)(key / 10000)].price * GameData._playerData.wh [key];
 		}
 
-		int max = (int)(10000f / GameData._playerData.wh.Count);
+		int max = (int)(10000f / GameData._playerData.wh.Count);//把仓库物品分成max份
 		int num = 0;
 		int value = 0;
 		int i = 1;
+
 		foreach (int key in GameData._playerData.wh.Keys) {
 			int r = Algorithms.GetIndexByRange (0, 10000);
 			if (r < i * max && r > ((i - 1) * max)) {
-				num = (int)(Algorithms.GetIndexByRange (0, 30) / 100 * GameData._playerData.wh [key]);
-				target.Add (key, num);
-				value += LoadTxt.MatDic [(int)(key / 10000)].price * GameData._playerData.wh [key];
+				float f = Algorithms.GetIndexByRange (0, 30) / 100f * GameData._playerData.wh [key];
+				f *= GameData._playerData.TheftLossDiscount;
+
+				num = (int)Mathf.Round (f);
+				if (num > 0) {
+					target.Add (key, num);
+					value += LoadTxt.MatDic [(int)(key / 10000)].price * num;
+				}
 			}
-			if (value >= totalValue * 0.05f)
+
+			//价值保护
+			if (value >= totalValue * 0.05f || value >= 300)
 				break;
 		}
 		_gameData.DeleteItemInWh (target);
 		string s = "";
 		foreach (int key in target.Keys) {
-			s+= LoadTxt.MatDic[(int)(key/10000)].name+" ×"+target[key]+",";
+			s += LoadTxt.MatDic [(int)(key / 10000)].name + " -" + target [key] + ",";
 		}
-		s = s.Substring (0, s.Length - 1) + ".";
+		if (s != "") {
+			s = s.Substring (0, s.Length - 1) + "。";
+			_logManager.AddLog ("警告!" + t.name + "闯入家中。" + s);
+//			Debug.Log ("警告!" + t.name + "闯入家中。" + s);	
+		} else {
+			_logManager.AddLog ("警告!" + t.name + "闯入家中。但什么都没看上，空手而去。");
+//			Debug.Log ("警告!" + t.name + "闯入家中。但什么都没看上，空手而去。");
+		}
+			
+	}
 
-		Mails m = new Mails ();
-		m.addresser = "Marks";
-		m.subject = "Warning";
-		m.mainText = t.name + " invaded my house and stole " + s;
-		m.attachmentId = 0;
-		m.attachmentNum = 0;
-		m.isRead = 0;
-		m.type = 1;
-		GameData._playerData.Mails.Add (GameData._playerData.Mails.Count, m);
-		_gameData.StoreData ("Mails", _gameData.GetStrFromMails (GameData._playerData.Mails));
+	public void CheckThief100(){
+		for (int i = 0; i < 100; i++) {
+			CheckThiefActivities ();
+		}
 	}
 
 }

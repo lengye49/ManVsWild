@@ -99,8 +99,8 @@ public class Algorithms  {
 	public static Dictionary<int,int> GetReward(Dictionary<int,float> d){
 		Dictionary<int,int> r = new Dictionary<int, int> ();
 		foreach (int key in d.Keys) {
-			int i = (int)d [key];
-			float f = d [key] - i;
+			int i = (int)(d [key] + 0.001);	//int转换的时候会小1？
+			float f = d [key] - i;//概率
 			float rand = Random.Range (0f, 1f);
 			if (rand < f)
 				i++;

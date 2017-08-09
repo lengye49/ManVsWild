@@ -65,7 +65,7 @@ public class BackpackActions : MonoBehaviour {
 		Magic.text = (GameData._playerData.MagicId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.MagicId / 10000)].name) : "";
 		Head.text = (GameData._playerData.HeadId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.HeadId / 10000)].name) : "";
 		Body.text = (GameData._playerData.BodyId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.BodyId / 10000)].name) : "";
-		Shoe.text = (GameData._playerData.ShoeId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.MeleeId / 10000)].name) : "";
+		Shoe.text = (GameData._playerData.ShoeId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.ShoeId / 10000)].name) : "";
 		Accessory.text = (GameData._playerData.AccessoryId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.MeleeId / 10000)].name) : "";
 		if (GameData._playerData.AmmoId > 0 && GameData._playerData.AmmoNum > 0) {
 			Ammo.text = LoadTxt.MatDic [(int)(GameData._playerData.AmmoId / 10000)].name;

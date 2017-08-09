@@ -7,12 +7,14 @@ public class ClickItemCell : MonoBehaviour {
 	private TipManager _tipManager;
 
 	public void OnWhCell(){
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
 		_tipManager = this.gameObject.GetComponentInParent<TipManager> ();
 		int itemId = int.Parse (this.gameObject.name);
 		_tipManager.ShowNormalTips (itemId,0);
 	}
 
 	public void OnBpCell(string place){
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
 		_tipManager = this.gameObject.GetComponentInParent<TipManager> ();
 		int itemId = int.Parse (this.gameObject.name);
 		if(place == "wh")
@@ -26,6 +28,7 @@ public class ClickItemCell : MonoBehaviour {
 	/// </summary>
 	/// <param name="type">Type.</param>
 	public void OnEquipCell(int type){
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
 		_tipManager = this.gameObject.GetComponentInParent<TipManager> ();
 
 		switch (type) {
@@ -89,12 +92,14 @@ public class ClickItemCell : MonoBehaviour {
 	}
 
 	public void OnMakingCell(){
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
 		_tipManager = this.gameObject.GetComponentInParent<TipManager> ();
 		int itemId = int.Parse (this.gameObject.name);
 		_tipManager.ShowMakingTips (itemId);
 	}
 
 	public void OnStudyCell(){
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
 		_tipManager = this.gameObject.GetComponentInParent<TipManager> ();
 		int studyId = int.Parse (this.gameObject.name);
 		_tipManager.ShowTechTips (studyId);

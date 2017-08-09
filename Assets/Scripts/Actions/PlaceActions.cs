@@ -10,15 +10,15 @@ public class PlaceActions : MonoBehaviour {
 	public GameObject contentG;
 	public RectTransform resourceDetail;
 	public RectTransform observeDetail;
-//	public RectTransform treasureDetail;
 	public RectTransform goodsDetail;
 	public RectTransform placeRect;
 	public RectTransform dungeonRect;
 	public BattleActions _battleActions;
 	public LoadingBar _loadingBar;
+	public LogManager _logManager;
 
 	private GameObject placeCell;
-	private ArrayList placeCells;
+	private ArrayList placeCells = new ArrayList ();
 	private Places _place;
 	private LoadTxt _loadTxt;
 	private FloatingActions _floating;
@@ -28,7 +28,7 @@ public class PlaceActions : MonoBehaviour {
 	private PanelManager _panelManager;
 
 	private GameObject goodsCell;
-	private ArrayList goodsCells;
+	private ArrayList goodsCells = new ArrayList ();
 	private ShopItem _shopItemSelected;
 	private int goodsMax;
 	private int goodsNum;
@@ -42,23 +42,25 @@ public class PlaceActions : MonoBehaviour {
 	private int dungeonLevel;
 	private int thisExitIndex;
 
-	void Start(){
+	void Awake(){
 		placeCell = Instantiate (Resources.Load ("placeCell")) as GameObject;
+	}
+
+	void Start(){
+		
 		goodsCell = Instantiate (Resources.Load ("goodsCell")) as GameObject;
 		placeCell.SetActive (false);
 		goodsCell.SetActive (false);
-		placeCells = new ArrayList ();
-		goodsCells = new ArrayList ();
 		_loadTxt = this.gameObject.GetComponentInParent<LoadTxt> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		_panelManager = this.gameObject.GetComponentInParent<PanelManager> ();
-//		UpdatePlace (1);
 	}
 
 	public void UpdatePlace(Maps m,bool newPlace){
 		_mapNow = m;
 		_place = LoadTxt.PlaceDic [m.id];
+
 		if (m.id == 21) {
 			if (!newPlace)
 				return;
@@ -68,6 +70,88 @@ public class PlaceActions : MonoBehaviour {
 			SetDetailPosition ();
 			SetPlace (m);
 		}
+	}
+
+	public void PlayBackGroundMusic(int mapId){
+		int isRain = Random.Range (0, 10);
+		string bgSoundName = "";
+		if (isRain < 2)
+			bgSoundName = "rain_small";
+		else if (isRain < 3)
+			bgSoundName = "rain_heavy";
+		else {
+			switch (mapId) {
+			case 0:
+				bgSoundName = "";
+				break;
+			case 1:
+				bgSoundName = "river";
+				break;
+			case 2:
+				bgSoundName = "woods";
+				break;
+			case 3:
+				bgSoundName = "mountain";
+				break;
+			case 4:
+				bgSoundName = "";
+				break;
+			case 5:
+				bgSoundName = "mountain";
+				break;
+			case 6:
+				bgSoundName = "cave";
+				break;
+			case 7:
+				bgSoundName = "island";
+				break;
+			case 8:
+			case 9:
+			case 10:
+				bgSoundName = "";
+				break;
+			case 11:
+				bgSoundName = "mountain";
+				break;
+			case 12:
+				bgSoundName = "";
+				break;
+			case 13:
+				bgSoundName = "woods";
+				break;
+			case 14:
+				bgSoundName = "woods";
+				break;
+			case 15:
+				bgSoundName = "cave";
+				break;
+			case 16:
+			case 17:
+			case 18:
+				bgSoundName = "";
+				break;
+			case 19:
+				bgSoundName = "hawk";
+				break;
+			case 20:
+				bgSoundName = "";
+				break;
+			case 21:
+				bgSoundName = "dungeon";
+				break;
+			case 22:
+			case 23:
+				bgSoundName = "island";
+				break;
+			case 24:
+				bgSoundName = "sea";
+				break;
+			default:
+				break;
+			}
+		}
+
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayEnvironmentSound (bgSoundName);
 	}
 
 	public void UpdatePlace(int lv){
@@ -384,7 +468,7 @@ public class PlaceActions : MonoBehaviour {
 			t [3].text ="伐木";
 			break;
 		case 1:
-			t [3].text ="挖矿";
+			t [3].text ="挖掘";
 			break;
 		case 2:
 			t [3].text ="提水";
@@ -703,7 +787,7 @@ public class PlaceActions : MonoBehaviour {
 			o.gameObject.name = shopItem.itemId.ToString ();
 			Text[] _texts = o.gameObject.GetComponentsInChildren<Text> ();
 			_texts [0].text = GetGoodsName (shopItem.reward);
-			_texts[1].text = "(交易)";
+			_texts[1].text = "交换";
 			j++;
 
 		}
@@ -827,8 +911,7 @@ public class PlaceActions : MonoBehaviour {
 	public void AddGoodsNum(){
 		if (goodsNum < goodsMax)
 			goodsNum++;
-		else
-			goodsNum = goodsMax;
+
 		ChangeGoodsNumText ();
 	}
 
@@ -863,7 +946,7 @@ public class PlaceActions : MonoBehaviour {
 		case "伐木":
 			StartCoroutine (StartCut ());
 			break;
-		case "挖矿":
+		case "挖掘":
 			StartCoroutine (StartDig ());
 			break;
 		case "提水":
@@ -910,6 +993,7 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	bool CheckGhost(){
+
 		if (GameData._playerData.hourNow >= 5 && GameData._playerData.hourNow <= 19)
 			return false;
 		int r = Algorithms.GetIndexByRange (0, 100);
@@ -1137,7 +1221,7 @@ public class PlaceActions : MonoBehaviour {
 		}
 		int index = Algorithms.GetResultByWeight (weight);
 		int num = Algorithms.GetIndexByRange (1, 1 + LoadTxt.MonsterDic [ids [index]].groupNum);
-		Debug.Log ("Hunt for fun : " + LoadTxt.MonsterDic [ids [index]].name);
+//		Debug.Log ("Hunt for fun : " + LoadTxt.MonsterDic [ids [index]].name);
 
 		Monster[] m = new Monster[num];
 		for(int i=0;i<m.Length;i++)
@@ -1199,28 +1283,33 @@ public class PlaceActions : MonoBehaviour {
 					GameData._playerData.MapOpenState [index] = 1;
 					_gameData.StoreData ("MapOpenState", _gameData.GetStrFromMapOpenState (GameData._playerData.MapOpenState));
 					_floating.CallInFloating ("发现新地点 : " + LoadTxt.MapDic [index].name,0);
-
+					_logManager.AddLog ("你发现了新地点：" + LoadTxt.MapDic [index].name);
 					//Achievement
 					this.gameObject.GetComponentInParent<AchieveActions> ().NewPlaceFind ();
 				} else {
 					_floating.CallInFloating ("发现新路径 : " + LoadTxt.MapDic [index].name, 0);
+					_logManager.AddLog ("你发现了去往" + LoadTxt.MapDic [index].name + "的新路径");
 				}
 			} else if (key == 1) {
 				if (index == 4209) {
 					GameData._playerData.Farms [0].open = 1;
 					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-					_floating.CallInFloating ("你学会了酿制红酒。", 0);
+					_floating.CallInFloating ("学会酿制红酒。", 0);
+					_logManager.AddLog ("你学会了酿制红酒。");
 				} else if (index == 4210) {
 					GameData._playerData.Farms [1].open = 1;
 					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-					_floating.CallInFloating ("你学会了酿制啤酒。", 0);
+					_floating.CallInFloating ("学会酿制啤酒。", 0);
+					_logManager.AddLog ("你学会了酿制啤酒。");
 				} else if (index == 4208) {
 					GameData._playerData.Farms [2].open = 1;
 					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-					_floating.CallInFloating ("你学会了酿制白酒。", 0);
+					_floating.CallInFloating ("学会酿制白酒。", 0);
+					_logManager.AddLog ("你学会了酿制白酒。");
 				} else {
 					_gameData.LearnBlueprint (index);
-					_floating.CallInFloating ("你学会了制造" + LoadTxt.MatDic [index].name + "。", 0);
+					_floating.CallInFloating ("学会制造" + LoadTxt.MatDic [index].name + "。", 0);
+					_logManager.AddLog ("你学会了制造" + LoadTxt.MatDic [index].name + "。");
 				}
 			} else {
 				_gameData.AddItem (key, index);

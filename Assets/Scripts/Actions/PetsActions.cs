@@ -11,6 +11,7 @@ public class PetsActions : MonoBehaviour {
 	public FloatingActions _floating;
 	public Text spaceText;
 	public GameObject upgradeButton;
+	public LogManager _logManager;
 
 	private GameObject petCell;
 	private ArrayList petCells;
@@ -153,6 +154,12 @@ public class PetsActions : MonoBehaviour {
 			RemoveMount ();
 		}
 		_localPet.state = (_localPet.state == 2) ? 0 : 2;
+
+		if (_localPet.state == 2)
+			_logManager.AddLog (_localPet.name + "开始守卫领地。");
+		else
+			_logManager.AddLog (_localPet.name + "停止守卫领地。");
+		
 		GameData._playerData.Pets [_localIndex] = _localPet;
 		StorePetState ();
 		UpdateDetail ();
@@ -161,22 +168,26 @@ public class PetsActions : MonoBehaviour {
 
 	public void Ride(){
 		float speed1 = GameData._playerData.property [23];
+		string s = "";
 		if (_localPet.state == 1) {
 			RemoveMount ();
 			_localPet.state = 0;
+			s += "停止骑乘" + _localPet.name+"。";
 		} else {
 			_localPet.state = 1;
 			AddMount (_localPet);
-
+			s += "开始骑乘" + _localPet.name+"。";
 			//Achievement
 			this.gameObject.GetComponentInParent<AchieveActions> ().MountPet (_localPet.monsterId);
 		}
 		float speed2 = GameData._playerData.property [23];
 		if (speed1 > speed2) {
-			_floating.CallInFloating ("速度 -" + (speed2 - speed1),1);
+			s += "速度 -" + (speed1 - speed2) + "。";
 		}else if(speed1<speed2){
-			_floating.CallInFloating ("速度 +" + (speed2 - speed1),0);
+			s += "速度 +" + (speed2 - speed1) + "。";
 		}
+		_logManager.AddLog (s);
+
 		GameData._playerData.Pets [_localIndex] = _localPet;
 		StorePetState ();
 		UpdateDetail ();
@@ -189,7 +200,7 @@ public class PetsActions : MonoBehaviour {
 		}
 
 		GameData._playerData.Pets.Remove (_localIndex);
-		_floating.CallInFloating (_localPet.name + " has left.", 1);
+		_logManager.AddLog (_localPet.name + "离开了你。");
 		StorePetState ();
 		CallOutDetail ();
 		SetPetCells();
@@ -199,20 +210,18 @@ public class PetsActions : MonoBehaviour {
 		if (_localPet.state == 1) {
 			RemoveMount ();
 		}
+		string s = "你屠宰了" + _localPet.name + "。";
 		Monster m = LoadTxt.MonsterDic [_localPet.monsterId];
-		foreach (int key in m.drop.Keys) {
-			if (m.drop [key] >= 1) {
-				_gameData.AddItem (key * 10000, (int)(m.drop [key]));
-				_floating.CallInFloating (LoadTxt.MatDic [key].name + " ×" + (int)(m.drop [key]), 0);
+		Dictionary<int,int> r = Algorithms.GetReward (m.drop);
+		if (r.Count > 0) {
+			foreach (int key in r.Keys) {
+				_gameData.AddItem (key * 10000, r [key]);
+				s += LoadTxt.MatDic [key].name + " ×" + r [key] + ",";
 			}
-			else {
-				float f = Algorithms.GetIndexByRange (0, 10000)/10000;
-				if (f <= m.drop [key]) {
-					_gameData.AddItem (key * 10000, 1);
-					_floating.CallInFloating (LoadTxt.MatDic [key].name + " ×1", 0);
-				}
-			}
+			s = s.Substring (0, s.Length - 1) + "。";
 		}
+		_logManager.AddLog (s);
+
 		GameData._playerData.Pets.Remove (_localIndex);
 		StorePetState ();
 		CallOutDetail ();

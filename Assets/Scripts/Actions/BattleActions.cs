@@ -29,6 +29,8 @@ public class BattleActions : MonoBehaviour {
 	public Button returnButton;
 	public Text[] battleLogs = new Text[9];
 
+	public LogManager _logManager;
+
 	public Image autoOn;
 	public Image autoOff;
 
@@ -92,7 +94,7 @@ public class BattleActions : MonoBehaviour {
 
 	void SetEnemy(){
 		SetState ();
-		int titleIndex = Algorithms.GetIndexByRange (0, LoadTxt.MonsterTitleDic.Count);
+		int titleIndex = Algorithms.GetIndexByRange (0, LoadTxt.MonsterTitleDic.Count - 1);
 		GetEnemyProperty (thisMonsters [thisEnemyIndex-1], titleIndex);
 		ResetPanel ();
 	}
@@ -127,13 +129,14 @@ public class BattleActions : MonoBehaviour {
 			capture.interactable = false;
 		} else {
 			meleeAttack.interactable = (GameData._playerData.property [19] >= distance);
-			rangedAttack.interactable = (GameData._playerData.RangedId>0 && GameData._playerData.property [20] >= distance);
+
+			rangedAttack.interactable = (GameData._playerData.RangedId > 0 
+									&& GameData._playerData.property [20] >= distance 
+									&& GameData._playerData.AmmoId > 0 
+									&& GameData._playerData.AmmoNum > 0);
 			magicAttack.interactable = (GameData._playerData.MagicId > 0);
 			jumpForward.interactable = true;
 			jumpBackward.interactable = true;
-			Debug.Log ((enemy.hp <= (enemyMaxHp * 0.5f)));
-			Debug.Log (enemy.canCapture > 0);
-			Debug.Log (captureFailTime < 3);
 			capture.interactable = ((enemy.hp <= (enemyMaxHp * 0.5f)) && enemy.canCapture > 0 && captureFailTime < 3);
 		}
 	}
@@ -141,7 +144,7 @@ public class BattleActions : MonoBehaviour {
 	void GetEnemyProperty(Monster m,int titleIndex){
 		enemy = new Unit ();
 		enemy.monsterId = m.id;
-		enemy.name = m.name;
+		enemy.name = m.name + "[" + LoadTxt.MonsterTitleDic [titleIndex].title + "]";
 		enemy.level = m.level;
 		enemy.hp = LoadTxt.MonsterModelDic [m.model].hp + LoadTxt.MonsterModelDic [m.model].hp_inc * (m.level - 1);
 		enemy.hp *= 1 + LoadTxt.MonsterTitleDic [titleIndex].hpBonus ;
@@ -271,14 +274,16 @@ public class BattleActions : MonoBehaviour {
 	void Move(bool forward,float speed,bool isEnemyMove){
 
 		int f = forward ? -1 : 1;
-		distance = Mathf.Max (0, distance + speed * f);
+		float d = Mathf.Max (0, distance + speed * f);
+		float dis = distance - d;
+		distance = d;
 		string s = forward ? "前进" : "后退";
 		if (isEnemyMove) {
 			enemyNextTurn += 1;
-			AddLog (enemy.name  + s + "了", 0);
+			AddLog (enemy.name + s + "了" + dis + "米。", 0);
 		} else {
 			myNextTurn += 1;
-			AddLog ("You moved " + s + "了" , 0);
+			AddLog ("你" + s + "了" + dis + "米。", 0);
 		}
 
 		enemyDistance.text = distance + "米";
@@ -481,6 +486,7 @@ public class BattleActions : MonoBehaviour {
 			s="你击败了"+enemy.name+"，但什么也没找到。";
 		}
 		AddLog (s,1);
+		_logManager.AddLog ("你击败了" + enemy.name + "。");
 		_achieveActions.DefeatEnemy (enemy.monsterId);
 		StartCoroutine (WaitAndCheck ());
 	}
@@ -559,8 +565,26 @@ public class BattleActions : MonoBehaviour {
 	public void RangedFight(){
 		int skillId = LoadTxt.MatDic [(int)(GameData._playerData.RangedId/10000)].skillId;
 		myNextTurn += GameData._playerData.property [22];
+
+		float att = GameData._playerData.property [14];
+
+		int ammoId = GameData._playerData.AmmoId / 10000;
+		if (LoadTxt.MatDic [ammoId].property.ContainsKey (26))
+			att *= (LoadTxt.MatDic [ammoId].property [26] / 100f + 1f);
+
+		if (LoadTxt.MatDic [ammoId].property.ContainsKey (14))
+			att += LoadTxt.MatDic [ammoId].property [14];
+		
 		SetPoint ();
-		Fight (GameData._playerData.property [17], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], GameData._playerData.property [14], enemy.def, skillId, true);
+		Fight (GameData._playerData.property [17], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], att, enemy.def, skillId, true);
+
+		GameData._playerData.AmmoNum--;
+		_gameData.StoreData ("AmmoNum", GameData._playerData.AmmoNum);
+
+		if (GameData._playerData.AmmoNum == 0) {
+			GameData._playerData.AmmoId = 0;
+			_gameData.StoreData ("AmmoId", 0);
+		}
 
 		//Achievement
 		_achieveActions.Fight ("Ranged");
@@ -568,9 +592,10 @@ public class BattleActions : MonoBehaviour {
 	public void MagicFight(){
 		myNextTurn += 1;
 		SetPoint ();
-		_gameData.ChangeProperty (2, -(int)(LoadTxt.MatDic [GameData._playerData.MagicId].castSpirit * GameData._playerData.MagicCostRate));
+		_gameData.ChangeProperty (2, -(int)(LoadTxt.MatDic [GameData._playerData.MagicId/10000].castSpirit * GameData._playerData.MagicCostRate));
 		int dam = (int)(GameData._playerData.property [24] * GameData._playerData.MagicPower * Algorithms.GetIndexByRange (80, 120) / 100);
 		enemy.hp -= dam;
+		AddLog ("你使用了" + LoadTxt.MatDic [GameData._playerData.MagicId / 10000].name + ",对" + enemy.name + "造成" + dam + "点伤害。", 0);
 		CheckBattleEnd ();
 
 		//Achievement
@@ -594,7 +619,8 @@ public class BattleActions : MonoBehaviour {
 
 		myNextTurn++;
 		SetPoint ();
-		float rate = 1f;//0.2f - enemy.level / 100 * 0.5f;
+		float rate = 0.2f - enemy.level / 100 * 0.5f;
+		Debug.Log ("Capture Rate = " + rate);
 		rate *= GameData._playerData.CaptureRate;
 		int i = Algorithms.GetIndexByRange (0, 10000);
 		if (i < (int)(rate * 10000)) {

@@ -9,6 +9,7 @@ public class ClickMailCell : MonoBehaviour {
 	}
 
 	public void OnClick(){
+		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
 		int i = int.Parse (this.gameObject.name);
 		_mailBoxActions.OpenMail (i);
 	}

@@ -196,7 +196,7 @@ public class FarmActions : MonoBehaviour {
 		}
 
 		t[2].text = GetReq (LoadTxt.PlantsDic [plantType].plantReq);
-		t[4].text=LoadTxt.PlantsDic [plantType].plantTime + " 时";
+		t[4].text= LoadTxt.PlantsDic [plantType].plantTime + " 时";
 		t[6].text = LoadTxt.PlantsDic[plantType].plantGrowCycle + " 天";
 		t[7].text= "准备";
 	}
