@@ -113,4 +113,9 @@ public class GameConfigs{
 		new Color (251f / 255f, 50f / 255f, 239f / 255f, 1f),
 		new Color (222f / 255f, 170f / 255f, 48f / 255f, 1f)
 	};
+
+
+    //温度变化
+    public static float[] TempChangeDay = {0.2f,1f,0.2f,-0.5f};
+    public static float[] TempChangeNight = { -0.2f, 0.5f, -0.2f, 1f };
 }

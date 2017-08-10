@@ -12,15 +12,15 @@ public class PlayerData  {
 	public int foodNow;
 	public int waterNow;
 	public int strengthNow;
-	public int tempNow;
+    public float tempNow;
 
 	public int HpMax;
 	public int SpiritMax;
 	public int FoodMax;
 	public int WaterMax;
 	public int StrengthMax;
-	public int TempMax;
-	public int TempMin;
+    public float TempMax;
+    public float TempMin;
 
 	public float[] property;
 
@@ -33,7 +33,7 @@ public class PlayerData  {
 	}
 
 	/// <summary>
-	/// Gets the hour now by format 24h.
+	/// 获得当前小时数（24小时制）
 	/// </summary>
 	/// <value>The hour now.</value>
 	public int hourNow {
@@ -44,6 +44,10 @@ public class PlayerData  {
 		get{ return (int)(minutesPassed / 60 / 24 + 1);}
 	}
 
+    /// <summary>
+    /// 获得当前季节0春1夏2秋3冬
+    /// </summary>
+    /// <value>The season now.</value>
 	public int seasonNow
 	{
 		get{return (int)(minutesPassed / 60 / 24 / 90) % 4;}

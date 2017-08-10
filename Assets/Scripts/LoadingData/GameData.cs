@@ -78,15 +78,15 @@ public class GameData : MonoBehaviour {
 		_playerData.foodNow = PlayerPrefs.GetInt ("foodNow" + s, 100);
 		_playerData.waterNow = PlayerPrefs.GetInt ("waterNow" + s, 100);
 		_playerData.strengthNow = PlayerPrefs.GetInt ("strengthNow" + s, 100);
-		_playerData.tempNow = PlayerPrefs.GetInt ("tempNow" + s, 20);
+        _playerData.tempNow = PlayerPrefs.GetFloat ("tempNow" + s, 20);
 
 		_playerData.HpMax = PlayerPrefs.GetInt ("HpMax" + s, 100);
 		_playerData.SpiritMax = PlayerPrefs.GetInt ("SpiritMax" + s, 100);
 		_playerData.FoodMax = PlayerPrefs.GetInt ("FoodMax" + s, 100);
 		_playerData.WaterMax = PlayerPrefs.GetInt ("Watermax" + s, 100);
 		_playerData.StrengthMax = PlayerPrefs.GetInt ("StrengthMax" + s, 100);
-		_playerData.TempMax = PlayerPrefs.GetInt ("TempMax" + s, 60);
-		_playerData.TempMin = PlayerPrefs.GetInt ("TempMin" + s, -60);
+		_playerData.TempMax = PlayerPrefs.GetFloat ("TempMax" + s, 60);
+        _playerData.TempMin = PlayerPrefs.GetFloat ("TempMin" + s, -60);
 
 		_playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" + s, 0);
 
@@ -206,14 +206,14 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("foodNow" + s, _playerData.foodNow);
 		PlayerPrefs.SetInt ("waterNow" + s, _playerData.waterNow);
 		PlayerPrefs.SetInt ("strengthNow" + s, _playerData.strengthNow);
-		PlayerPrefs.SetInt ("tempNow" + s, _playerData.tempNow);
+		PlayerPrefs.SetFloat ("tempNow" + s, _playerData.tempNow);
 		PlayerPrefs.SetInt ("HpMax" + s, _playerData.HpMax);
 		PlayerPrefs.SetInt ("SpiritMax" + s, _playerData.SpiritMax);
 		PlayerPrefs.SetInt ("Watermax" + s, _playerData.WaterMax);
 		PlayerPrefs.SetInt ("FoodMax" + s, _playerData.FoodMax);
 		PlayerPrefs.SetInt ("StrengthMax" + s, _playerData.StrengthMax);
-		PlayerPrefs.SetInt ("TempMin" + s, _playerData.TempMin);
-		PlayerPrefs.SetInt ("TempMax" + s, _playerData.TempMax);
+        PlayerPrefs.SetFloat ("TempMin" + s, _playerData.TempMin);
+        PlayerPrefs.SetFloat ("TempMax" + s, _playerData.TempMax);
 
 		PlayerPrefs.SetInt ("minutesPassed" + s, _playerData.minutesPassed);
 
@@ -341,6 +341,8 @@ public class GameData : MonoBehaviour {
 			UpdateProperty (6, _playerData.waterNow);
 			_headUiManager.UpdateHeadUI ("waterNow");
 
+            ChangeTemperature();
+
 			if (_playerData.foodNow <= 0)
 				Debug.Log ("Death of Food");
 			if (_playerData.waterNow <= 0)
@@ -358,6 +360,30 @@ public class GameData : MonoBehaviour {
 		//Achievement
 		this.gameObject.GetComponent<AchieveActions>().TimeChange();
 	}
+
+    void ChangeTemperature(){
+        float lastTemp = _playerData.tempNow;
+
+        if (_playerData.hourNow > 6 && _playerData.hourNow <= 18)
+            _playerData.property[10] += GameConfigs.TempChangeDay[_playerData.seasonNow] * (float)Random.Range(80, 120) / 100f;
+        else
+            _playerData.property[10] += GameConfigs.TempChangeNight[_playerData.seasonNow] * (float)Random.Range(80, 120) / 100f;
+        _playerData.tempNow = _playerData.property[10];
+        StoreData("tempNow", _playerData.tempNow);
+        _headUiManager.UpdateHeadUI("tempNow");
+
+        if (lastTemp < 0.75f * _playerData.TempMax && _playerData.tempNow >= 0.75f * _playerData.TempMax)
+            GetComponentInChildren<LogManager>().AddLog("你的体温过高，如果体温高于" + _playerData.TempMax + "℃将会死亡。");
+
+        if (lastTemp > 0.75f * _playerData.TempMin && _playerData.tempNow <= 0.75f * _playerData.TempMin)
+            GetComponentInChildren<LogManager>().AddLog("你的体温过低，如果体温低于" + _playerData.TempMax + "℃将会死亡。");
+
+        if (_playerData.tempNow > _playerData.TempMax)
+            Debug.Log("Die of Hot.");
+        if (_playerData.tempNow < _playerData.TempMin)
+            Debug.Log("Die of Cold.");
+
+    }
 
 	void ChangeDay(){
 		string txt = "第" + _playerData.dayNow + "天开始了，加油！";
@@ -840,6 +866,10 @@ public class GameData : MonoBehaviour {
 		_playerData.property [propId] = newValue;
 	}
 
+    void UpdateProperty(int propId,float newValue){
+        _playerData.property [propId] = newValue;
+    }
+
 	/// <summary>
 	/// Gets the 6_now property.
 	/// </summary>
@@ -1091,6 +1121,30 @@ public class GameData : MonoBehaviour {
 		_playerData.PetRecord++;
 		StoreData ("PetRecord", _playerData.PetRecord);
 	}
+
+    /// <summary>
+    /// 在探索的过程中是否发现了新地图
+    /// </summary>
+    /// <param name="isMission">If set to <c>true</c> is mission.</param>
+    public void SearchNewPlace(){
+
+    }
+
+    public void OpenMap(int mapId){
+        if (GameData._playerData.MapOpenState[mapId] == 1)
+            return;
+
+        GameData._playerData.MapOpenState[mapId] = 1;
+        StoreData("MapOpenState", GetStrFromMapOpenState(_playerData.MapOpenState));
+
+        GetComponentInChildren<LogManager>().AddLog("你发现了新地点：" + LoadTxt.MapDic[mapId].name);
+        GetComponentInChildren<FloatingActions>().CallInFloating("你发现了新地点：" + LoadTxt.MapDic[mapId].name, 0);
+
+        //Achievement
+        this.gameObject.GetComponentInParent<AchieveActions>().NewPlaceFind();
+
+    }
+
 
 
 	public Text inputWords;

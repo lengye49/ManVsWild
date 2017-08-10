@@ -312,41 +312,13 @@ public class PlaceActions : MonoBehaviour {
 			} else {
 				Debug.Log ("Nothing Happened");
 			}
-//		} else if (r < 99) {
-//			SetDungeonShop ();
-//			Debug.Log ("NPC Trade");
 		} else if (r < 50) {
 			Debug.Log ("Nothing Text");
 		} else {
 			Debug.Log ("Nothing");
 		}
 	}
-
-//	void SetDungeonShop(){
-//		CallInObserveDetail ();
-//		int j = 0;
-//		int r = Algorithms.GetIndexByRange (2, 5);
-//		for (int i = 0; i < r; i++) {
-//			GameObject o;
-//			if (goodsCells.Count <= j) {
-//				o = Instantiate (goodsCell) as GameObject;
-//				o.transform.SetParent (contentG.transform);
-//				o.transform.localPosition = Vector3.zero;
-//				o.transform.localScale = Vector3.one;
-//				goodsCells.Add (o);
-//			} else {
-//				o = goodsCells [i] as GameObject;
-//				o.SetActive (true);
-//			}
-//
-//			ShopItem shopItem = new ShopItem(Algorithms.GetRandomGoods(dungeonLevel));
-//			o.gameObject.name = shopItem.itemId.ToString ();
-//			Text[] _texts = o.gameObject.GetComponentsInChildren<Text> ();
-//			_texts [0].text = GetGoodsName (shopItem.reward);
-//
-//			j++;
-//		}
-//	}
+        
 
 	Monster GetNewMonster(){
 		int minLv=1;
