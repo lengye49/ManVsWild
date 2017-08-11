@@ -7,10 +7,10 @@ using DG.Tweening;
 public class PlaceActions : MonoBehaviour {
 
 	public GameObject contentP;
-	public GameObject contentG;
+//	public GameObject contentG;
 	public RectTransform resourceDetail;
 	public RectTransform observeDetail;
-	public RectTransform goodsDetail;
+//	public RectTransform goodsDetail;
 	public RectTransform placeRect;
 	public RectTransform dungeonRect;
 	public BattleActions _battleActions;
@@ -27,12 +27,12 @@ public class PlaceActions : MonoBehaviour {
 	private Maps _mapNow;
 	private PanelManager _panelManager;
 
-	private GameObject goodsCell;
-	private ArrayList goodsCells = new ArrayList ();
-	private ShopItem _shopItemSelected;
-	private int goodsMax;
-	private int goodsNum;
-	private float popTime= 0.3f;
+//	private GameObject goodsCell;
+//	private ArrayList goodsCells = new ArrayList ();
+//	private ShopItem _shopItemSelected;
+//	private int goodsMax;
+//	private int goodsNum;
+//	private float popTime= 0.3f;
 
 	private int[] dungeonCellState;//0 Cannot open;1 Can open;2 Opened;3 Door
 	public Button[] dungeonCells;
@@ -48,9 +48,9 @@ public class PlaceActions : MonoBehaviour {
 
 	void Start(){
 		
-		goodsCell = Instantiate (Resources.Load ("goodsCell")) as GameObject;
+//		goodsCell = Instantiate (Resources.Load ("goodsCell")) as GameObject;
 		placeCell.SetActive (false);
-		goodsCell.SetActive (false);
+//		goodsCell.SetActive (false);
 		_loadTxt = this.gameObject.GetComponentInParent<LoadTxt> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
@@ -527,11 +527,11 @@ public class PlaceActions : MonoBehaviour {
 	void SetDetailPosition(){
 		observeDetail.localPosition = new Vector3 (0, 0, 0);
 		resourceDetail.localPosition = new Vector3 (150, 0, 0);
-		goodsDetail.localPosition = new Vector3 (150, -3000, 0);
+//		goodsDetail.localPosition = new Vector3 (150, -3000, 0);
 
 		observeDetail.gameObject.SetActive (false);
 		resourceDetail.gameObject.SetActive (false);
-		goodsDetail.gameObject.SetActive (false);
+//		goodsDetail.gameObject.SetActive (false);
 	}
 
 	void CallInResourceDetail(){
@@ -723,179 +723,180 @@ public class PlaceActions : MonoBehaviour {
 	void SetObserving(PlaceUnit pu){
 		_puNow = pu;
 		//param格式:open;Name;Description;ShopId;MonsterId
+		//param格式:open;Name;Description;ShopId;MonsterId  New
 		string[] s = pu.actionParam.Split (';');
-		Shop thisShop = LoadTxt.ShopDic [int.Parse (s[3])];
+//		Shop thisShop = LoadTxt.ShopDic [int.Parse (s[3])];
 		Text[] t = observeDetail.gameObject.GetComponentsInChildren<Text> ();
 		t [0].text = s [1];
 		t [1].text = s [2];
 		Button[] b = observeDetail.gameObject.GetComponentsInChildren<Button> ();
-		b [0].interactable = (s.Length >= 5);
+		b [0].interactable = (s.Length >= 4);
 
-		for (int i = 0; i < goodsCells.Count; i++) {
-			GameObject o = goodsCells [i] as GameObject;
-			o.gameObject.SetActive (false);
-		}
-
-		int j = 0;
-
-		for (int i = 0; i < thisShop.shopItemList.Count; i++) {
-			ShopItem shopItem = thisShop.shopItemList [i] as ShopItem;
-			if (CheckSaleOut (shopItem))
-				continue;
-
-			GameObject o;
-			if (goodsCells.Count <= j) {
-				o = Instantiate (goodsCell) as GameObject;
-				o.SetActive (true);
-				o.transform.SetParent (contentG.transform);
-				o.transform.localPosition = Vector3.zero;
-				o.transform.localScale = Vector3.one;
-				goodsCells.Add (o);
-			} else {
-				o = goodsCells [i] as GameObject;
-				o.SetActive (true);
-			}
-
-			o.gameObject.name = shopItem.itemId.ToString ();
-			Text[] _texts = o.gameObject.GetComponentsInChildren<Text> ();
-			_texts [0].text = GetGoodsName (shopItem.reward);
-			_texts[1].text = "交换";
-			j++;
-
-		}
-
-		contentG.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(540,65 * j);
+//		for (int i = 0; i < goodsCells.Count; i++) {
+//			GameObject o = goodsCells [i] as GameObject;
+//			o.gameObject.SetActive (false);
+//		}
+//
+//		int j = 0;
+//
+//		for (int i = 0; i < thisShop.shopItemList.Count; i++) {
+//			ShopItem shopItem = thisShop.shopItemList [i] as ShopItem;
+//			if (CheckSaleOut (shopItem))
+//				continue;
+//
+//			GameObject o;
+//			if (goodsCells.Count <= j) {
+//				o = Instantiate (goodsCell) as GameObject;
+//				o.SetActive (true);
+//				o.transform.SetParent (contentG.transform);
+//				o.transform.localPosition = Vector3.zero;
+//				o.transform.localScale = Vector3.one;
+//				goodsCells.Add (o);
+//			} else {
+//				o = goodsCells [i] as GameObject;
+//				o.SetActive (true);
+//			}
+//
+//			o.gameObject.name = shopItem.itemId.ToString ();
+//			Text[] _texts = o.gameObject.GetComponentsInChildren<Text> ();
+//			_texts [0].text = GetGoodsName (shopItem.reward);
+//			_texts[1].text = "交换";
+//			j++;
+//
+//		}
+//
+//		contentG.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(540,65 * j);
 	}
 		
-	bool CheckSaleOut(ShopItem si){
-		switch (si.itemType) {
-		case "0":
-			if (si.buyTimes > 0)
-				return true;
-			else
-				return false;
-		case "1":
-			return false;
-		case "-1":
-			return false;
-		default:
-			string[] s = si.itemType.Split ('|');
-			int limit = int.Parse (s [1]);
-			if (si.buyTimes < limit)
-				return false;
-			else
-				return true;
-		}
-	}
+//	bool CheckSaleOut(ShopItem si){
+//		switch (si.itemType) {
+//		case "0":
+//			if (si.buyTimes > 0)
+//				return true;
+//			else
+//				return false;
+//		case "1":
+//			return false;
+//		case "-1":
+//			return false;
+//		default:
+//			string[] s = si.itemType.Split ('|');
+//			int limit = int.Parse (s [1]);
+//			if (si.buyTimes < limit)
+//				return false;
+//			else
+//				return true;
+//		}
+//	}
 
-	int GetGoodsMax(ShopItem si){
-		switch (si.itemType) {
-		case "0":
-			if (si.buyTimes >= 1)
-				return 0;
-			else
-				return 1;
-		case "1":
-			return -1;
-		case "-1":
-			return 1;
-		default:
-			string[] s = si.itemType.Split ('|');
-			int limit = int.Parse (s [1]);
-			return limit-si.buyTimes;
-		}
-	}
+//	int GetGoodsMax(ShopItem si){
+//		switch (si.itemType) {
+//		case "0":
+//			if (si.buyTimes >= 1)
+//				return 0;
+//			else
+//				return 1;
+//		case "1":
+//			return -1;
+//		case "-1":
+//			return 1;
+//		default:
+//			string[] s = si.itemType.Split ('|');
+//			int limit = int.Parse (s [1]);
+//			return limit-si.buyTimes;
+//		}
+//	}
+//
+//	string GetGoodsName(Dictionary<int,int> d){
+//		foreach (int key in d.Keys) {
+//			if (key == 0)
+//				return "一张地图";
+//			else if (key == 1)
+//				return "卷轴:" + LoadTxt.MatDic [d [key]].name;
+//			else
+//				return LoadTxt.MatDic [key].name + "×" + d [key];
+//		}
+//		return string.Empty;
+//	}
 
-	string GetGoodsName(Dictionary<int,int> d){
-		foreach (int key in d.Keys) {
-			if (key == 0)
-				return "一张地图";
-			else if (key == 1)
-				return "卷轴:" + LoadTxt.MatDic [d [key]].name;
-			else
-				return LoadTxt.MatDic [key].name + "×" + d [key];
-		}
-		return string.Empty;
-	}
+//	string GetDescription(Dictionary<int,int> d){
+//		foreach (int key in d.Keys) {
+//			if (key == 0)
+//				return "一张普通的地图。";
+//			else if (key == 1)
+//				return "学习制作" + LoadTxt.MatDic [d[key]].name;
+//			else
+//				return LoadTxt.MatDic [key].desc;
+//		}
+//		return string.Empty;
+//	}
 
-	string GetDescription(Dictionary<int,int> d){
-		foreach (int key in d.Keys) {
-			if (key == 0)
-				return "一张普通的地图。";
-			else if (key == 1)
-				return "学习制作" + LoadTxt.MatDic [d[key]].name;
-			else
-				return LoadTxt.MatDic [key].desc;
-		}
-		return string.Empty;
-	}
+//	string GetCost(Dictionary<int,int> d){
+//		if(d.Count==0)
+//			return "接受任务";
+//		foreach (int key in d.Keys) {
+//			return LoadTxt.MatDic [key].name + " ×" + d [key];
+//		}
+//		return string.Empty;
+//	}
 
-	string GetCost(Dictionary<int,int> d){
-		if(d.Count==0)
-			return "接受任务";
-		foreach (int key in d.Keys) {
-			return LoadTxt.MatDic [key].name + " ×" + d [key];
-		}
-		return string.Empty;
-	}
+//	bool CheckIsEnough(Dictionary<int,int> d){
+//		if (d.Count == 0)
+//			return true;
+//		foreach (int key in d.Keys) {
+//			if (_gameData.CountInBp (key) >= d [key])
+//				return true;
+//			else
+//				return false;
+//		}
+//		return false;
+//	}
+//
+//	public void CallInGoodsDetail(int shopItemId){
+//
+//		goodsDetail.gameObject.SetActive (true);
+//		if (goodsDetail.localPosition.y > 10 || goodsDetail.localPosition.y < -10) {
+//			goodsDetail.DOLocalMoveY (-150, popTime);
+//		}
+//		goodsDetail.gameObject.name = LoadTxt.MatDic [shopItemId].name;
+//		_shopItemSelected = LoadTxt.ShopItemDic [shopItemId];
+//		Text[] t = goodsDetail.gameObject.GetComponentsInChildren<Text> ();
+//		t [0].text = GetGoodsName (_shopItemSelected.reward);
+//		t [1].text = GetDescription (_shopItemSelected.reward);
+//		t [2].text = GetCost (_shopItemSelected.cost);
+//		t [2].color = CheckIsEnough (_shopItemSelected.cost) ? Color.green : Color.red;
+//		goodsMax = GetGoodsMax(_shopItemSelected);
+//		goodsNum = (goodsMax > 0) ? 1 : 0;
+//		ChangeGoodsNumText ();
+//		Button[] b = goodsDetail.gameObject.GetComponentsInChildren<Button> ();
+//		b [0].interactable = (goodsNum <= goodsMax && goodsNum>=1);
+//		b [1].interactable = true;
+//	}
 
-	bool CheckIsEnough(Dictionary<int,int> d){
-		if (d.Count == 0)
-			return true;
-		foreach (int key in d.Keys) {
-			if (_gameData.CountInBp (key) >= d [key])
-				return true;
-			else
-				return false;
-		}
-		return false;
-	}
-
-	public void CallInGoodsDetail(int shopItemId){
-
-		goodsDetail.gameObject.SetActive (true);
-		if (goodsDetail.localPosition.y > 10 || goodsDetail.localPosition.y < -10) {
-			goodsDetail.DOLocalMoveY (-150, popTime);
-		}
-		goodsDetail.gameObject.name = LoadTxt.MatDic [shopItemId].name;
-		_shopItemSelected = LoadTxt.ShopItemDic [shopItemId];
-		Text[] t = goodsDetail.gameObject.GetComponentsInChildren<Text> ();
-		t [0].text = GetGoodsName (_shopItemSelected.reward);
-		t [1].text = GetDescription (_shopItemSelected.reward);
-		t [2].text = GetCost (_shopItemSelected.cost);
-		t [2].color = CheckIsEnough (_shopItemSelected.cost) ? Color.green : Color.red;
-		goodsMax = GetGoodsMax(_shopItemSelected);
-		goodsNum = (goodsMax > 0) ? 1 : 0;
-		ChangeGoodsNumText ();
-		Button[] b = goodsDetail.gameObject.GetComponentsInChildren<Button> ();
-		b [0].interactable = (goodsNum <= goodsMax && goodsNum>=1);
-		b [1].interactable = true;
-	}
-
-	void ChangeGoodsNumText(){
-		string s = goodsNum.ToString ();
-		if (goodsMax != -1)
-			s += "/" + goodsMax;
-		Text[] t = goodsDetail.gameObject.GetComponentsInChildren<Text> ();
-		t [3].text = s;
-	}
-
-	public void AddGoodsNum(){
-		if (goodsNum < goodsMax)
-			goodsNum++;
-
-		ChangeGoodsNumText ();
-	}
-
-	public void ReduceGoodsNum(){
-		if (goodsNum > 1)
-			goodsNum--;
-		ChangeGoodsNumText ();
-	}
-
-	public void CallOutGoodsDetail(){
-		goodsDetail.DOLocalMoveY (-3000, popTime);
-	}
+//	void ChangeGoodsNumText(){
+//		string s = goodsNum.ToString ();
+//		if (goodsMax != -1)
+//			s += "/" + goodsMax;
+//		Text[] t = goodsDetail.gameObject.GetComponentsInChildren<Text> ();
+//		t [3].text = s;
+//	}
+//
+//	public void AddGoodsNum(){
+//		if (goodsNum < goodsMax)
+//			goodsNum++;
+//
+//		ChangeGoodsNumText ();
+//	}
+//
+//	public void ReduceGoodsNum(){
+//		if (goodsNum > 1)
+//			goodsNum--;
+//		ChangeGoodsNumText ();
+//	}
+//
+//	public void CallOutGoodsDetail(){
+//		goodsDetail.DOLocalMoveY (-3000, popTime);
+//	}
 
 	public void ResourceAct(){
 		if (GameData._playerData.dayNow > GameConfigs.StartGhostEvent) {
@@ -1137,28 +1138,13 @@ public class PlaceActions : MonoBehaviour {
 		}
 
 		if (rewards.Count >= 1) {
-			string newItems = "";
+			string newItems = "获得 ";
 			foreach (int key in rewards.Keys) {
 				_gameData.AddItem (key * 10000, rewards [key]);
 				newItems += LoadTxt.MatDic [key].name + " +" + rewards [key] + "\t";
-
-				//Achievement
-				switch (LoadTxt.MatDic [key].type) {
-				case 3:
-					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMeleeWeapon (key);
-					break;
-				case 4:
-					this.gameObject.GetComponentInParent<AchieveActions> ().CollectRangedWeapon (key);
-					break;
-				case 5:
-					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMagicWeapon (key);
-					break;
-				default:
-					break;
-				}
 			}
 			newItems = newItems.Substring (0, newItems.Length - 1);
-			_floating.CallInFloating (newItems, 0);
+			_logManager.AddLog (newItems);
 
 			//Achievement
 			if (now == 0)
@@ -1178,6 +1164,7 @@ public class PlaceActions : MonoBehaviour {
 		_loadTxt.StorePlaceUnit (_puNow);
 
 		SetSearching (_puNow);
+		_gameData.SearchNewPlace (_mapNow.id, now * 100 / total);
 	}
 
 	void Hunt(){
@@ -1205,116 +1192,116 @@ public class PlaceActions : MonoBehaviour {
 		_battleActions.InitializeBattleField (m, isSpoted);
 	}
 
-	public void Trade(){
-		if (goodsNum < 1)
-			return;
-		if (!CheckIsEnough (_shopItemSelected.cost)) {
-			_floating.CallInFloating ("资源不足", 1);
-		} else {
-			TradeProcess ();
-		}
-	}
+//	public void Trade(){
+//		if (goodsNum < 1)
+//			return;
+//		if (!CheckIsEnough (_shopItemSelected.cost)) {
+//			_floating.CallInFloating ("资源不足", 1);
+//		} else {
+//			TradeProcess ();
+//		}
+//	}
 
-	void TradeProcess(){
-		ConsumeItems ();
-		GainResult ();
-		SetObserving (_puNow);
-	}
+//	void TradeProcess(){
+//		ConsumeItems ();
+//		GainResult ();
+//		SetObserving (_puNow);
+//	}
 
-	void GainResult(){
-		switch (_shopItemSelected.itemType) {
-		case "0":
-			if (_shopItemSelected.buyTimes >= 1)
-				return;
-			else {
-				_shopItemSelected.buyTimes = 1;
-				_loadTxt.StoreShopItemBuyTimes (_shopItemSelected.itemId, 1);
-				CallOutGoodsDetail ();
-			}
-			break;
-		case "1":
-			break;
-		case "-1":
-			break;
-		default:
-			string[] s = _shopItemSelected.itemType.Split ('|');
-			int limit = int.Parse (s [1]);
-			if (_shopItemSelected.buyTimes >= limit)
-				return;
-			_shopItemSelected.buyTimes++;
-			_loadTxt.StoreShopItemBuyTimes (_shopItemSelected.itemId, _shopItemSelected.buyTimes);
-			if (_shopItemSelected.buyTimes >= limit)
-				CallOutDetail ();
-			break;
-		}
-
-		foreach (int key in _shopItemSelected.reward.Keys) {
-			int index =  _shopItemSelected.reward [key];
-			if (key == 0) {
-				if (GameData._playerData.MapOpenState [index] == 0) {
-					GameData._playerData.MapOpenState [index] = 1;
-					_gameData.StoreData ("MapOpenState", _gameData.GetStrFromMapOpenState (GameData._playerData.MapOpenState));
-					_floating.CallInFloating ("发现新地点 : " + LoadTxt.MapDic [index].name,0);
-					_logManager.AddLog ("你发现了新地点：" + LoadTxt.MapDic [index].name);
-					//Achievement
-					this.gameObject.GetComponentInParent<AchieveActions> ().NewPlaceFind ();
-				} else {
-					_floating.CallInFloating ("发现新路径 : " + LoadTxt.MapDic [index].name, 0);
-					_logManager.AddLog ("你发现了去往" + LoadTxt.MapDic [index].name + "的新路径");
-				}
-			} else if (key == 1) {
-				if (index == 4209) {
-					GameData._playerData.Farms [0].open = 1;
-					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-					_floating.CallInFloating ("学会酿制红酒。", 0);
-					_logManager.AddLog ("你学会了酿制红酒。");
-				} else if (index == 4210) {
-					GameData._playerData.Farms [1].open = 1;
-					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-					_floating.CallInFloating ("学会酿制啤酒。", 0);
-					_logManager.AddLog ("你学会了酿制啤酒。");
-				} else if (index == 4208) {
-					GameData._playerData.Farms [2].open = 1;
-					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-					_floating.CallInFloating ("学会酿制白酒。", 0);
-					_logManager.AddLog ("你学会了酿制白酒。");
-				} else {
-					_gameData.LearnBlueprint (index);
-					_floating.CallInFloating ("学会制造" + LoadTxt.MatDic [index].name + "。", 0);
-					_logManager.AddLog ("你学会了制造" + LoadTxt.MatDic [index].name + "。");
-				}
-			} else {
-				_gameData.AddItem (key, index);
-				_floating.CallInFloating (LoadTxt.MatDic [key].name + " +" + index, 0);
-
-				//Achievement
-				switch (LoadTxt.MatDic [key].type) {
-				case 3:
-					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMeleeWeapon (key);
-					break;
-				case 4:
-					this.gameObject.GetComponentInParent<AchieveActions> ().CollectRangedWeapon (key);
-					break;
-				case 5:
-					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMagicWeapon (key);
-					break;
-				default:
-					break;
-				}
-			}
-		}
-	}
+//	void GainResult(){
+//		switch (_shopItemSelected.itemType) {
+//		case "0":
+//			if (_shopItemSelected.buyTimes >= 1)
+//				return;
+//			else {
+//				_shopItemSelected.buyTimes = 1;
+//				_loadTxt.StoreShopItemBuyTimes (_shopItemSelected.itemId, 1);
+//				CallOutGoodsDetail ();
+//			}
+//			break;
+//		case "1":
+//			break;
+//		case "-1":
+//			break;
+//		default:
+//			string[] s = _shopItemSelected.itemType.Split ('|');
+//			int limit = int.Parse (s [1]);
+//			if (_shopItemSelected.buyTimes >= limit)
+//				return;
+//			_shopItemSelected.buyTimes++;
+//			_loadTxt.StoreShopItemBuyTimes (_shopItemSelected.itemId, _shopItemSelected.buyTimes);
+//			if (_shopItemSelected.buyTimes >= limit)
+//				CallOutDetail ();
+//			break;
+//		}
+//
+//		foreach (int key in _shopItemSelected.reward.Keys) {
+//			int index =  _shopItemSelected.reward [key];
+//			if (key == 0) {
+//				if (GameData._playerData.MapOpenState [index] == 0) {
+//					GameData._playerData.MapOpenState [index] = 1;
+//					_gameData.StoreData ("MapOpenState", _gameData.GetStrFromMapOpenState (GameData._playerData.MapOpenState));
+//					_floating.CallInFloating ("发现新地点 : " + LoadTxt.MapDic [index].name,0);
+//					_logManager.AddLog ("你发现了新地点：" + LoadTxt.MapDic [index].name);
+//					//Achievement
+//					this.gameObject.GetComponentInParent<AchieveActions> ().NewPlaceFind ();
+//				} else {
+//					_floating.CallInFloating ("发现新路径 : " + LoadTxt.MapDic [index].name, 0);
+//					_logManager.AddLog ("你发现了去往" + LoadTxt.MapDic [index].name + "的新路径");
+//				}
+//			} else if (key == 1) {
+//				if (index == 4209) {
+//					GameData._playerData.Farms [0].open = 1;
+//					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
+//					_floating.CallInFloating ("学会酿制红酒。", 0);
+//					_logManager.AddLog ("你学会了酿制红酒。");
+//				} else if (index == 4210) {
+//					GameData._playerData.Farms [1].open = 1;
+//					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
+//					_floating.CallInFloating ("学会酿制啤酒。", 0);
+//					_logManager.AddLog ("你学会了酿制啤酒。");
+//				} else if (index == 4208) {
+//					GameData._playerData.Farms [2].open = 1;
+//					_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
+//					_floating.CallInFloating ("学会酿制白酒。", 0);
+//					_logManager.AddLog ("你学会了酿制白酒。");
+//				} else {
+//					_gameData.LearnBlueprint (index);
+//					_floating.CallInFloating ("学会制造" + LoadTxt.MatDic [index].name + "。", 0);
+//					_logManager.AddLog ("你学会了制造" + LoadTxt.MatDic [index].name + "。");
+//				}
+//			} else {
+//				_gameData.AddItem (key, index);
+//				_floating.CallInFloating (LoadTxt.MatDic [key].name + " +" + index, 0);
+//
+//				//Achievement
+//				switch (LoadTxt.MatDic [key].type) {
+//				case 3:
+//					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMeleeWeapon (key);
+//					break;
+//				case 4:
+//					this.gameObject.GetComponentInParent<AchieveActions> ().CollectRangedWeapon (key);
+//					break;
+//				case 5:
+//					this.gameObject.GetComponentInParent<AchieveActions> ().CollectMagicWeapon (key);
+//					break;
+//				default:
+//					break;
+//				}
+//			}
+//		}
+//	}
 		
-
-	void ConsumeItems(){
-		if (_shopItemSelected.cost.Count == 0)
-			return;
-		else {
-			foreach (int key in _shopItemSelected.cost.Keys) {
-				_gameData.ConsumeItem (key, _shopItemSelected.cost [key]);
-			}
-		}
-	}
+//
+//	void ConsumeItems(){
+//		if (_shopItemSelected.cost.Count == 0)
+//			return;
+//		else {
+//			foreach (int key in _shopItemSelected.cost.Keys) {
+//				_gameData.ConsumeItem (key, _shopItemSelected.cost [key]);
+//			}
+//		}
+//	}
 		
 
 	public void Rob(){

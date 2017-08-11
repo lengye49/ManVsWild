@@ -971,17 +971,17 @@ public class GameData : MonoBehaviour {
 			CheckHotKeyState ();
 	}
 
-	/// <summary>
-	/// id:119,120...
-	/// </summary>
-	/// <param name="itemId">Item identifier.</param>
-	public void LearnBlueprint(int itemId){
-		if (_playerData.LearnedBlueprints.ContainsKey (itemId)) {
-			return;
-		}
-		_playerData.LearnedBlueprints.Add (itemId, 1);
-		StoreData ("LearnedBlueprints", GetStrFromDic (_playerData.LearnedBlueprints));
-	}
+//	/// <summary>
+//	/// id:119,120...
+//	/// </summary>
+//	/// <param name="itemId">Item identifier.</param>
+//	public void LearnBlueprint(int itemId){
+//		if (_playerData.LearnedBlueprints.ContainsKey (itemId)) {
+//			return;
+//		}
+//		_playerData.LearnedBlueprints.Add (itemId, 1);
+//		StoreData ("LearnedBlueprints", GetStrFromDic (_playerData.LearnedBlueprints));
+//	}
 
 	public void WithDrawWater(int waterStoredNow){
 		AddItem (GameConfigs.WaterId, waterStoredNow);
@@ -1123,13 +1123,17 @@ public class GameData : MonoBehaviour {
 	}
 
     /// <summary>
-    /// 在探索的过程中是否发现了新地图
+    /// 在探索的过程中是否发现了新地图，根据当前进度来调整新地图出现的概率
     /// </summary>
     /// <param name="isMission">If set to <c>true</c> is mission.</param>
-    public void SearchNewPlace(){
+	public void SearchNewPlace(int thisMapId,int searchProcess){
 
     }
 
+	/// <summary>
+	/// 开启新地图
+	/// </summary>
+	/// <param name="mapId">Map identifier.</param>
     public void OpenMap(int mapId){
         if (GameData._playerData.MapOpenState[mapId] == 1)
             return;
@@ -1145,6 +1149,45 @@ public class GameData : MonoBehaviour {
 
     }
 
+	/// <summary>
+	/// 击败怪物是否可以获得新的配方&卷轴
+	/// </summary>
+	/// <param name="thisMapId">This map identifier.</param>
+	public void CanGetNewScroll(int monsterId){
+		
+	}
+
+	/// <summary>
+	/// 获得了新的配方&卷轴
+	/// </summary>
+	/// <param name="scrollId">Scroll identifier.</param>
+	public void GetNewScroll(int scrollId){
+		if (scrollId == 4209) {
+			if (_playerData.Farms [0].open != 0)
+				return;
+			GameData._playerData.Farms [0].open = 1;
+			StoreData ("Farms", GetStrFromFarmState (GameData._playerData.Farms));
+			GetComponentInChildren<LogManager>().AddLog ("你学会了酿制红酒。");
+		} else if (scrollId == 4210 ) {
+			if (_playerData.Farms [1].open != 0)
+				return;
+			GameData._playerData.Farms [1].open = 1;
+			StoreData ("Farms", GetStrFromFarmState (GameData._playerData.Farms));
+			GetComponentInChildren<LogManager>().AddLog ("你学会了酿制啤酒。");
+		} else if (scrollId == 4208 ) {
+			if (_playerData.Farms [2].open != 0)
+				return;
+			GameData._playerData.Farms [2].open = 1;
+			StoreData ("Farms", GetStrFromFarmState (GameData._playerData.Farms));
+			GetComponentInChildren<LogManager>().AddLog ("你学会了酿制白酒。");
+		} else{
+			if (_playerData.LearnedBlueprints.ContainsKey (scrollId))
+				return;
+			_playerData.LearnedBlueprints.Add (scrollId, 1);
+			StoreData ("LearnedBlueprints", GetStrFromDic (_playerData.LearnedBlueprints));
+			GetComponentInChildren<LogManager>().AddLog ("你学会了制造" + LoadTxt.MatDic [scrollId].name + "。");
+		}
+	}
 
 
 	public Text inputWords;
