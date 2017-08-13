@@ -15,6 +15,8 @@ public class Monster {
 	public Dictionary<int,float> drop;
 	public int canCapture;
 	public int groupNum;
+	public int mapOpen;
+	public int renown;
 }
 
 public class MonsterModel{
@@ -50,6 +52,8 @@ public class Unit{
 	public string hit_Vital;
 	public int canCapture;
 	public float castSpeedBonus;
+	public int mapOpen;
+	public int renown;
 }
 
 /// <summary>

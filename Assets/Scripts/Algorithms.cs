@@ -179,4 +179,5 @@ public class Algorithms  {
 		else
 			return new Color (1f, (f - 0.1f) / 0.2f, 0f, 1f);
 	}
+		
 }

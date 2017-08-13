@@ -11,7 +11,7 @@ public class BackpackActions : MonoBehaviour {
 	public Text Head;
 	public Text Body;
 	public Text Shoe;
-	public Text Accessory;
+//	public Text Accessory;
 	public Text Ammo;
 	public Text AmmoNum;
 	public Text Mount;
@@ -20,7 +20,6 @@ public class BackpackActions : MonoBehaviour {
 	public Button hotkey1;
 
 	public Text soulStone;
-	public Text gold;
 
 	public GameObject contentB;
 	private GameObject bpCell;
@@ -66,7 +65,7 @@ public class BackpackActions : MonoBehaviour {
 		Head.text = (GameData._playerData.HeadId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.HeadId / 10000)].name) : "";
 		Body.text = (GameData._playerData.BodyId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.BodyId / 10000)].name) : "";
 		Shoe.text = (GameData._playerData.ShoeId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.ShoeId / 10000)].name) : "";
-		Accessory.text = (GameData._playerData.AccessoryId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.MeleeId / 10000)].name) : "";
+//		Accessory.text = (GameData._playerData.AccessoryId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.MeleeId / 10000)].name) : "";
 		if (GameData._playerData.AmmoId > 0 && GameData._playerData.AmmoNum > 0) {
 			Ammo.text = LoadTxt.MatDic [(int)(GameData._playerData.AmmoId / 10000)].name;
 			AmmoNum.text = "×" + GameData._playerData.AmmoNum;
@@ -110,7 +109,6 @@ public class BackpackActions : MonoBehaviour {
 		}
 
 		soulStone.text = GameData._playerData.SoulStone.ToString();
-		gold.text = GameData._playerData.Gold.ToString ();
 	}
 
 	void ClearContent(GameObject o){

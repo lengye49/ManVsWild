@@ -173,6 +173,8 @@ public class BattleActions : MonoBehaviour {
 		enemy.hit_Vital = m.bodyPart[1];
 		enemy.hit_Move = m.bodyPart [2];
 		enemy.canCapture = m.canCapture;
+		enemy.mapOpen = m.mapOpen;
+		enemy.renown = m.renown;
 		Debug.Log ("Hp:" + enemy.hp + " Spirit:" + enemy.spirit + " hit:" + enemy.hit);
 	}
 
@@ -457,10 +459,21 @@ public class BattleActions : MonoBehaviour {
 			return;
 		}
 
+		string s = "你击败了" + enemy.name + "。";
+		AddLog (s, 1);
+
+		if (enemy.mapOpen > 0 && GameData._playerData.MapOpenState [enemy.mapOpen] == 0) {
+			GameData._playerData.MapOpenState [enemy.mapOpen] = 1;
+			_gameData.StoreData ("MapOpenState", _gameData.GetStrFromMapOpenState (GameData._playerData.MapOpenState));
+			s = "他告诉你去往" + LoadTxt.MapDic [enemy.mapOpen].name + "的方向。";
+			AddLog (s, 1);
+			_logManager.AddLog ("你发现了去" + LoadTxt.MapDic [enemy.mapOpen].name + "的路。");
+		}
+
 		Dictionary<int,int> drop = Algorithms.GetReward (enemy.drop);
-		string s = "";
+
+		s = "获得了";
 		if (drop.Count > 0) {
-			s="你击败了"+enemy.name+"，获得";
 			foreach (int key in drop.Keys) {
 				int itemId = GenerateItemId (key);
 				_gameData.AddItem (itemId, drop [key]);
@@ -481,12 +494,24 @@ public class BattleActions : MonoBehaviour {
 					break;
 				}
 			}
-			s = s.Substring (0, s.Length - 1) + ".";
-		} else {
-			s="你击败了"+enemy.name+"，但什么也没找到。";
+			s = s.Substring (0, s.Length - 1) ;
+			if (enemy.renown > 0) {
+				s += "和" + enemy.renown + "点声望。";
+			} else {
+				s += "。";
+			}
+			AddLog (s,1);
+		} else {			
+			if (enemy.renown > 0) {
+				s += enemy.renown + "点声望。";
+				AddLog (s,1);
+			} 
 		}
-		AddLog (s,1);
-		_logManager.AddLog ("你击败了" + enemy.name + "。");
+
+		if (enemy.renown > 0)
+			_gameData.AddRenown (enemy.renown);
+
+		//添加成就
 		_achieveActions.DefeatEnemy (enemy.monsterId);
 		StartCoroutine (WaitAndCheck ());
 	}

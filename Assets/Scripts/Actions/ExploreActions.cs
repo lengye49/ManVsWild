@@ -7,7 +7,6 @@ using DG.Tweening;
 public class ExploreActions : MonoBehaviour {
 
 	public GameObject contentE;
-	public RectTransform detail;
 
 	private GameObject mapCell;
 	private ArrayList mapCells;
@@ -28,7 +27,6 @@ public class ExploreActions : MonoBehaviour {
 	
 	public void UpdateExplore(){
 
-		CallOutDetail ();
 		int openNum = 0;
 		foreach (int key in GameData._playerData.MapOpenState.Keys) {
 			if (GameData._playerData.MapOpenState [key] == 1)
@@ -80,27 +78,6 @@ public class ExploreActions : MonoBehaviour {
 		for (int i = 0; i < t.Length; i++) {
 			t [i].text = "";
 		}
-	}
-
-	public void CallInDetail(Maps m){
-		if (detail.gameObject.activeSelf == false) {
-			detail.gameObject.SetActive (true);
-			detail.gameObject.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
-			detail.gameObject.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 0f), 0.3f);
-		}
-
-		mapGoing = m;
-		Text[] t = detail.gameObject.GetComponentsInChildren<Text> ();
-		t [0].text = m.name;
-		int min = TravelTime (LoadTxt.MapDic [GameData._playerData.mapNow].distances [m.id]);
-		string s = GetTimeFormat (min);
-		t [2].text = s;
-	}
-
-	public void CallOutDetail(){
-		detail.localPosition = new Vector3 (150, 0, 0);
-		detail.gameObject.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
-		detail.gameObject.SetActive (false);
 	}
 
 	public void GoToPlace(){

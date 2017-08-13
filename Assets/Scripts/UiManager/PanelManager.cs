@@ -14,7 +14,7 @@ public class PanelManager : MonoBehaviour {
 	public RectTransform Farm;
 	public RectTransform Pets;
 	public RectTransform Well;
-	public RectTransform MailBox;
+	public RectTransform Achievement;
 	public RectTransform Altar;
 	public RectTransform Death;
 	public RectTransform Making;
@@ -66,7 +66,6 @@ public class PanelManager : MonoBehaviour {
 			_PanelNow = Home;
 			GameData._playerData.placeNowId = 0;
 			_gameData.StoreData ("PlaceNowId", 0);
-			UpdateLocation ("Home");
 			break;
 		case "BedRoom":
 			if (GameData._playerData.BedRoomOpen > 0) {
@@ -78,7 +77,6 @@ public class PanelManager : MonoBehaviour {
 				BedRoom.gameObject.GetComponent<RoomActions> ().UpdateRoomStates ();
 				_FatherPanel = Home;
 				_PanelNow = BedRoom;
-				UpdateLocation ("BedRoom");
 			} else {
 				_tipManager.ShowBuildingConstruct ("BedRoom");
 			}
@@ -93,7 +91,6 @@ public class PanelManager : MonoBehaviour {
 				Warehouse.gameObject.GetComponent<WarehouseActions> ().UpdatePanel ();
 				_FatherPanel = Home;
 				_PanelNow = Warehouse;
-				UpdateLocation ("Warehouse");
 			} else {
 				_tipManager.ShowBuildingConstruct ("Warehouse");
 			}
@@ -108,7 +105,6 @@ public class PanelManager : MonoBehaviour {
 				this.gameObject.GetComponentInChildren<MakingActions> ().UpdatePanel (panelName);
 				_FatherPanel = _PanelNow;
 				_PanelNow = Making;
-				UpdateLocation ("Kitchen");
 				break;
 			} else {
 				_tipManager.ShowBuildingConstruct ("Kitchen");
@@ -123,7 +119,6 @@ public class PanelManager : MonoBehaviour {
 				Workshop.DOLocalMoveX (0, tweenerTime);
 				_FatherPanel = Home;
 				_PanelNow = Workshop;
-				UpdateLocation ("Workshop");
 			} else {
 				_tipManager.ShowBuildingConstruct ("Workshop");
 			}
@@ -138,7 +133,6 @@ public class PanelManager : MonoBehaviour {
 				this.gameObject.GetComponentInChildren<WellActions> ().UpdateWell ();
 				_FatherPanel = Home;
 				_PanelNow = Well;
-				UpdateLocation ("Well");
 			} else {
 				_tipManager.ShowBuildingConstruct ("Well");
 			}
@@ -227,7 +221,6 @@ public class PanelManager : MonoBehaviour {
 				Study.gameObject.GetComponent<StudyActions> ().UpdateStudy ();
 				_FatherPanel = Home;
 				_PanelNow = Study;
-				UpdateLocation ("Study");
 			} else {
 				_tipManager.ShowBuildingConstruct ("Study");
 			}
@@ -242,7 +235,6 @@ public class PanelManager : MonoBehaviour {
 				Farm.gameObject.GetComponent<FarmActions> ().UpdateFarm ();
 				_FatherPanel = Home;
 				_PanelNow = Farm;
-				UpdateLocation ("Farm");
 			} else {
 				_tipManager.ShowBuildingConstruct ("Farm");
 			}
@@ -257,24 +249,22 @@ public class PanelManager : MonoBehaviour {
 				Pets.gameObject.GetComponent<PetsActions> ().UpdatePets ();
 				_FatherPanel = Home;
 				_PanelNow = Pets;
-				UpdateLocation ("Pets");
 			} else {
 				_tipManager.ShowBuildingConstruct ("Pets");
 			}
 			break;
-		case "MailBox":
-			if (GameData._playerData.MailBoxOpen > 0) {
-				if(MailBox.localPosition.x>0)
+		case "Achievement":
+			if (GameData._playerData.AchievementOpen > 0) {
+				if(Achievement.localPosition.x>0)
 					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
 				else
 					_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-				MailBox.DOLocalMoveX (0, tweenerTime);
-				MailBox.gameObject.GetComponent<MailBoxActions> ().UpdateMails ();
+				Achievement.DOLocalMoveX (0, tweenerTime);
+				Achievement.gameObject.GetComponent<AchievementActions> ().UpdateAchievement ();
 				_FatherPanel = Home;
-				_PanelNow = MailBox;
-				UpdateLocation ("MailBox");
+				_PanelNow = Achievement;
 			} else {
-				_tipManager.ShowBuildingConstruct ("MailBox");
+				_tipManager.ShowBuildingConstruct ("Achievement");
 			}
 			break;
 		case "Altar":
@@ -287,7 +277,6 @@ public class PanelManager : MonoBehaviour {
 				this.gameObject.GetComponentInChildren<AlterActions> ().UpdateAltar ();
 				_FatherPanel = Home;
 				_PanelNow = Altar;
-				UpdateLocation ("Altar");
 			} else {
 				_tipManager.ShowBuildingConstruct ("Altar");
 			}
@@ -327,13 +316,6 @@ public class PanelManager : MonoBehaviour {
 			break;
 		}
 	}
-
-	void UpdateLocation(string location){
-//		locationText.text = location;
-	}
-
-
-
 
 	void CheckThiefActivities(){
 

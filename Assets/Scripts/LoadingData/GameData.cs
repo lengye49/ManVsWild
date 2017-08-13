@@ -8,15 +8,17 @@ using System.Collections.Generic;
 public class GameData : MonoBehaviour {
 
 	public static PlayerData _playerData;
+
 	private HeadUiManager _headUiManager;
 	private LoadTxt _loadTxt;
 
 	public int meleeIdUsedData;
 	public int rangedIdUsedData;
+	public LogManager _logManager;
 
 	void Awake () {
 
-		/*测试代码，删除所有数据
+		//*测试代码，删除所有数据
 		PlayerPrefs.DeleteAll ();
 		/*******************/
 
@@ -31,6 +33,7 @@ public class GameData : MonoBehaviour {
 		_loadTxt.LoadPlaces (false);
 		_loadTxt.LoadShop (false);
 	}
+
 
 	/// <summary>
 	/// Data that will not be changed when dying or restart.
@@ -98,7 +101,7 @@ public class GameData : MonoBehaviour {
 		_playerData.FarmOpen = PlayerPrefs.GetInt ("FarmOpen" + s, 0);
 		_playerData.PetsOpen = PlayerPrefs.GetInt ("PetsOpen" + s, 1);
 		_playerData.WellOpen = PlayerPrefs.GetInt ("WellOpen" + s, 0);
-		_playerData.MailBoxOpen = PlayerPrefs.GetInt ("MailBoxOpen" + s, 0);
+		_playerData.AchievementOpen = PlayerPrefs.GetInt ("AchievementOpen" + s, 0);
 		_playerData.AltarOpen = PlayerPrefs.GetInt ("AltarOpen" + s, 0);
 
 		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "11000000|50;11010000|20;41000000|5;42000000|2"));
@@ -114,7 +117,6 @@ public class GameData : MonoBehaviour {
 		_playerData.HeadId = PlayerPrefs.GetInt ("HeadId" + s, 0);
 		_playerData.BodyId = PlayerPrefs.GetInt ("BodyId" + s, 0);
 		_playerData.ShoeId = PlayerPrefs.GetInt ("ShoeId" + s, 0);
-		_playerData.AccessoryId = PlayerPrefs.GetInt ("AccessoryId" + s, 0);
 		_playerData.AmmoId = PlayerPrefs.GetInt ("AmmoId" + s, 0);
 		_playerData.AmmoNum = PlayerPrefs.GetInt ("AmmoNum" + s, 0);
 		_playerData.Mount = GetMount (PlayerPrefs.GetString ("Mount" + s, ""));
@@ -125,11 +127,9 @@ public class GameData : MonoBehaviour {
 		_playerData.LastWithdrawWaterTime = PlayerPrefs.GetInt ("LastWithdrawWaterTime" + s, 0);
 
 		_playerData.SoulStone = PlayerPrefs.GetInt ("SoulStone" + s, 0);
-		_playerData.Gold = PlayerPrefs.GetInt ("Gold" + s, 0);
+		_playerData.Renown = PlayerPrefs.GetInt ("Renown" + s, 0);
 
 		_playerData.Farms = GetFarmStateFromStr (PlayerPrefs.GetString ("Farms" + s, "0|0|1|0;1|0|2|0;2|0|3|0;3|0|0|0;4|0|0|0;5|0|0|0;6|0|0|0;7|0|0|0"));
-
-		_playerData.Mails = GetMailsFromStr (PlayerPrefs.GetString ("Mails" + s, "")); //"0|Hi,Glad to meet you!|Li Shujuan|I Love You|1100|10|0"));
 
 		_playerData.Pets = GetPetListFromStr (PlayerPrefs.GetString ("Pets" + s, ""));//"100|1|50|15|Hello;100|0|20|10|Kitty"));
 		_playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
@@ -177,10 +177,6 @@ public class GameData : MonoBehaviour {
 		//成就结束
 
 		_playerData.lastThiefTime = PlayerPrefs.GetInt ("LastThiefTime", 0);
-
-		_playerData.goldConsume = PlayerPrefs.GetInt ("GoldConsume", 0);
-		_playerData.demonPoint = PlayerPrefs.GetInt ("DemonPoint", 0);
-		_playerData.renown = PlayerPrefs.GetInt ("Renown", 0);
 		_playerData.petsCaptured = PlayerPrefs.GetInt ("PetsCaptured", 0);
 		_playerData.wineDrinked = PlayerPrefs.GetInt ("WineDrinked", 0);
 
@@ -225,7 +221,7 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("FarmOpen" + s, _playerData.FarmOpen);
 		PlayerPrefs.SetInt ("PetsOpen" + s, _playerData.PetsOpen);
 		PlayerPrefs.SetInt ("WellOpen" + s, _playerData.WellOpen);
-		PlayerPrefs.SetInt ("MailBoxOpen" + s, _playerData.MailBoxOpen);
+		PlayerPrefs.SetInt ("AchievementOpen" + s, _playerData.AchievementOpen);
 		PlayerPrefs.SetInt ("AltarOpen" + s, _playerData.AltarOpen);
 
 		PlayerPrefs.SetString ("bp" + s, GetStrFromDic (_playerData.bp));
@@ -241,7 +237,7 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("HeadId" + s, _playerData.HeadId);
 		PlayerPrefs.SetInt ("BodyId" + s, _playerData.BodyId);
 		PlayerPrefs.SetInt ("ShoeId" + s, _playerData.ShoeId);
-		PlayerPrefs.SetInt ("AccessoryId" + s, _playerData.AccessoryId);
+//		PlayerPrefs.SetInt ("AccessoryId" + s, _playerData.AccessoryId);
 		PlayerPrefs.SetInt ("AmmoId" + s, _playerData.AmmoId);
 		PlayerPrefs.SetInt ("AmmoNum" + s, _playerData.AmmoNum);
 		PlayerPrefs.SetString ("Mount" + s, GetStrFromMount (_playerData.Mount));
@@ -252,11 +248,10 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("LastWithdrawWaterTime" + s, _playerData.LastWithdrawWaterTime);
 
 		PlayerPrefs.SetInt ("SoulStone" + s, _playerData.SoulStone);
-		PlayerPrefs.SetInt ("Gold" + s, _playerData.Gold);
 
 		PlayerPrefs.SetString ("Farms" + s, GetStrFromFarmState (_playerData.Farms));
 
-		PlayerPrefs.SetString ("Mails" + s, GetStrFromMails (_playerData.Mails));
+//		PlayerPrefs.SetString ("Mails" + s, GetStrFromMails (_playerData.Mails));
 
 		PlayerPrefs.SetString ("Pets" + s, GetstrFromPets (_playerData.Pets));
 		PlayerPrefs.SetInt ("PetRecord" + s, _playerData.PetRecord);
@@ -283,9 +278,7 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("MagicAttackCount" + s, _playerData.magicAttackCount);
 
 		PlayerPrefs.SetInt ("LastThiefTime" + s, _playerData.lastThiefTime);
-		PlayerPrefs.SetInt ("GoldConsume" + s, _playerData.goldConsume);
-		PlayerPrefs.SetInt ("DemonPoint" + s, _playerData.demonPoint);
-		PlayerPrefs.SetInt ("Renown" + s, _playerData.renown);
+		PlayerPrefs.SetInt ("Renown" + s, _playerData.Renown);
 		PlayerPrefs.SetInt ("PetsCaptured" + s, _playerData.petsCaptured);
 		PlayerPrefs.SetInt ("WineDrinked" + s, _playerData.wineDrinked);
 
@@ -322,6 +315,7 @@ public class GameData : MonoBehaviour {
 	public void ChangeTime(int minutes){
 		int lastHour = _playerData.hourNow;
 		int lastDay = _playerData.dayNow;
+		int lastMonth = _playerData.monthNow;
 		int lastSeason = _playerData.seasonNow;
 
 		_playerData.minutesPassed += minutes;
@@ -353,6 +347,10 @@ public class GameData : MonoBehaviour {
 			ChangeDay ();
 		}
 
+		if (_playerData.monthNow != lastMonth) {
+			ChangeMonth ();
+		}
+
 		if (_playerData.seasonNow != lastSeason) {
 			ChangeSeason ();
 		}
@@ -373,10 +371,10 @@ public class GameData : MonoBehaviour {
         _headUiManager.UpdateHeadUI("tempNow");
 
         if (lastTemp < 0.75f * _playerData.TempMax && _playerData.tempNow >= 0.75f * _playerData.TempMax)
-            GetComponentInChildren<LogManager>().AddLog("你的体温过高，如果体温高于" + _playerData.TempMax + "℃将会死亡。");
+			_logManager.AddLog("你的体温过高，如果体温高于" + _playerData.TempMax + "℃将会死亡。");
 
         if (lastTemp > 0.75f * _playerData.TempMin && _playerData.tempNow <= 0.75f * _playerData.TempMin)
-            GetComponentInChildren<LogManager>().AddLog("你的体温过低，如果体温低于" + _playerData.TempMax + "℃将会死亡。");
+			_logManager.AddLog("你的体温过低，如果体温低于" + _playerData.TempMax + "℃将会死亡。");
 
         if (_playerData.tempNow > _playerData.TempMax)
             Debug.Log("Die of Hot.");
@@ -387,7 +385,11 @@ public class GameData : MonoBehaviour {
 
 	void ChangeDay(){
 		string txt = "第" + _playerData.dayNow + "天开始了，加油！";
-		GetComponentInChildren<LogManager> ().AddLog (txt);
+		_logManager.AddLog (txt);
+	}
+
+	void ChangeMonth(){
+	
 	}
 
 	void ChangeSeason(){
@@ -408,7 +410,7 @@ public class GameData : MonoBehaviour {
 		default:
 			break;
 		}
-		GetComponentInChildren<LogManager> ().AddLog (s);
+		_logManager.AddLog (s);
 		GetComponentInChildren<FloatingActions> ().CallInFloating (s, 0);
 	}
 
@@ -527,8 +529,6 @@ public class GameData : MonoBehaviour {
 		//要判断背包是否满了
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
 
-		//Achievement
-		this.gameObject.GetComponent<AchieveActions> ().GoldGet ();
 	}
 
 	/// <summary>
@@ -559,9 +559,6 @@ public class GameData : MonoBehaviour {
 		if ((int)(_playerData.Hotkey0 / 10000) == Id || (int)(_playerData.Hotkey1 / 10000) == Id)
 			CheckHotKeyState ();
 
-		//Achievement
-		if (Id == 3100)
-			this.gameObject.GetComponent<AchieveActions> ().GoldConsume (num);
 	}
 
 
@@ -612,14 +609,18 @@ public class GameData : MonoBehaviour {
 	/// <summary>
 	/// Store item to warehouse.
 	/// </summary>
-	/// <param name="itemId">Item identifier.</param>
+	/// <param name="itemId">8位ID.</param>
 	/// <param name="num">Number.</param>
 	public void StoreItem(int itemId){
-		if (_playerData.wh.ContainsKey (itemId))
-			_playerData.wh [itemId] += _playerData.bp[itemId];
-		else
-			_playerData.wh.Add (itemId, _playerData.bp[itemId]);
+		StoreItem(itemId,_playerData.bp[itemId]);
 		DeleteItemInBp (itemId);
+	}
+
+	public void StoreItem(int itemId,int num){
+		if (_playerData.wh.ContainsKey (itemId))
+			_playerData.wh [itemId] += num;
+		else
+			_playerData.wh.Add (itemId, num);
 		StoreData ("wh", GetStrFromDic (_playerData.wh));
 	}
 
@@ -786,39 +787,39 @@ public class GameData : MonoBehaviour {
 		return s;
 	}
 
-	public Dictionary<int,Mails> GetMailsFromStr(string str){
-		Dictionary<int,Mails> d = new Dictionary<int,Mails> ();
-		string[] strs = str.Split (';');
-		int j = 0;
-		for (int i = 0; i < strs.Length; i++) {
-			if (strs [i].Contains ("|")) {
-				string[] s = strs [i].Split ('|');
-				Mails m = new Mails ();
-				m.type = int.Parse (s [0]);
-				m.subject = s [1];
-				m.addresser = s [2];
-				m.mainText = s [3];
-				m.attachmentId = int.Parse (s [4]);
-				m.attachmentNum = int.Parse (s [5]);
-				m.isRead = int.Parse (s [6]);
-				d.Add (j, m);
-				j++;
-			}
-		}
-		return d;
-	}
-
-	public string GetStrFromMails(Dictionary<int,Mails> m){
-		if (m.Count <= 0)
-			return "";
-		string s = "";
-		foreach (int key in m.Keys) {
-			s += m [key].type + "|"+ m [key].subject + "|"+ m [key].addresser + "|"+ m [key].mainText + "|"+ m [key].attachmentId + "|"+ m [key].attachmentNum + "|"+ m [key].isRead + ";";
-		}
-		if (s != "")
-			s = s.Substring (0, s.Length - 1);
-		return s;
-	}
+//	public Dictionary<int,Mails> GetMailsFromStr(string str){
+//		Dictionary<int,Mails> d = new Dictionary<int,Mails> ();
+//		string[] strs = str.Split (';');
+//		int j = 0;
+//		for (int i = 0; i < strs.Length; i++) {
+//			if (strs [i].Contains ("|")) {
+//				string[] s = strs [i].Split ('|');
+//				Mails m = new Mails ();
+//				m.type = int.Parse (s [0]);
+//				m.subject = s [1];
+//				m.addresser = s [2];
+//				m.mainText = s [3];
+//				m.attachmentId = int.Parse (s [4]);
+//				m.attachmentNum = int.Parse (s [5]);
+//				m.isRead = int.Parse (s [6]);
+//				d.Add (j, m);
+//				j++;
+//			}
+//		}
+//		return d;
+//	}
+//
+//	public string GetStrFromMails(Dictionary<int,Mails> m){
+//		if (m.Count <= 0)
+//			return "";
+//		string s = "";
+//		foreach (int key in m.Keys) {
+//			s += m [key].type + "|"+ m [key].subject + "|"+ m [key].addresser + "|"+ m [key].mainText + "|"+ m [key].attachmentId + "|"+ m [key].attachmentNum + "|"+ m [key].isRead + ";";
+//		}
+//		if (s != "")
+//			s = s.Substring (0, s.Length - 1);
+//		return s;
+//	}
 		
 	public Dictionary<int,int> GetMapOpenStateFromStr(string str){
 		Dictionary<int,int> d = new Dictionary<int, int> ();
@@ -856,7 +857,7 @@ public class GameData : MonoBehaviour {
 		UpdateEquipProperty (GameData._playerData.HeadId);
 		UpdateEquipProperty (GameData._playerData.BodyId);
 		UpdateEquipProperty (GameData._playerData.ShoeId);
-		UpdateEquipProperty (GameData._playerData.AccessoryId);
+//		UpdateEquipProperty (GameData._playerData.AccessoryId);
 		UpdateEquipProperty (GameData._playerData.AmmoId);
 		UpdateMountProperty ();
 		UpdateTechniqueProperty ();
@@ -1034,11 +1035,11 @@ public class GameData : MonoBehaviour {
 			StoreData ("ShoeId", 0);
 			break;
 		case 9:
-			if (_playerData.AccessoryId == 0)
-				return;
-			AddItem (_playerData.AccessoryId, 1);
-			_playerData.AccessoryId = 0;
-			StoreData ("AccessoryId", 0);
+//			if (_playerData.AccessoryId == 0)
+//				return;
+//			AddItem (_playerData.AccessoryId, 1);
+//			_playerData.AccessoryId = 0;
+//			StoreData ("AccessoryId", 0);
 			break;
 		case 10:
 			if (_playerData.AmmoId == 0 || _playerData.AmmoNum == 0)
@@ -1085,8 +1086,8 @@ public class GameData : MonoBehaviour {
 			StoreData ("ShoeId", equipId);
 			break;
 		case 9:
-			_playerData.AccessoryId = equipId;
-			StoreData ("AccessoryId", equipId);
+//			_playerData.AccessoryId = equipId;
+//			StoreData ("AccessoryId", equipId);
 			break;
 		case 10:
 			if (equipId == _playerData.AmmoId) {
@@ -1141,7 +1142,7 @@ public class GameData : MonoBehaviour {
         GameData._playerData.MapOpenState[mapId] = 1;
         StoreData("MapOpenState", GetStrFromMapOpenState(_playerData.MapOpenState));
 
-        GetComponentInChildren<LogManager>().AddLog("你发现了新地点：" + LoadTxt.MapDic[mapId].name);
+		_logManager.AddLog("你发现了新地点：" + LoadTxt.MapDic[mapId].name);
         GetComponentInChildren<FloatingActions>().CallInFloating("你发现了新地点：" + LoadTxt.MapDic[mapId].name, 0);
 
         //Achievement
@@ -1149,46 +1150,106 @@ public class GameData : MonoBehaviour {
 
     }
 
+	public void AddRenown(int num){
+		_playerData.Renown += num;
+		StoreData ("Renown", _playerData.Renown);
+		this.gameObject.GetComponent<AchieveActions> ().RenownChange ();
+	}
+
 	/// <summary>
-	/// 击败怪物是否可以获得新的配方&卷轴
+	/// 获得每日的奖励和提示信息
 	/// </summary>
-	/// <param name="thisMapId">This map identifier.</param>
-	public void CanGetNewScroll(int monsterId){
+	void GetDailyTribute(){;
 		
+		int d = _playerData.dayNow;
+
+		if (d == 3 && _playerData.WarehouseOpen==1) {
+			StoreItem (34020000, 5);//空间宝石
+			_logManager.AddLog( "镇上居民送来了一些材料。");
+			_logManager.AddLog( "空间宝石+5 已放入仓库。");
+		}
+		if (d == 5 && _playerData.WarehouseOpen==1) {
+			StoreItem (41000000, 10);
+			StoreItem (42000000, 10);
+			_logManager.AddLog( "镇长希望你能够照顾好自己后，多去闯荡。镇子很小，世界很大。");
+		}
+		if (d == 10 && _playerData.WarehouseOpen==1) {
+			StoreItem (34020000, 5);//空间宝石
+			_logManager.AddLog( "镇上居民送来了一些材料。");
+			_logManager.AddLog( "空间宝石+5 已放入仓库。");
+		}
+		if (d == 7 && _playerData.WarehouseOpen==1) {
+			StoreItem (33020000, 5);//空间宝石
+			_logManager.AddLog( "镇长派人送来了一些战斗记录。");
+			_logManager.AddLog( "战士训练手册+5 已放入仓库。");
+		}
+		if (d == 12 && _playerData.WarehouseOpen==1) {
+			StoreItem (33040000, 5);//空间宝石
+			_logManager.AddLog( "镇长派人送来了一些战斗记录。");
+			_logManager.AddLog( "射术精要+5 已放入仓库。");
+		}
+
+		//进贡前的提醒
+		if (d % 30 == 27)
+			_logManager.AddLog ("镇上的居民将在3天后送来补给，请保证仓库有>5空位。");
 	}
 
 	/// <summary>
-	/// 获得了新的配方&卷轴
+	/// 获得每月的进贡
 	/// </summary>
-	/// <param name="scrollId">Scroll identifier.</param>
-	public void GetNewScroll(int scrollId){
-		if (scrollId == 4209) {
-			if (_playerData.Farms [0].open != 0)
-				return;
-			GameData._playerData.Farms [0].open = 1;
-			StoreData ("Farms", GetStrFromFarmState (GameData._playerData.Farms));
-			GetComponentInChildren<LogManager>().AddLog ("你学会了酿制红酒。");
-		} else if (scrollId == 4210 ) {
-			if (_playerData.Farms [1].open != 0)
-				return;
-			GameData._playerData.Farms [1].open = 1;
-			StoreData ("Farms", GetStrFromFarmState (GameData._playerData.Farms));
-			GetComponentInChildren<LogManager>().AddLog ("你学会了酿制啤酒。");
-		} else if (scrollId == 4208 ) {
-			if (_playerData.Farms [2].open != 0)
-				return;
-			GameData._playerData.Farms [2].open = 1;
-			StoreData ("Farms", GetStrFromFarmState (GameData._playerData.Farms));
-			GetComponentInChildren<LogManager>().AddLog ("你学会了酿制白酒。");
-		} else{
-			if (_playerData.LearnedBlueprints.ContainsKey (scrollId))
-				return;
-			_playerData.LearnedBlueprints.Add (scrollId, 1);
-			StoreData ("LearnedBlueprints", GetStrFromDic (_playerData.LearnedBlueprints));
-			GetComponentInChildren<LogManager>().AddLog ("你学会了制造" + LoadTxt.MatDic [scrollId].name + "。");
+	void GetMonthlyTribute(){
+		int r = _playerData.Renown;
+		Dictionary<int,int> dic = new Dictionary<int, int> ();
+		string s;
+		if (r < 9) {
+			dic.Add (41000000, 20);//水
+			dic.Add (42000000, 20);//面包
+			s = "希望你能够更加勇敢，闯荡出一些名声，居民给你送来了一些补给。";
+		} else if (r < 99) {
+			dic.Add (41000000, 20);//水
+			dic.Add (42000000, 20);//面包
+			dic.Add (33020000, 10);//战士训练手册
+			dic.Add (33040000, 10);//射术精要
+			s = "你的大名已经传遍小镇，居民给你送来了一些补给。";
+		} else {
+			//根据季节进行区分
+			if (_playerData.seasonNow == 0 || _playerData.seasonNow == 2) {
+				dic.Add (42040000, 20);//烤肉
+				dic.Add (43000000, 30);//鸡尾酒
+				dic.Add (41000000, 50);//水
+			} else if (_playerData.seasonNow == 1) {
+				dic.Add (42050000, 20);//烤鱼
+				dic.Add (41090000, 30);//冰块
+				dic.Add (43010000, 20);//冰镇酒
+			} else {
+				dic.Add (42060000, 20);//烤鱼
+				dic.Add (42020000, 30);//冰块
+				dic.Add (43000000, 20);//鸡尾酒
+			}
+			s = "居民对你非常仰慕，希望你能够继续保护他们。";
 		}
+		_logManager.AddLog (s);
+		s = "";
+		foreach (int key in dic.Keys) {
+			StoreItem (key, dic [key]);
+			s += LoadTxt.MatDic [key / 10000].name + "+" + dic [key] + ",";
+		}
+		s = s.Substring (0, s.Length - 1);
+		s += " 已放入仓库";
+		_logManager.AddLog (s);
 	}
 
+	/// <summary>
+	/// 获得第一次进贡
+	/// </summary>
+	public void GetFirstTribute(){
+		StoreItem (41000000, 5);
+		StoreItem (41010000, 10);
+		string s = "附近居民听说你的到来，向你表达善意。";
+		_logManager.AddLog (s);
+		s = "他们赠予 水+5，种子+5 已放入仓库。";
+		_logManager.AddLog (s);
+	}
 
 	public Text inputWords;
 	public void AddItemById(){

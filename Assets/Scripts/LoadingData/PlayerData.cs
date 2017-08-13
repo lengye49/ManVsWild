@@ -44,6 +44,10 @@ public class PlayerData  {
 		get{ return (int)(minutesPassed / 60 / 24 + 1);}
 	}
 
+	public int monthNow{
+		get{ return (int)(minutesPassed / 60 / 24 / 30) % 12 + 1;}
+	}
+
     /// <summary>
     /// 获得当前季节0春1夏2秋3冬
     /// </summary>
@@ -61,7 +65,7 @@ public class PlayerData  {
 	public int FarmOpen;
 	public int PetsOpen;
 	public int WellOpen;
-	public int MailBoxOpen;
+	public int AchievementOpen;
 	public int AltarOpen;
 
 	public Dictionary<int,int> bp;
@@ -78,7 +82,7 @@ public class PlayerData  {
 	public int HeadId;
 	public int BodyId;
 	public int ShoeId;
-	public int AccessoryId;
+//	public int AccessoryId;
 	public int AmmoId;
 	public int AmmoNum;
 	public Pet Mount;
@@ -89,11 +93,9 @@ public class PlayerData  {
 	public int LastWithdrawWaterTime;
 
 	public int SoulStone;
-	public int Gold;
+	public int Renown;
 
 	public Dictionary<int,FarmState> Farms;
-
-	public Dictionary<int,Mails> Mails;
 
 	public Dictionary<int,Pet> Pets;
 	public int PetRecord;
@@ -176,9 +178,6 @@ public class PlayerData  {
 	public int meleeAttackCount;
 	public int rangedAttackCount;
 	public int magicAttackCount;
-	public int goldConsume;
-	public int demonPoint;//猎魔点
-	public int renown;//善恶值
 	public int petsCaptured;
 	public int wineDrinked;
 

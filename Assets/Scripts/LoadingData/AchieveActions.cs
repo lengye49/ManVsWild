@@ -31,16 +31,16 @@ public class AchieveActions : MonoBehaviour {
 			s += GameData._playerData.foodCooked.Length + "/" + LoadTxt.AchievementDic [6].req;
 			break;
 		case 7:
-			s += GameData._playerData.Gold + "/" + LoadTxt.AchievementDic [7].req;
+			s += GameData._playerData.Renown + "/" + LoadTxt.AchievementDic [7].req;
 			break;
 		case 8:
-			s += GameData._playerData.goldConsume + "/" + LoadTxt.AchievementDic [8].req;
+			s += GameData._playerData.Renown + "/" + LoadTxt.AchievementDic [8].req;
 			break;
 		case 9:
-			s += GameData._playerData.demonPoint + "/" + LoadTxt.AchievementDic [9].req;
+			s += GameData._playerData.Renown + "/" + LoadTxt.AchievementDic [9].req;
 			break;
 		case 10:
-			s += GameData._playerData.renown + "/" + LoadTxt.AchievementDic [10].req;
+			s += GameData._playerData.Renown + "/" + LoadTxt.AchievementDic [10].req;
 			break;
 		case 11:
 			s += GameData._playerData.meleeCollected.Length + "/" + LoadTxt.AchievementDic [11].req;
@@ -431,7 +431,7 @@ public class AchieveActions : MonoBehaviour {
 				return;
 			if (GameData._playerData.WellOpen == 0)
 				return;
-			if (GameData._playerData.MailBoxOpen == 0)
+			if (GameData._playerData.AchievementOpen == 0)
 				return;
 			if (GameData._playerData.AltarOpen == 0)
 				return;
@@ -455,7 +455,7 @@ public class AchieveActions : MonoBehaviour {
 				return;
 			if (GameData._playerData.WellOpen <GameConfigs.MaxLv_Well)
 				return;
-			if (GameData._playerData.MailBoxOpen <GameConfigs.MaxLv_MailBox)
+			if (GameData._playerData.AchievementOpen <GameConfigs.MaxLv_Achievement)
 				return;
 			if (GameData._playerData.AltarOpen <GameConfigs.MaxLv_Altar)
 				return;
@@ -515,34 +515,27 @@ public class AchieveActions : MonoBehaviour {
 		}
 	}
 
-	public void GoldGet(){
-		if (GameData._playerData.Achievements [7] == 1)
-			return;
-		if (GameData._playerData.Gold >= LoadTxt.AchievementDic[7].req)
-			StoreAchievement (7);
-	}
-
-	public void GoldConsume(int num){
-		if (GameData._playerData.Achievements [8] == 1)
-			return;
-		GameData._playerData.goldConsume += num;
-		_gameData.StoreData ("GoldConsume", GameData._playerData.goldConsume);
-		if (GameData._playerData.goldConsume >= LoadTxt.AchievementDic[8].req)
-			StoreAchievement (8);
-	}
-
-	public void DemonPointChange(){
-		if (GameData._playerData.Achievements [9] == 1)
-			return;
-		if (GameData._playerData.demonPoint >= LoadTxt.AchievementDic[9].req)
-			StoreAchievement (9);
-	}
-
 	public void RenownChange(){
 		if (GameData._playerData.Achievements [10] == 1)
 			return;
-		if (GameData._playerData.renown >= LoadTxt.AchievementDic[10].req)
+		if (GameData._playerData.Renown >= LoadTxt.AchievementDic[10].req)
 			StoreAchievement (10);
+
+		if (GameData._playerData.Achievements [9] == 1)
+			return;
+		if (GameData._playerData.Renown >= LoadTxt.AchievementDic[9].req)
+			StoreAchievement (9);
+
+		if (GameData._playerData.Achievements [8] == 1)
+			return;
+		if (GameData._playerData.Renown >= LoadTxt.AchievementDic[8].req)
+			StoreAchievement (8);
+		
+		if (GameData._playerData.Achievements [7] == 1)
+			return;
+		if (GameData._playerData.Renown >= LoadTxt.AchievementDic[7].req)
+			StoreAchievement (7);
+		
 	}
 
 	void StoreAchievement(int index){

@@ -104,8 +104,8 @@ public class LoadTxt : MonoBehaviour {
 		case "水井":
 			GameConfigs.MaxLv_Well = maxLv;
 			break;
-		case "邮箱":
-			GameConfigs.MaxLv_MailBox = maxLv;
+		case "成就":
+			GameConfigs.MaxLv_Achievement = maxLv;
 			break;
 		case "祭坛":
 			GameConfigs.MaxLv_Altar = maxLv;
@@ -190,7 +190,9 @@ public class LoadTxt : MonoBehaviour {
 			}
 
 			m [i].canCapture = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 11));
-			m[i].groupNum = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 12));
+			m [i].groupNum = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 12));
+			m [i].mapOpen = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 13));
+			m [i].renown = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 14));
 			MonsterDic.Add (m [i].id, m [i]);
 		}
 
@@ -436,6 +438,17 @@ public class LoadTxt : MonoBehaviour {
 				}
 			}
 			m[i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 3);
+
+			//探索本地图可能开启哪个地图
+			m [i].mapNext = new ArrayList ();
+			string str = ReadTxt.GetDataByRowAndCol (strs, i + 1, 4);
+			if (str != "0") {
+				string[] s = str.Split ('|');
+				for (int j = 0; j < s.Length; j++) {
+					m [i].mapNext.Add (int.Parse (s [j]));	
+				}
+			}
+
 			MapDic.Add (m [i].id, m [i]);
 		}
 	}

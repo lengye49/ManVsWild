@@ -166,9 +166,10 @@ public class TipManager : MonoBehaviour {
 				}
 			}
 			break;
-		case "MailBox":
+		case "Achievement":
 			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == buildingName && b.id == GameData._playerData.MailBoxOpen + 1) {
+				if (b.name == "成就" && b.id == GameData._playerData.AchievementOpen + 1) {
+					buildTipText [0].text = "成就";
 					SetTipDesc (b);
 					buildTipButton [1].interactable = CheckReq (b.combReq);
 					break;
@@ -271,6 +272,9 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.WarehouseOpen == 1) {
+			//第一次获得进贡
+			_gameData.GetFirstTribute ();
+
 			_floating.CallInFloating ("仓库已建造完毕。", 0);
 			_logManager.AddLog ("仓库已建造完毕。");
 		} else {
@@ -372,13 +376,14 @@ public class TipManager : MonoBehaviour {
 
 		//田地的序号从3开始
 		if (GameData._playerData.FarmOpen == 1) {
+			GameData._playerData.Farms [0].open = 1;
+			GameData._playerData.Farms [1].open = 1;
+			GameData._playerData.Farms [2].open = 1;
 			GameData._playerData.Farms [3].open = 1;
-			_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
-		} else if (GameData._playerData.FarmOpen <= 4) {
+		} else {
 			GameData._playerData.Farms [GameData._playerData.FarmOpen + 2].open = 1;
-			_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
 		}
-
+		_gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.FarmOpen == 1) {
@@ -446,31 +451,6 @@ public class TipManager : MonoBehaviour {
 
 	}
 
-	IEnumerator WaitAndBuildMail(Building b){
-		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
-		yield return new WaitForSeconds (t);
-		BuildMail (b);
-	}
-	void BuildMail(Building b){
-		foreach (int key in b.combReq.Keys)
-			_gameData.ConsumeItem (key, b.combReq [key]);
-
-		GameData._playerData.MailBoxOpen++;
-		_gameData.StoreData ("MailBoxOpen", GameData._playerData.MailBoxOpen);
-
-		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
-
-		if (GameData._playerData.MailBoxOpen == 1) {
-			_floating.CallInFloating ("邮箱已建造完毕。", 0);
-			_logManager.AddLog ("邮箱已建造完毕。");
-		} else {
-			_floating.CallInFloating ("邮箱已升级到等级" + GameData._playerData.MailBoxOpen, 0);
-			_logManager.AddLog ("邮箱已升级到等级"+ GameData._playerData.MailBoxOpen);
-		}
-
-		_homeManager.UpdateContent ();
-	}
-
 	IEnumerator WaitAndBuildAltar(Building b){
 		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
 		yield return new WaitForSeconds (t);
@@ -483,15 +463,22 @@ public class TipManager : MonoBehaviour {
 		GameData._playerData.AltarOpen++;
 		_gameData.StoreData ("AltarOpen", GameData._playerData.AltarOpen);
 
+		GameData._playerData.AchievementOpen++;
+		_gameData.StoreData ("AchievementOpen", GameData._playerData.AchievementOpen);
+
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.AltarOpen == 1) {
-			_floating.CallInFloating ("祭坛已建造完毕。", 0);
-			_floating.CallInFloating ("祭坛已建造完毕。", 0);
+			_floating.CallInFloating ("祭坛已建造完毕，成就系统已开启。", 0);
+			_floating.CallInFloating ("祭坛已建造完毕，成就系统已开启。", 0);
 		} else {
 			_floating.CallInFloating ("祭坛已升级到等级" + GameData._playerData.AltarOpen, 0);
 			_logManager.AddLog ("祭坛已升级到等级"+ GameData._playerData.AltarOpen);
 		}
+
+
+
+
 
 		_homeManager.UpdateContent ();
 	}
@@ -596,16 +583,6 @@ public class TipManager : MonoBehaviour {
 			}
 			break;
 		case "MailBox":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "邮箱" && b.id == GameData._playerData.MailBoxOpen + 1) {
-					if (!CheckReq (b.combReq))
-						break;
-					else {
-						StartCoroutine (WaitAndBuildMail (b));
-						break;
-					}
-				}
-			}
 			break;
 		case "Altar":
 			foreach (Building b in LoadTxt.buildings) {
@@ -1080,9 +1057,7 @@ public class TipManager : MonoBehaviour {
 		commonTipPanel.gameObject.transform.DOBlendableScaleBy (new Vector3 (-1f, -1f, 0f), tipPanelEnlarge);
 		commonTipPanel.gameObject.SetActive (false);
 	}
-
-
-
+		
 	bool CheckReq(Dictionary<int,int> dic){
 		foreach (int key in dic.Keys) {
 			if (_gameData.CountInBp (key) < dic [key])

@@ -69,10 +69,10 @@ public class ClickItemCell : MonoBehaviour {
 				_tipManager.OnNormalTipCover ();
 			break;
 		case 7:
-			if (GameData._playerData.AccessoryId > 0)
-				_tipManager.ShowNormalTips (GameData._playerData.AccessoryId, 3);
-			else
-				_tipManager.OnNormalTipCover ();
+//			if (GameData._playerData.AccessoryId > 0)
+//				_tipManager.ShowNormalTips (GameData._playerData.AccessoryId, 3);
+//			else
+//				_tipManager.OnNormalTipCover ();
 			break;
 		case 8:
 			if (GameData._playerData.AmmoId > 0)

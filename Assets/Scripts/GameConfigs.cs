@@ -34,7 +34,7 @@ public class GameConfigs{
 	public static int MaxLv_Farm = 3;
 	public static int MaxLv_Pets = 3;
 	public static int MaxLv_Well = 3;
-	public static int MaxLv_MailBox = 1;
+	public static int MaxLv_Achievement = 1;
 	public static int MaxLv_Altar = 1;
 
 	public static int WaterInWellPerDay = 5;
