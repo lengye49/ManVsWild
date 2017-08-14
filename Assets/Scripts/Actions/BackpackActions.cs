@@ -45,7 +45,7 @@ public class BackpackActions : MonoBehaviour {
 			hotkey0.gameObject.GetComponentInChildren<Text> ().text = LoadTxt.MatDic [(int)(GameData._playerData.Hotkey0 / 10000)].name;
 			hotkey0.interactable = true;
 		} else {
-			hotkey0.gameObject.GetComponentInChildren<Text> ().text = "";
+			hotkey0.gameObject.GetComponentInChildren<Text> ().text = "尚未设置";
 			hotkey0.interactable = false;
 		}
 
@@ -53,7 +53,7 @@ public class BackpackActions : MonoBehaviour {
 			hotkey1.gameObject.GetComponentInChildren<Text> ().text = LoadTxt.MatDic [(int)(GameData._playerData.Hotkey1 / 10000)].name;
 			hotkey1.interactable = true;
 		} else {
-			hotkey1.gameObject.GetComponentInChildren<Text> ().text = "";
+			hotkey1.gameObject.GetComponentInChildren<Text> ().text = "尚未设置";
 			hotkey1.interactable = false;
 		}
 	}

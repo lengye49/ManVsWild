@@ -245,10 +245,8 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.BedRoomOpen == 1) {
-			_floating.CallInFloating ("休息室已建造完毕。", 0);
 			_logManager.AddLog ("休息室已建造完毕。");
 		} else {
-			_floating.CallInFloating ("休息室已升级到等级" + GameData._playerData.BedRoomOpen, 0);
 			_logManager.AddLog ("休息室已升级到等级"+ GameData._playerData.BedRoomOpen);
 		}
 
@@ -272,13 +270,11 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.WarehouseOpen == 1) {
+			_logManager.AddLog ("仓库已建造完毕。");
+
 			//第一次获得进贡
 			_gameData.GetFirstTribute ();
-
-			_floating.CallInFloating ("仓库已建造完毕。", 0);
-			_logManager.AddLog ("仓库已建造完毕。");
 		} else {
-			_floating.CallInFloating ("仓库已升级到等级" + GameData._playerData.WarehouseOpen, 0);
 			_logManager.AddLog ("仓库已升级到等级"+ GameData._playerData.WarehouseOpen);
 		}
 
@@ -301,10 +297,9 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.KitchenOpen == 1) {
-			_floating.CallInFloating ("厨房已建造完毕。", 0);
 			_logManager.AddLog ("厨房已建造完毕。");
+			_logManager.AddLog (1f, "建造完[休息室]后，你可以点击页面右下角的[地图]到四周转转。");
 		} else {
-			_floating.CallInFloating ("厨房已升级到等级" + GameData._playerData.KitchenOpen, 0);
 			_logManager.AddLog ("厨房已升级到等级"+ GameData._playerData.KitchenOpen);
 		}
 
@@ -327,10 +322,8 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.WorkshopOpen == 1) {
-			_floating.CallInFloating ("工作台已建造完毕。", 0);
 			_logManager.AddLog ("工作台已建造完毕。");
 		} else {
-			_floating.CallInFloating ("工作台已升级到等级" + GameData._playerData.WorkshopOpen, 0);
 			_logManager.AddLog ("工作台已升级到等级"+ GameData._playerData.WorkshopOpen);
 		}
 
@@ -352,10 +345,8 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.StudyOpen == 1) {
-			_floating.CallInFloating ("研究室已建造完毕。", 0);
 			_logManager.AddLog ("研究室已建造完毕。");
 		} else {
-			_floating.CallInFloating ("研究室已升级到等级" + GameData._playerData.StudyOpen, 0);
 			_logManager.AddLog ("研究室已升级到等级"+ GameData._playerData.StudyOpen);
 		}
 
@@ -387,10 +378,8 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.FarmOpen == 1) {
-			_floating.CallInFloating ("农田已准备妥当。", 0);
 			_logManager.AddLog ("农田已准备妥当。");
 		} else {
-			_floating.CallInFloating ("农田已升级到等级" + GameData._playerData.FarmOpen, 0);
 			_logManager.AddLog ("农田已升级到等级"+ GameData._playerData.FarmOpen);
 		}
 		this.gameObject.GetComponentInChildren<FarmActions> ().UpdateFarm ();
@@ -412,10 +401,8 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.PetsOpen == 1) {
-			_floating.CallInFloating ("宠物笼已建造完毕。", 0);
 			_logManager.AddLog ("宠物笼已建造完毕。");
 		} else {
-			_floating.CallInFloating ("宠物笼已升级到等级" + GameData._playerData.PetsOpen, 0);
 			_logManager.AddLog ("宠物笼已升级到等级"+ GameData._playerData.PetsOpen);
 		}
 		this.gameObject.GetComponentInChildren<PetsActions> ().UpdatePets ();
@@ -437,10 +424,8 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.WellOpen == 1) {
-			_floating.CallInFloating ("水井已建造完毕。", 0);
 			_logManager.AddLog ("水井已建造完毕。");
 		} else {
-			_floating.CallInFloating ("水井已升级到等级" + GameData._playerData.WellOpen, 0);
 			_logManager.AddLog ("水井已升级到等级"+ GameData._playerData.WellOpen);
 		}
 
@@ -469,10 +454,8 @@ public class TipManager : MonoBehaviour {
 		_gameData.ChangeTime ((int)(b.timeCost * GameData._playerData.ConstructTimeDiscount * 60));
 
 		if (GameData._playerData.AltarOpen == 1) {
-			_floating.CallInFloating ("祭坛已建造完毕，成就系统已开启。", 0);
-			_floating.CallInFloating ("祭坛已建造完毕，成就系统已开启。", 0);
+			_logManager.AddLog ("祭坛已建造完毕，成就系统已开启。");
 		} else {
-			_floating.CallInFloating ("祭坛已升级到等级" + GameData._playerData.AltarOpen, 0);
 			_logManager.AddLog ("祭坛已升级到等级"+ GameData._playerData.AltarOpen);
 		}
 
@@ -1131,18 +1114,6 @@ public class TipManager : MonoBehaviour {
 		case 0:
 			_floating.CallInFloating("该物品无法直接使用!",1);
 			break;
-//		case 1:
-//			//blueprint&recipe,learn a new blueprint if not learnt yet
-//			int i = (int)m.property [99];
-//			if (!GameData._playerData.LearnedBlueprints.ContainsKey (i)) {
-//				_gameData.LearnBlueprint (i);
-//				_gameData.ConsumeItem (m.id, 1);
-//				_backpackActions.UpdataPanel ();
-//				_floating.CallInFloating ("Learnt how to make " + LoadTxt.MatDic [i].name, 0);
-//			} else {
-//				_floating.CallInFloating ("Can not learn again!", 1);
-//			}
-//			break;
 		case 2:
 			_gameData.EatFood (itemId);
 			_backpackActions.UpdataPanel ();

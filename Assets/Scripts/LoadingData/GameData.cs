@@ -74,6 +74,8 @@ public class GameData : MonoBehaviour {
 	void LoadAllData(bool isMemory){
 		string s = isMemory ? "_Memory" : "";
 
+		_playerData.firstTimeInGame = PlayerPrefs.GetInt ("FirstTimeInGame", 0);
+
 		_playerData.techLevels = GetTechList (PlayerPrefs.GetString ("TechList", "1|0;2|0;3|0;4|0;5|0;6|0;7|0;8|0;9|0;10|0;11|0;12|0;13|0;14|0;15|0;16|0;17|0"));
 
 		_playerData.hpNow = PlayerPrefs.GetInt ("hpNow" + s, 100);
@@ -93,13 +95,13 @@ public class GameData : MonoBehaviour {
 
 		_playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" + s, 0);
 
-		_playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen" + s, 1);
-		_playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" + s, 1);
-		_playerData.KitchenOpen = PlayerPrefs.GetInt ("KitchenOpen" + s, 1);
-		_playerData.WorkshopOpen = PlayerPrefs.GetInt ("WorkshopOpen" + s, 1);
-		_playerData.StudyOpen = PlayerPrefs.GetInt ("StudyOpen" + s, 1);
+		_playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen" + s, 0);
+		_playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" + s, 0);
+		_playerData.KitchenOpen = PlayerPrefs.GetInt ("KitchenOpen" + s, 0);
+		_playerData.WorkshopOpen = PlayerPrefs.GetInt ("WorkshopOpen" + s, 0);
+		_playerData.StudyOpen = PlayerPrefs.GetInt ("StudyOpen" + s, 0);
 		_playerData.FarmOpen = PlayerPrefs.GetInt ("FarmOpen" + s, 0);
-		_playerData.PetsOpen = PlayerPrefs.GetInt ("PetsOpen" + s, 1);
+		_playerData.PetsOpen = PlayerPrefs.GetInt ("PetsOpen" + s, 0);
 		_playerData.WellOpen = PlayerPrefs.GetInt ("WellOpen" + s, 0);
 		_playerData.AchievementOpen = PlayerPrefs.GetInt ("AchievementOpen" + s, 0);
 		_playerData.AltarOpen = PlayerPrefs.GetInt ("AltarOpen" + s, 0);
@@ -134,7 +136,7 @@ public class GameData : MonoBehaviour {
 		_playerData.Pets = GetPetListFromStr (PlayerPrefs.GetString ("Pets" + s, ""));//"100|1|50|15|Hello;100|0|20|10|Kitty"));
 		_playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
 
-		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
+		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1|1|1|0|0|0|0|0|0|0"));
 		_playerData.mapNow = PlayerPrefs.GetInt ("mapNow" + s, 0);
 		_playerData.dungeonLevelMax = PlayerPrefs.GetInt ("DungeonLevelMax" + s, 0);
 
@@ -194,6 +196,8 @@ public class GameData : MonoBehaviour {
 	void StoreData(bool isRebirth)
 	{
 		string s = isRebirth ? "" : "_Memory";
+
+		PlayerPrefs.SetInt ("FirstTimeInGame", _playerData.firstTimeInGame);
 
 		PlayerPrefs.SetString ("TechList" + s, GetStrFromTechList (_playerData.techLevels));
 
@@ -1246,9 +1250,9 @@ public class GameData : MonoBehaviour {
 		StoreItem (41000000, 5);
 		StoreItem (41010000, 10);
 		string s = "附近居民听说你的到来，向你表达善意。";
-		_logManager.AddLog (s);
-		s = "他们赠予 水+5，种子+5 已放入仓库。";
-		_logManager.AddLog (s);
+		_logManager.AddLog (1f,s);
+		s = "他们送来 水+5，种子+5 已放入仓库。";
+		_logManager.AddLog (2f,s);
 	}
 
 	public Text inputWords;

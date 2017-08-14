@@ -182,4 +182,7 @@ public class PlayerData  {
 	public int wineDrinked;
 
 	public int placeNowId;
+
+	//是否第一次进入游戏，用于播放引导
+	public int firstTimeInGame;
 }
