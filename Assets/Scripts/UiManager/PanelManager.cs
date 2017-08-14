@@ -282,6 +282,7 @@ public class PanelManager : MonoBehaviour {
 			}
 			break;
 		case "Death":
+                Death.DOLocalMoveX (0, tweenerTime);
 			break;
 		case "Melee":
 		case "Ranged":

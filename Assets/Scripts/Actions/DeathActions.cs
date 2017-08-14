@@ -6,6 +6,7 @@ public class DeathActions : MonoBehaviour {
 
 	public Text deathMsg;
 	public Button rebirthButton;
+    private string txt;
 
 	public void UpdateDeath(string cause){
 
@@ -25,6 +26,9 @@ public class DeathActions : MonoBehaviour {
 		case "Hot":
 			deathMsg.text = "    很遗憾，你在探险过程中死于[寒冷]。 \n体温会随着时间的变动而降低，冬季会降低的更快。可以通过点火把、饮酒等提高体温。";
 			break;
+        case "Hp":
+            deathMsg.text = "    很遗憾，你在探险过程中死于[生命值过低]。 \n不要尝试挑战过于强大的对手，面对高难度战斗可以先撤退以保存实力。战斗结束后可以通过进食提高生命值。";
+            break;
 		default:
 			deathMsg.text = "    很遗憾，你在探险过程中死于[生命值过低]。 \n不要尝试挑战过于强大的对手，面对高难度战斗可以先撤退以保存实力。战斗结束后可以通过进食提高生命值。";
 			break;
@@ -32,4 +36,24 @@ public class DeathActions : MonoBehaviour {
 			
 		rebirthButton.interactable = (GameData._playerData.HasMemmory > 0);
 	}
+
+    void TypeWritter(string s){
+        txt = "";
+        float t = 0f;
+        float pop = 0.1f;
+        string ss;
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            t += pop;
+            ss = s.Substring(i, 1);
+            StartCoroutine(WriteLetter(t, ss));
+        }
+    }
+
+    IEnumerator WriteLetter(float t, string s){
+        yield return new WaitForSeconds(t);
+        txt += s;
+        deathMsg.text += txt;
+    }
 }
