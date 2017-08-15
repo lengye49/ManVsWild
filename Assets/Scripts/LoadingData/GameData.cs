@@ -424,104 +424,184 @@ public class GameData : MonoBehaviour {
 	/// <param name="propName">Property name.</param>
 	/// <param name="value">Value.</param>
 	public void ChangeProperty(int propId, int value){
+        int lastProp;
+        float lastTemp;
 		switch (propId) {
-		case 0:
-			_playerData.hpNow = (int)((_playerData.hpNow + value) > _playerData.property[1] ? _playerData.property[1]: (_playerData.hpNow + value));
-			StoreData ("hpNow", _playerData.hpNow);
-			UpdateProperty (0, _playerData.hpNow);
-			_headUiManager.UpdateHeadUI ("hpNow");
-			if (_playerData.hpNow <= 0)
-				Debug.Log ("Die of Hp");
-			break;
-		case 1:
-			_playerData.HpMax += value;
-			StoreData ("HpMax", _playerData.HpMax);
-			UpdateProperty (1, _playerData.HpMax);
-			_headUiManager.UpdateHeadUI ("hpMax");
-			break;
-		case 2:
-			_playerData.spiritNow = (int)((_playerData.spiritNow + value) >_playerData.property[3]? _playerData.property[3] : (_playerData.spiritNow + value));
-			StoreData ("spiritNow", _playerData.spiritNow);
-			_headUiManager.UpdateHeadUI ("spiritNow");
-			UpdateProperty (2, _playerData.spiritNow);
-			if (_playerData.spiritNow <= 0)
-				Debug.Log ("Die of Spirit");
-			break;
-		case 3:
-			_playerData.SpiritMax += value;
-			StoreData ("SpiritMax", _playerData.SpiritMax);
-			UpdateProperty (3, _playerData.SpiritMax);
-			_headUiManager.UpdateHeadUI ("SpiritMax");
-			break;
-		case 4:
-			_playerData.foodNow = (int)((_playerData.foodNow + value) > _playerData.property[5] ? _playerData.property[5] : (_playerData.foodNow + value));
-			StoreData ("foodNow", _playerData.foodNow);
-			_headUiManager.UpdateHeadUI ("foodNow");
-			UpdateProperty (4, _playerData.foodNow);
-			if (_playerData.foodNow <= 0)
-				Debug.Log ("Die of Food");
-			break;
-		case 5:
-			_playerData.FoodMax += value;
-			StoreData ("FoodMax", _playerData.FoodMax);
-			UpdateProperty (5, _playerData.FoodMax);
-			_headUiManager.UpdateHeadUI ("FoodMax");
-			break;
-		case 6:
-			_playerData.waterNow = (int)((_playerData.waterNow + value) > _playerData.property[7] ? _playerData.property[7]: (_playerData.waterNow + value));
-			StoreData ("waterNow", _playerData.waterNow);
-			_headUiManager.UpdateHeadUI ("waterNow");
-			UpdateProperty (6, _playerData.waterNow);
-			if (_playerData.waterNow <= 0)
-				Debug.Log ("Die of Water");
-			break;
-		case 7:
-			_playerData.WaterMax += value;
-			StoreData ("WaterMax", _playerData.WaterMax);
-			UpdateProperty (7, _playerData.WaterMax);
-			_headUiManager.UpdateHeadUI ("WaterMax");
-			break;
-		case 8:
-			_playerData.strengthNow = (int)((_playerData.strengthNow + value) > _playerData.property[9]?_playerData.property[9] : (_playerData.strengthNow + value));
-			StoreData ("strengthNow", _playerData.strengthNow);
-			_headUiManager.UpdateHeadUI ("strengthNow");
-			UpdateProperty (8, _playerData.strengthNow);
-			break;
-		case 9:
-			_playerData.StrengthMax += value;
-			StoreData ("StrengthMax", _playerData.StrengthMax);
-			UpdateProperty (9, _playerData.StrengthMax);
-			_headUiManager.UpdateHeadUI ("StrengthMax");
-			break;
-		case 10:
-			_playerData.tempNow += value;
-			StoreData ("tempNow", _playerData.tempNow);
-			_headUiManager.UpdateHeadUI ("tempNow");
-			UpdateProperty (10, _playerData.tempNow);
-			if (_playerData.tempNow > _playerData.property[12])
-				Debug.Log ("Die of Hot");
-			if (_playerData.tempNow < _playerData.property[11])
-				Debug.Log ("Die of Cold");
-			break;
-		case 11:
-			_playerData.TempMin += value;
-			StoreData ("TempMin", _playerData.TempMin);
-			UpdateProperty (11, _playerData.TempMin);
-			break;
-		case 12:
-			_playerData.TempMax += value;
-			StoreData ("TempMax", _playerData.TempMax);
-			UpdateProperty (12, _playerData.TempMax);
-			break;
-		default:
-			Debug.Log ("Wrong propName");
-			break;
+            case 0:
+                lastProp = _playerData.hpNow;
+    			
+                _playerData.hpNow = (int)((_playerData.hpNow + value) > _playerData.property[1] ? _playerData.property[1] : (_playerData.hpNow + value));
+                StoreData("hpNow", _playerData.hpNow);
+                UpdateProperty(0, _playerData.hpNow);
+                _headUiManager.UpdateHeadUI("hpNow");
+
+                if (lastProp > _playerData.HpMax * 0.3f && _playerData.hpNow <= _playerData.HpMax * 0.3f)
+                {
+                    _logManager.AddLog("你当前的[生命值]较低，生命值过低会流血致死。");
+                    _logManager.AddLog(1f, "可以使用食物增加生命值。");
+                }
+                
+                if (_playerData.hpNow <= 0)
+                {
+                    gameObject.GetComponentInChildren<DeathActions>().UpdateDeath("Hp");
+                    Debug.Log ("Die of Hp");
+                }
+    				
+    			break;
+    		case 1:
+    			_playerData.HpMax += value;
+    			StoreData ("HpMax", _playerData.HpMax);
+    			UpdateProperty (1, _playerData.HpMax);
+    			_headUiManager.UpdateHeadUI ("hpMax");
+    			break;
+            case 2:
+                lastProp = _playerData.spiritNow;
+
+                _playerData.spiritNow = (int)((_playerData.spiritNow + value) > _playerData.property[3] ? _playerData.property[3] : (_playerData.spiritNow + value));
+                StoreData("spiritNow", _playerData.spiritNow);
+                _headUiManager.UpdateHeadUI("spiritNow");
+                UpdateProperty(2, _playerData.spiritNow);
+
+                if (lastProp > _playerData.SpiritMax * 0.3f && _playerData.spiritNow <= _playerData.SpiritMax * 0.3f)
+                {
+                    _logManager.AddLog("你当前的[精神]较低，精神过低时会精神失常。");
+                    _logManager.AddLog(1f, "可以通过睡觉、饮酒等提高精神。");
+                }
+                
+                if (_playerData.spiritNow <= 0)
+                {
+                    gameObject.GetComponentInChildren<DeathActions>().UpdateDeath("Spirit");
+                    Debug.Log("Die of Spirit");
+                }
+    			break;
+    		case 3:
+    			_playerData.SpiritMax += value;
+    			StoreData ("SpiritMax", _playerData.SpiritMax);
+    			UpdateProperty (3, _playerData.SpiritMax);
+    			_headUiManager.UpdateHeadUI ("SpiritMax");
+    			break;
+            case 4:
+                lastProp = _playerData.foodNow;
+
+                _playerData.foodNow = (int)((_playerData.foodNow + value) > _playerData.property[5] ? _playerData.property[5] : (_playerData.foodNow + value));
+                StoreData("foodNow", _playerData.foodNow);
+                _headUiManager.UpdateHeadUI("foodNow");
+                UpdateProperty(4, _playerData.foodNow);
+
+                if (lastProp > _playerData.FoodMax * 0.3f && _playerData.foodNow <= _playerData.FoodMax * 0.3f)
+                {
+                    _logManager.AddLog("你当前的[饱腹值]较低，饱腹值过低时会饿死。");
+                    _logManager.AddLog(1f, "可以使用食物增加饱腹值。");
+                }
+
+                if (_playerData.foodNow <= 0)
+                {
+                    gameObject.GetComponentInChildren<DeathActions>().UpdateDeath("Food");
+                    Debug.Log("Die of Food");
+                }
+    			break;
+    		case 5:
+    			_playerData.FoodMax += value;
+    			StoreData ("FoodMax", _playerData.FoodMax);
+    			UpdateProperty (5, _playerData.FoodMax);
+    			_headUiManager.UpdateHeadUI ("FoodMax");
+    			break;
+            case 6:
+                lastProp = _playerData.waterNow;
+
+                _playerData.waterNow = (int)((_playerData.waterNow + value) > _playerData.property[7] ? _playerData.property[7] : (_playerData.waterNow + value));
+                StoreData("waterNow", _playerData.waterNow);
+                _headUiManager.UpdateHeadUI("waterNow");
+                UpdateProperty(6, _playerData.waterNow);
+
+                if (lastProp > _playerData.WaterMax * 0.3f && _playerData.waterNow <= _playerData.WaterMax * 0.3f)
+                {
+                    _logManager.AddLog("你当前的[水分]较低，水分过低会导致脱水死亡。");
+                    _logManager.AddLog(1f, "可以通过喝水、饮料等增加水分。");
+                }
+                    
+                if (_playerData.waterNow <= 0)
+                {
+                    gameObject.GetComponentInChildren<DeathActions>().UpdateDeath("Water");
+                    Debug.Log("Die of Water");
+                }
+    			break;
+    		case 7:
+    			_playerData.WaterMax += value;
+    			StoreData ("WaterMax", _playerData.WaterMax);
+    			UpdateProperty (7, _playerData.WaterMax);
+    			_headUiManager.UpdateHeadUI ("WaterMax");
+    			break;
+            case 8:
+                lastProp = _playerData.strengthNow;
+
+                _playerData.strengthNow = (int)((_playerData.strengthNow + value) > _playerData.property[9] ? _playerData.property[9] : (_playerData.strengthNow + value));
+                StoreData("strengthNow", _playerData.strengthNow);
+                _headUiManager.UpdateHeadUI("strengthNow");
+                UpdateProperty(8, _playerData.strengthNow);
+
+                if (lastProp > _playerData.StrengthMax * 0.3f && _playerData.strengthNow <= _playerData.StrengthMax * 0.3f)
+                {
+                    _logManager.AddLog("你当前的[力量]较低，力量过低时无法进行采集活动。");
+                    _logManager.AddLog(1f, "可以通过休息恢复力量。");
+                }
+    			break;
+    		case 9:
+    			_playerData.StrengthMax += value;
+    			StoreData ("StrengthMax", _playerData.StrengthMax);
+    			UpdateProperty (9, _playerData.StrengthMax);
+    			_headUiManager.UpdateHeadUI ("StrengthMax");
+    			break;
+            case 10:
+                lastTemp = _playerData.tempNow;
+
+                _playerData.tempNow += value;
+                StoreData("tempNow", _playerData.tempNow);
+                _headUiManager.UpdateHeadUI("tempNow");
+                UpdateProperty(10, _playerData.tempNow);
+
+                if (lastTemp < _playerData.property[12] * 0.7f && _playerData.tempNow >= _playerData.property[12] * 0.7f)
+                {
+                    _logManager.AddLog("你当前体温过高，高温极限为" + _playerData.property[11] + "℃。");
+                    _logManager.AddLog(1f, "可以通过喝冰水、洗澡等降低体温。");
+                }
+
+                if (lastTemp > _playerData.property[11] * 0.7f && _playerData.tempNow <= _playerData.property[11] * 0.7f)
+                {
+                    _logManager.AddLog("你当前体温过低，低温极限为" + _playerData.property[11] + "℃。");
+                    _logManager.AddLog(1f, "可以通过使用火把、喝酒等提高体温。");
+                }
+
+                if (_playerData.tempNow > _playerData.property[12])
+                {
+                    gameObject.GetComponentInChildren<DeathActions>().UpdateDeath("Cold");
+                    Debug.Log("Die of Hot");
+                }
+
+                if (_playerData.tempNow < _playerData.property[11])
+                {
+                    gameObject.GetComponentInChildren<DeathActions>().UpdateDeath("Hot");
+                    Debug.Log("Die of Cold");
+                }
+    			break;
+    		case 11:
+    			_playerData.TempMin += value;
+    			StoreData ("TempMin", _playerData.TempMin);
+    			UpdateProperty (11, _playerData.TempMin);
+    			break;
+    		case 12:
+    			_playerData.TempMax += value;
+    			StoreData ("TempMax", _playerData.TempMax);
+    			UpdateProperty (12, _playerData.TempMax);
+    			break;
+    		default:
+    			Debug.Log ("Wrong propName");
+    			break;
 		}
 	}
 
-
 	/// <summary>
-	/// Add item.
+	/// 向背包中添加物品（8位ID）
 	/// </summary>
 	/// <param name="itemId">Item identifier*10000.</param>
 	/// <param name="num">Number.</param>
@@ -536,7 +616,7 @@ public class GameData : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Consume item.
+	/// 使用背包中的物品（4位ID）
 	/// </summary>
 	/// <param name="Id">SHORT Item identifier.</param>
 	/// <param name="num">Number.</param>
@@ -651,7 +731,7 @@ public class GameData : MonoBehaviour {
 	}
 		
 	/// <summary>
-	/// Counts the in bp.
+	/// 计数背包中某类型的物品数量（4位ID）
 	/// </summary>
 	/// <returns>The in bp.</returns>
 	/// <param name="itemId">Item identifier,4 size.</param>
@@ -790,40 +870,6 @@ public class GameData : MonoBehaviour {
 		s = s.Substring (0, s.Length - 1);
 		return s;
 	}
-
-//	public Dictionary<int,Mails> GetMailsFromStr(string str){
-//		Dictionary<int,Mails> d = new Dictionary<int,Mails> ();
-//		string[] strs = str.Split (';');
-//		int j = 0;
-//		for (int i = 0; i < strs.Length; i++) {
-//			if (strs [i].Contains ("|")) {
-//				string[] s = strs [i].Split ('|');
-//				Mails m = new Mails ();
-//				m.type = int.Parse (s [0]);
-//				m.subject = s [1];
-//				m.addresser = s [2];
-//				m.mainText = s [3];
-//				m.attachmentId = int.Parse (s [4]);
-//				m.attachmentNum = int.Parse (s [5]);
-//				m.isRead = int.Parse (s [6]);
-//				d.Add (j, m);
-//				j++;
-//			}
-//		}
-//		return d;
-//	}
-//
-//	public string GetStrFromMails(Dictionary<int,Mails> m){
-//		if (m.Count <= 0)
-//			return "";
-//		string s = "";
-//		foreach (int key in m.Keys) {
-//			s += m [key].type + "|"+ m [key].subject + "|"+ m [key].addresser + "|"+ m [key].mainText + "|"+ m [key].attachmentId + "|"+ m [key].attachmentNum + "|"+ m [key].isRead + ";";
-//		}
-//		if (s != "")
-//			s = s.Substring (0, s.Length - 1);
-//		return s;
-//	}
 		
 	public Dictionary<int,int> GetMapOpenStateFromStr(string str){
 		Dictionary<int,int> d = new Dictionary<int, int> ();
@@ -975,18 +1021,7 @@ public class GameData : MonoBehaviour {
 		if (_playerData.Hotkey0 == itemId || _playerData.Hotkey1 == itemId)
 			CheckHotKeyState ();
 	}
-
-//	/// <summary>
-//	/// id:119,120...
-//	/// </summary>
-//	/// <param name="itemId">Item identifier.</param>
-//	public void LearnBlueprint(int itemId){
-//		if (_playerData.LearnedBlueprints.ContainsKey (itemId)) {
-//			return;
-//		}
-//		_playerData.LearnedBlueprints.Add (itemId, 1);
-//		StoreData ("LearnedBlueprints", GetStrFromDic (_playerData.LearnedBlueprints));
-//	}
+        
 
 	public void WithDrawWater(int waterStoredNow){
 		AddItem (GameConfigs.WaterId, waterStoredNow);
