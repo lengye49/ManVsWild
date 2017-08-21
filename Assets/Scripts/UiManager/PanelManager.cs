@@ -24,8 +24,6 @@ public class PanelManager : MonoBehaviour {
 	public RectTransform Battle;
 	public LogManager _logManager;
 
-//	public Text locationText;
-
 	private RectTransform _FatherPanel;
 	private RectTransform _PanelNow;
 	private RectTransform _GrandFatherPanel;
@@ -42,6 +40,7 @@ public class PanelManager : MonoBehaviour {
 	private TipManager _tipManager;
 
 	void Start(){
+		ResetPanels ();
 		_tipManager = this.gameObject.GetComponentInParent<TipManager> ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		if (GameData._playerData.placeNowId == 0)
@@ -51,6 +50,25 @@ public class PanelManager : MonoBehaviour {
 			GoToPanel ("Place");
 		}
 			
+	}
+
+	void ResetPanels(){
+		Home.localPosition = new Vector3 (-5000f, 0f, 0f);
+		BedRoom.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Warehouse.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Workshop.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Study.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Farm.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Pets.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Well.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Achievement.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Altar.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Death.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Making.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Backpack.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Explore.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Place.localPosition = new Vector3 (-5000f, 0f, 0f);
+		Battle.localPosition = new Vector3 (-5000f, 0f, 0f);
 	}
 
 	public void GoToPanel(string panelName){

@@ -6,7 +6,6 @@ using DG.Tweening;
 
 public class TipManager : MonoBehaviour {
 
-//	public GameObject headTipPanel;
 	public GameObject commonTipPanel;
 	public GameObject buildTip;
 	public GameObject MakingTip;
@@ -34,21 +33,10 @@ public class TipManager : MonoBehaviour {
 	private BackpackActions _backpackActions;
 	public LoadingBar _loadingBar;
 
-//	private Vector3 hpPos;
-//	private Vector3 foodPos;
-//	private Vector3 strengthPos;
-//	private Vector3 spiritPos;
-//	private Vector3 waterPos;
-//	private Vector3 tempPos;
-//	private Vector3 dayPos;
-//	private Vector3 timePos;
-
-	//tipPanelEnlargeTimePeriod
 	private float tipPanelEnlarge = 0.3f;
 
 	// Use this for initialization
 	void Start () {
-//		tipText = headTipPanel.GetComponentsInChildren<Text> ();
 		_gameData = this.gameObject.GetComponent<GameData> ();
 		_homeManager = this.gameObject.GetComponentInChildren<HomeManager> ();
 		_warehouseActions = this.gameObject.GetComponentInChildren<WarehouseActions> ();

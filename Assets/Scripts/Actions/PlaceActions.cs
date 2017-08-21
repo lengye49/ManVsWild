@@ -7,10 +7,8 @@ using DG.Tweening;
 public class PlaceActions : MonoBehaviour {
 
 	public GameObject contentP;
-//	public GameObject contentG;
 	public RectTransform resourceDetail;
 	public RectTransform observeDetail;
-//	public RectTransform goodsDetail;
 	public RectTransform placeRect;
 	public RectTransform dungeonRect;
 	public BattleActions _battleActions;
@@ -656,12 +654,6 @@ public class PlaceActions : MonoBehaviour {
 		string[] s=pu.actionParam.Split(';');
 		int total = int.Parse (s [1]);
 		int now = int.Parse (s [2]);
-//		string ac = "";
-//		for (int i = 3; i < s.Length; i++) {
-//			string[] ss = s [i].Split ('|');
-//			ac+=LoadTxt.MatDic[int.Parse(ss[0])].name + ",";
-//		}
-//		ac = ac.Substring (0, ac.Length - 1);
 
 		Text[] t = resourceDetail.gameObject.GetComponentsInChildren<Text> ();
 		t[0].text = pu.name;

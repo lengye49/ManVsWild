@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameConfigs{
 	
-	public static int FoodCostPerHour = 1;
+	public static int FoodCostPerHour = 33;
 	public static int WaterCostPerHour = 1;
 	public static int SpiritCostPerBattle = 1;
 

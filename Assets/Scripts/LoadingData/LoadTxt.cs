@@ -13,8 +13,6 @@ public class LoadTxt : MonoBehaviour {
 	public static Dictionary<int,Plants> PlantsDic;
 	public static Dictionary<int,Maps> MapDic;
 	public static Dictionary<int,Places> PlaceDic;
-	public static Dictionary<int,Shop> ShopDic;
-	public static Dictionary<int,ShopItem> ShopItemDic;
 	public static Dictionary<int,Monster> MonsterDic;
 	public static Dictionary<int,MonsterModel> MonsterModelDic;
 	public static Dictionary<int,MonsterTitle> MonsterTitleDic;
@@ -32,8 +30,6 @@ public class LoadTxt : MonoBehaviour {
 		PlantsDic = new Dictionary<int, Plants> ();
 		MapDic = new Dictionary<int, Maps> ();
 		PlaceDic = new Dictionary<int, Places> ();
-		ShopDic = new Dictionary<int, Shop> ();
-		ShopItemDic = new Dictionary<int, ShopItem> ();
 		MonsterDic = new Dictionary<int, Monster> ();
 		MonsterModelDic = new Dictionary<int, MonsterModel> ();
 		MonsterTitleDic = new Dictionary<int, MonsterTitle> ();
@@ -372,57 +368,8 @@ public class LoadTxt : MonoBehaviour {
 
 			PlantsDic.Add (p [i].plantType, p [i]);
 		}
-	}
-
-	public void LoadShop(bool isRebirth){
-		string[][] strs = ReadTxt.ReadText ("shop");
-		ShopItem[] s = new ShopItem[strs.Length - 1];
-		for (int i = 0; i < s.Length; i++) {
-			s [i] = new ShopItem ();
-			s [i].itemId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-			s [i].shopId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
-			string[][] ss = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
-			if (ss != null) {
-				s [i].cost = new Dictionary<int, int> ();
-				for (int j = 0; j < ss.Length; j++) {
-					s [i].cost.Add (int.Parse (ss [j] [0]), int.Parse (ss [j] [1]));
-				}
-			}
-			ss = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
-			if (ss != null) {
-				s [i].reward = new Dictionary<int, int> ();
-				for (int j = 0; j < ss.Length; j++) {
-					s [i].reward.Add (int.Parse (ss [j] [0]), int.Parse (ss [j] [1]));
-				}
-			}
-			s [i].itemType = ReadTxt.GetDataByRowAndCol (strs, i + 1, 4);
-
-			//根据存档加载购买次数
-			string name = "ShopItem" + s [i].itemId + "BuyTimes" + (isRebirth ? "_Memmory" : "");
-			s [i].buyTimes = PlayerPrefs.GetInt (name, 0);
-
-			ShopItemDic.Add (s [i].itemId, s[i]);
-
-			if (!ShopDic.ContainsKey (s [i].shopId)) {
-				ShopDic.Add (s [i].shopId, new Shop ());
-				ShopDic [s [i].shopId].shopItemList = new ArrayList ();
-			}
-			ShopDic [s [i].shopId].shopItemList.Add (s [i]);
-		}
-	}
-
-	public void StoreShopMemmory(bool isRebirth){
-		//如果不是rebirth，就存储当前数据到memmory；如果是rebirth，就用memmory覆盖当前数据
-		string s = isRebirth?"":"_Memory";
-		foreach (int key in ShopItemDic.Keys) {
-			PlayerPrefs.SetInt ("ShopItem" + key + "BuyTimes" + s, ShopItemDic [key].buyTimes);
-		}
-	}
-
-	public void StoreShopItemBuyTimes(int shopItemId,int times){
-		PlayerPrefs.SetInt ("ShopItem" + shopItemId + "BuyTimes", times);
-	}
-
+	}		
+		
 	void LoadMaps(){
 		string[][] strs = ReadTxt.ReadText ("maps");
 		Maps[] m = new Maps[strs.Length - 1];
