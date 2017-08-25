@@ -46,9 +46,7 @@ public class PlaceActions : MonoBehaviour {
 
 	void Start(){
 		
-//		goodsCell = Instantiate (Resources.Load ("goodsCell")) as GameObject;
 		placeCell.SetActive (false);
-//		goodsCell.SetActive (false);
 		_loadTxt = this.gameObject.GetComponentInParent<LoadTxt> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
@@ -152,6 +150,12 @@ public class PlaceActions : MonoBehaviour {
 		this.gameObject.GetComponentInParent<PlaySound> ().PlayEnvironmentSound (bgSoundName);
 	}
 
+	//******************************************地牢地图*******************************************
+
+	/// <summary>
+	/// 直接进入第lv层地牢
+	/// </summary>
+	/// <param name="lv">Lv.</param>
 	public void UpdatePlace(int lv){
 		dungeonLevel = lv;
 		InitializeDungeon ();
@@ -221,7 +225,7 @@ public class PlaceActions : MonoBehaviour {
 		
 		//Get Dungeon Rewards According to the Level;
 
-		//1 Reward 10%, 2 Monster 15%, 3 Buff&Debuff 10%, 4 Trade 1%, 5 Nothing: Text 12%, 6 Nothing ***********Need a csv.
+		//1 Reward 10%, 2 Monster 15%, 3 Buff&Debuff 10%, 4 Nothing: Text 13%, 5 Nothing ***********Need a csv.
 		int r = Algorithms.GetIndexByRange(0,100);
 		if (r < 10) {
 			Debug.Log ("You Found + Reward:");
@@ -381,6 +385,9 @@ public class PlaceActions : MonoBehaviour {
 		dungeonCells [index].gameObject.SetActive (true);
 		dungeonCells [index].transform.DOBlendableRotateBy (new Vector3 (0, 0, 0), 0.3f);
 	}
+
+
+	//******************************************正常地图*******************************************
 
 	void SetPlace(Maps m){
 		dungeonRect.localPosition = new Vector3 (-6000, 420, 0);
