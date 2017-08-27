@@ -45,6 +45,7 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void Start(){
+        
 		
 		placeCell.SetActive (false);
 		_loadTxt = this.gameObject.GetComponentInParent<LoadTxt> ();
@@ -162,7 +163,6 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void InitializeDungeon(){
-		Debug.Log ("Welcome to Dungeon Lv." + dungeonLevel);
 		dungeonRect.localPosition = Vector3.zero;
 		placeRect.localPosition = new Vector3 (-10000, 0, 0);
 		dungeonCellState = new int[20];
@@ -206,7 +206,6 @@ public class PlaceActions : MonoBehaviour {
 		if (dungeonCellState [index] == 1) {
 			if (index == thisExitIndex) {
 				dungeonCellState [index] = 3;
-				Debug.Log ("Find the way down.");
 			} else {
 				dungeonCellState [index] = 2;
 				DungeonEvent ();
@@ -217,6 +216,7 @@ public class PlaceActions : MonoBehaviour {
 			if (GameData._playerData.dungeonLevelMax < dungeonLevel)
 				_gameData.StoreData ("DungeonLevelMax", dungeonLevel);
 			dungeonLevel++;
+            Debug.Log("Go to next level");
 			InitializeDungeon ();
 		}
 	}
@@ -225,7 +225,7 @@ public class PlaceActions : MonoBehaviour {
 		
 		//Get Dungeon Rewards According to the Level;
 
-		//1 Reward 10%, 2 Monster 15%, 3 Buff&Debuff 10%, 4 Nothing: Text 13%, 5 Nothing ***********Need a csv.
+		//1 Reward 10%, 2 Monster 15%, 3 Buff&Debuff 10%, 4 Nothing: Text 13%, 5 Nothing 
 		int r = Algorithms.GetIndexByRange(0,100);
 		if (r < 10) {
 			Debug.Log ("You Found + Reward:");
@@ -252,19 +252,65 @@ public class PlaceActions : MonoBehaviour {
 			//HpMax+1 1%,SpiritMax+1 1%,StrengthMax+1 2%,WaterMax+1 2%,FoodMax+1 2%,TempMax+1 1%,TempMin-1 1%
 			int r2 = Algorithms.GetIndexByRange (0, 100);
 			int r3;
-			if (r2 < 10) {
-				r3 = Algorithms.GetIndexByRange (3, 6);
-				_gameData.ChangeProperty (0, r3);
-				Debug.Log ("Add Hp");
-			} else if (r2 < 20) {
-				r3 = -Algorithms.GetIndexByRange (2, 5);
-				_gameData.ChangeProperty (0, r3);
-				Debug.Log ("Reduce Hp");
-			} else if (r2 < 30) {
-				r3 = Algorithms.GetIndexByRange (3, 6);
+
+            //******************************************掉血**********
+            if (r2 < 5)
+            {
+                r3 = Algorithms.GetIndexByRange(3, 6);
+                _gameData.ChangeProperty(0, r3);
+                _logManager.AddLog("你捡到一块绷带，恢复了" + r3 + "点生命。");
+            }
+            else if (r2 < 8)
+            {
+                r3 = Algorithms.GetIndexByRange(10, 30);
+                _gameData.ChangeProperty(0, r3);
+                _logManager.AddLog("一只猴子朝你扔了个桃子，恢复了" + r3 + "点生命。");
+            }
+            else if (r2 < 10)
+            {
+                r3 = Algorithms.GetIndexByRange(20, 60);
+                _gameData.ChangeProperty(0, r3);
+                _logManager.AddLog("一阵愉悦而纯净的力量扑面而来，你恢复了" + r3 + "点生命。");
+            }
+
+            //******************************************回血**********
+            else if (r2 < 14)
+            {
+                r3 = -Algorithms.GetIndexByRange(1, 5);
+                _gameData.ChangeProperty(0, r3);
+                _logManager.AddLog("不小心踩到了陷阱，你损失了" + r3 + "点生命。");
+            }
+            else if (r2 < 18)
+            {
+                r3 = -Algorithms.GetIndexByRange(3, 7);
+                _gameData.ChangeProperty(0, r3);
+                _logManager.AddLog("打开宝箱，一股腐败气息铺面而来，你损失了" + r3 + "点生命。");
+            }
+            else if (r2 < 20) {
+                r3 = -Algorithms.GetIndexByRange (4, 8);
+                _gameData.ChangeProperty (0, r3);
+                _logManager.AddLog("你遭到莫名的袭击，损失了" + r3 + "点生命。");
+            }  
+
+            //******************************************恢复精神**********
+            else if (r2 < 24) {
+				r3 = Algorithms.GetIndexByRange (2, 6);
 				_gameData.ChangeProperty (2, r3);
-				Debug.Log ("Add Spirit");
-			} else if (r2 < 40) {
+                _logManager.AddLog("一个精灵朝你招了招手，为你恢复了" + r3 + "点精神。");
+            }
+            else if (r2 < 28) {
+                r3 = Algorithms.GetIndexByRange (5, 10);
+                _gameData.ChangeProperty (2, r3);
+                _logManager.AddLog("你被远古战士雕像激励，感觉战意满满，恢复了" + r3 + "点精神。");
+            }  
+            else if (r2 < 30) {
+                r3 = Algorithms.GetIndexByRange (10, 30);
+                _gameData.ChangeProperty (2, r3);
+                _logManager.AddLog("你找到了精神之泉，恢复了" + r3 + "点精神。");
+            } 
+
+            ////******************************************扣除精神**********
+            else if (r2 < 40) {
 				r3 = -Algorithms.GetIndexByRange (2, 5);
 				_gameData.ChangeProperty (2, r3);
 				Debug.Log ("Reduce Spirit");
