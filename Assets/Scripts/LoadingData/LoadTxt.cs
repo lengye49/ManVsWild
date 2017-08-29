@@ -50,8 +50,36 @@ public class LoadTxt : MonoBehaviour {
 		LoadThief ();
 		LoadAchievement ();
 		LoadDungeonTreasure ();
+
+        CheckReward();
 	}
 		
+//    测试代码，检测怪物掉落是否正确
+    void CheckReward(){
+        Debug.Log("Checking Reward...");
+        foreach (int key in MonsterDic.Keys)
+        {
+            string s = "This key = " + key + ", this drop = ";
+            foreach (int k in MonsterDic[key].drop.Keys)
+            {
+                s += k + "," + MonsterDic[key].drop[k] + ";";
+            }
+            Debug.Log(s);
+
+            Dictionary<int,int> drop = Algorithms.GetReward(MonsterDic[key].drop);
+            if (drop.Count > 0)
+            {
+                s = "Real drop is ";
+                foreach (int k in drop.Keys)
+                {
+                    s += MatDic[k].name + "+" + drop[k] + ",";
+                }
+                s = s.Substring(0, s.Length - 1);
+                Debug.Log(s);
+            }
+        }
+    }
+
 
 	void LoadBuildings()
 	{
@@ -179,8 +207,8 @@ public class LoadTxt : MonoBehaviour {
 				m [i].bodyPart [j] = s1 [j];
 
 			string[][] re = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 10));
+            m[i].drop = new Dictionary<int,float>();
 			if (re != null) {
-				m[i].drop = new Dictionary<int,float>();
 				for (int j = 0; j < re.Length; j++)
 					m [i].drop.Add (int.Parse (re [j] [0]), float.Parse (re [j] [1]));
 			}

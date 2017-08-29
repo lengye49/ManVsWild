@@ -37,6 +37,7 @@ public class PlaceActions : MonoBehaviour {
 	public Sprite frontImage;
 	public Sprite backImage;
 	public Sprite nextLevelImage;
+    public Text dungeonLevelText;
 	private int dungeonLevel;
 	private int thisExitIndex;
 
@@ -45,8 +46,6 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void Start(){
-        
-		
 		placeCell.SetActive (false);
 		_loadTxt = this.gameObject.GetComponentInParent<LoadTxt> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
@@ -54,6 +53,11 @@ public class PlaceActions : MonoBehaviour {
 		_panelManager = this.gameObject.GetComponentInParent<PanelManager> ();
 	}
 
+    /// <summary>
+    /// 更新地图显示，否的情况是不更新地牢
+    /// </summary>
+    /// <param name="m">M.</param>
+    /// <param name="newPlace">If set to <c>true</c> new place.</param>
 	public void UpdatePlace(Maps m,bool newPlace){
 		_mapNow = m;
 		_place = LoadTxt.PlaceDic [m.id];
@@ -163,6 +167,8 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void InitializeDungeon(){
+        dungeonLevelText.text = "失落之地 - " + dungeonLevel + "层";
+
 		dungeonRect.localPosition = Vector3.zero;
 		placeRect.localPosition = new Vector3 (-10000, 0, 0);
 		dungeonCellState = new int[20];
@@ -227,8 +233,8 @@ public class PlaceActions : MonoBehaviour {
 
 		//1 Reward 10%, 2 Monster 15%, 3 Buff&Debuff 10%, 4 Nothing: Text 13%, 5 Nothing 
 		int r = Algorithms.GetIndexByRange(0,100);
+        Debug.Log(r);
 		if (r < 10) {
-			Debug.Log ("You Found + Reward:");
 			int r4 = (int)(dungeonLevel / 10) + 1;
 			int matId = Algorithms.GetResultByDic (LoadTxt.DungeonTreasureList [r4].reward);
 			int num = 1;
@@ -236,9 +242,11 @@ public class PlaceActions : MonoBehaviour {
 				num = Algorithms.GetIndexByRange (1, 4);
 			}
 			_gameData.AddItem (matId * 10000, num);
+            string s = LoadTxt.MatDic[matId].name + "+" + num;
+            _logManager.AddLog("你捡到了" + s + "。");
+
 		} else if (r < 25) {
-			Debug.Log ("You Found Monster List");
-			int r1 = Algorithms.GetIndexByRange (1, 5);
+			int r1 = Algorithms.GetIndexByRange (1, 3);
 			Monster[] ms = new Monster[r1];
 			for (int i = 0; i < r1; i++) {
 				ms [i] = GetNewMonster ();
@@ -258,19 +266,19 @@ public class PlaceActions : MonoBehaviour {
             {
                 r3 = Algorithms.GetIndexByRange(3, 6);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("你捡到一块绷带，恢复了" + r3 + "点生命。");
+                _logManager.AddLog("你捡到一块绷带，生命+" + r3);
             }
             else if (r2 < 8)
             {
                 r3 = Algorithms.GetIndexByRange(10, 30);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("一只猴子朝你扔了个桃子，恢复了" + r3 + "点生命。");
+                _logManager.AddLog("一只猴子朝你扔了个核桃，生命+" + r3);
             }
             else if (r2 < 10)
             {
                 r3 = Algorithms.GetIndexByRange(20, 60);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("一阵愉悦而纯净的力量扑面而来，你恢复了" + r3 + "点生命。");
+                _logManager.AddLog("一阵愉悦而纯净的力量扑面而来，生命+" + r3);
             }
 
             //******************************************回血**********
@@ -278,92 +286,140 @@ public class PlaceActions : MonoBehaviour {
             {
                 r3 = -Algorithms.GetIndexByRange(1, 5);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("不小心踩到了陷阱，你损失了" + r3 + "点生命。");
+                _logManager.AddLog("不小心踩到了陷阱，生命-" + r3);
             }
             else if (r2 < 18)
             {
                 r3 = -Algorithms.GetIndexByRange(3, 7);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("打开宝箱，一股腐败气息铺面而来，你损失了" + r3 + "点生命。");
+                _logManager.AddLog("打开宝箱，一股腐败气息铺面而来，生命-" + r3 );
             }
             else if (r2 < 20) {
                 r3 = -Algorithms.GetIndexByRange (4, 8);
                 _gameData.ChangeProperty (0, r3);
-                _logManager.AddLog("你遭到莫名的袭击，损失了" + r3 + "点生命。");
+                _logManager.AddLog("你遭到莫名的袭击，生命-" + r3);
             }  
 
             //******************************************恢复精神**********
             else if (r2 < 24) {
 				r3 = Algorithms.GetIndexByRange (2, 6);
 				_gameData.ChangeProperty (2, r3);
-                _logManager.AddLog("一个精灵朝你招了招手，为你恢复了" + r3 + "点精神。");
+                _logManager.AddLog("一个精灵朝你招了招手，精神+" + r3 );
             }
             else if (r2 < 28) {
                 r3 = Algorithms.GetIndexByRange (5, 10);
                 _gameData.ChangeProperty (2, r3);
-                _logManager.AddLog("你被远古战士雕像激励，感觉战意满满，恢复了" + r3 + "点精神。");
+                _logManager.AddLog("你被远古战士雕像激励，精神+" + r3 );
             }  
             else if (r2 < 30) {
                 r3 = Algorithms.GetIndexByRange (10, 30);
                 _gameData.ChangeProperty (2, r3);
-                _logManager.AddLog("你找到了精神之泉，恢复了" + r3 + "点精神。");
+                _logManager.AddLog("你找到了精神之泉，精神+" + r3 );
             } 
 
-            ////******************************************扣除精神**********
-            else if (r2 < 40) {
-				r3 = -Algorithms.GetIndexByRange (2, 5);
+            //******************************************扣除精神**********
+            else if (r2 < 35) {
+				r3 = -Algorithms.GetIndexByRange (1, 4);
 				_gameData.ChangeProperty (2, r3);
-				Debug.Log ("Reduce Spirit");
-			} else if (r2 < 50) {
-				r3 = Algorithms.GetIndexByRange (4, 9);
+				_logManager.AddLog("你感到一阵头晕目眩，精神-" + r3 );
+			}
+			else if (r2 < 40) {
+				r3 = -Algorithms.GetIndexByRange (3, 6);
+				_gameData.ChangeProperty (2, r3);
+				_logManager.AddLog("你受到恶魔雕像的惊吓，精神-" + r3 );
+			}
+
+			//******************************************恢复食物**********
+			else if (r2 < 43) {
+				r3 = Algorithms.GetIndexByRange (2, 6);
 				_gameData.ChangeProperty (4, r3);
-				Debug.Log ("Add Food");
-			} else if (r2 < 60) {
-				r3 = Algorithms.GetIndexByRange (4, 9);
+				_logManager.AddLog("你捡到了一片干硬的面包，食物+" + r3 );
+			} 
+			else if (r2 < 50) {
+				r3 = Algorithms.GetIndexByRange (5, 10);
+				_gameData.ChangeProperty (4, r3);
+				_logManager.AddLog("好心的探险者分给你一些肉干，食物+" + r3 );
+			} 
+
+			//******************************************恢复水分**********
+			else if (r2 < 54) {
+				r3 = Algorithms.GetIndexByRange (2, 6);
 				_gameData.ChangeProperty (6, r3);
-				Debug.Log ("Add Water");
-			} else if (r2 < 70) {
-				r3 = Algorithms.GetIndexByRange (1, 4);
+				_logManager.AddLog("捡到一个破旧的水囊，水+" + r3 );
+			} 
+			else if (r2 < 58) {
+				r3 = Algorithms.GetIndexByRange (5, 10);
+				_gameData.ChangeProperty (6, r3);
+				_logManager.AddLog("好心的探险者分给你一些水，水+" + r3 );
+			}
+			else if (r2 < 60) {
+				r3 = Algorithms.GetIndexByRange (10, 25);
+				_gameData.ChangeProperty (6, r3);
+				_logManager.AddLog("遇到一个地下泉眼，水+" + r3 );
+			}
+
+			//******************************************改变体温**********
+			else if (r2 < 65) {
+				r3 = Algorithms.GetIndexByRange (1, 3);
 				_gameData.ChangeProperty (10, r3);
-				Debug.Log ("Add Temp");
-			} else if (r2 < 80) {
+				_logManager.AddLog("趟过一个温泉，温度+" + r3 );
+			} 
+			else if (r2 < 70) {
+				r3 = Algorithms.GetIndexByRange (2, 5);
+				_gameData.ChangeProperty (10, r3);
+				_gameData.ChangeProperty(0, r3);
+				_logManager.AddLog("地面突然冒出一团岩浆，温度+" + r3 + " ,生命-" + r3);
+			} 
+			else if (r2 < 75) {
 				r3 = -Algorithms.GetIndexByRange (1, 4);
 				_gameData.ChangeProperty (10, r3);
-				Debug.Log ("Reduce Temp");
-			} else if (r2 < 85) {
-				_gameData.ChangeProperty (0, 99);
-				Debug.Log ("Add Hp");
-			} else if (r2 < 90) {
-				_gameData.ChangeProperty (2, 99);
-				Debug.Log ("Add Spirit");
-			} else if (r2 < 91) {
-				_gameData.ChangeProperty (1, 1);
-				Debug.Log ("Add MaxHp");
-			} else if (r2 < 92) {
-				_gameData.ChangeProperty (3, 1);
-				Debug.Log ("Add MaxSpirit");
-			} else if (r2 < 94) {
-				_gameData.ChangeProperty (5, 1);
-				Debug.Log ("Add MaxFood");
-			} else if (r2 < 96) {
-				_gameData.ChangeProperty (7, 1);
-				Debug.Log ("Add MaxWater");
-			} else if (r2 < 98) {
-				_gameData.ChangeProperty (9, 1);
-				Debug.Log ("Add MaxStrength");
-			} else if (r2 < 99) {
-				_gameData.ChangeProperty (11, -1);
-				Debug.Log ("Reduce TempMin");
-			} else if (r2 < 100) {
-				_gameData.ChangeProperty (12, 1);
-				Debug.Log ("Add TempMax");
-			} else {
+				_logManager.AddLog("路过冰面，摔了一跤，温度-" + r3 );
+			} 
+			else if (r2 < 80) {
+				r3 = -Algorithms.GetIndexByRange (1, 4);
+				_gameData.ChangeProperty (10, r3);
+				_gameData.ChangeProperty(2, r3);
+				_logManager.AddLog("一阵刺骨的阴风吹过，温度-" + r3 + " ,精神-" + r3 );
+			} 
+
+			//******************************************特殊回复**********
+			else if (r2 < 82) {
+				_gameData.ChangeProperty (0, 999);
+				_logManager.AddLog("受到生命的祝福，生命回满。");
+			} 
+			else if (r2 < 84) {
+				_gameData.ChangeProperty (2, 999);
+				_logManager.AddLog("受到生命的祝福，精神回满。");
+			} 
+
+			// else if (r2 < 91) {
+			// 	_gameData.ChangeProperty (1, 1);
+			// 	Debug.Log ("Add MaxHp");
+			// } else if (r2 < 92) {
+			// 	_gameData.ChangeProperty (3, 1);
+			// 	Debug.Log ("Add MaxSpirit");
+			// } else if (r2 < 94) {
+			// 	_gameData.ChangeProperty (5, 1);
+			// 	Debug.Log ("Add MaxFood");
+			// } else if (r2 < 96) {
+			// 	_gameData.ChangeProperty (7, 1);
+			// 	Debug.Log ("Add MaxWater");
+			// } else if (r2 < 98) {
+			// 	_gameData.ChangeProperty (9, 1);
+			// 	Debug.Log ("Add MaxStrength");
+			// } else if (r2 < 99) {
+			// 	_gameData.ChangeProperty (11, -1);
+			// 	Debug.Log ("Reduce TempMin");
+			// } else if (r2 < 100) {
+			// 	_gameData.ChangeProperty (12, 1);
+			// 	Debug.Log ("Add TempMax");
+			// } 
+			else {
 				Debug.Log ("Nothing Happened");
 			}
-		} else if (r < 50) {
-			Debug.Log ("Nothing Text");
-		} else {
-			Debug.Log ("Nothing");
+		} 
+		else {
+			Debug.Log ("Nothing Happened");
 		}
 	}
         

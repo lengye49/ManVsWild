@@ -112,14 +112,14 @@ public class GameData : MonoBehaviour {
 
 		_playerData.LearnedBlueprints = GetDicFormStr (PlayerPrefs.GetString ("LearnedBlueprints" + s, ""));
 
-		_playerData.MeleeId = PlayerPrefs.GetInt ("MeleeId" + s, 1000000);
-		_playerData.RangedId = PlayerPrefs.GetInt ("RangedId" + s, 0);
-		_playerData.MagicId = PlayerPrefs.GetInt ("MagicId" + s, 0);
-		_playerData.HeadId = PlayerPrefs.GetInt ("HeadId" + s, 0);
-		_playerData.BodyId = PlayerPrefs.GetInt ("BodyId" + s, 0);
-		_playerData.ShoeId = PlayerPrefs.GetInt ("ShoeId" + s, 0);
-		_playerData.AmmoId = PlayerPrefs.GetInt ("AmmoId" + s, 0);
-		_playerData.AmmoNum = PlayerPrefs.GetInt ("AmmoNum" + s, 0);
+		_playerData.MeleeId = PlayerPrefs.GetInt ("MeleeId" + s, 1210000);
+        _playerData.RangedId = PlayerPrefs.GetInt ("RangedId" + s, 2060000);
+        _playerData.MagicId = PlayerPrefs.GetInt ("MagicId" + s, 3020000);
+		_playerData.HeadId = PlayerPrefs.GetInt ("HeadId" + s, 5110000);
+		_playerData.BodyId = PlayerPrefs.GetInt ("BodyId" + s, 6120000);
+		_playerData.ShoeId = PlayerPrefs.GetInt ("ShoeId" + s, 7060000);
+		_playerData.AmmoId = PlayerPrefs.GetInt ("AmmoId" + s, 4020000);
+		_playerData.AmmoNum = PlayerPrefs.GetInt ("AmmoNum" + s, 999);
 		_playerData.Mount = GetMount (PlayerPrefs.GetString ("Mount" + s, ""));
 
 		_playerData.Hotkey0 = PlayerPrefs.GetInt ("Hotkey0" + s, 0);

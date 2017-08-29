@@ -73,266 +73,308 @@ public class PanelManager : MonoBehaviour {
 
 	public void GoToPanel(string panelName){
 		switch (panelName) {
-		case "Home":
-			Home.DOLocalMoveX (0, tweenerTime);
-			Home.gameObject.GetComponentInChildren<HomeManager> ().UpdateContent ();
-			if (_PanelNow == Explore && _FatherPanel == Place)
-				CheckThiefActivities ();
-			_FatherPanel = null;
-			_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
+            case "Home":
+                Home.DOLocalMoveX(0, tweenerTime);
+                Home.gameObject.GetComponentInChildren<HomeManager>().UpdateContent();
+                if (_PanelNow == Explore && _FatherPanel == Place)
+                    CheckThiefActivities();
+                _FatherPanel = null;
+                _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
 
-			_PanelNow = Home;
-			GameData._playerData.placeNowId = 0;
-			_gameData.StoreData ("PlaceNowId", 0);
-			break;
-		case "BedRoom":
-			if (GameData._playerData.BedRoomOpen > 0) {
-				if (BedRoom.localPosition.x > 10)
-					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-				else
-					_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-				BedRoom.DOLocalMoveX (0, tweenerTime);
-				BedRoom.gameObject.GetComponent<RoomActions> ().UpdateRoomStates ();
-				_FatherPanel = Home;
-				_PanelNow = BedRoom;
-			} else {
-				_tipManager.ShowBuildingConstruct ("BedRoom");
-			}
-			break;
-		case "Warehouse":
-			if (GameData._playerData.WarehouseOpen > 0) {
-				if (Warehouse.localPosition.x > 10) {
-					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-				}else
-					_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-				Warehouse.DOLocalMoveX (0, tweenerTime);
-				Warehouse.gameObject.GetComponent<WarehouseActions> ().UpdatePanel ();
-				_FatherPanel = Home;
-				_PanelNow = Warehouse;
-			} else {
-				_tipManager.ShowBuildingConstruct ("Warehouse");
-			}
-			break;
-		case "Kitchen":
-			if (GameData._playerData.KitchenOpen > 0) {
-				if (Making.localPosition.x > 10)
-					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-				else
-					_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-				Making.DOLocalMoveX (0, tweenerTime);
-				this.gameObject.GetComponentInChildren<MakingActions> ().UpdatePanel (panelName);
-				_FatherPanel = _PanelNow;
-				_PanelNow = Making;
-				break;
-			} else {
-				_tipManager.ShowBuildingConstruct ("Kitchen");
-			}
-			break;
-		case "Workshop":
-			if (GameData._playerData.WorkshopOpen > 0) {
-				if (Workshop.localPosition.x > 10)
-					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-				else
-					_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-				Workshop.DOLocalMoveX (0, tweenerTime);
-				_FatherPanel = Home;
-				_PanelNow = Workshop;
-			} else {
-				_tipManager.ShowBuildingConstruct ("Workshop");
-			}
-			break;
-		case "Well":
-			if (GameData._playerData.WellOpen > 0) {
-				if(Well.localPosition.x>10)
-					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-				else
-					_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-				Well.DOLocalMoveX (0, tweenerTime);
-				this.gameObject.GetComponentInChildren<WellActions> ().UpdateWell ();
-				_FatherPanel = Home;
-				_PanelNow = Well;
-			} else {
-				_tipManager.ShowBuildingConstruct ("Well");
-			}
-			break;
-		case "Backpack":
-			if (_PanelNow == Backpack) {
-				if (_FatherPanel == Explore) {
-					if (GameData._playerData.placeNowId == 0)
-						GoToPanel ("Home");
-					else
-						GoToPanel ("Explore");
-				}
-				else
-					GoToPanel ("Father");
-				break;
-			}
-			if (Backpack.localPosition.x > 10)
-				_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-			else
-				_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-			Backpack.DOLocalMoveX (0, tweenerTime);
-			Backpack.gameObject.GetComponent<BackpackActions> ().UpdataPanel ();
-			_GrandFatherPanel = _FatherPanel;
-			_FatherPanel = _PanelNow;
-			_PanelNow = Backpack;
-			break;
-		case "Explore":
-			if (_PanelNow == Explore) {
-				if (_FatherPanel == Backpack)
-					GoToPanel ("Home");
-				else
-					GoToPanel ("Father");
-				break;
-			}
-			if (Explore.localPosition.x > 10)
-				_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-			else
-				_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-			Explore.DOLocalMoveX (0, tweenerTime);
-			Explore.gameObject.GetComponent<ExploreActions> ().UpdateExplore ();
-			_GrandFatherPanel = _FatherPanel;
-			_FatherPanel = _PanelNow;
-			_PanelNow = Explore;
-			break;
-		case "Battle":
-			if (Battle.localPosition.x > 10)
-				_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-			else
-				_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-			Battle.DOLocalMoveX (0, tweenerTime);
-			_GrandFatherPanel = _FatherPanel;
-			_FatherPanel = _PanelNow;
-			_PanelNow = Battle;
-			break;
-		case "Place":
-			Place.gameObject.GetComponent<PlaceActions> ().PlayBackGroundMusic (mapGoing.id);
+                _PanelNow = Home;
+                GameData._playerData.placeNowId = 0;
+                _gameData.StoreData("PlaceNowId", 0);
+                break;
+            case "BedRoom":
+                if (GameData._playerData.BedRoomOpen > 0)
+                {
+                    if (BedRoom.localPosition.x > 10)
+                        _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                    else
+                        _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                    BedRoom.DOLocalMoveX(0, tweenerTime);
+                    BedRoom.gameObject.GetComponent<RoomActions>().UpdateRoomStates();
+                    _FatherPanel = Home;
+                    _PanelNow = BedRoom;
+                }
+                else
+                {
+                    _tipManager.ShowBuildingConstruct("BedRoom");
+                }
+                break;
+            case "Warehouse":
+                if (GameData._playerData.WarehouseOpen > 0)
+                {
+                    if (Warehouse.localPosition.x > 10)
+                    {
+                        _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                    }
+                    else
+                        _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                    Warehouse.DOLocalMoveX(0, tweenerTime);
+                    Warehouse.gameObject.GetComponent<WarehouseActions>().UpdatePanel();
+                    _FatherPanel = Home;
+                    _PanelNow = Warehouse;
+                }
+                else
+                {
+                    _tipManager.ShowBuildingConstruct("Warehouse");
+                }
+                break;
+            case "Kitchen":
+                if (GameData._playerData.KitchenOpen > 0)
+                {
+                    if (Making.localPosition.x > 10)
+                        _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                    else
+                        _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                    Making.DOLocalMoveX(0, tweenerTime);
+                    this.gameObject.GetComponentInChildren<MakingActions>().UpdatePanel(panelName);
+                    _FatherPanel = _PanelNow;
+                    _PanelNow = Making;
+                    break;
+                }
+                else
+                {
+                    _tipManager.ShowBuildingConstruct("Kitchen");
+                }
+                break;
+            case "Workshop":
+                if (GameData._playerData.WorkshopOpen > 0)
+                {
+                    if (Workshop.localPosition.x > 10)
+                        _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                    else
+                        _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                    Workshop.DOLocalMoveX(0, tweenerTime);
+                    _FatherPanel = Home;
+                    _PanelNow = Workshop;
+                }
+                else
+                {
+                    _tipManager.ShowBuildingConstruct("Workshop");
+                }
+                break;
+            case "Well":
+                if (GameData._playerData.WellOpen > 0)
+                {
+                    if (Well.localPosition.x > 10)
+                        _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                    else
+                        _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                    Well.DOLocalMoveX(0, tweenerTime);
+                    this.gameObject.GetComponentInChildren<WellActions>().UpdateWell();
+                    _FatherPanel = Home;
+                    _PanelNow = Well;
+                }
+                else
+                {
+                    _tipManager.ShowBuildingConstruct("Well");
+                }
+                break;
+            case "Backpack":
+                if (_PanelNow == Backpack)
+                {
+                    if (_FatherPanel == Explore)
+                    {
+                        if (GameData._playerData.placeNowId == 0)
+                            GoToPanel("Home");
+                        else
+                            GoToPanel("Explore");
+                    }
+                    else
+                        GoToPanel("Father");
+                    break;
+                }
+                if (Backpack.localPosition.x > 10)
+                    _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                else
+                    _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                Backpack.DOLocalMoveX(0, tweenerTime);
+                Backpack.gameObject.GetComponent<BackpackActions>().UpdataPanel();
+                _GrandFatherPanel = _FatherPanel;
+                _FatherPanel = _PanelNow;
+                _PanelNow = Backpack;
+                break;
+            case "Explore":
+                if (_PanelNow == Explore)
+                {
+                    if (_FatherPanel == Backpack)
+                        GoToPanel("Home");
+                    else
+                        GoToPanel("Father");
+                    break;
+                }
+                if (Explore.localPosition.x > 10)
+                    _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                else
+                    _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                Explore.DOLocalMoveX(0, tweenerTime);
+                Explore.gameObject.GetComponent<ExploreActions>().UpdateExplore();
+                _GrandFatherPanel = _FatherPanel;
+                _FatherPanel = _PanelNow;
+                _PanelNow = Explore;
+                break;
+            case "Battle":
+                if (Battle.localPosition.x > 10)
+                    _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                else
+                    _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                Battle.DOLocalMoveX(0, tweenerTime);
+                _GrandFatherPanel = _FatherPanel;
+                _FatherPanel = _PanelNow;
+                _PanelNow = Battle;
+                break;
+            case "Place":
+                Place.gameObject.GetComponent<PlaceActions>().PlayBackGroundMusic(mapGoing.id);
 
-			if (mapGoing.id == 0) {
-				GoToPanel ("Home");
-				break;
-			}
-			if (Place.localPosition.x > 0)
-				_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-			else
-				_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);	
-			Place.DOLocalMoveX (0, tweenerTime);
-			if (_PanelNow == Battle) {
-				Place.gameObject.GetComponent<PlaceActions> ().UpdatePlace (mapGoing, false);
-			} else {
-				Place.gameObject.GetComponent<PlaceActions> ().UpdatePlace (mapGoing, true);
-			}
+                if (mapGoing.id == 0)
+                {
+                    GoToPanel("Home");
+                    break;
+                }
+                if (Place.localPosition.x > 0)
+                    _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                else
+                    _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);	
+                Place.DOLocalMoveX(0, tweenerTime);
 
-			GameData._playerData.placeNowId = mapGoing.id;
-			_gameData.StoreData ("PlaceNowId", mapGoing.id);
-			_GrandFatherPanel = _FatherPanel;
-			_FatherPanel = _PanelNow;
-			_PanelNow = Place;
-			break;
-		case "Study":
-			if (GameData._playerData.StudyOpen > 0) {
-				if(Study.localPosition.x>0)
-					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-				else
-					_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-				Study.DOLocalMoveX (0, tweenerTime);
-				Study.gameObject.GetComponent<StudyActions> ().UpdateStudy ();
-				_FatherPanel = Home;
-				_PanelNow = Study;
-			} else {
-				_tipManager.ShowBuildingConstruct ("Study");
-			}
-			break;
-		case "Farm":
-			if (GameData._playerData.FarmOpen > 0) {
-				if(Farm.localPosition.x>0)
-					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-				else
-					_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-				Farm.DOLocalMoveX (0, tweenerTime);
-				Farm.gameObject.GetComponent<FarmActions> ().UpdateFarm ();
-				_FatherPanel = Home;
-				_PanelNow = Farm;
-			} else {
-				_tipManager.ShowBuildingConstruct ("Farm");
-			}
-			break;
-		case "Pets":
-			if (GameData._playerData.PetsOpen > 0) {
-				if(Pets.localPosition.x>0)
-					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-				else
-					_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-				Pets.DOLocalMoveX (0, tweenerTime);
-				Pets.gameObject.GetComponent<PetsActions> ().UpdatePets ();
-				_FatherPanel = Home;
-				_PanelNow = Pets;
-			} else {
-				_tipManager.ShowBuildingConstruct ("Pets");
-			}
-			break;
-		case "Achievement":
-			if (GameData._playerData.AchievementOpen > 0) {
-				if(Achievement.localPosition.x>0)
-					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-				else
-					_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-				Achievement.DOLocalMoveX (0, tweenerTime);
-				Achievement.gameObject.GetComponent<AchievementActions> ().UpdateAchievement ();
-				_FatherPanel = Home;
-				_PanelNow = Achievement;
-			} else {
-				_tipManager.ShowBuildingConstruct ("Achievement");
-			}
-			break;
-		case "Altar":
-			if (GameData._playerData.AltarOpen > 0) {
-				if(Altar.localPosition.x>0)
-					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-				else
-					_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-				Altar.DOLocalMoveX (0, tweenerTime);
-				this.gameObject.GetComponentInChildren<AlterActions> ().UpdateAltar ();
-				_FatherPanel = Home;
-				_PanelNow = Altar;
-			} else {
-				_tipManager.ShowBuildingConstruct ("Altar");
-			}
-			break;
-		case "Death":
-                Death.DOLocalMoveX (0, tweenerTime);
-			break;
-		case "Melee":
-		case "Ranged":
-		case "Magic":
-		case "Head":
-		case "Body":
-		case "Shoe":
-		case "Accessory":
-			if (Making.localPosition.x > 0)
-				_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-			else
-				_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-			Making.DOLocalMoveX (0, tweenerTime);
-			this.gameObject.GetComponentInChildren<MakingActions> ().UpdatePanel (panelName);
-			_FatherPanel = _PanelNow;
-			_PanelNow = Making;
-			break;
-		case "Making":
-			if (Making.localPosition.x > 0)
-				_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
-			else
-				_PanelNow.DOLocalMoveX (restPointRightX, tweenerTime);
-			Making.DOLocalMoveX (0, tweenerTime);
-			_FatherPanel = _GrandFatherPanel;
-			_PanelNow = Making;
-			break;
-		case "Father":
-			GoToPanel (_FatherPanel.name);
-			break;
-		default:
-			Debug.Log ("The panel name is wrong with " + panelName);
-			break;
+                //如果当前面板是战斗面板，则不用更新进度
+                //如果当前在place面板再打开背包或地图，关闭后也不刷新
+                if (_PanelNow == Battle || (_PanelNow == Backpack && _FatherPanel == Place) || (_PanelNow == Explore && _FatherPanel == Place))
+                {
+                    Place.gameObject.GetComponent<PlaceActions>().UpdatePlace(mapGoing, false);
+                }
+                else
+                {
+                    Place.gameObject.GetComponent<PlaceActions>().UpdatePlace(mapGoing, true);
+                }
+
+                GameData._playerData.placeNowId = mapGoing.id;
+                _gameData.StoreData("PlaceNowId", mapGoing.id);
+                _GrandFatherPanel = _FatherPanel;
+                _FatherPanel = _PanelNow;
+                _PanelNow = Place;
+                break;
+            case "Study":
+                if (GameData._playerData.StudyOpen > 0)
+                {
+                    if (Study.localPosition.x > 0)
+                        _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                    else
+                        _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                    Study.DOLocalMoveX(0, tweenerTime);
+                    Study.gameObject.GetComponent<StudyActions>().UpdateStudy();
+                    _FatherPanel = Home;
+                    _PanelNow = Study;
+                }
+                else
+                {
+                    _tipManager.ShowBuildingConstruct("Study");
+                }
+                break;
+            case "Farm":
+                if (GameData._playerData.FarmOpen > 0)
+                {
+                    if (Farm.localPosition.x > 0)
+                        _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                    else
+                        _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                    Farm.DOLocalMoveX(0, tweenerTime);
+                    Farm.gameObject.GetComponent<FarmActions>().UpdateFarm();
+                    _FatherPanel = Home;
+                    _PanelNow = Farm;
+                }
+                else
+                {
+                    _tipManager.ShowBuildingConstruct("Farm");
+                }
+                break;
+            case "Pets":
+                if (GameData._playerData.PetsOpen > 0)
+                {
+                    if (Pets.localPosition.x > 0)
+                        _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                    else
+                        _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                    Pets.DOLocalMoveX(0, tweenerTime);
+                    Pets.gameObject.GetComponent<PetsActions>().UpdatePets();
+                    _FatherPanel = Home;
+                    _PanelNow = Pets;
+                }
+                else
+                {
+                    _tipManager.ShowBuildingConstruct("Pets");
+                }
+                break;
+            case "Achievement":
+                if (GameData._playerData.AchievementOpen > 0)
+                {
+                    if (Achievement.localPosition.x > 0)
+                        _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                    else
+                        _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                    Achievement.DOLocalMoveX(0, tweenerTime);
+                    Achievement.gameObject.GetComponent<AchievementActions>().UpdateAchievement();
+                    _FatherPanel = Home;
+                    _PanelNow = Achievement;
+                }
+                else
+                {
+                    _tipManager.ShowBuildingConstruct("Achievement");
+                }
+                break;
+            case "Altar":
+                if (GameData._playerData.AltarOpen > 0)
+                {
+                    if (Altar.localPosition.x > 0)
+                        _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                    else
+                        _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                    Altar.DOLocalMoveX(0, tweenerTime);
+                    this.gameObject.GetComponentInChildren<AlterActions>().UpdateAltar();
+                    _FatherPanel = Home;
+                    _PanelNow = Altar;
+                }
+                else
+                {
+                    _tipManager.ShowBuildingConstruct("Altar");
+                }
+                break;
+            case "Death":
+                Death.DOLocalMoveX(0, tweenerTime);
+                break;
+            case "Melee":
+            case "Ranged":
+            case "Magic":
+            case "Head":
+            case "Body":
+            case "Shoe":
+            case "Accessory":
+                if (Making.localPosition.x > 0)
+                    _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                else
+                    _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                Making.DOLocalMoveX(0, tweenerTime);
+                this.gameObject.GetComponentInChildren<MakingActions>().UpdatePanel(panelName);
+                _FatherPanel = _PanelNow;
+                _PanelNow = Making;
+                break;
+            case "Making":
+                if (Making.localPosition.x > 0)
+                    _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
+                else
+                    _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
+                Making.DOLocalMoveX(0, tweenerTime);
+                _FatherPanel = _GrandFatherPanel;
+                _PanelNow = Making;
+                break;
+            case "Father":
+                GoToPanel(_FatherPanel.name);
+                break;
+            default:
+                Debug.Log("The panel name is wrong with " + panelName);
+                break;
 		}
 	}
 

@@ -142,6 +142,7 @@ public class BattleActions : MonoBehaviour {
 	}
 
 	void GetEnemyProperty(Monster m,int titleIndex){
+        Debug.Log("thisEnemyId = " + m.id);
 		enemy = new Unit ();
 		enemy.monsterId = m.id;
 		enemy.name = m.name + "[" + LoadTxt.MonsterTitleDic [titleIndex].title + "]";
@@ -472,8 +473,8 @@ public class BattleActions : MonoBehaviour {
 
 		Dictionary<int,int> drop = Algorithms.GetReward (enemy.drop);
 
-		s = "获得了";
 		if (drop.Count > 0) {
+            s = "获得了";
 			foreach (int key in drop.Keys) {
 				int itemId = GenerateItemId (key);
 				_gameData.AddItem (itemId, drop [key]);
