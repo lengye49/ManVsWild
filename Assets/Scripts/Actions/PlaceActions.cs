@@ -848,7 +848,7 @@ public class PlaceActions : MonoBehaviour {
 			}
 		}
 
-		string t = resourceDetail.gameObject.GetComponentInChildren<Button> ().gameObject.GetComponentInChildren<Text> ().text;
+		string t = resourceDetail.GetComponentInChildren<Button> ().gameObject.GetComponentInChildren<Text> ().text;
 		switch (t) {
 		case "伐木":
 			StartCoroutine (StartCut ());
