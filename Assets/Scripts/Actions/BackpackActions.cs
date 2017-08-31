@@ -59,22 +59,40 @@ public class BackpackActions : MonoBehaviour {
 	}
 
 	void UpdateCharacter(){
-		Melee.text = (GameData._playerData.MeleeId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.MeleeId / 10000)].name) : "";
-		Ranged.text = (GameData._playerData.RangedId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.RangedId / 10000)].name) : "";
-		Magic.text = (GameData._playerData.MagicId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.MagicId / 10000)].name) : "";
-		Head.text = (GameData._playerData.HeadId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.HeadId / 10000)].name) : "";
-		Body.text = (GameData._playerData.BodyId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.BodyId / 10000)].name) : "";
-		Shoe.text = (GameData._playerData.ShoeId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.ShoeId / 10000)].name) : "";
-//		Accessory.text = (GameData._playerData.AccessoryId > 0) ? (LoadTxt.MatDic [(int)(GameData._playerData.MeleeId / 10000)].name) : "";
+        
+        UpdateEquip(Melee, GameData._playerData.MeleeId);
+        UpdateEquip(Ranged, GameData._playerData.RangedId);
+        UpdateEquip(Magic, GameData._playerData.MagicId);
+        UpdateEquip(Head, GameData._playerData.HeadId);
+        UpdateEquip(Body, GameData._playerData.BodyId);
+        UpdateEquip(Shoe, GameData._playerData.ShoeId);
+
+
 		if (GameData._playerData.AmmoId > 0 && GameData._playerData.AmmoNum > 0) {
 			Ammo.text = LoadTxt.MatDic [(int)(GameData._playerData.AmmoId / 10000)].name;
 			AmmoNum.text = "×" + GameData._playerData.AmmoNum;
+            Color c = new Color();
+            c = GameConfigs.MatColor[LoadTxt.MatDic[(int)(GameData._playerData.AmmoId / 10000)].quality];
+            Ammo.color = c;
+            AmmoNum.color = c;
 		} else {
 			Ammo.text = "";
 			AmmoNum.text = "";
 		}
 		Mount.text = (GameData._playerData.Mount.monsterId > 0) ? (GameData._playerData.Mount.name) : "";
 	}
+
+    void UpdateEquip(Text t,int itemId){
+        if (itemId > 0)
+        {
+            Mats mat = new Mats();
+            mat = LoadTxt.MatDic[(int)(itemId / 10000)];
+            t.text = mat.name;
+            t.color = GameConfigs.MatColor[mat.quality];
+        }else{
+            t.text = "";
+        }
+    }
 
 	void UpdateBpContent (){
 		if (bpCells.Count<_bpNum) {
