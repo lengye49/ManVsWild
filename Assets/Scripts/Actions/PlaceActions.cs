@@ -851,15 +851,31 @@ public class PlaceActions : MonoBehaviour {
 		string t = resourceDetail.GetComponentInChildren<Button> ().gameObject.GetComponentInChildren<Text> ().text;
 		switch (t) {
 		case "伐木":
+			if (GameData._playerData.strengthNow < GameConfigs.CuttingStrength) {
+				_floating.CallInFloating ("力量不足", 1);
+				break;
+			}
 			StartCoroutine (StartCut ());
 			break;
 		case "挖掘":
+			if (GameData._playerData.strengthNow < GameConfigs.DiggingStrength) {
+				_floating.CallInFloating ("力量不足", 1);
+				return;
+			}
 			StartCoroutine (StartDig ());
 			break;
 		case "提水":
+			if (GameData._playerData.strengthNow < GameConfigs.FetchingStrength) {
+				_floating.CallInFloating ("力量不足", 1);
+				return;
+			}
 			StartCoroutine (StartFetch ());
 			break;
 		case "收获":
+			if (GameData._playerData.strengthNow < GameConfigs.FetchingStrength) {
+				_floating.CallInFloating ("力量不足", 1);
+				return;
+			}
 			StartCoroutine (StartFetch ());
 			break;
 		case "探索":
@@ -922,10 +938,6 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void Cut(){
-		if (GameData._playerData.strengthNow < GameConfigs.CuttingStrength) {
-			_floating.CallInFloating ("力量不足", 1);
-			return;
-		}
 		//open;lastTrees;lastTime;id|num|prop;...
 		float lastTrees = 0f;
 		int lastTime = 0;
@@ -970,10 +982,6 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void Dig(){
-		if (GameData._playerData.strengthNow < GameConfigs.DiggingStrength) {
-			_floating.CallInFloating ("力量不足", 1);
-			return;
-		}
 		//open;totalAmount;nowAmount;id|num|prop;...
 
 		string[] s = _puNow.actionParam.Split (';');
@@ -1014,10 +1022,6 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void Fetch(){
-		if (GameData._playerData.strengthNow < GameConfigs.FetchingStrength) {
-			_floating.CallInFloating ("力量不足", 1);
-			return;
-		}
 		//open;id|num|prop;id|num|prop...
 		_gameData.ChangeProperty (8, -GameConfigs.FetchingStrength);
 		_gameData.ChangeTime (GameConfigs.FetchingTime);
@@ -1079,6 +1083,7 @@ public class PlaceActions : MonoBehaviour {
 			}
 			newItems = newItems.Substring (0, newItems.Length - 1);
 			_logManager.AddLog (newItems);
+			_floating.CallInFloating (newItems, 0);
 
 			//Achievement
 			if (now == 0)
@@ -1114,7 +1119,6 @@ public class PlaceActions : MonoBehaviour {
 		}
 		int index = Algorithms.GetResultByWeight (weight);
 		int num = Algorithms.GetIndexByRange (1, 1 + LoadTxt.MonsterDic [ids [index]].groupNum);
-//		Debug.Log ("Hunt for fun : " + LoadTxt.MonsterDic [ids [index]].name);
 
 		Monster[] m = new Monster[num];
 		for(int i=0;i<m.Length;i++)
@@ -1130,7 +1134,7 @@ public class PlaceActions : MonoBehaviour {
 	public void Rob(){
 		//param格式:open;Name;Description;MonsterId
 		string[] s = _puNow.actionParam.Split (';');
-		if (s.Length < 5)
+		if (s.Length < 4)
 			return;
 		int monsterId = int.Parse (s [3]);
 		Monster[] m = new Monster[1];
