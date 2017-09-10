@@ -370,16 +370,16 @@ public class GameData : MonoBehaviour {
 		string s = "";
 		switch (_playerData.seasonNow) {
 		case 0:
-			s += "春天来了";
+			s += "春天来了,气候变暖。";
 			break;
 		case 1:
-			s += "夏天来了";
+			s += "夏天来了，天气炎热，请注意防暑降温。";
 			break;
 		case 2:
-			s += "秋天来了";
+			s += "秋天来了，气候转凉。";
 			break;
 		case 3:
-			s += "冬天来了";
+			s += "冬天来了，天气寒冷，请注意取暖。";
 			break;
 		default:
 			break;

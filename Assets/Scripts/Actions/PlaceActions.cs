@@ -1104,6 +1104,9 @@ public class PlaceActions : MonoBehaviour {
 
 		SetSearching (_puNow);
 		_gameData.SearchNewPlace (_mapNow.id, now * 100 / total);
+
+        //检测是否有新信息
+        GetComponentInParent<SerendipityActions>().CheckSerendipity();
 	}
 
 	void Hunt(){

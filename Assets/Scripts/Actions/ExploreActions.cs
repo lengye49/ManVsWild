@@ -107,6 +107,9 @@ public class ExploreActions : MonoBehaviour {
 		} else
 			_logManager.AddLog ("你抵达了" + mapGoing.name + "。");
 		_panelManager.GoToPanel ("Place");
+
+        //检测是否有新信息
+        GetComponentInParent<SerendipityActions>().CheckSerendipity();
 	}
 
 	string GetTimeFormat(int m){
