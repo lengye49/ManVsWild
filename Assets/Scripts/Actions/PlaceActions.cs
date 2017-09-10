@@ -304,7 +304,7 @@ public class PlaceActions : MonoBehaviour {
             else if (r2 < 24) {
 				r3 = Algorithms.GetIndexByRange (2, 6);
 				_gameData.ChangeProperty (2, r3);
-                _logManager.AddLog("一个精灵朝你招了招手，精神+" + r3 );
+                _logManager.AddLog("一个友善的精灵朝你使用精神之泉，精神+" + r3 );
             }
             else if (r2 < 28) {
                 r3 = Algorithms.GetIndexByRange (5, 10);
@@ -425,25 +425,26 @@ public class PlaceActions : MonoBehaviour {
         
 
 	Monster GetNewMonster(){
-		int minLv=1;
-		int maxLv=35+(int)(dungeonLevel/10)*5;
-		int num=0;
-		if (dungeonLevel%10==0){
-			minLv=maxLv-5;
+		int minLv = 1;
+		int maxLv = 35 + (int)(dungeonLevel / 10) * 5;
+		if (dungeonLevel % 10 == 0) {
+			minLv = maxLv - 5;
 		}
 		ArrayList monsterList = new ArrayList ();
 		foreach(int key in LoadTxt.MonsterDic.Keys){
-			if(LoadTxt.MonsterDic[key].level<minLv || LoadTxt.MonsterDic[key].level>maxLv)
+			if (LoadTxt.MonsterDic [key].level < minLv || LoadTxt.MonsterDic [key].level > maxLv)
 				continue;
-			num++;
 			monsterList.Add (LoadTxt.MonsterDic [key]);
 		}
-		if (num < 1) {
-			Debug.Log ("No Monster Found!");
-			return new Monster ();
+
+		Monster m = new Monster ();
+		if (monsterList.Count > 0) {
+			int index = Random.Range (0, monsterList.Count - 1);
+			m = monsterList [index] as Monster;
+		} else {
+			m = LoadTxt.MonsterDic [100];
 		}
-		int index = Algorithms.GetIndexByRange (1, num+1);
-		Monster m = monsterList [index] as Monster;
+
 		return m;
 	}
 

@@ -241,7 +241,7 @@ public class PanelManager : MonoBehaviour {
 
                 //如果当前面板是战斗面板，则不用更新进度
                 //如果当前在place面板再打开背包或地图，关闭后也不刷新
-                if (_PanelNow == Battle || (_PanelNow == Backpack && _FatherPanel == Place) || (_PanelNow == Explore && _FatherPanel == Place))
+                if (_PanelNow == Battle || (_PanelNow == Backpack && _FatherPanel == Place))
                 {
                     Place.gameObject.GetComponent<PlaceActions>().UpdatePlace(mapGoing, false);
                 }

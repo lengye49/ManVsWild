@@ -21,7 +21,7 @@ public class GameData : MonoBehaviour {
 //		//*测试代码，删除所有数据
 //		PlayerPrefs.DeleteAll ();
 //		/*******************/
-
+//
 		_playerData = new PlayerData ();
 		LoadAchievements ();
 		LoadAllData (false);
