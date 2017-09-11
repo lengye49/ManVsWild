@@ -121,15 +121,6 @@ public class Algorithms  {
 	/// <param name="items">Items.</param>
 	/// <param name="pros">Pros.</param>
 	public static Dictionary<int,int> GetReward(Dictionary<int,int> items,float[] pros){
-//		string s = "";
-//		foreach (int key in items.Keys) {
-//			s+=key+","+items[key]+";";
-//		}
-//		Debug.Log (s);
-//		s = "";
-//		for(int j=0;j<pros.Length;j++)
-//			s+=pros[j]+",";
-//		Debug.Log (s);
 
 		Dictionary<int,int> r = new Dictionary<int, int> ();
 		if (items.Count != pros.Length) {
@@ -161,12 +152,6 @@ public class Algorithms  {
 			}
 			i++;
 		}
-
-//		s = "";
-//		foreach (int key in r.Keys) {
-//			s+=key+","+r[key]+";";
-//		}
-//		Debug.Log (s);
 
 		return r;
 	}

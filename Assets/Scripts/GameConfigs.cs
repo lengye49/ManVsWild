@@ -99,7 +99,7 @@ public class GameConfigs{
 	public static float[] CookingTimeDiscount = { 1f, 0.8f, 0.5f };
 	public static float[] CookingIncreaseRate = { 1f, 1.5f, 2.5f };
 	public static float[] WaterCollectingRate = { 1f, 1.2f, 1.5f };
-	public static float[] GhostComingProp = { 0.1f, 0.05f, 0.02f };
+	public static float[] GhostComingProp = { 0.05f, 0.02f, 0.01f };
 
 	public static int StartThiefEvent = 0;//测试数据
 	public static int StartGhostEvent = 0;//测试数据
