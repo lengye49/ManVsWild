@@ -94,8 +94,17 @@ public class BattleActions : MonoBehaviour {
 
 	void SetEnemy(){
 		SetState ();
-		int titleIndex = Algorithms.GetIndexByRange (0, LoadTxt.MonsterTitleDic.Count - 1);
-		GetEnemyProperty (thisMonsters [thisEnemyIndex-1], titleIndex);
+		int r = Random.Range(0, 999);
+		if (r > 900)
+		{
+			int titleIndex = Algorithms.GetIndexByRange(0, LoadTxt.MonsterTitleDic.Count - 1);
+			GetEnemyProperty(thisMonsters[thisEnemyIndex - 1], titleIndex);
+		}
+		else
+		{
+			GetEnemyProperty(thisMonsters[thisEnemyIndex - 1]);
+		}
+
 		ResetPanel ();
 	}
 
@@ -141,32 +150,23 @@ public class BattleActions : MonoBehaviour {
 		}
 	}
 
-	void GetEnemyProperty(Monster m,int titleIndex){
-        Debug.Log("thisEnemyId = " + m.id);
+	void GetEnemyProperty(Monster m){
+		Debug.Log("thisEnemyId = " + m.id);
 		enemy = new Unit ();
 		enemy.monsterId = m.id;
-		enemy.name = m.name + "[" + LoadTxt.MonsterTitleDic [titleIndex].title + "]";
+		enemy.name = m.name;
 		enemy.level = m.level;
+
 		enemy.hp = LoadTxt.MonsterModelDic [m.model].hp + LoadTxt.MonsterModelDic [m.model].hp_inc * (m.level - 1);
-		enemy.hp *= 1 + LoadTxt.MonsterTitleDic [titleIndex].hpBonus ;
 		enemyMaxHp = enemy.hp;
-
 		enemy.spirit = m.spirit;
-
 		enemy.atk = LoadTxt.MonsterModelDic [m.model].atk + LoadTxt.MonsterModelDic [m.model].atk_inc * (m.level - 1);
-		enemy.atk *= 1 + LoadTxt.MonsterTitleDic [titleIndex].atkBonus ;
-
 		enemy.def = LoadTxt.MonsterModelDic [m.model].def + LoadTxt.MonsterModelDic [m.model].def_inc * (m.level - 1);
-		enemy.def *= 1 + LoadTxt.MonsterTitleDic [titleIndex].defBonus ;
-
 		enemy.hit = LoadTxt.MonsterModelDic [m.model].hit;
-
 		enemy.dodge = LoadTxt.MonsterModelDic [m.model].dodge;
-		enemy.dodge *= 1 + LoadTxt.MonsterTitleDic [titleIndex].dodgeBonus ;
-
-		enemy.speed = m.speed * (1 + LoadTxt.MonsterTitleDic [titleIndex].speedBonus );
+		enemy.speed = m.speed;
 		enemy.range = m.range;
-		enemy.castSpeedBonus = LoadTxt.MonsterTitleDic [titleIndex].attSpeedBonus ;
+		enemy.castSpeedBonus = 0;
 		enemy.skills = m.skills;
 		enemy.drop = m.drop;
 		enemy.vitalSensibility = m.vitalSensibility;
@@ -176,7 +176,18 @@ public class BattleActions : MonoBehaviour {
 		enemy.canCapture = m.canCapture;
 		enemy.mapOpen = m.mapOpen;
 		enemy.renown = m.renown;
-		Debug.Log ("Hp:" + enemy.hp + " Spirit:" + enemy.spirit + " hit:" + enemy.hit);
+	}
+
+	void GetEnemyProperty(Monster m,int titleIndex){
+		GetEnemyProperty(m);
+		enemy.name +=  "[" + LoadTxt.MonsterTitleDic [titleIndex].title + "]";
+		enemy.hp *= 1 + LoadTxt.MonsterTitleDic [titleIndex].hpBonus ;
+		enemyMaxHp = enemy.hp;
+		enemy.atk *= 1 + LoadTxt.MonsterTitleDic [titleIndex].atkBonus ;
+		enemy.def *= 1 + LoadTxt.MonsterTitleDic [titleIndex].defBonus ;
+		enemy.dodge *= 1 + LoadTxt.MonsterTitleDic [titleIndex].dodgeBonus ;
+		enemy.speed *= (1 + LoadTxt.MonsterTitleDic [titleIndex].speedBonus );
+		enemy.castSpeedBonus = LoadTxt.MonsterTitleDic [titleIndex].attSpeedBonus ;
 	}
 
 	void ResetPanel(){
