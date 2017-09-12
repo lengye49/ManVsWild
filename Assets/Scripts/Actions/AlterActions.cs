@@ -17,9 +17,13 @@ public class AlterActions : MonoBehaviour {
 	}
 
 	public void UpdateAltar(){
-		ssNum.text = GameData._playerData.SoulStone.ToString ();
-		ssNum.color = (GameData._playerData.SoulStone >= GameConfigs.SoulStoneForStoreMem) ? Color.green : Color.red;
-		storeButton.interactable = (GameData._playerData.SoulStone >= GameConfigs.SoulStoneForStoreMem);
+        int num = 0;
+        if (GameData._playerData.bp.ContainsKey(22020000))
+            num = GameData._playerData.bp[22020000];
+
+        ssNum.text = num + "/" + GameConfigs.SoulStoneForStoreMem;
+        ssNum.color = (num >= GameConfigs.SoulStoneForStoreMem) ? Color.green : Color.red;
+        storeButton.interactable = (num >= GameConfigs.SoulStoneForStoreMem);
 
 		bool s = GameData._playerData.HasMemmory > 0;
 		memoryPoolState.text = s ? "已有存档" : "当前无存档";
@@ -28,8 +32,13 @@ public class AlterActions : MonoBehaviour {
 	}
 
 	public void StoreMemory(){
-		if (GameData._playerData.SoulStone < GameConfigs.SoulStoneForStoreMem)
+        int num = 0;
+        if (GameData._playerData.bp.ContainsKey(22020000))
+            num = GameData._playerData.bp[22020000];
+
+        if (num < GameConfigs.SoulStoneForStoreMem)
 			return;
+        _gameData.ConsumeItem(2202, GameConfigs.SoulStoneForStoreMem);
 		_gameData.StoreMemmory ();
 		UpdateAltar ();
 	}

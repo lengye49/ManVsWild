@@ -11,7 +11,6 @@ public class BackpackActions : MonoBehaviour {
 	public Text Head;
 	public Text Body;
 	public Text Shoe;
-//	public Text Accessory;
 	public Text Ammo;
 	public Text AmmoNum;
 	public Text Mount;
@@ -125,8 +124,10 @@ public class BackpackActions : MonoBehaviour {
 			t [1].text = GameData._playerData.bp [key].ToString();
 			j++;
 		}
-
-		soulStone.text = GameData._playerData.SoulStone.ToString();
+        if (GameData._playerData.bp.ContainsKey(22020000))
+            soulStone.text = GameData._playerData.bp[22020000].ToString();
+        else
+            soulStone.text = "0";
 	}
 
 	void ClearContent(GameObject o){

@@ -120,6 +120,7 @@ public class SerendipityActions : MonoBehaviour {
         }
         else
         {
+            int i = GetComponentInChildren<LoadingBar>().CallInLoadingBar(60);
             PlayRewardedAd();
         }
 

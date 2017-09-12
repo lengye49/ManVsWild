@@ -1095,6 +1095,9 @@ public class TipManager : MonoBehaviour {
 	}
 		
 	void UseItem(int itemId){
+        if (!GameData._playerData.bp.ContainsKey(itemId))
+            return;
+
 		int id = (int)(itemId / 10000);
 		Mats m = LoadTxt.MatDic [id];
 
@@ -1102,8 +1105,10 @@ public class TipManager : MonoBehaviour {
 		case 0:
 			_floating.CallInFloating("该物品无法直接使用!",1);
 			break;
-		case 2:
-			_gameData.EatFood (itemId);
+        case 2:
+            _gameData.EatFood(itemId);
+            if (!GameData._playerData.bp.ContainsKey(itemId))
+                OnNormalTipCover();
 			_backpackActions.UpdataPanel ();
 			break;
 		case 3:

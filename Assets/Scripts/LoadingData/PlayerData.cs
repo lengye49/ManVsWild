@@ -92,7 +92,6 @@ public class PlayerData  {
 
 	public int LastWithdrawWaterTime;
 
-	public int SoulStone;
 	public int Renown;
 
 	public Dictionary<int,FarmState> Farms;

@@ -127,7 +127,6 @@ public class GameData : MonoBehaviour {
 
 		_playerData.LastWithdrawWaterTime = PlayerPrefs.GetInt ("LastWithdrawWaterTime" + s, 0);
 
-		_playerData.SoulStone = PlayerPrefs.GetInt ("SoulStone" + s, 0);
 		_playerData.Renown = PlayerPrefs.GetInt ("Renown" + s, 0);
 
 		_playerData.Farms = GetFarmStateFromStr (PlayerPrefs.GetString ("Farms" + s, "0|0|1|0;1|0|2|0;2|0|3|0;3|0|0|0;4|0|0|0;5|0|0|0;6|0|0|0;7|0|0|0"));
@@ -247,8 +246,6 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("Hotkey1" + s, _playerData.Hotkey1);
 
 		PlayerPrefs.SetInt ("LastWithdrawWaterTime" + s, _playerData.LastWithdrawWaterTime);
-
-		PlayerPrefs.SetInt ("SoulStone" + s, _playerData.SoulStone);
 
 		PlayerPrefs.SetString ("Farms" + s, GetStrFromFarmState (_playerData.Farms));
 
