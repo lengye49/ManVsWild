@@ -219,10 +219,15 @@ public class PlaceActions : MonoBehaviour {
 			CheckRoad (index);
 			ChangeImage (index);
 		} else if (dungeonCellState [index] == 3) {
-			if (GameData._playerData.dungeonLevelMax < dungeonLevel)
+			if (GameData._playerData.dungeonLevelMax < dungeonLevel) {
 				_gameData.StoreData ("DungeonLevelMax", dungeonLevel);
+			}
 			dungeonLevel++;
             Debug.Log("Go to next level");
+
+			//成就
+			GetComponentInParent<AchieveActions> ().GetToNewDungeon (dungeonLevel);
+
 			InitializeDungeon ();
 		}
 	}

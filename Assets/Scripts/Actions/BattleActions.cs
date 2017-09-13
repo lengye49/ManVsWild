@@ -86,6 +86,8 @@ public class BattleActions : MonoBehaviour {
 				AddLog ("你发现了" + monsters [0].name + "!", 0);
 		}
 
+		CheckNewPlayerGuide ();
+
 		SetEnemy ();
 
 		if (isAttacked)
@@ -709,5 +711,16 @@ public class BattleActions : MonoBehaviour {
 	public void OnReturn(){
 		CallOutBattlePanel ();
 		_panelManager.GoToPanel ("Father");
+	}
+
+	void CheckNewPlayerGuide(){
+		if (_gameData.battleCount >= 10)
+			return;
+		_gameData.battleCount++;
+		_gameData.StoreData ("BattleCount", _gameData.battleCount);
+		AddLog ("点击[前跳]靠近对手，[后跃]拉开距离;", 0);
+		AddLog ("点击[近战]、[远程]、[魔法]使用对应武器攻击;", 0);
+		AddLog ("某些对手在生命值较低时可以被[捕获]为宠物;", 0);
+		AddLog ("在你优势较大时可以点击[自动]开启自动战斗。", 0);
 	}
 }

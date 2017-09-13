@@ -4,6 +4,8 @@ using System.Collections;
 public class AchieveActions : MonoBehaviour {
 
 	private GameData _gameData;
+	private FloatingActions _floating;
+	private LogManager _log;
 	void Start(){
 		_gameData = this.gameObject.GetComponent<GameData> ();
 	}
@@ -164,32 +166,44 @@ public class AchieveActions : MonoBehaviour {
 			GameData._playerData.ghostKill++;
 			_gameData.StoreData ("GhostKill", GameData._playerData.ghostKill);
 			if (GameData._playerData.Achievements [2] == 0) {
-				if (GameData._playerData.ghostKill >= LoadTxt.AchievementDic [2].req)
-					StoreAchievement (1);
+				if (GameData._playerData.ghostKill >= LoadTxt.AchievementDic [2].req) {
+					StoreAchievement (2);
+					_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [2].name,0);
+					_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [2].name);
+				}
 			}
 		} else if (monsterId == 2) {
 			//GhostBoss
 			GameData._playerData.ghostBossKill++;
 			_gameData.StoreData ("GhostBossKill", GameData._playerData.ghostBossKill);
 			if (GameData._playerData.Achievements [3] == 0) {
-				if (GameData._playerData.ghostBossKill >= LoadTxt.AchievementDic [3].req)
-					StoreAchievement (2);
+				if (GameData._playerData.ghostBossKill >= LoadTxt.AchievementDic [3].req) {
+					StoreAchievement (3);
+					_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [3].name,0);
+					_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [3].name);
+				}
 			}
 		} else if (monsterId == 3) {
 			//GhostKing
 			GameData._playerData.ghostKingKill++;
 			_gameData.StoreData ("GhostKingKill", GameData._playerData.ghostKingKill);
 			if (GameData._playerData.Achievements [4] == 0) {
-				if (GameData._playerData.ghostKingKill >= LoadTxt.AchievementDic [4].req)
-					StoreAchievement (3);
+				if (GameData._playerData.ghostKingKill >= LoadTxt.AchievementDic [4].req) {
+					StoreAchievement (4);
+					_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [4].name,0);
+					_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [4].name);
+				}
 			}
 		} else if (monsterId == 1801 || monsterId == 1802 || monsterId == 1803) {
 			//Dragon
 			GameData._playerData.dragonKilled++;
 			_gameData.StoreData ("DragonKilled", GameData._playerData.dragonKilled);
 			if(GameData._playerData.Achievements[32]==0){
-				if (GameData._playerData.dragonKilled >= LoadTxt.AchievementDic[32].req)
+				if (GameData._playerData.dragonKilled >= LoadTxt.AchievementDic [32].req) {
 					StoreAchievement (32);
+					_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [32].name,0);
+					_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [32].name);
+				}
 			}
 		}
 
@@ -198,6 +212,8 @@ public class AchieveActions : MonoBehaviour {
 		if (GameData._playerData.Achievements [16] == 0) {
 			if (GameData._playerData.monsterKilled >= LoadTxt.AchievementDic[16].req)
 				StoreAchievement (16);
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [16].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [16].name);
 		}
 	}
 
@@ -210,8 +226,11 @@ public class AchieveActions : MonoBehaviour {
 		GameData._playerData.wineDrinked++;
 		_gameData.StoreData ("WineDrinked", GameData._playerData.wineDrinked);
 		if (GameData._playerData.Achievements [22] == 0) {
-			if (GameData._playerData.wineDrinked>=LoadTxt.AchievementDic[22].req)
+			if (GameData._playerData.wineDrinked >= LoadTxt.AchievementDic [22].req) {
 				StoreAchievement (22);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [22].name,0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [22].name);
+			}
 		}
 
 		int[] w = GameData._playerData.wineTasted;
@@ -227,13 +246,18 @@ public class AchieveActions : MonoBehaviour {
 		if (GameData._playerData.Achievements [5] == 0) {
 			if (wNew.Length >= LoadTxt.AchievementDic[5].req) {
 				StoreAchievement (5);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [5].name,0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [5].name);
 			}
 		}
 	}
 
 	public void LoadMemmory(){
-		if (GameData._playerData.Achievements [23] == 0)
+		if (GameData._playerData.Achievements [23] == 0) {
 			StoreAchievement (23);
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [23].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [23].name);
+		}
 	}
 
 	/// <summary>
@@ -257,6 +281,8 @@ public class AchieveActions : MonoBehaviour {
 		if (GameData._playerData.Achievements [6] == 0) {
 			if (fNew.Length >= LoadTxt.AchievementDic [6].req) {
 				StoreAchievement (6);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [6].name,0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [6].name);
 			}
 		}
 	}
@@ -285,6 +311,8 @@ public class AchieveActions : MonoBehaviour {
 		if (GameData._playerData.Achievements [11] == 0) {
 			if (mNew.Length >= LoadTxt.AchievementDic [11].req) {
 				StoreAchievement (11);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [11].name,0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [11].name);
 			}
 		}
 	}
@@ -310,6 +338,8 @@ public class AchieveActions : MonoBehaviour {
 		if (GameData._playerData.Achievements [12] == 0) {
 			if (rNew.Length >= LoadTxt.AchievementDic [12].req) {
 				StoreAchievement (12);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [12].name,0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [12].name);
 			}
 		}
 	}
@@ -335,6 +365,8 @@ public class AchieveActions : MonoBehaviour {
 		if (GameData._playerData.Achievements [13] == 0) {
 			if (mNew.Length >= LoadTxt.AchievementDic [13].req) {
 				StoreAchievement (13);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [13].name,0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [13].name);
 			}
 		}
 	}
@@ -346,18 +378,24 @@ public class AchieveActions : MonoBehaviour {
 		if (GameData._playerData.Achievements [14] == 0) {
 			if (GameData._playerData.petsCaptured >= LoadTxt.AchievementDic [14].req)
 				StoreAchievement (14);
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [14].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [14].name);
 		}
 	}
 
 	public void MountPet(int monsterId){
 		if (GameData._playerData.Achievements [15] == 0) {
 			StoreAchievement (15);
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [15].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [15].name);
 		}
 
 		//Dragon
 		if (GameData._playerData.Achievements [36] == 0) {
 			if(monsterId==1801 || monsterId==1802 || monsterId==1803) {
 				StoreAchievement (36);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [36].name,0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [36].name);
 			}
 		}
 	}
@@ -369,26 +407,40 @@ public class AchieveActions : MonoBehaviour {
 			openCount += GameData._playerData.MapOpenState [key];
 		}
 
-		if (openCount >= LoadTxt.AchievementDic[19].req && (GameData._playerData.Achievements [19] == 0))
+		if (openCount >= LoadTxt.AchievementDic [19].req && (GameData._playerData.Achievements [19] == 0)) {
 			StoreAchievement (19);
-		if (openCount >= LoadTxt.AchievementDic[31].req && (GameData._playerData.Achievements [31] == 0))
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [19].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [19].name);
+		}
+		if (openCount >= LoadTxt.AchievementDic [31].req && (GameData._playerData.Achievements [31] == 0)) {
 			StoreAchievement (31);
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [31].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [31].name);
+		}
 	}
 
 	public void TimeChange(){
 		if (GameData._playerData.Achievements [20] == 0) {
-			if (GameData._playerData.dayNow >= LoadTxt.AchievementDic[20].req)
+			if (GameData._playerData.dayNow >= LoadTxt.AchievementDic [20].req) {
 				StoreAchievement (20);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [20].name,0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [20].name);
+			}
 		}
 		if (GameData._playerData.Achievements [34] == 0) {
-			if (GameData._playerData.dayNow >= LoadTxt.AchievementDic[34].req)
+			if (GameData._playerData.dayNow >= LoadTxt.AchievementDic [34].req) {
 				StoreAchievement (34);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [34].name,0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [34].name);
+			}
 		}
 	}
 
 	public void TotalSearch(){
 		if (GameData._playerData.Achievements [18] == 0)
 			StoreAchievement (18);
+		_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [18].name,0);
+		_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [18].name);
 	}
 
 	public void Sleep(int t){
@@ -397,8 +449,11 @@ public class AchieveActions : MonoBehaviour {
 		_gameData.StoreData ("SleepTime", GameData._playerData.sleepTime);
 
 		if (GameData._playerData.Achievements [21] == 1) {
-			if (GameData._playerData.sleepTime >= LoadTxt.AchievementDic [21].req)
+			if (GameData._playerData.sleepTime >= LoadTxt.AchievementDic [21].req) {
 				StoreAchievement (21);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [21].name,0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [21].name);
+			}
 		}
 	}
 
@@ -436,6 +491,8 @@ public class AchieveActions : MonoBehaviour {
 			if (GameData._playerData.AltarOpen == 0)
 				return;
 			StoreAchievement (17);
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [17].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [17].name);
 		}
 
 		if (GameData._playerData.Achievements [33] == 0) {
@@ -460,6 +517,8 @@ public class AchieveActions : MonoBehaviour {
 			if (GameData._playerData.AltarOpen <GameConfigs.MaxLv_Altar)
 				return;
 			StoreAchievement (33);
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [33].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [33].name);
 		}
 	}
 
@@ -470,6 +529,8 @@ public class AchieveActions : MonoBehaviour {
 			if (GameData._playerData.Achievements [25] == 0) {
 				if (GameData._playerData.meleeAttackCount >= LoadTxt.AchievementDic [26].req) {
 					StoreAchievement (25);
+					_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [25].name,0);
+					_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [25].name);
 				}
 			}
 		}
@@ -479,6 +540,8 @@ public class AchieveActions : MonoBehaviour {
 			if (GameData._playerData.Achievements [26] == 0) {
 				if (GameData._playerData.rangedAttackCount >= LoadTxt.AchievementDic [26].req) {
 					StoreAchievement (26);
+					_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [26].name,0);
+					_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [26].name);
 				}
 			}
 		}
@@ -488,6 +551,8 @@ public class AchieveActions : MonoBehaviour {
 			if (GameData._playerData.Achievements [27] == 0) {
 				if (GameData._playerData.magicAttackCount >= LoadTxt.AchievementDic [27].req) {
 					StoreAchievement (27);
+					_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [27].name,0);
+					_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [27].name);
 				}
 			}
 		}
@@ -501,6 +566,8 @@ public class AchieveActions : MonoBehaviour {
 		if (GameData._playerData.Achievements [1] == 0) {
 			if (GameData._playerData.thiefCaught >= LoadTxt.AchievementDic[1].req) {
 				StoreAchievement (1);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [1].name,0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [1].name);
 			}
 		}
 
@@ -510,6 +577,8 @@ public class AchieveActions : MonoBehaviour {
 			if (GameData._playerData.Achievements [38] == 0) {
 				if (GameData._playerData.legendThiefCaught >= LoadTxt.AchievementDic [38].req) {
 					StoreAchievement (38);
+					_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [38].name,0);
+					_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [38].name);
 				}
 			}
 		}
@@ -518,23 +587,39 @@ public class AchieveActions : MonoBehaviour {
 	public void RenownChange(){
 		if (GameData._playerData.Achievements [10] == 1)
 			return;
-		if (GameData._playerData.Renown >= LoadTxt.AchievementDic[10].req)
+		if (GameData._playerData.Renown >= LoadTxt.AchievementDic [10].req) {
 			StoreAchievement (10);
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [10].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [10].name);
+		}
 
 		if (GameData._playerData.Achievements [9] == 1)
 			return;
-		if (GameData._playerData.Renown >= LoadTxt.AchievementDic[9].req)
+		if (GameData._playerData.Renown >= LoadTxt.AchievementDic [9].req) {
 			StoreAchievement (9);
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [9].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [9].name);
+		}
 
 		if (GameData._playerData.Achievements [8] == 1)
 			return;
-		if (GameData._playerData.Renown >= LoadTxt.AchievementDic[8].req)
+		if (GameData._playerData.Renown >= LoadTxt.AchievementDic [8].req) {
 			StoreAchievement (8);
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [8].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [8].name);
+		}
 		
 		if (GameData._playerData.Achievements [7] == 1)
 			return;
-		if (GameData._playerData.Renown >= LoadTxt.AchievementDic[7].req)
+		if (GameData._playerData.Renown >= LoadTxt.AchievementDic [7].req) {
 			StoreAchievement (7);
+			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [7].name,0);
+			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [7].name);
+		}
+		
+	}
+
+	public void GetToNewDungeon(int lv){
 		
 	}
 

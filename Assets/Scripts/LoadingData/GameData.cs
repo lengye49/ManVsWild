@@ -14,6 +14,7 @@ public class GameData : MonoBehaviour {
 
 	public int meleeIdUsedData;
 	public int rangedIdUsedData;
+	public int battleCount;
 	public LogManager _logManager;
 
 	void Awake () {
@@ -34,11 +35,12 @@ public class GameData : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Data that will not be changed when dying or restart.
+	/// 死亡或重新开始时不会重置的数据
 	/// </summary>
 	void LoadStaticData(){
 		meleeIdUsedData = PlayerPrefs.GetInt ("MeleeIdUsed", 1);
 		rangedIdUsedData= PlayerPrefs.GetInt ("RangedIdUsed", 1);
+		battleCount = PlayerPrefs.GetInt ("BattleCount", 0);
 	}
 
 	void LoadAchievements(){

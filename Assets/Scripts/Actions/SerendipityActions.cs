@@ -123,9 +123,8 @@ public class SerendipityActions : MonoBehaviour {
             int i = GetComponentInChildren<LoadingBar>().CallInLoadingBar(60);
             PlayRewardedAd();
         }
-
     }
-
+		
 
     void PlayRewardedAd(){
         Debug.Log("播放广告");
