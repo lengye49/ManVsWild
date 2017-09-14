@@ -222,12 +222,17 @@ public class PlaceActions : MonoBehaviour {
 			if (GameData._playerData.dungeonLevelMax < dungeonLevel) {
 				_gameData.StoreData ("DungeonLevelMax", dungeonLevel);
 			}
-			dungeonLevel++;
-            Debug.Log("Go to next level");
+
+			if (dungeonLevel < 100) {
+				dungeonLevel++;
+			} else {
+				Debug.Log ("你已经通关地牢！");
+			}
 
 			//成就
 			GetComponentInParent<AchieveActions> ().GetToNewDungeon (dungeonLevel);
 
+			Debug.Log ("Go to next level");
 			InitializeDungeon ();
 		}
 	}
