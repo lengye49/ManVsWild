@@ -179,6 +179,7 @@ public class SerendipityActions : MonoBehaviour {
     }
 
     void ResetMessageList(){
+        messageList = new Dictionary<int, string>();
         messageList.Add(0,"...陆地上原住民种族复杂，还有一些强大的生灵，比如龙。");
         messageList.Add(1,"...奉命探查地牢周围的空间裂缝，约接近底层裂缝越多，实力所限无法到达80层以下。");
         messageList.Add(2,"...地牢中藏着强大而又邪恶的生灵，据说是一个邪恶的法师控制着他们。");

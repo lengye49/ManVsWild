@@ -334,6 +334,9 @@ public class GameData : MonoBehaviour {
 
 		if (_playerData.dayNow != lastDay) {
 			ChangeDay ();
+
+            if (lastDay < 1000 && _playerData.dayNow >= 1000)
+                OpenMap(25);
 		}
 
 		if (_playerData.monthNow != lastMonth) {
@@ -1147,7 +1150,19 @@ public class GameData : MonoBehaviour {
     /// </summary>
     /// <param name="isMission">If set to <c>true</c> is mission.</param>
 	public void SearchNewPlace(int thisMapId,int searchProcess){
-
+        if (LoadTxt.MapDic[thisMapId].mapNext.Count<=0)
+            return;
+        int r;
+        for (int i = 0; i < LoadTxt.MapDic[thisMapId].mapNext.Count; i++)
+        {
+            r = Random.Range(0, 100);
+            if (r < 10)
+            {
+                int m = (int)LoadTxt.MapDic[thisMapId].mapNext[i];
+                OpenMap(m);
+                break;
+            }
+        }
     }
 
 	/// <summary>

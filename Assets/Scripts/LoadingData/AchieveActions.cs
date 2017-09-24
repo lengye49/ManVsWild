@@ -135,16 +135,19 @@ public class AchieveActions : MonoBehaviour {
 			s += GameData._playerData.dayNow + "/" + LoadTxt.AchievementDic [34].req;
 			break;
 		case 35:
-			s += GameData._playerData.dungeonLevelMax + "/" + LoadTxt.AchievementDic [35].req;
+            if (GameData._playerData.Achievements [35] == 0)
+                s = "0/1";
+            else
+                s = "1/1";
 			break;
 		case 36:
-			if (GameData._playerData.Achievements [23] == 0)
+			if (GameData._playerData.Achievements [36] == 0)
 				s = "0/1";
 			else
 				s = "1/1";
 			break;
 		case 37:
-			s += "/" + LoadTxt.AchievementDic [37].req;
+            s += s += GameData._playerData.dungeonLevelMax + "/" + LoadTxt.AchievementDic [35].req;
 			break;
 		case 38:
 			s += GameData._playerData.legendThiefCaught + "/" + LoadTxt.AchievementDic [38].req;
@@ -620,7 +623,22 @@ public class AchieveActions : MonoBehaviour {
 	}
 
 	public void GetToNewDungeon(int lv){
-		
+        if (GameData._playerData.Achievements[37] == 1)
+            return;
+        if (GameData._playerData.dungeonLevelMax >= LoadTxt.AchievementDic[37].req)
+        {
+            StoreAchievement (37);
+            _floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [37].name,0);
+            _log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [37].name);
+        }
+        if (GameData._playerData.Achievements[24] == 1)
+            return;
+        if (GameData._playerData.dungeonLevelMax >= LoadTxt.AchievementDic[24].req)
+        {
+            StoreAchievement (24);
+            _floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [24].name,0);
+            _log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [24].name);
+        }
 	}
 
 	void StoreAchievement(int index){

@@ -18,7 +18,7 @@ public class BackpackActions : MonoBehaviour {
 	public Button hotkey0;
 	public Button hotkey1;
 
-	public Text soulStone;
+//	public Text soulStone;
 
 	public GameObject contentB;
 	private GameObject bpCell;
@@ -124,10 +124,10 @@ public class BackpackActions : MonoBehaviour {
 			t [1].text = GameData._playerData.bp [key].ToString();
 			j++;
 		}
-        if (GameData._playerData.bp.ContainsKey(22020000))
-            soulStone.text = GameData._playerData.bp[22020000].ToString();
-        else
-            soulStone.text = "0";
+//        if (GameData._playerData.bp.ContainsKey(22020000))
+//            soulStone.text = GameData._playerData.bp[22020000].ToString();
+//        else
+//            soulStone.text = "0";
 	}
 
 	void ClearContent(GameObject o){
