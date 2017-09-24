@@ -217,6 +217,7 @@ public class LoadTxt : MonoBehaviour {
 			m [i].groupNum = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 12));
 			m [i].mapOpen = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 13));
 			m [i].renown = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 14));
+            m[i].livePlace = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 15));
 			MonsterDic.Add (m [i].id, m [i]);
 		}
 

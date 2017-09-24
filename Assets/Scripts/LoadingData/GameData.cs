@@ -139,6 +139,7 @@ public class GameData : MonoBehaviour {
 		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1|1|1|0|0|0|0|0|0|0"));
 		_playerData.mapNow = PlayerPrefs.GetInt ("mapNow" + s, 0);
 		_playerData.dungeonLevelMax = PlayerPrefs.GetInt ("DungeonLevelMax" + s, 0);
+        _playerData.tunnelLevelMax = PlayerPrefs.GetInt ("TunnelLevelMax" + s, 0);
 
 		//科技只需要读取，不需要存储
 		_playerData.bpNum = _playerData.techLevels [1] * GameConfigs.IncBpNum + GameConfigs.BasicBpNum; 
@@ -257,6 +258,7 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetString ("MapOpenState" + s, GetStrFromMapOpenState (_playerData.MapOpenState));
 		PlayerPrefs.SetInt ("mapNow" + s, _playerData.mapNow);
 		PlayerPrefs.SetInt ("DungeonLevelMax" + s, _playerData.dungeonLevelMax);
+        PlayerPrefs.SetInt ("TunnelLevelMax" + s, _playerData.tunnelLevelMax);
 
 		PlayerPrefs.SetInt ("ThiefCaught" + s, _playerData.thiefCaught);
 		PlayerPrefs.SetInt ("GhostKill" + s, _playerData.ghostKill);

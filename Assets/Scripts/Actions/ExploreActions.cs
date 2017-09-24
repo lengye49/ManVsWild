@@ -7,6 +7,7 @@ using DG.Tweening;
 public class ExploreActions : MonoBehaviour {
 
 	public GameObject contentE;
+    public RectTransform TunnelNotice;
 
 	private GameObject mapCell;
 	private ArrayList mapCells;
@@ -23,6 +24,10 @@ public class ExploreActions : MonoBehaviour {
 		mapGoing = new Maps ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		_panelManager = this.gameObject.GetComponentInParent<PanelManager> ();
+
+        TunnelNotice.localPosition = Vector3.zero;
+        TunnelNotice.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+        TunnelNotice.gameObject.SetActive (false);
 	}
 	
 	public void UpdateExplore(){
@@ -80,19 +85,43 @@ public class ExploreActions : MonoBehaviour {
 		}
 	}
 
-	public void GoToPlace(){
-		if (GameData._playerData.MapOpenState [mapGoing.id] == 0) {
-			Debug.Log ("未知地域!");
-			return;
-		}
-		int min = TravelTime (LoadTxt.MapDic [GameData._playerData.mapNow].distances [mapGoing.id]);
-		_gameData.ChangeTime (min);
-		GameData._playerData.mapNow = mapGoing.id;
-		_gameData.StoreData ("mapNow", mapGoing.id);
+    public void GoToPlace(){
+        if (GameData._playerData.MapOpenState [mapGoing.id] == 0) {
+            Debug.Log ("未知地域!");
+            return;
+        }
+        if (mapGoing.id == 25)
+        {
+            CallInTunnelNotice();
+        }
+        else
+        {
+            OnTheRoad(mapGoing.id);
+        }
+    }
+    public void GoToPlace(int mapId){
+        if (GameData._playerData.MapOpenState [mapId] == 0) {
+            Debug.Log ("未知地域!");
+            return;
+        }
+        if (mapId == 25)
+        {
+            CallInTunnelNotice();
+        }
+        else
+        {
+            OnTheRoad(mapId);
+        }
+    }
 
-		StartCoroutine (StartLoading (min));
+    void OnTheRoad(int mapId){
+        int min = TravelTime (LoadTxt.MapDic [GameData._playerData.mapNow].distances [mapId]);
+        _gameData.ChangeTime (min);
+        GameData._playerData.mapNow = mapId;
+        _gameData.StoreData ("mapNow", mapId);
 
-	}
+        StartCoroutine (StartLoading (min));
+    }
 
 	IEnumerator StartLoading(int costTime){
 		int t = _loadingBar.CallInLoadingBar (costTime);
@@ -133,4 +162,24 @@ public class ExploreActions : MonoBehaviour {
 		int min = (int)(distance * 60 / speed);
 		return min;
 	}
+
+    void CallInTunnelNotice(){
+        TunnelNotice.gameObject.SetActive (true);
+        TunnelNotice.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+        TunnelNotice.gameObject.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 0f), 0.3f);
+    }
+
+    public void OnConfirmTunnelNotice(){
+        CallOutComplete();
+        OnTheRoad(25);
+    }
+
+    public void OnCancelTunnelNotice(){
+        CallOutComplete();
+    }
+
+    void CallOutComplete(){
+        TunnelNotice.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+        TunnelNotice.gameObject.SetActive (false);
+    }
 }

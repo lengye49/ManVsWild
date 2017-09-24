@@ -101,7 +101,12 @@ public class PlayerData  {
 
 	public Dictionary<int,int> MapOpenState;
 	public int mapNow;
+
+    //地牢已经通关的层数
 	public int dungeonLevelMax;
+
+    //隧道已经通关的层数
+    public int tunnelLevelMax;
 
 	public Dictionary<int,int> techLevels;
 

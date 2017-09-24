@@ -14,6 +14,10 @@ public class PlaceActions : MonoBehaviour {
 	public BattleActions _battleActions;
 	public LoadingBar _loadingBar;
 	public LogManager _logManager;
+    public RectTransform Complete;
+    public GameObject completeDungeon;
+    public GameObject completeTunnel;
+    public ExploreActions _explore;
 
 	private GameObject placeCell;
 	private ArrayList placeCells = new ArrayList ();
@@ -41,6 +45,8 @@ public class PlaceActions : MonoBehaviour {
 	private int dungeonLevel;
 	private int thisExitIndex;
 
+    public int tunnelLevel;
+
 	void Awake(){
 		placeCell = Instantiate (Resources.Load ("placeCell")) as GameObject;
 	}
@@ -51,6 +57,10 @@ public class PlaceActions : MonoBehaviour {
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		_panelManager = this.gameObject.GetComponentInParent<PanelManager> ();
+
+        Complete.localPosition = Vector3.zero;
+        Complete.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+        Complete.gameObject.SetActive (false);
 	}
 
     /// <summary>
@@ -62,14 +72,19 @@ public class PlaceActions : MonoBehaviour {
 		_mapNow = m;
 		_place = LoadTxt.PlaceDic [m.id];
 
-		if (m.id == 21) {
+		if (_mapNow.id == 21) {
 			if (!newPlace)
 				return;
 			dungeonLevel = GameData._playerData.dungeonLevelMax + 1;
 			InitializeDungeon ();
-		} else {
+        } else if (_mapNow.id == 25){
+            if (!newPlace)
+                return;
+            tunnelLevel = GameData._playerData.tunnelLevelMax + 1;
+
+        }else {
 			SetDetailPosition ();
-			SetPlace (m);
+			SetPlace (_mapNow);
 		}
 	}
 
@@ -167,7 +182,7 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	void InitializeDungeon(){
-        dungeonLevelText.text = "失落之地 - " + dungeonLevel + "层";
+        dungeonLevelText.text = "失落之地 - " + dungeonLevel + "/100层";
 
 		dungeonRect.localPosition = Vector3.zero;
 		placeRect.localPosition = new Vector3 (-10000, 0, 0);
@@ -209,33 +224,96 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	public void OpenDungeonCover(int index){
-		if (dungeonCellState [index] == 1) {
-			if (index == thisExitIndex) {
-				dungeonCellState [index] = 3;
-			} else {
-				dungeonCellState [index] = 2;
-				DungeonEvent ();
-			}
-			CheckRoad (index);
-			ChangeImage (index);
-		} else if (dungeonCellState [index] == 3) {
-			if (GameData._playerData.dungeonLevelMax < dungeonLevel) {
-				_gameData.StoreData ("DungeonLevelMax", dungeonLevel);
-			}
+        if (dungeonCellState[index] == 1)
+        {
+            if (index == thisExitIndex)
+            {
+                dungeonCellState[index] = 3;
+            }
+            else
+            {
+                dungeonCellState[index] = 2;
 
-			if (dungeonLevel < 100) {
-				dungeonLevel++;
-			} else {
-				Debug.Log ("你已经通关地牢！");
-			}
+                if (_mapNow.id == 21)
+                    DungeonEvent();
+                else
+                    TunnelEvent();
+            }
+            CheckRoad(index);
+            ChangeImage(index);
+        }
+        else if (dungeonCellState[index] == 3 && _mapNow.id == 21)
+        {
+            if (GameData._playerData.dungeonLevelMax < dungeonLevel)
+            {
+                GameData._playerData.dungeonLevelMax = dungeonLevel;
+                _gameData.StoreData("DungeonLevelMax", dungeonLevel);
+            }
 
-			//成就
-			GetComponentInParent<AchieveActions> ().GetToNewDungeon (dungeonLevel);
+            if (dungeonLevel < 100)
+            {
+                dungeonLevel++;
+                InitializeDungeon();
+            }
+            else
+            {
+                _gameData.OpenMap(25);
+                CallInComplete(0);
+            }
 
-			Debug.Log ("Go to next level");
-			InitializeDungeon ();
-		}
+            //成就
+            GetComponentInParent<AchieveActions>().GetToNewDungeon(dungeonLevel);
+        }
+        else if (dungeonCellState[index] == 3 && _mapNow.id == 25)
+        {
+            if (GameData._playerData.tunnelLevelMax < tunnelLevel)
+            {
+                GameData._playerData.tunnelLevelMax = tunnelLevel;
+                _gameData.StoreData("TunnelLevelMax", tunnelLevel);
+            }
+            if (tunnelLevel < 10)
+            {
+                tunnelLevel++;
+                InitializeTunnel();
+            }
+            else
+            {
+                CallInComplete(1);
+                _logManager.AddLog("通关模式已开启！");
+            }
+        }
 	}
+
+    /// <summary>
+    /// 打开信息面板，0地牢通关 1隧道通关
+    /// </summary>
+    /// <param name="t">T.</param>
+    void CallInComplete(int t){
+        Complete.gameObject.SetActive (true);
+        Complete.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+        Complete.gameObject.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 0f), 0.3f);
+
+        if (t == 0)
+        {
+            completeDungeon.SetActive(true);
+            completeTunnel.SetActive(false);
+        }
+        else
+        {
+            completeDungeon.SetActive(false);
+            completeTunnel.SetActive(true);
+        }
+    }
+
+   void CallOutComplete(){
+        Complete.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
+        Complete.gameObject.SetActive (false);
+    }
+
+    public void OnConfirmComplete(){
+        CallOutComplete();
+        _explore.GoToPlace(0);
+    }
 
 	void DungeonEvent(){
 		
@@ -400,31 +478,7 @@ public class PlaceActions : MonoBehaviour {
 			else if (r2 < 84) {
 				_gameData.ChangeProperty (2, 999);
 				_logManager.AddLog("受到生命的祝福，精神回满。");
-			} 
-
-			// else if (r2 < 91) {
-			// 	_gameData.ChangeProperty (1, 1);
-			// 	Debug.Log ("Add MaxHp");
-			// } else if (r2 < 92) {
-			// 	_gameData.ChangeProperty (3, 1);
-			// 	Debug.Log ("Add MaxSpirit");
-			// } else if (r2 < 94) {
-			// 	_gameData.ChangeProperty (5, 1);
-			// 	Debug.Log ("Add MaxFood");
-			// } else if (r2 < 96) {
-			// 	_gameData.ChangeProperty (7, 1);
-			// 	Debug.Log ("Add MaxWater");
-			// } else if (r2 < 98) {
-			// 	_gameData.ChangeProperty (9, 1);
-			// 	Debug.Log ("Add MaxStrength");
-			// } else if (r2 < 99) {
-			// 	_gameData.ChangeProperty (11, -1);
-			// 	Debug.Log ("Reduce TempMin");
-			// } else if (r2 < 100) {
-			// 	_gameData.ChangeProperty (12, 1);
-			// 	Debug.Log ("Add TempMax");
-			// } 
-			else {
+			}else {
 				Debug.Log ("Nothing Happened");
 			}
 		} 
@@ -441,11 +495,24 @@ public class PlaceActions : MonoBehaviour {
 			minLv = maxLv - 5;
 		}
 		ArrayList monsterList = new ArrayList ();
-		foreach(int key in LoadTxt.MonsterDic.Keys){
-			if (LoadTxt.MonsterDic [key].level < minLv || LoadTxt.MonsterDic [key].level > maxLv)
-				continue;
-			monsterList.Add (LoadTxt.MonsterDic [key]);
-		}
+        if (_mapNow.id == 21)
+        {
+            foreach (int key in LoadTxt.MonsterDic.Keys)
+            {
+                if (LoadTxt.MonsterDic[key].level < minLv || LoadTxt.MonsterDic[key].level > maxLv || LoadTxt.MonsterDic[key].livePlace != 1)
+                    continue;
+                monsterList.Add(LoadTxt.MonsterDic[key]);
+            }
+        }
+        else if (_mapNow.id == 25)
+        {
+            foreach (int key in LoadTxt.MonsterDic.Keys)
+            {
+                if (LoadTxt.MonsterDic[key].level < minLv || LoadTxt.MonsterDic[key].level > maxLv || LoadTxt.MonsterDic[key].livePlace != 2)
+                    continue;
+                monsterList.Add(LoadTxt.MonsterDic[key]);
+            }
+        }
 
 		Monster m = new Monster ();
 		if (monsterList.Count > 0) {
@@ -499,6 +566,195 @@ public class PlaceActions : MonoBehaviour {
 		dungeonCells [index].transform.DOBlendableRotateBy (new Vector3 (0, 0, 0), 0.3f);
 	}
 
+    //******************************************隧道地图*******************************************
+
+    void InitializeTunnel(){
+        dungeonLevelText.text = "时空隧道 - " + dungeonLevel + "/10层";
+
+        dungeonRect.localPosition = Vector3.zero;
+        placeRect.localPosition = new Vector3 (-10000, 0, 0);
+        dungeonCellState = new int[20];
+        for (int i = 0; i < dungeonCellState.Length; i++) {
+            if (i == 0)
+                dungeonCellState [i] = 1;
+            else
+                dungeonCellState [i] = 0;
+        }
+        SetDungeonState ();
+        thisExitIndex = Algorithms.GetIndexByRange (1, 20);
+    }
+
+    void TunnelEvent(){
+
+        //Get Dungeon Rewards According to the Level;
+
+        //1 Reward 0%, 2 Monster 30%, 3 Buff&Debuff 20%, 4 Nothing: Text 13%, 5 Nothing 
+        int r = Algorithms.GetIndexByRange(0,100);
+        Debug.Log(r);
+        if (r < 0) {
+            int r4 = (int)(dungeonLevel / 10) + 1;
+            int matId = Algorithms.GetResultByDic (LoadTxt.DungeonTreasureList [r4].reward);
+            int num = 1;
+            if (LoadTxt.MatDic [matId].price < 100) {
+                num = Algorithms.GetIndexByRange (1, 4);
+            }
+            _gameData.AddItem (matId * 10000, num);
+            string s = LoadTxt.MatDic[matId].name + "+" + num;
+            _logManager.AddLog("你捡到了" + s + "。");
+
+        } else if (r < 30) {
+            int r1 = Algorithms.GetIndexByRange (1, 3);
+            Monster[] ms = new Monster[r1];
+            for (int i = 0; i < r1; i++) {
+                ms [i] = GetNewMonster ();
+            }
+            _panelManager.GoToPanel ("Battle");
+            r1 = Algorithms.GetIndexByRange(0,100);
+            bool isSpoted = r1 < (GameData._playerData.SpotRate * 100);
+            _battleActions.InitializeBattleField (ms, isSpoted);
+        } else if (r < 50) {
+            //Hp+3~5 10%,Hp-2~4 10%,Spirit+3~5 10% Spirit-2~4 10%,Water+4~8 10%,Food+4~8 10%,Temp+1~3 10%,Temp-1~3 10%,Hp+99 5%,Spirit+99 5%
+            //HpMax+1 1%,SpiritMax+1 1%,StrengthMax+1 2%,WaterMax+1 2%,FoodMax+1 2%,TempMax+1 1%,TempMin-1 1%
+            int r2 = Algorithms.GetIndexByRange (0, 100);
+            int r3;
+
+            //******************************************掉血**********
+            if (r2 < 0)
+            {
+                r3 = Algorithms.GetIndexByRange(3, 6);
+                _gameData.ChangeProperty(0, r3);
+                _logManager.AddLog("你捡到一块绷带，生命+" + r3);
+            }
+            else if (r2 < 5)
+            {
+                r3 = Algorithms.GetIndexByRange(10, 30);
+                _gameData.ChangeProperty(0, r3);
+                _logManager.AddLog("恢复之光照耀着你，生命+" + r3);
+            }
+            else if (r2 < 10)
+            {
+                r3 = Algorithms.GetIndexByRange(20, 60);
+                _gameData.ChangeProperty(0, r3);
+                _logManager.AddLog("一阵愉悦而纯净的力量扑面而来，生命+" + r3);
+            }
+
+            //******************************************回血**********
+            else if (r2 < 15)
+            {
+                r3 = -Algorithms.GetIndexByRange(1, 5);
+                _gameData.ChangeProperty(0, r3);
+                _logManager.AddLog("不小心踩到了陷阱，生命-" + r3);
+            }
+//            else if (r2 < 14)
+//            {
+//                r3 = -Algorithms.GetIndexByRange(3, 7);
+//                _gameData.ChangeProperty(0, r3);
+//                _logManager.AddLog("打开宝箱，一股腐败气息铺面而来，生命-" + r3 );
+//            }
+            else if (r2 < 20) {
+                r3 = -Algorithms.GetIndexByRange (4, 8);
+                _gameData.ChangeProperty (0, r3);
+                _logManager.AddLog("你碰到了时空裂缝，生命-" + r3);
+            }  
+
+            //******************************************恢复精神**********
+//            else if (r2 < 24) {
+//                r3 = Algorithms.GetIndexByRange (2, 6);
+//                _gameData.ChangeProperty (2, r3);
+//                _logManager.AddLog("一个友善的时空旅者朝你使用精神之泉，精神+" + r3 );
+//            }
+            else if (r2 < 24) {
+                r3 = Algorithms.GetIndexByRange (5, 10);
+                _gameData.ChangeProperty (2, r3);
+                _logManager.AddLog("你被远古战士雕像激励，精神+" + r3 );
+            }  
+            else if (r2 < 30) {
+                r3 = Algorithms.GetIndexByRange (10, 30);
+                _gameData.ChangeProperty (2, r3);
+                _logManager.AddLog("你找到了精神之泉，精神+" + r3 );
+            } 
+
+            //******************************************扣除精神**********
+            else if (r2 < 40) {
+                r3 = -Algorithms.GetIndexByRange (1, 4);
+                _gameData.ChangeProperty (2, r3);
+                _logManager.AddLog("你感到一阵头晕目眩，精神-" + r3 );
+            }
+//            else if (r2 < 40) {
+//                r3 = -Algorithms.GetIndexByRange (3, 6);
+//                _gameData.ChangeProperty (2, r3);
+//                _logManager.AddLog("你受到恶魔雕像的惊吓，精神-" + r3 );
+//            }
+
+            //******************************************恢复食物**********
+            else if (r2 < 43) {
+                r3 = Algorithms.GetIndexByRange (2, 6);
+                _gameData.ChangeProperty (4, r3);
+                _logManager.AddLog("你捡到了一片干硬的面包，食物+" + r3 );
+            } 
+            else if (r2 < 50) {
+                r3 = Algorithms.GetIndexByRange (5, 10);
+                _gameData.ChangeProperty (4, r3);
+                _logManager.AddLog("好心的时空旅者分给你一些肉干，食物+" + r3 );
+            } 
+
+            //******************************************恢复水分**********
+            else if (r2 < 54) {
+                r3 = Algorithms.GetIndexByRange (2, 6);
+                _gameData.ChangeProperty (6, r3);
+                _logManager.AddLog("捡到一个破旧的水囊，水+" + r3 );
+            } 
+            else if (r2 < 60) {
+                r3 = Algorithms.GetIndexByRange (5, 10);
+                _gameData.ChangeProperty (6, r3);
+                _logManager.AddLog("好心的时空旅者分给你一些水，水+" + r3 );
+            }
+//            else if (r2 < 60) {
+//                r3 = Algorithms.GetIndexByRange (10, 25);
+//                _gameData.ChangeProperty (6, r3);
+//                _logManager.AddLog("遇到一个地下泉眼，水+" + r3 );
+//            }
+
+            //******************************************改变体温**********
+//            else if (r2 < 65) {
+//                r3 = Algorithms.GetIndexByRange (1, 3);
+//                _gameData.ChangeProperty (10, r3);
+//                _logManager.AddLog("趟过一个温泉，温度+" + r3 );
+//            } 
+            else if (r2 < 70) {
+                r3 = Algorithms.GetIndexByRange (2, 5);
+                _gameData.ChangeProperty (10, r3);
+                _gameData.ChangeProperty(0, r3);
+                _logManager.AddLog("地面突然冒出一团热量，温度+" + r3 + " ,生命-" + r3);
+            } 
+//            else if (r2 < 75) {
+//                r3 = -Algorithms.GetIndexByRange (1, 4);
+//                _gameData.ChangeProperty (10, r3);
+//                _logManager.AddLog("路过冰面，摔了一跤，温度-" + r3 );
+//            } 
+            else if (r2 < 80) {
+                r3 = -Algorithms.GetIndexByRange (1, 4);
+                _gameData.ChangeProperty (10, r3);
+                _gameData.ChangeProperty(2, r3);
+                _logManager.AddLog("一阵刺骨的阴风吹过，温度-" + r3 + " ,精神-" + r3 );
+            } 
+
+            //******************************************特殊回复**********
+            else if (r2 < 85) {
+                _gameData.ChangeProperty (0, 999);
+                _logManager.AddLog("受到生命的祝福，生命回满。");
+            } 
+            else if (r2 < 90) {
+                _gameData.ChangeProperty (2, 999);
+                _logManager.AddLog("受到精神的祝福，精神回满。");
+            }else {
+                Debug.Log ("Nothing Happened");
+            }
+        } 
+        else {
+            Debug.Log ("Nothing Happened");
+        }
+    }
 
 	//******************************************正常地图*******************************************
 

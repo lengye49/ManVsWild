@@ -17,6 +17,7 @@ public class Monster {
 	public int groupNum;
 	public int mapOpen;
 	public int renown;
+    public int livePlace;
 }
 
 public class MonsterModel{
