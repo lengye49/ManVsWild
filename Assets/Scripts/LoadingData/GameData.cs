@@ -527,6 +527,10 @@ public class GameData : MonoBehaviour {
 			UpdateProperty (9, _playerData.StrengthMax);
 			_headUiManager.UpdateHeadUI ("StrengthMax");
 			break;
+		case 10:
+			float v = (float)value;
+			ChangeProperty (10, v);
+			break;
 		case 11:
 			_playerData.TempMin += value;
 			StoreData ("TempMin", _playerData.TempMin);

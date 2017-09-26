@@ -18,15 +18,20 @@ public class MakingActions : MonoBehaviour {
 
 	public void UpdatePanel(string makingType){
 		ClearContents ();
-//		Debug.Log(GameData._playerData.KitchenOpen + "")
 		if (makingType == "Kitchen" && GameData._playerData.KitchenOpen<GameConfigs.MaxLv_Kitchen)
 			upgradeButton.SetActive (true);
 		else
 			upgradeButton.SetActive (false);
-		
+
+		int limitLv = 0;
+		if (makingType == "Kitchen")
+			limitLv = GameData._playerData.KitchenOpen;
+		else
+			limitLv = GameData._playerData.WorkshopOpen;
+
 		int i = 0;
 		foreach (Mats m in LoadTxt.mats) {
-			if ((m.makingType != makingType) || (m.needBlueprint == 1 && GameData._playerData.LearnedBlueprints.ContainsKey (m.id)))
+			if ((m.makingType != makingType) || m.desc>limitLv ||(m.needBlueprint == 1 && GameData._playerData.LearnedBlueprints.ContainsKey (m.id)))
 				continue;
 			GameObject o;
 			if (i >= makingCells.Count) {
@@ -43,7 +48,7 @@ public class MakingActions : MonoBehaviour {
 
 			o.name = m.id.ToString();
 			Text[] t = o.GetComponentsInChildren<Text> ();
-			t [0].text = m.name;
+			t [0].text = m.name + "  (Lv." + m.desc + ")";
 			t [1].text = "×" + m.combGet;
 			i++;
 		}

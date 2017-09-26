@@ -148,7 +148,7 @@ public class LoadTxt : MonoBehaviour {
 			mats [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
 			mats [i].type = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
 			mats [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
-			mats [i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 3);
+			mats [i].desc = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
 			mats [i].price = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
 			string[][] prop = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
 			if (prop != null) {

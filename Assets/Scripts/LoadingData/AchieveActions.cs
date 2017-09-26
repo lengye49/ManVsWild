@@ -7,7 +7,9 @@ public class AchieveActions : MonoBehaviour {
 	private FloatingActions _floating;
 	private LogManager _log;
 	void Start(){
-		_gameData = this.gameObject.GetComponent<GameData> ();
+		_gameData = GetComponent<GameData> ();
+		_floating = GetComponentInChildren<FloatingActions> ();
+		_log = GetComponentInChildren<LogManager> ();
 	}
 
 	public string GetProgress(int id){

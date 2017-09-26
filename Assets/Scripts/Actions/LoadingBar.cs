@@ -18,7 +18,7 @@ public class LoadingBar : MonoBehaviour {
 	}
 
 	public int CallInLoadingBar(int costMin){
-		int max = Mathf.Min (5000, 1000 + costMin * 4);
+		int max = Mathf.Min (2000, 1000 + costMin * 4);
 		totalTime = (int)(Random.Range (1000, max)/1000);
 		value = 0;
 		this.gameObject.SetActive (true);

@@ -21,6 +21,8 @@ public class RoomActions : MonoBehaviour {
 	public GameObject normalBath;
 	public GameObject hotBath;
 
+	public LoadingBar _loading;
+
 	private int restTimeMax = 20;
 	private int restTimeMin = 1;
 	private int restTime;
@@ -111,22 +113,51 @@ public class RoomActions : MonoBehaviour {
 	}
 
 	public void Rest(){
+		StartCoroutine (WaitAndRest ());
+	}
+
+	IEnumerator WaitAndRest(){
+		int t = _loading.CallInLoadingBar (0);
+		yield return new WaitForSeconds (t);
+		ConfirmRest ();
+	}
+
+	void ConfirmRest(){
 		_gameData.ChangeProperty (8, GameConfigs.StrengthRecoverPerRestHour[GameData._playerData.BedRoomOpen-1]  * restTime);
 		_gameData.ChangeProperty (2, GameConfigs.SpiritRecoverPerRestHour * restTime);
 		_gameData.ChangeTime (restTime * 60);
-
 		//Achievement
 		this.gameObject.GetComponentInParent<AchieveActions>().Sleep(restTime);
 	}
 
 	public void NormalBath(){
+		StartCoroutine (WaitAndNormalBath ());
+	}
+
+	IEnumerator WaitAndNormalBath(){
+		int t = _loading.CallInLoadingBar (0);
+		yield return new WaitForSeconds (t);
+		ConfirmNormalBath ();
+	}
+
+	void ConfirmNormalBath(){
 		_gameData.ChangeProperty (10, GameConfigs.TempRecoverPerNormalBath);
 		_gameData.ChangeProperty (2, GameConfigs.SpiritRecoverPerBath);
 		_gameData.ConsumeItem (GameConfigs.WaterId, GameConfigs.WaterForBath);
 		_gameData.ChangeTime (GameConfigs.TimeForBath * 60);
 	}
-
+		
 	public void HotBath(){
+		StartCoroutine (WaitAndHotBath ());
+	}
+
+	IEnumerator WaitAndHotBath(){
+		int t = _loading.CallInLoadingBar (0);
+		yield return new WaitForSeconds (t);
+		ConfirmHotBath ();
+	}
+
+	void ConfirmHotBath(){
 		_gameData.ChangeProperty (10, GameConfigs.TempRecoverPerHotBath);
 		_gameData.ChangeProperty (2, GameConfigs.SpiritRecoverPerBath);
 		_gameData.ConsumeItem (GameConfigs.WaterId, GameConfigs.WaterForBath);

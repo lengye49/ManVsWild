@@ -20,7 +20,7 @@ public class Mats  {
 	public int id;
 	public int type;
 	public string name;
-	public string desc;
+	public int desc;//工作台和厨房等级限制
 	public int price;
 	public Dictionary<int,float> property;
 	public int combGet;

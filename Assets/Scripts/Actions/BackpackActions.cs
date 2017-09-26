@@ -105,7 +105,7 @@ public class BackpackActions : MonoBehaviour {
 				bpCells.Add (o);
 				ClearContent (o);
 			}
-			contentB.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(375,64 * bpCells.Count);
+			contentB.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(375,80 * bpCells.Count);
 		}
 
 		for (int i = 0; i < bpCells.Count; i++) {
