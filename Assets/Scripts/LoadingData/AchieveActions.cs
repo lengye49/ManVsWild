@@ -215,10 +215,11 @@ public class AchieveActions : MonoBehaviour {
 		GameData._playerData.monsterKilled++;
 		_gameData.StoreData ("MonsterKilled", GameData._playerData.monsterKilled);
 		if (GameData._playerData.Achievements [16] == 0) {
-			if (GameData._playerData.monsterKilled >= LoadTxt.AchievementDic[16].req)
+			if (GameData._playerData.monsterKilled >= LoadTxt.AchievementDic [16].req) {
 				StoreAchievement (16);
-			_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [16].name,0);
-			_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [16].name);
+				_floating.CallInFloating ("达成新成就:" + LoadTxt.AchievementDic [16].name, 0);
+				_log.AddLog ("达成新成就:" + LoadTxt.AchievementDic [16].name);
+			}
 		}
 	}
 

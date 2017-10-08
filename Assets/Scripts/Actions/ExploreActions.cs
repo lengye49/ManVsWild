@@ -133,6 +133,8 @@ public class ExploreActions : MonoBehaviour {
 		_panelManager.MapGoing = mapGoing;
 		if (mapGoing.id == 0) {
 			_logManager.AddLog ("回到家中。");
+		}else if(mapGoing.id == 24){
+			_logManager.AddLog ("你准备妥当，开始拓荒。");
 		} else
 			_logManager.AddLog ("你抵达了" + mapGoing.name + "。");
 		_panelManager.GoToPanel ("Place");

@@ -43,9 +43,9 @@ public class LogManager : MonoBehaviour {
 	}
 
 	public void AddLog(string s){
-		if (s.Length > 17) {
-			string s1 = s.Substring (0, 17);
-			string s2 = s.Substring (17, s.Length - 17);
+		if (s.Length > 20) {
+			string s1 = s.Substring (0, 20);
+			string s2 = s.Substring (20, s.Length - 20);
 			AddNewLog (s1);
 			AddNewLog (s2);
 		} else
@@ -56,7 +56,7 @@ public class LogManager : MonoBehaviour {
 		for (int i = logs.Length - 1; i > 0; i--) {
 			logs [i].text = logs [i - 1].text;
 		}
-		logs [0].text = ">>" + s;
+		logs [0].text = ">" + s;
 	}
 
 }

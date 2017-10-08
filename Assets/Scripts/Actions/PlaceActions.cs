@@ -1351,7 +1351,7 @@ public class PlaceActions : MonoBehaviour {
 				newItems += LoadTxt.MatDic [key].name + " +" + rewards [key] + "\t";
 			}
 			newItems = newItems.Substring (0, newItems.Length - 1);
-			_logManager.AddLog (newItems);
+//			_logManager.AddLog (newItems);
 			_floating.CallInFloating (newItems, 0);
 
 			//Achievement

@@ -180,7 +180,7 @@ public class PanelManager : MonoBehaviour {
                         if (GameData._playerData.placeNowId == 0)
                             GoToPanel("Home");
                         else
-                            GoToPanel("Explore");
+                            GoToPanel("Place");
                     }
                     else
                         GoToPanel("Father");
@@ -199,9 +199,11 @@ public class PanelManager : MonoBehaviour {
             case "Explore":
                 if (_PanelNow == Explore)
                 {
-                    if (_FatherPanel == Backpack)
-                        GoToPanel("Home");
-                    else
+					if (_FatherPanel == Backpack && GameData._playerData.placeNowId == 0)
+						GoToPanel ("Home");
+					else if (_FatherPanel == Backpack)
+						GoToPanel ("Place");
+					else
                         GoToPanel("Father");
                     break;
                 }

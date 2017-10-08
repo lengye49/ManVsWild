@@ -58,7 +58,7 @@ public class SerendipityActions : MonoBehaviour {
         if (GameData._playerData.minutesPassed < 1440)
             return;
 
-        int r = Random.Range(0, 9999);
+        int r = Random.Range(0, 100);
 
         //不触发意外事件
         if (r > 500)
@@ -199,7 +199,7 @@ public class SerendipityActions : MonoBehaviour {
         messageList.Add(16,"...不管什么时候，矿产都是珍贵的资源。开发新的矿脉不仅需要实力，还需要极好的运气。");
         messageList.Add(17,"...挖矿和伐木都非常耗费体力，如果体力不足，只能回家睡觉。");
         messageList.Add(18,"...小镇上的人经常外出，一定知道去其他地方的路。那个酒保就经常去海边约会裁缝铺子的姑娘。");
-        messageList.Add(19,"...没有“力量”虽然不会危及生命，但总是有心里阴影。");
+        messageList.Add(19,"...“力量”值过低虽然不会危及生命，但是不能采集物资。");
         messageList.Add(20,"...击败土匪或者有魔力的怪物，会增加在小镇的声望。");
         messageList.Add(21,"...密切监视那个外来者，狼人才会是整个大陆的统治者...");
         messageList.Add(22,"...蛇人和熊人的领地...那个外来者...");
@@ -221,6 +221,7 @@ public class SerendipityActions : MonoBehaviour {
         messageList.Add(38,"寂静岭的亡灵法师很少跟外界打交道，但是看那遍地尸骨就知道这是假象。据说他们在研究一种用兽人和幽灵合体的不死之法。");
         messageList.Add(39,"幽暗丛林的精灵大多喜好和平，除了那些嗜杀的暗精灵。");
         messageList.Add(40,"荒原上的食人魔不仅仅吃人，实际上人类的肉又少又难吃，他们反而更喜欢吃兽人和动物。");
+		messageList.Add(41,"精神会影响人的命中率，同时也是释放魔法的必要条件。");
     }
 
 }

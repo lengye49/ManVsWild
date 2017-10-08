@@ -25,7 +25,7 @@ public class FloatingActions : MonoBehaviour {
 	/// <param name="str">Float text.</param>
 	/// <param name="floatType">Float type:0Good,1Bad.</param>
 	public void CallInFloating(string str,int floatType){
-		GameObject f = new GameObject ();
+		GameObject f;
 		if (floatingCells.Count > 0) {
 			f = floatingCells [0] as GameObject;
 			floatingCells.RemoveAt (0);

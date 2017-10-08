@@ -18,13 +18,13 @@ public class LoadingBar : MonoBehaviour {
 	}
 
 	public int CallInLoadingBar(int costMin){
-		int max = Mathf.Min (2000, 1000 + costMin * 4);
-		totalTime = (int)(Random.Range (1000, max)/1000);
+		int max = Mathf.Min (1200, 600 + costMin * 4);
+		totalTime = (int)(Random.Range (600, max)/1200);
 		value = 0;
 		this.gameObject.SetActive (true);
 		this.gameObject.transform.localPosition = new Vector3 (0f, -666f, 0f);
 		StartLoading ();
-		return totalTime + 1;
+		return totalTime + 2;
 	}
 
 	void StartLoading(){

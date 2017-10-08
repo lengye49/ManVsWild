@@ -51,6 +51,7 @@ public class AlterActions : MonoBehaviour {
 
 	public void RestartGame(){
 		_gameData.ReStartLoad ();
+		GetComponentInParent<PanelManager>().GoToPanel("Home");
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 	}
 		

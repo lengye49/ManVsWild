@@ -19,10 +19,10 @@ public class GameData : MonoBehaviour {
 
 	void Awake () {
 
-//		//*测试代码，删除所有数据
-//		PlayerPrefs.DeleteAll ();
-//		/*******************/
-//
+		//*测试代码，删除所有数据
+		PlayerPrefs.DeleteAll ();
+		/*******************/
+
 		_playerData = new PlayerData ();
 		LoadAchievements ();
 		LoadAllData (false);
@@ -94,7 +94,7 @@ public class GameData : MonoBehaviour {
 		_playerData.TempMax = PlayerPrefs.GetFloat ("TempMax" + s, 60);
         _playerData.TempMin = PlayerPrefs.GetFloat ("TempMin" + s, -60);
 
-		_playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" + s, 0);
+		_playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" + s, 100000);
 
 		_playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen" + s, 0);
 		_playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" + s, 0);
@@ -136,7 +136,8 @@ public class GameData : MonoBehaviour {
 		_playerData.Pets = GetPetListFromStr (PlayerPrefs.GetString ("Pets" + s, ""));//"100|1|50|15|Hello;100|0|20|10|Kitty"));
 		_playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
 
-		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1|1|1|0|0|0|0|0|0|0"));
+																									 //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
+		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|0|0|0|0"));
 		_playerData.mapNow = PlayerPrefs.GetInt ("mapNow" + s, 0);
 		_playerData.dungeonLevelMax = PlayerPrefs.GetInt ("DungeonLevelMax" + s, 0);
         _playerData.tunnelLevelMax = PlayerPrefs.GetInt ("TunnelLevelMax" + s, 0);
@@ -1159,10 +1160,13 @@ public class GameData : MonoBehaviour {
         int r;
         for (int i = 0; i < LoadTxt.MapDic[thisMapId].mapNext.Count; i++)
         {
+			int m = (int)LoadTxt.MapDic[thisMapId].mapNext[i];
+			if (_playerData.MapOpenState [m] > 0)
+				continue;
+
             r = Random.Range(0, 100);
             if (r < 10)
             {
-                int m = (int)LoadTxt.MapDic[thisMapId].mapNext[i];
                 OpenMap(m);
                 break;
             }
