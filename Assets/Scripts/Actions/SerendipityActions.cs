@@ -42,7 +42,7 @@ public class SerendipityActions : MonoBehaviour {
     }
 
     void Update(){
-//        Debug.Log(Vungle.isAdvertAvailable());
+        Debug.Log(Vungle.isAdvertAvailable());
         studyButton.interactable = Vungle.isAdvertAvailable();
         studyText.text = Vungle.isAdvertAvailable() ? "观看" : "加载中";
     }
@@ -127,7 +127,7 @@ public class SerendipityActions : MonoBehaviour {
 		
 
     void PlayRewardedAd(){
-        Debug.Log("播放广告");
+//        Debug.Log("播放广告");
         Vungle.playAd(true, "ThisUser");
     }
 
