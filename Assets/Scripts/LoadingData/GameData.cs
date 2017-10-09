@@ -1165,11 +1165,20 @@ public class GameData : MonoBehaviour {
 				continue;
 
             r = Random.Range(0, 100);
-            if (r < 10)
-            {
-                OpenMap(m);
-                break;
-            }
+			int t = 0;
+			if (searchProcess < 25)
+				t = 5;
+			else if (searchProcess < 50)
+				t = 10;
+			else if (searchProcess < 75)
+				t = 15;
+			else
+				t = 20;
+
+			if (r < t) {
+				OpenMap (m);
+				break;
+			}
         }
     }
 
@@ -1184,7 +1193,7 @@ public class GameData : MonoBehaviour {
         GameData._playerData.MapOpenState[mapId] = 1;
         StoreData("MapOpenState", GetStrFromMapOpenState(_playerData.MapOpenState));
 
-		_logManager.AddLog("你发现了新地点：" + LoadTxt.MapDic[mapId].name);
+		_logManager.AddLog("你发现了新地点：" + LoadTxt.MapDic[mapId].name,true);
         GetComponentInChildren<FloatingActions>().CallInFloating("你发现了新地点：" + LoadTxt.MapDic[mapId].name, 0);
 
         //Achievement

@@ -1090,13 +1090,13 @@ public class PlaceActions : MonoBehaviour {
 
 	void SetObserving(PlaceUnit pu){
 		_puNow = pu;
-		//param格式:open;Name;Description;MonsterId  New
+		//param格式:open;Name;Description;MonsterId
 		string[] s = pu.actionParam.Split (';');
 		Text[] t = observeDetail.gameObject.GetComponentsInChildren<Text> ();
 		t [0].text = s [1];
 		t [1].text = s [2];
 		Button[] b = observeDetail.gameObject.GetComponentsInChildren<Button> ();
-		b [0].interactable = (s.Length >= 3);
+		b [0].interactable = (s.Length >= 4);
 	}
 		
 	public void ResourceAct(){

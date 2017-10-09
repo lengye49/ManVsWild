@@ -46,17 +46,30 @@ public class LogManager : MonoBehaviour {
 		if (s.Length > 20) {
 			string s1 = s.Substring (0, 20);
 			string s2 = s.Substring (20, s.Length - 20);
-			AddNewLog (s1);
-			AddNewLog (s2);
+			AddNewLog (s1,false);
+			AddNewLog (s2,false);
 		} else
-			AddNewLog (s);
+			AddNewLog (s,false);
 	}
 
-	void AddNewLog(string s){
+
+	public void AddLog(string s,bool isGreen){
+		if (s.Length > 20) {
+			string s1 = s.Substring (0, 20);
+			string s2 = s.Substring (20, s.Length - 20);
+			AddNewLog (s1,isGreen);
+			AddNewLog (s2,isGreen);
+		} else
+			AddNewLog (s,isGreen);
+	}
+
+	void AddNewLog(string s,bool isGreen){
 		for (int i = logs.Length - 1; i > 0; i--) {
 			logs [i].text = logs [i - 1].text;
+			logs [i].color = logs [i - 1].color;
 		}
 		logs [0].text = ">" + s;
+		logs [0].color = isGreen ? Color.green : Color.white;
 	}
 
 }
