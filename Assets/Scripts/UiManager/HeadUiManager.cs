@@ -56,7 +56,7 @@ public class HeadUiManager : MonoBehaviour {
 		strengthNow.color = Algorithms.GetDangerColor (GameData._playerData.strengthNow / GameData._playerData.property [9]);
 		StrengthImage.color = strengthNow.color;
 
-		tempNow.text = GameData._playerData.tempNow.ToString ();
+        tempNow.text = GameData._playerData.tempNow.ToString("#0.0");
 		if ((GameData._playerData.tempNow >= (GameData._playerData.property [12] - 20)) || (GameData._playerData.tempNow <= (GameData._playerData.property [11] + 20)))
 			tempNow.color = new Color (1f, 1f, 0f, 1f);
 		else if ((GameData._playerData.tempNow >= (GameData._playerData.property [12] - 10)) || (GameData._playerData.tempNow <= (GameData._playerData.property [11] + 10)))
@@ -124,7 +124,7 @@ public class HeadUiManager : MonoBehaviour {
 			StrengthImage.color = strengthNow.color;
 			break;
         case "tempNow":
-            tempNow.text = GameData._playerData.tempNow.ToString();
+            tempNow.text = GameData._playerData.tempNow.ToString("#0.0");
 
             if ((GameData._playerData.tempNow >= (GameData._playerData.property[12] * 0.75f)) || (GameData._playerData.tempNow <= (GameData._playerData.property[11] * 0.75f)))
                 tempNow.color = new Color(1f, 1f, 0f, 1f);

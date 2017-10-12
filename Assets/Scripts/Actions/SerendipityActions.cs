@@ -58,14 +58,14 @@ public class SerendipityActions : MonoBehaviour {
         if (GameData._playerData.minutesPassed < 1440)
             return;
 
-        int r = Random.Range(0, 100);
+        int r = Random.Range(0, 4999);
 
         //不触发意外事件
         if (r > 500)
             return;
 
         //0信息 1广告
-        if (r > 400)
+        if (r > 300)
             ShowSerendipity(0);
         else
             ShowSerendipity(1);

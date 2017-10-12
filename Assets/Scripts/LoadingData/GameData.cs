@@ -594,11 +594,19 @@ public class GameData : MonoBehaviour {
 	/// <param name="itemId">Item identifier*10000.</param>
 	/// <param name="num">Number.</param>
 	public void AddItem(int itemId,int num){
-		if (_playerData.bp.ContainsKey (itemId))
-			_playerData.bp [itemId] += num;
-		else
-			_playerData.bp.Add (itemId, num);
-		//要判断背包是否满了
+        if (_playerData.bp.ContainsKey(itemId))
+            _playerData.bp[itemId] += num;
+        else
+        {
+            if (_playerData.bpNum <= _playerData.bp.Count)
+            {
+                GetComponentInChildren<FloatingActions>().CallInFloating("背包已满！", 1);
+            }
+            else
+            {
+                _playerData.bp.Add(itemId, num);
+            }
+        }
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
 
 	}

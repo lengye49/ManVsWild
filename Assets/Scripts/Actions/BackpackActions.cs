@@ -14,6 +14,7 @@ public class BackpackActions : MonoBehaviour {
 	public Text Ammo;
 	public Text AmmoNum;
 	public Text Mount;
+    public Text BpNum;
 
 	public Button hotkey0;
 	public Button hotkey1;
@@ -34,6 +35,7 @@ public class BackpackActions : MonoBehaviour {
 	
 	public void UpdataPanel(){
 		_bpNum = GameData._playerData.bpNum;
+        BpNum.text = "(" + GameData._playerData.bp.Count + "/" + _bpNum + ")";
 		UpdateCharacter();
 		UpdateBpContent ();
 		UpdateHotkeys ();

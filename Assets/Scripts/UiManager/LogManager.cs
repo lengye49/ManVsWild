@@ -67,9 +67,34 @@ public class LogManager : MonoBehaviour {
 		for (int i = logs.Length - 1; i > 0; i--) {
 			logs [i].text = logs [i - 1].text;
 			logs [i].color = logs [i - 1].color;
+            logs[i].color = new Color(logs[i - 1].color.r, logs[i - 1].color.g, logs[i - 1].color.b, GetAlpha(i) / 255f);
 		}
 		logs [0].text = ">" + s;
 		logs [0].color = isGreen ? Color.green : Color.white;
 	}
+
+    float GetAlpha(int index){
+        switch (index)
+        {
+            case 0:
+            case 1:
+                return 255f;
+            case 2:
+            case 3:
+                return 205f;
+            case 4:
+            case 5:
+                return 155f;
+            case 6:
+            case 7:
+                return 105f;
+            case 8:
+            case 9:
+                return 55f;
+            default:
+                return 50f;
+        }
+    
+    }
 
 }
