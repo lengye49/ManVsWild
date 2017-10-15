@@ -32,5 +32,6 @@ public class Mats  {
 	public string tags;
 	public int skillId;
 	public int quality;
+    public string description;//物品描述
 }
 	

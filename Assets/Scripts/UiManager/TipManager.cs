@@ -447,10 +447,6 @@ public class TipManager : MonoBehaviour {
 			_logManager.AddLog ("祭坛已升级到等级"+ GameData._playerData.AltarOpen,true);
 		}
 
-
-
-
-
 		_homeManager.UpdateContent ();
 	}
 
@@ -629,7 +625,9 @@ public class TipManager : MonoBehaviour {
 	}
 
 	void SetMakingTipDesc(Mats m){
-		int i = 2;
+        makingTipText[2].text = m.description;
+        makingTipText [2].color = new Color (24f / 255f, 193f / 255f, 172f / 255f, 1f);
+		int i = 3;
 		if (m.property != null) {
 			foreach (int key in m.property.Keys) {
 				makingTipText [i].text = PlayerData.GetPropName (key) + " " + (m.property [key] > 0 ? "+" : "") + m.property [key];
@@ -894,10 +892,13 @@ public class TipManager : MonoBehaviour {
 
 		commonTipText [0].text = itemName + ((type == 4) ? (" ×" + GameData._playerData.AmmoNum) : "");
 		commonTipText [0].color = GameConfigs.MatColor [m.quality];
-		string[] tags = m.tags.Split (',');
-		for (int j = 0; j < tags.Length; j++) {
-			commonTipText [j + 1].text = tags [j];
-		}
+        commonTipText[1].text = m.description;
+//        Debug.Log(m.description);
+        commonTipText[1].color = new Color(24f / 255f, 193f / 255f, 172f / 255f, 1f);
+//		string[] tags = m.tags.Split (',');
+//		for (int j = 0; j < tags.Length; j++) {
+//			commonTipText [j + 1].text = tags [j];
+//		}
 		int i = 4;
 		if (m.property != null) {
 			foreach (int key in m.property.Keys) {
