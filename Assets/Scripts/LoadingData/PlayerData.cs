@@ -87,8 +87,8 @@ public class PlayerData  {
 	public int AmmoNum;
 	public Pet Mount;
 
-	public int Hotkey0;
-	public int Hotkey1;
+//	public int Hotkey0;
+//	public int Hotkey1;
 
 	public int LastWithdrawWaterTime;
 

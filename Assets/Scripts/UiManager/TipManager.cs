@@ -65,10 +65,8 @@ public class TipManager : MonoBehaviour {
 		ShowBuidTip ();
 		ClearBuildTip ();
 
-//		buildTipText [0].text = buildingName;
 		buildTipButton [0].gameObject.SetActive (true);
 		buildTipButton[0].gameObject.GetComponentInChildren<Text>().text = "取消";
-//		commonTipButton [1].gameObject.SetActive (false);
 		buildTipButton [1].gameObject.SetActive (true);
 		buildTipButton[1].gameObject.GetComponentInChildren<Text>().text = "开工"; 
 		buildTipButton [1].gameObject.name = buildingName;
@@ -579,10 +577,6 @@ public class TipManager : MonoBehaviour {
 		buildTip.gameObject.SetActive (false);
 	}
 
-
-
-
-
 	/// <summary>
 	/// Shows item tips in making list.
 	/// </summary>
@@ -682,7 +676,6 @@ public class TipManager : MonoBehaviour {
 		bool isKitchen = LoadTxt.MatDic [targetId].makingType == "Kitchen";
 		float discount = isKitchen ? GameData._playerData.CookingTimeDiscount : GameData._playerData.BlackSmithTimeDiscount;
 		_gameData.ChangeTime ((int)(LoadTxt.MatDic [targetId].makingTime * 60 *discount));
-//		MoveMakingTipPanel ();
 
 		_floating.CallInFloating (LoadTxt.MatDic [targetId].name + " +" + LoadTxt.MatDic[targetId].combGet, 0);
 		int combGet = LoadTxt.MatDic [targetId].combGet;
@@ -893,12 +886,7 @@ public class TipManager : MonoBehaviour {
 		commonTipText [0].text = itemName + ((type == 4) ? (" ×" + GameData._playerData.AmmoNum) : "");
 		commonTipText [0].color = GameConfigs.MatColor [m.quality];
         commonTipText[1].text = m.description;
-//        Debug.Log(m.description);
         commonTipText[1].color = new Color(24f / 255f, 193f / 255f, 172f / 255f, 1f);
-//		string[] tags = m.tags.Split (',');
-//		for (int j = 0; j < tags.Length; j++) {
-//			commonTipText [j + 1].text = tags [j];
-//		}
 		int i = 4;
 		if (m.property != null) {
 			foreach (int key in m.property.Keys) {
@@ -1127,25 +1115,5 @@ public class TipManager : MonoBehaviour {
 		default:
 			break;
 		}
-	}
-		
-	public void SetHotkey(int index){
-		int itemId = int.Parse (commonTipButton [1].gameObject.name);
-		_gameData.SetHotkey (index, itemId);
-		_floating.CallInFloating ("成功设置快捷键！", 0);
-	}
-
-	public void OnHotkey0(){
-		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
-		int itemId = GameData._playerData.Hotkey0;
-//		Debug.Log ("Hotkey0" + itemId);
-		UseItem (itemId);
-	}
-
-	public void OnHotkey1(){
-		this.gameObject.GetComponentInParent<PlaySound> ().PlayClickSound ();
-		int itemId = GameData._playerData.Hotkey1;
-//		Debug.Log ("Hotkey1" + itemId);
-		UseItem (itemId);
 	}
 }

@@ -7,7 +7,6 @@ public class ClickMapCell : MonoBehaviour {
 		int i = int.Parse (this.gameObject.name);
 		Maps m = LoadTxt.MapDic [i];
 		ExploreActions e = this.gameObject.GetComponentInParent<ExploreActions> ();
-		e.mapGoing = m;
-		e.GoToPlace ();
+        e.GoToPlace (m.id);
 	}
 }

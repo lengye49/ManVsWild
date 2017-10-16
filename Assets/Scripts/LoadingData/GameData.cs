@@ -20,7 +20,7 @@ public class GameData : MonoBehaviour {
 	void Awake () {
 
 		//*测试代码，删除所有数据
-		PlayerPrefs.DeleteAll ();
+//		PlayerPrefs.DeleteAll ();
 		/*******************/
 
 		_playerData = new PlayerData ();
@@ -30,7 +30,6 @@ public class GameData : MonoBehaviour {
 		_headUiManager = gameObject.GetComponentInChildren<HeadUiManager> ();
 		_loadTxt = this.gameObject.GetComponent<LoadTxt> ();
 		_headUiManager.UpdateHeadUI ();
-		_headUiManager.UpdateHotkeys ();
 		_loadTxt.LoadPlaces (false);
 	}
 
@@ -94,7 +93,7 @@ public class GameData : MonoBehaviour {
 		_playerData.TempMax = PlayerPrefs.GetFloat ("TempMax" + s, 60);
         _playerData.TempMin = PlayerPrefs.GetFloat ("TempMin" + s, -60);
 
-		_playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" + s, 100000);
+		_playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" + s, 0);
 
 		_playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen" + s, 0);
 		_playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" + s, 0);
@@ -123,9 +122,6 @@ public class GameData : MonoBehaviour {
 		_playerData.AmmoId = PlayerPrefs.GetInt ("AmmoId" + s, 4020000);
 		_playerData.AmmoNum = PlayerPrefs.GetInt ("AmmoNum" + s, 999);
 		_playerData.Mount = GetMount (PlayerPrefs.GetString ("Mount" + s, ""));
-
-		_playerData.Hotkey0 = PlayerPrefs.GetInt ("Hotkey0" + s, 0);
-		_playerData.Hotkey1 = PlayerPrefs.GetInt ("Hotkey1" + s, 0);
 
 		_playerData.LastWithdrawWaterTime = PlayerPrefs.GetInt ("LastWithdrawWaterTime" + s, 0);
 
@@ -246,9 +242,6 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("AmmoNum" + s, _playerData.AmmoNum);
 		PlayerPrefs.SetString ("Mount" + s, GetStrFromMount (_playerData.Mount));
 
-		PlayerPrefs.SetInt ("Hotkey0" + s, _playerData.Hotkey0);
-		PlayerPrefs.SetInt ("Hotkey1" + s, _playerData.Hotkey1);
-
 		PlayerPrefs.SetInt ("LastWithdrawWaterTime" + s, _playerData.LastWithdrawWaterTime);
 
 		PlayerPrefs.SetString ("Farms" + s, GetStrFromFarmState (_playerData.Farms));
@@ -365,6 +358,8 @@ public class GameData : MonoBehaviour {
 	void ChangeDay(){
 		string txt = "第" + _playerData.dayNow + "天开始了，加油！";
 		_logManager.AddLog (txt);
+        if(_playerData.dayNow==20)
+            _logManager.AddLog("随着你的居住地的发展，渐渐引起了附近盗贼的注意。请严加防范，安排宠物看守房屋或者升级科技都可以有效减少盗贼的入侵损失。");
 	}
 
 	void ChangeMonth(){
@@ -601,6 +596,7 @@ public class GameData : MonoBehaviour {
             if (_playerData.bpNum <= _playerData.bp.Count)
             {
                 GetComponentInChildren<FloatingActions>().CallInFloating("背包已满！", 1);
+                _logManager.AddLog("你的背包满了，无法获得新物品。");
             }
             else
             {
@@ -635,10 +631,6 @@ public class GameData : MonoBehaviour {
 			}
 		}
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
-
-		if ((int)(_playerData.Hotkey0 / 10000) == Id || (int)(_playerData.Hotkey1 / 10000) == Id)
-			CheckHotKeyState ();
-
 	}
 
 
@@ -649,9 +641,6 @@ public class GameData : MonoBehaviour {
 	public void DeleteItemInBp(int itemId){
 		_playerData.bp.Remove (itemId);
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
-
-		if (_playerData.Hotkey0 == itemId || _playerData.Hotkey1 == itemId)
-			CheckHotKeyState ();
 	}
 
 	/// <summary>
@@ -666,9 +655,6 @@ public class GameData : MonoBehaviour {
 			_playerData.bp.Remove (itemId);
 
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
-
-		if (_playerData.Hotkey0 == itemId || _playerData.Hotkey1 == itemId)
-			CheckHotKeyState ();
 	}
 
 	public void DeleteItemInWh(int itemId){
@@ -903,7 +889,6 @@ public class GameData : MonoBehaviour {
 		UpdateEquipProperty (GameData._playerData.HeadId);
 		UpdateEquipProperty (GameData._playerData.BodyId);
 		UpdateEquipProperty (GameData._playerData.ShoeId);
-//		UpdateEquipProperty (GameData._playerData.AccessoryId);
 		UpdateEquipProperty (GameData._playerData.AmmoId);
 		UpdateMountProperty ();
 		UpdateTechniqueProperty ();
@@ -971,35 +956,6 @@ public class GameData : MonoBehaviour {
 		_playerData.property [16] += GameConfigs.ArcheryMeleePrecise [_playerData.techLevels [7]];
 	}
 
-	public void SetHotkey(int index,int itemId){
-		if (index == 0) {
-			_playerData.Hotkey0 = itemId;
-			StoreData ("Hotkey0", itemId);
-		} else if (index == 1) {
-			_playerData.Hotkey1 = itemId;
-			StoreData ("Hotkey1", itemId);
-		}
-		_headUiManager.UpdateHotkeys ();
-		this.gameObject.GetComponentInChildren<BackpackActions> ().UpdateHotkeys ();
-	}
-
-	void CheckHotKeyState(){
-		if (!_playerData.bp.ContainsKey (_playerData.Hotkey0)) {
-			_playerData.Hotkey0 = 0;
-			StoreData ("Hotkey0", 0);
-			_headUiManager.UpdateHotkeys ();
-			this.gameObject.GetComponentInChildren<BackpackActions> ().UpdateHotkeys ();
-		}
-		if (!_playerData.bp.ContainsKey (_playerData.Hotkey1)) {
-			_playerData.Hotkey1 = 0;
-			StoreData ("Hotkey1", 0);
-			_headUiManager.UpdateHotkeys ();
-			this.gameObject.GetComponentInChildren<BackpackActions> ().UpdateHotkeys ();
-		}
-	}
-
-
-
 	public void EatFood(int itemId){
 		int id = (int)(itemId / 10000);
 		foreach (int key in LoadTxt.MatDic[id].property.Keys) {
@@ -1013,9 +969,6 @@ public class GameData : MonoBehaviour {
 
 		if (LoadTxt.MatDic [id].tags.Contains ("Wine"))	//Achievement
 			this.gameObject.GetComponent<AchieveActions> ().TasteWine (id);
-
-		if (_playerData.Hotkey0 == itemId || _playerData.Hotkey1 == itemId)
-			CheckHotKeyState ();
 	}
         
 
@@ -1070,11 +1023,6 @@ public class GameData : MonoBehaviour {
 			StoreData ("ShoeId", 0);
 			break;
 		case 9:
-//			if (_playerData.AccessoryId == 0)
-//				return;
-//			AddItem (_playerData.AccessoryId, 1);
-//			_playerData.AccessoryId = 0;
-//			StoreData ("AccessoryId", 0);
 			break;
 		case 10:
 			if (_playerData.AmmoId == 0 || _playerData.AmmoNum == 0)
@@ -1121,8 +1069,6 @@ public class GameData : MonoBehaviour {
 			StoreData ("ShoeId", equipId);
 			break;
 		case 9:
-//			_playerData.AccessoryId = equipId;
-//			StoreData ("AccessoryId", equipId);
 			break;
 		case 10:
 			if (equipId == _playerData.AmmoId) {

@@ -29,13 +29,6 @@ public class PlaceActions : MonoBehaviour {
 	private Maps _mapNow;
 	private PanelManager _panelManager;
 
-//	private GameObject goodsCell;
-//	private ArrayList goodsCells = new ArrayList ();
-//	private ShopItem _shopItemSelected;
-//	private int goodsMax;
-//	private int goodsNum;
-//	private float popTime= 0.3f;
-
 	private int[] dungeonCellState;//0 Cannot open;1 Can open;2 Opened;3 Door
 	public Button[] dungeonCells;
 	public Sprite frontImage;
@@ -318,7 +311,6 @@ public class PlaceActions : MonoBehaviour {
 	void DungeonEvent(){
 		
 		//Get Dungeon Rewards According to the Level;
-
 		//1 Reward 10%, 2 Monster 15%, 3 Buff&Debuff 10%, 4 Nothing: Text 13%, 5 Nothing 
 		int r = Algorithms.GetIndexByRange(0,100);
         Debug.Log(r);
@@ -586,8 +578,7 @@ public class PlaceActions : MonoBehaviour {
 
     void TunnelEvent(){
 
-        //Get Dungeon Rewards According to the Level;
-
+        //Get Tunnel Rewards According to the Level;
         //1 Reward 0%, 2 Monster 30%, 3 Buff&Debuff 20%, 4 Nothing: Text 13%, 5 Nothing 
         int r = Algorithms.GetIndexByRange(0,100);
         Debug.Log(r);
@@ -645,24 +636,11 @@ public class PlaceActions : MonoBehaviour {
                 _gameData.ChangeProperty(0, r3);
                 _logManager.AddLog("不小心踩到了陷阱，生命-" + r3);
             }
-//            else if (r2 < 14)
-//            {
-//                r3 = -Algorithms.GetIndexByRange(3, 7);
-//                _gameData.ChangeProperty(0, r3);
-//                _logManager.AddLog("打开宝箱，一股腐败气息铺面而来，生命-" + r3 );
-//            }
             else if (r2 < 20) {
                 r3 = -Algorithms.GetIndexByRange (4, 8);
                 _gameData.ChangeProperty (0, r3);
                 _logManager.AddLog("你碰到了时空裂缝，生命-" + r3);
             }  
-
-            //******************************************恢复精神**********
-//            else if (r2 < 24) {
-//                r3 = Algorithms.GetIndexByRange (2, 6);
-//                _gameData.ChangeProperty (2, r3);
-//                _logManager.AddLog("一个友善的时空旅者朝你使用精神之泉，精神+" + r3 );
-//            }
             else if (r2 < 24) {
                 r3 = Algorithms.GetIndexByRange (5, 10);
                 _gameData.ChangeProperty (2, r3);
@@ -680,12 +658,6 @@ public class PlaceActions : MonoBehaviour {
                 _gameData.ChangeProperty (2, r3);
                 _logManager.AddLog("你感到一阵头晕目眩，精神-" + r3 );
             }
-//            else if (r2 < 40) {
-//                r3 = -Algorithms.GetIndexByRange (3, 6);
-//                _gameData.ChangeProperty (2, r3);
-//                _logManager.AddLog("你受到恶魔雕像的惊吓，精神-" + r3 );
-//            }
-
             //******************************************恢复食物**********
             else if (r2 < 43) {
                 r3 = Algorithms.GetIndexByRange (2, 6);
@@ -709,29 +681,13 @@ public class PlaceActions : MonoBehaviour {
                 _gameData.ChangeProperty (6, r3);
                 _logManager.AddLog("好心的时空旅者分给你一些水，水+" + r3 );
             }
-//            else if (r2 < 60) {
-//                r3 = Algorithms.GetIndexByRange (10, 25);
-//                _gameData.ChangeProperty (6, r3);
-//                _logManager.AddLog("遇到一个地下泉眼，水+" + r3 );
-//            }
-
             //******************************************改变体温**********
-//            else if (r2 < 65) {
-//                r3 = Algorithms.GetIndexByRange (1, 3);
-//                _gameData.ChangeProperty (10, r3);
-//                _logManager.AddLog("趟过一个温泉，温度+" + r3 );
-//            } 
             else if (r2 < 70) {
                 r3 = Algorithms.GetIndexByRange (2, 5);
                 _gameData.ChangeProperty (10, r3);
                 _gameData.ChangeProperty(0, r3);
                 _logManager.AddLog("地面突然冒出一团热量，温度+" + r3 + " ,生命-" + r3);
             } 
-//            else if (r2 < 75) {
-//                r3 = -Algorithms.GetIndexByRange (1, 4);
-//                _gameData.ChangeProperty (10, r3);
-//                _logManager.AddLog("路过冰面，摔了一跤，温度-" + r3 );
-//            } 
             else if (r2 < 80) {
                 r3 = -Algorithms.GetIndexByRange (1, 4);
                 _gameData.ChangeProperty (10, r3);
@@ -901,11 +857,8 @@ public class PlaceActions : MonoBehaviour {
 	void SetDetailPosition(){
 		observeDetail.localPosition = new Vector3 (0, 0, 0);
 		resourceDetail.localPosition = new Vector3 (150, 0, 0);
-//		goodsDetail.localPosition = new Vector3 (150, -3000, 0);
-
 		observeDetail.gameObject.SetActive (false);
 		resourceDetail.gameObject.SetActive (false);
-//		goodsDetail.gameObject.SetActive (false);
 	}
 
 	void CallInResourceDetail(){
@@ -1351,7 +1304,6 @@ public class PlaceActions : MonoBehaviour {
 				newItems += LoadTxt.MatDic [key].name + " +" + rewards [key] + "\t";
 			}
 			newItems = newItems.Substring (0, newItems.Length - 1);
-//			_logManager.AddLog (newItems);
 			_floating.CallInFloating (newItems, 0);
 
 			//Achievement

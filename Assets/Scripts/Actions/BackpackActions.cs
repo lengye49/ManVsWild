@@ -16,11 +16,6 @@ public class BackpackActions : MonoBehaviour {
 	public Text Mount;
     public Text BpNum;
 
-	public Button hotkey0;
-	public Button hotkey1;
-
-//	public Text soulStone;
-
 	public GameObject contentB;
 	private GameObject bpCell;
 	private ArrayList bpCells;
@@ -38,26 +33,8 @@ public class BackpackActions : MonoBehaviour {
         BpNum.text = "(" + GameData._playerData.bp.Count + "/" + _bpNum + ")";
 		UpdateCharacter();
 		UpdateBpContent ();
-		UpdateHotkeys ();
 	}
 
-	public void UpdateHotkeys(){
-		if (GameData._playerData.Hotkey0 != 0) {
-			hotkey0.gameObject.GetComponentInChildren<Text> ().text = LoadTxt.MatDic [(int)(GameData._playerData.Hotkey0 / 10000)].name;
-			hotkey0.interactable = true;
-		} else {
-			hotkey0.gameObject.GetComponentInChildren<Text> ().text = "尚未设置";
-			hotkey0.interactable = false;
-		}
-
-		if (GameData._playerData.Hotkey1 != 0) {
-			hotkey1.gameObject.GetComponentInChildren<Text> ().text = LoadTxt.MatDic [(int)(GameData._playerData.Hotkey1 / 10000)].name;
-			hotkey1.interactable = true;
-		} else {
-			hotkey1.gameObject.GetComponentInChildren<Text> ().text = "尚未设置";
-			hotkey1.interactable = false;
-		}
-	}
 
 	void UpdateCharacter(){
         
@@ -126,10 +103,6 @@ public class BackpackActions : MonoBehaviour {
 			t [1].text = GameData._playerData.bp [key].ToString();
 			j++;
 		}
-//        if (GameData._playerData.bp.ContainsKey(22020000))
-//            soulStone.text = GameData._playerData.bp[22020000].ToString();
-//        else
-//            soulStone.text = "0";
 	}
 
 	void ClearContent(GameObject o){

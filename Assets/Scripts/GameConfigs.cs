@@ -101,8 +101,8 @@ public class GameConfigs{
 	public static float[] WaterCollectingRate = { 1f, 1.2f, 1.5f };
 	public static float[] GhostComingProp = { 0.05f, 0.02f, 0.01f };
 
-	public static int StartThiefEvent = 0;//测试数据
-	public static int StartGhostEvent = 0;//测试数据
+	public static int StartThiefEvent = 20;//第20天开始触发盗贼
+	public static int StartGhostEvent = 3;//第3天开始触发幽灵
 																		//Ghost     Boss     King
 	public static Dictionary<int,int> GhostDic = new Dictionary<int, int>{{1,50},{2,20},{3,10}};
 
@@ -114,8 +114,7 @@ public class GameConfigs{
 		new Color (222f / 255f, 170f / 255f, 48f / 255f, 1f)
 	};
 
-
-    //温度变化
+    //温度变化 春夏秋冬
     public static float[] TempChangeDay = {0.2f,1f,0.2f,-0.5f};
-    public static float[] TempChangeNight = { -0.2f, 0.5f, -0.2f, 1f };
+    public static float[] TempChangeNight = { -0.2f, 0.5f, -0.2f, -1f };
 }

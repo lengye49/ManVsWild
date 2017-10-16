@@ -85,42 +85,24 @@ public class ExploreActions : MonoBehaviour {
 		}
 	}
 
-    public void GoToPlace(){
-        if (GameData._playerData.MapOpenState [mapGoing.id] == 0) {
-            Debug.Log ("未知地域!");
-            return;
-        }
-        if (mapGoing.id == 25)
-        {
-            CallInTunnelNotice();
-        }
-        else
-        {
-            OnTheRoad(mapGoing.id);
-        }
-    }
     public void GoToPlace(int mapId){
         if (GameData._playerData.MapOpenState [mapId] == 0) {
             Debug.Log ("未知地域!");
             return;
         }
+        mapGoing = LoadTxt.MapDic[mapId];
         if (mapId == 25)
         {
             CallInTunnelNotice();
         }
         else
         {
-            OnTheRoad(mapId);
+            OnTheRoad();
         }
     }
 
-    void OnTheRoad(int mapId){
-        int min = TravelTime (LoadTxt.MapDic [GameData._playerData.mapNow].distances [mapId]);
-        _gameData.ChangeTime (min);
-        GameData._playerData.mapNow = mapId;
-        _gameData.StoreData ("mapNow", mapId);
-
-        StartCoroutine (StartLoading (min));
+    void OnTheRoad(){
+        StartCoroutine (StartLoading (60));
     }
 
 	IEnumerator StartLoading(int costTime){
@@ -130,6 +112,11 @@ public class ExploreActions : MonoBehaviour {
 	}
 
 	void GoToMap(){
+        int min = TravelTime (LoadTxt.MapDic [GameData._playerData.mapNow].distances [mapGoing.id]);
+        _gameData.ChangeTime (min);
+        GameData._playerData.mapNow = mapGoing.id;
+        _gameData.StoreData ("mapNow", mapGoing.id);
+
 		_panelManager.MapGoing = mapGoing;
 		if (mapGoing.id == 0) {
 			_logManager.AddLog ("回到家中。");
@@ -173,7 +160,7 @@ public class ExploreActions : MonoBehaviour {
 
     public void OnConfirmTunnelNotice(){
         CallOutComplete();
-        OnTheRoad(25);
+        OnTheRoad();
     }
 
     public void OnCancelTunnelNotice(){
