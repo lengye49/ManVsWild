@@ -126,6 +126,7 @@ public class RoomActions : MonoBehaviour {
 		_gameData.ChangeProperty (8, GameConfigs.StrengthRecoverPerRestHour[GameData._playerData.BedRoomOpen-1]  * restTime);
 		_gameData.ChangeProperty (2, GameConfigs.SpiritRecoverPerRestHour * restTime);
 		_gameData.ChangeTime (restTime * 60);
+        Debug.Log("Rest Time = " + restTime);
 		//Achievement
 		this.gameObject.GetComponentInParent<AchieveActions>().Sleep(restTime);
 	}

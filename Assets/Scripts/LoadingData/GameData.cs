@@ -314,7 +314,7 @@ public class GameData : MonoBehaviour {
 		_headUiManager.UpdateHeadUI ("dateNow");
 		_headUiManager.UpdateHeadUI ("timeNow");
 
-		if (_playerData.hourNow > lastHour) {
+        if (_playerData.hourNow != lastHour || _playerData.dayNow != lastDay) {
 
 			int value;
 			value = -(int)Mathf.Max (0, GameConfigs.FoodCostPerHour * (_playerData.hourNow - lastHour));
