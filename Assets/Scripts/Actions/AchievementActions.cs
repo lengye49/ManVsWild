@@ -41,5 +41,16 @@ public class AchievementActions : MonoBehaviour {
 		Text[] t = o.gameObject.GetComponentsInChildren<Text> ();
 		t [0].text = a.name;
 		t [1].text = a.desc + "(" + _achieveActions.GetProgress (a.id) + ")";
+        if (GameData._playerData.Achievements[a.id] == 1)
+        {
+            t[0].color = Color.green;
+            t[1].color = Color.green;
+        }
+        else
+        {
+            t[0].color = Color.white;
+            t[1].color = Color.white;
+        }
+        
 	}
 }

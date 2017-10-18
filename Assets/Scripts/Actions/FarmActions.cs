@@ -9,6 +9,7 @@ public class FarmActions : MonoBehaviour {
 	public GameObject ContentF;
 	public RectTransform plantingTip;
 	public Button upgradeButton;
+    public LoadingBar _loading;
 
 	private GameObject farmCell;
 	private ArrayList farmCells;
@@ -194,36 +195,60 @@ public class FarmActions : MonoBehaviour {
 		default:
 			break;
 		}
+                
+        int i = 2;
+        bool canPrepare = true;
 
-		t[2].text = GetReq (LoadTxt.PlantsDic [plantType].plantReq);
-		t[4].text= LoadTxt.PlantsDic [plantType].plantTime + " 时";
-		t[6].text = LoadTxt.PlantsDic[plantType].plantGrowCycle + " 天";
-		t[7].text= "准备";
+        Dictionary<int,int> d = LoadTxt.PlantsDic[plantType].plantReq;
+        foreach (int key in d.Keys) {
+            t[i].text= LoadTxt.MatDic [key].name + " ×" + d [key];
+            if (_gameData.CountInBp(key) < d[key])
+            {
+                t[i].color = Color.red;
+                canPrepare = false;
+            }
+            else
+                t[i].color = Color.green;
+            i++;
+        }
+        plantingTip.GetComponentInChildren<Button>().interactable = canPrepare;
+
+		t[5].text= LoadTxt.PlantsDic [plantType].plantTime + " 时";
+		t[7].text = LoadTxt.PlantsDic[plantType].plantGrowCycle + " 天";
+		t[8].text= "准备";
 	}
 
 	public void Prepare(){
-		Debug.Log ("Prepare");
+        
+
+
 		int index = int.Parse (plantingTip.gameObject.name);
 		int plantType = GameData._playerData.Farms [index].plantType;;
-		_gameData.ChangeTime (LoadTxt.PlantsDic [plantType].plantTime * 60);
-		foreach (int key in LoadTxt.PlantsDic[plantType].plantReq.Keys) {
-			_gameData.ConsumeItem (key, LoadTxt.PlantsDic [plantType].plantReq [key]);
-		}
-		GameData._playerData.Farms [index].plantTime = GameData._playerData.minutesPassed;
-		CallOutPlantingTip ();
-		UpdateFarm ();
+
+        foreach (int key in LoadTxt.PlantsDic[plantType].plantReq.Keys)
+        {
+            if (_gameData.CountInBp(key) < LoadTxt.PlantsDic[plantType].plantReq[key])
+                return;
+        }
+            
+        int t = _loading.CallInLoadingBar(60);
+
+        StartCoroutine(GetPrepared(plantType, index, t));
 	}
+
+    IEnumerator GetPrepared(int plantType,int index,int waitTime){
+        yield return new WaitForSeconds(waitTime);
+
+        _gameData.ChangeTime (LoadTxt.PlantsDic [plantType].plantTime * 60);
+        foreach (int key in LoadTxt.PlantsDic[plantType].plantReq.Keys) {
+            _gameData.ConsumeItem (key, LoadTxt.PlantsDic [plantType].plantReq [key]);
+        }
+        GameData._playerData.Farms [index].plantTime = GameData._playerData.minutesPassed;
+        CallOutPlantingTip ();
+        UpdateFarm ();
+    }
 
 	public void CallOutPlantingTip(){
 		plantingTip.DOLocalMoveY (2000, 0.3f);
-	}
-
-	string GetReq(Dictionary<int,int> d){
-		string s = "";
-		foreach (int key in d.Keys) {
-			s += LoadTxt.MatDic [key].name + " ×" + d [key] + "\n";
-		}
-		s = s.Substring (0, s.Length - 1);
-		return s;
 	}
 }
