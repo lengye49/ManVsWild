@@ -163,6 +163,7 @@ public class BattleActions : MonoBehaviour {
 		enemyMaxHp = enemy.hp;
 		enemy.spirit = m.spirit;
 		enemy.atk = LoadTxt.MonsterModelDic [m.model].atk + LoadTxt.MonsterModelDic [m.model].atk_inc * (m.level - 1);
+		Debug.log("ThisEnemyInitAtk = " + enemy.atk);
 		enemy.def = LoadTxt.MonsterModelDic [m.model].def + LoadTxt.MonsterModelDic [m.model].def_inc * (m.level - 1);
 		enemy.hit = LoadTxt.MonsterModelDic [m.model].hit;
 		enemy.dodge = LoadTxt.MonsterModelDic [m.model].dodge;
@@ -183,12 +184,13 @@ public class BattleActions : MonoBehaviour {
 	void GetEnemyProperty(Monster m,int titleIndex){
 		GetEnemyProperty(m);
 		enemy.name +=  "[" + LoadTxt.MonsterTitleDic [titleIndex].title + "]";
-		enemy.hp *= 1 + LoadTxt.MonsterTitleDic [titleIndex].hpBonus ;
+		enemy.hp *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].hpBonus ;
 		enemyMaxHp = enemy.hp;
-		enemy.atk *= 1 + LoadTxt.MonsterTitleDic [titleIndex].atkBonus ;
-		enemy.def *= 1 + LoadTxt.MonsterTitleDic [titleIndex].defBonus ;
-		enemy.dodge *= 1 + LoadTxt.MonsterTitleDic [titleIndex].dodgeBonus ;
-		enemy.speed *= (1 + LoadTxt.MonsterTitleDic [titleIndex].speedBonus );
+		enemy.atk *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].atkBonus ;
+		Debug.log("ThisEnemyTitleAtk = " + enemy.atk);
+		enemy.def *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].defBonus ;
+		enemy.dodge *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].dodgeBonus ;
+		enemy.speed *= (1.0f + LoadTxt.MonsterTitleDic [titleIndex].speedBonus );
 		enemy.castSpeedBonus = LoadTxt.MonsterTitleDic [titleIndex].attSpeedBonus ;
 	}
 
