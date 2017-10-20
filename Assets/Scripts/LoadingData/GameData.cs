@@ -20,7 +20,7 @@ public class GameData : MonoBehaviour {
 	void Awake () {
 
 		//*测试代码，删除所有数据
-//		PlayerPrefs.DeleteAll ();
+		PlayerPrefs.DeleteAll ();
 		/*******************/
 
 		_playerData = new PlayerData ();
@@ -133,7 +133,7 @@ public class GameData : MonoBehaviour {
 		_playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
 
 																									 //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
-		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|0|0|0|0"));
+		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1|1|1|1|0|0|0|0|0"));
 		_playerData.mapNow = PlayerPrefs.GetInt ("mapNow" + s, 0);
 		_playerData.dungeonLevelMax = PlayerPrefs.GetInt ("DungeonLevelMax" + s, 0);
         _playerData.tunnelLevelMax = PlayerPrefs.GetInt ("TunnelLevelMax" + s, 0);

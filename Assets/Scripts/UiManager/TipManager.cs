@@ -35,7 +35,6 @@ public class TipManager : MonoBehaviour {
 
 	private float tipPanelEnlarge = 0.3f;
 
-	// Use this for initialization
 	void Start () {
 		_gameData = this.gameObject.GetComponent<GameData> ();
 		_homeManager = this.gameObject.GetComponentInChildren<HomeManager> ();
@@ -670,6 +669,10 @@ public class TipManager : MonoBehaviour {
 	void MakeItem(){
 		int targetId = int.Parse (makingTipButton [1].gameObject.name);
 		foreach (int key in LoadTxt.MatDic[targetId].combReq.Keys) {
+			if (_gameData.CountInBp (key) < LoadTxt.MatDic [targetId].combReq [key]) {
+				_floating.CallInFloating ("材料不足！", 1);
+				return;
+			}
 			_gameData.ConsumeItem (key, LoadTxt.MatDic [targetId].combReq [key]);
 		}
 
@@ -682,6 +685,8 @@ public class TipManager : MonoBehaviour {
 		if (isKitchen)
 			combGet = (int)(LoadTxt.MatDic [targetId].combGet * Algorithms.GetIndexByRange (100, (int)(100 * GameData._playerData.CookingIncreaseRate) + 1) / 100);
 		_gameData.AddItem (GenerateItemId (targetId), combGet);
+
+		SetMakingTipDesc(LoadTxt.MatDic[targetId]);
 
 		//Achievement
 		if (isKitchen)	

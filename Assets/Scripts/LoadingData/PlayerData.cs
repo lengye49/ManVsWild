@@ -133,8 +133,8 @@ public class PlayerData  {
 		case 18: return "闪避";
 		case 19: return "近战攻击距离";
 		case 20: return "远程攻击距离";
-		case 21: return "近战攻击速度";
-		case 22: return "远程攻击速度";
+		case 21: return "近战攻击间隔";
+		case 22: return "远程攻击间隔";
 		case 23: return "速度";
 		case 24: return "魔法伤害";
 		case 25: return "近战伤害";//比例

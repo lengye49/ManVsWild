@@ -163,7 +163,7 @@ public class BattleActions : MonoBehaviour {
 		enemyMaxHp = enemy.hp;
 		enemy.spirit = m.spirit;
 		enemy.atk = LoadTxt.MonsterModelDic [m.model].atk + LoadTxt.MonsterModelDic [m.model].atk_inc * (m.level - 1);
-		Debug.log("ThisEnemyInitAtk = " + enemy.atk);
+		Debug.Log("ThisEnemyInitAtk = " + enemy.atk);
 		enemy.def = LoadTxt.MonsterModelDic [m.model].def + LoadTxt.MonsterModelDic [m.model].def_inc * (m.level - 1);
 		enemy.hit = LoadTxt.MonsterModelDic [m.model].hit;
 		enemy.dodge = LoadTxt.MonsterModelDic [m.model].dodge;
@@ -187,7 +187,7 @@ public class BattleActions : MonoBehaviour {
 		enemy.hp *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].hpBonus ;
 		enemyMaxHp = enemy.hp;
 		enemy.atk *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].atkBonus ;
-		Debug.log("ThisEnemyTitleAtk = " + enemy.atk);
+		Debug.Log("ThisEnemyTitleAtk = " + enemy.atk);
 		enemy.def *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].defBonus ;
 		enemy.dodge *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].dodgeBonus ;
 		enemy.speed *= (1.0f + LoadTxt.MonsterTitleDic [titleIndex].speedBonus );

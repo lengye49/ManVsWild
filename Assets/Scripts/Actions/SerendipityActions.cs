@@ -16,6 +16,7 @@ public class SerendipityActions : MonoBehaviour {
     private Text studyText;
     private Button studyButton;
     private Vector3 restPoint;
+	private bool isAd = true;
 
     private Dictionary<int,string> nameList;
     private Dictionary<int,string> messageList;
@@ -42,9 +43,10 @@ public class SerendipityActions : MonoBehaviour {
     }
 
     void Update(){
-//        Debug.Log(Vungle.isAdvertAvailable());
-        studyButton.interactable = Vungle.isAdvertAvailable();
-        studyText.text = Vungle.isAdvertAvailable() ? "观看" : "加载中";
+		if (isAd) {
+			studyButton.interactable = Vungle.isAdvertAvailable ();
+			studyText.text = Vungle.isAdvertAvailable () ? "观看" : "加载中";
+		}
     }
 
 
@@ -87,6 +89,7 @@ public class SerendipityActions : MonoBehaviour {
             headText.text = nameList[index];
             detailText.text = "你发现了" + nameList[index] + "，上面仿佛写着什么。";
             noticeText.text = "(手记，记录着失落之地的一些信息。)";
+			studyText.text = "查看";
             studyButton.interactable = true;
         }
         else
