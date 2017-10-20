@@ -95,11 +95,11 @@ public class GameData : MonoBehaviour {
 
 		_playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" + s, 0);
 
-		_playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen" + s, 1);
-		_playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" + s, 1);
-		_playerData.KitchenOpen = PlayerPrefs.GetInt ("KitchenOpen" + s, 1);
-		_playerData.WorkshopOpen = PlayerPrefs.GetInt ("WorkshopOpen" + s, 1);
-		_playerData.StudyOpen = PlayerPrefs.GetInt ("StudyOpen" + s, 1);
+		_playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen" + s, 0);
+		_playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" + s, 0);
+		_playerData.KitchenOpen = PlayerPrefs.GetInt ("KitchenOpen" + s, 0);
+		_playerData.WorkshopOpen = PlayerPrefs.GetInt ("WorkshopOpen" + s, 0);
+		_playerData.StudyOpen = PlayerPrefs.GetInt ("StudyOpen" + s, 0);
 		_playerData.FarmOpen = PlayerPrefs.GetInt ("FarmOpen" + s, 0);
 		_playerData.PetsOpen = PlayerPrefs.GetInt ("PetsOpen" + s, 0);
 		_playerData.WellOpen = PlayerPrefs.GetInt ("WellOpen" + s, 0);
