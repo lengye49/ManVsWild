@@ -1055,17 +1055,32 @@ public class TipManager : MonoBehaviour {
 		Debug.Log (itemId);
 		int equipType = LoadTxt.MatDic [(int)(itemId / 10000)].type;
 		switch (actionType) {
-		case "取出":
+        case "取出":
+            if (GameData._playerData.bp.Count >= GameData._playerData.bpNum)
+            {
+                _floating.CallInFloating("背包已满", 1);
+                return;
+            }
 			_gameData.WithdrawItem (itemId);
 			_warehouseActions.UpdatePanel ();
 			MoveCommonTipPanel ();
 			break;
-		case "存放":
+            case "存放":
+            if (GameData._playerData.wh.Count >= (GameConfigs.warehouseMin + GameConfigs.warehouseAdd * (GameData._playerData.WarehouseOpen-1)))
+            {
+                _floating.CallInFloating("仓库已满", 1);
+                return;
+            }
 			_gameData.StoreItem (itemId);
 			_warehouseActions.UpdatePanel ();
 			MoveCommonTipPanel ();
 			break;
 		case "卸下":
+            if (GameData._playerData.bp.Count >= GameData._playerData.bpNum)
+            {
+                _floating.CallInFloating("背包已满", 1);
+                return;
+            }
 			TakeOffEquip (equipType);
 			MoveCommonTipPanel ();
 			break;

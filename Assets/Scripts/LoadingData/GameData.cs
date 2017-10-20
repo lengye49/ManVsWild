@@ -317,13 +317,15 @@ public class GameData : MonoBehaviour {
         if (_playerData.hourNow != lastHour || _playerData.dayNow != lastDay) {
 
 			int value;
-			value = -(int)Mathf.Max (0, GameConfigs.FoodCostPerHour * (_playerData.hourNow - lastHour));
+            int hours = (_playerData.hourNow - lastHour) + (_playerData.dayNow - lastDay) * 24;
+
+            value = -(int)Mathf.Max(0, GameConfigs.FoodCostPerHour * hours);
 			ChangeProperty (4, value);
 
-			value = -(int)Mathf.Max (0, GameConfigs.WaterCostPerHour * (_playerData.hourNow - lastHour));
+            value = -(int)Mathf.Max (0, GameConfigs.WaterCostPerHour * hours);
 			ChangeProperty (6, value);
 
-            ChangeTempByTime();
+            ChangeTempByTime(hours);
 		}
 
 		if (_playerData.dayNow != lastDay) {
@@ -345,12 +347,12 @@ public class GameData : MonoBehaviour {
 		this.gameObject.GetComponent<AchieveActions>().TimeChange();
 	}
 
-    void ChangeTempByTime(){
+    void ChangeTempByTime(int hours){
 		float value;
-		if (_playerData.hourNow > 6 && _playerData.hourNow <= 18)
-			value = GameConfigs.TempChangeDay [_playerData.seasonNow] * (float)Random.Range (80, 120) / 100f;
-		else
-			value = GameConfigs.TempChangeNight[_playerData.seasonNow] * (float)Random.Range(80, 120) / 100f;
+        if (_playerData.hourNow > 6 && _playerData.hourNow <= 18)
+            value = Mathf.Clamp(GameConfigs.TempChangeDay[_playerData.seasonNow] * (float)Random.Range(80, 120) / 100f * hours, -5.0f, 5.0f);
+        else
+            value = Mathf.Clamp(GameConfigs.TempChangeNight[_playerData.seasonNow] * (float)Random.Range(80, 120) / 100f * hours, -5.0f, 5.0f);
 
 		ChangeProperty (10, value);
     }

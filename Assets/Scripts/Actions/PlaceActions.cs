@@ -366,18 +366,18 @@ public class PlaceActions : MonoBehaviour {
             {
                 r3 = -Algorithms.GetIndexByRange(1, 5);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("不小心踩到了陷阱，生命-" + r3);
+                _logManager.AddLog("不小心踩到了陷阱，生命" + r3);
             }
             else if (r2 < 18)
             {
                 r3 = -Algorithms.GetIndexByRange(3, 7);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("打开宝箱，一股腐败气息铺面而来，生命-" + r3 );
+                _logManager.AddLog("打开宝箱，一股腐败气息铺面而来，生命" + r3 );
             }
             else if (r2 < 20) {
                 r3 = -Algorithms.GetIndexByRange (4, 8);
                 _gameData.ChangeProperty (0, r3);
-                _logManager.AddLog("你遭到莫名的袭击，生命-" + r3);
+                _logManager.AddLog("你遭到莫名的袭击，生命" + r3);
             }  
 
             //******************************************恢复精神**********
@@ -401,12 +401,12 @@ public class PlaceActions : MonoBehaviour {
             else if (r2 < 35) {
 				r3 = -Algorithms.GetIndexByRange (1, 4);
 				_gameData.ChangeProperty (2, r3);
-				_logManager.AddLog("你感到一阵头晕目眩，精神-" + r3 );
+				_logManager.AddLog("你感到一阵头晕目眩，精神" + r3 );
 			}
 			else if (r2 < 40) {
 				r3 = -Algorithms.GetIndexByRange (3, 6);
 				_gameData.ChangeProperty (2, r3);
-				_logManager.AddLog("你受到恶魔雕像的惊吓，精神-" + r3 );
+				_logManager.AddLog("你受到恶魔雕像的惊吓，精神" + r3 );
 			}
 
 			//******************************************恢复食物**********
@@ -447,19 +447,19 @@ public class PlaceActions : MonoBehaviour {
 			else if (r2 < 70) {
 				r3 = Algorithms.GetIndexByRange (2, 5);
 				_gameData.ChangeProperty (10, r3);
-				_gameData.ChangeProperty(0, r3);
+				_gameData.ChangeProperty(0, -r3);
 				_logManager.AddLog("地面突然冒出一团岩浆，温度+" + r3 + " ,生命-" + r3);
 			} 
 			else if (r2 < 75) {
 				r3 = -Algorithms.GetIndexByRange (1, 4);
 				_gameData.ChangeProperty (10, r3);
-				_logManager.AddLog("路过冰面，摔了一跤，温度-" + r3 );
+				_logManager.AddLog("路过冰面，摔了一跤，温度" + r3 );
 			} 
 			else if (r2 < 80) {
 				r3 = -Algorithms.GetIndexByRange (1, 4);
 				_gameData.ChangeProperty (10, r3);
 				_gameData.ChangeProperty(2, r3);
-				_logManager.AddLog("一阵刺骨的阴风吹过，温度-" + r3 + " ,精神-" + r3 );
+				_logManager.AddLog("一阵刺骨的阴风吹过，温度" + r3 + " ,精神" + r3 );
 			} 
 
 			//******************************************特殊回复**********
@@ -634,12 +634,12 @@ public class PlaceActions : MonoBehaviour {
             {
                 r3 = -Algorithms.GetIndexByRange(1, 5);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("不小心踩到了陷阱，生命-" + r3);
+                _logManager.AddLog("不小心踩到了陷阱，生命" + r3);
             }
             else if (r2 < 20) {
                 r3 = -Algorithms.GetIndexByRange (4, 8);
                 _gameData.ChangeProperty (0, r3);
-                _logManager.AddLog("你碰到了时空裂缝，生命-" + r3);
+                _logManager.AddLog("你碰到了时空裂缝，生命" + r3);
             }  
             else if (r2 < 24) {
                 r3 = Algorithms.GetIndexByRange (5, 10);
@@ -656,7 +656,7 @@ public class PlaceActions : MonoBehaviour {
             else if (r2 < 40) {
                 r3 = -Algorithms.GetIndexByRange (1, 4);
                 _gameData.ChangeProperty (2, r3);
-                _logManager.AddLog("你感到一阵头晕目眩，精神-" + r3 );
+                _logManager.AddLog("你感到一阵头晕目眩，精神" + r3 );
             }
             //******************************************恢复食物**********
             else if (r2 < 43) {
@@ -685,14 +685,14 @@ public class PlaceActions : MonoBehaviour {
             else if (r2 < 70) {
                 r3 = Algorithms.GetIndexByRange (2, 5);
                 _gameData.ChangeProperty (10, r3);
-                _gameData.ChangeProperty(0, r3);
+                _gameData.ChangeProperty(0, -r3);
                 _logManager.AddLog("地面突然冒出一团热量，温度+" + r3 + " ,生命-" + r3);
             } 
             else if (r2 < 80) {
                 r3 = -Algorithms.GetIndexByRange (1, 4);
                 _gameData.ChangeProperty (10, r3);
                 _gameData.ChangeProperty(2, r3);
-                _logManager.AddLog("一阵刺骨的阴风吹过，温度-" + r3 + " ,精神-" + r3 );
+                _logManager.AddLog("一阵刺骨的阴风吹过，温度" + r3 + " ,精神" + r3 );
             } 
 
             //******************************************特殊回复**********
