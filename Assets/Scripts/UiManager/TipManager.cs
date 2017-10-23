@@ -618,7 +618,9 @@ public class TipManager : MonoBehaviour {
 	}
 
 	void SetMakingTipDesc(Mats m){
-        makingTipText[2].text = m.description;
+        makingTipText[1].text = m.description;
+        makingTipText [1].color = new Color (24f / 255f, 193f / 255f, 172f / 255f, 1f);
+        makingTipText[2].text = "属性:";
         makingTipText [2].color = new Color (24f / 255f, 193f / 255f, 172f / 255f, 1f);
 		int i = 3;
 		if (m.property != null) {

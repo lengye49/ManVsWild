@@ -41,9 +41,6 @@ public class BattleActions : MonoBehaviour {
 	private GameData _gameData;
 	private PanelManager _panelManager;
 	private FloatingActions _floating;
-//	private ArrayList logs;
-//	private int logIndex;
-//	private GameObject battleLog;
 	private float enemyMaxHp;
 	private bool isAuto;
 	private int captureFailTime;
@@ -55,9 +52,6 @@ public class BattleActions : MonoBehaviour {
 	void Start(){
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		this.gameObject.transform.localPosition = new Vector3 (-2000, 0, 0);
-//		logs = new ArrayList ();
-//		battleLog = Instantiate (Resources.Load ("battleLog")) as GameObject;
-//		battleLog.SetActive (false);
 		_panelManager = this.gameObject.GetComponentInParent<PanelManager> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 		_achieveActions = this.gameObject.GetComponentInParent<AchieveActions> ();
@@ -115,7 +109,6 @@ public class BattleActions : MonoBehaviour {
 		myNextTurn = 0;
 		enemyNextTurn = 0;
 		captureFailTime = 0;
-//		isAuto = false;
 	}
 
 	void CallOutBattlePanel(){
@@ -187,7 +180,6 @@ public class BattleActions : MonoBehaviour {
 		enemy.hp *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].hpBonus ;
 		enemyMaxHp = enemy.hp;
 		enemy.atk *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].atkBonus ;
-		Debug.Log("ThisEnemyTitleAtk = " + enemy.atk);
 		enemy.def *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].defBonus ;
 		enemy.dodge *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].dodgeBonus ;
 		enemy.speed *= (1.0f + LoadTxt.MonsterTitleDic [titleIndex].speedBonus );
@@ -230,22 +222,6 @@ public class BattleActions : MonoBehaviour {
 	/// <param name="s">S.</param>
 	/// <param name="isGood">Is good:0normal 1good 2bad.</param>
 	void AddLog(string s,int isGood){
-//		logIndex++;
-//		Text t;
-//		if (logs.Count > logIndex) {
-//			t = logs [logIndex] as Text;
-//			t.gameObject.SetActive (true);
-//		} else {
-//			GameObject o = Instantiate (battleLog) as GameObject;
-//			o.SetActive (true);
-//			t = o.GetComponent<Text> ();
-//			o.gameObject.transform.SetParent (battleLogContainer.transform);
-//			o.gameObject.transform.localPosition = Vector3.zero;
-//			o.gameObject.transform.localScale = Vector3.one;
-//			logs.Add (t);
-//		}
-
-
 		for (int i = 0; i < 8; i++) {
 			battleLogs [i].text = battleLogs [i + 1].text;
 			battleLogs [i].color = new Color (battleLogs [i + 1].color.r, battleLogs [i + 1].color.g, battleLogs [i + 1].color.b, battleLogs [i + 1].color.a - 0.1f);
@@ -258,8 +234,6 @@ public class BattleActions : MonoBehaviour {
 			battleLogs[8].color = new Color(1f,0f,0f,1f);
 		else
 			battleLogs[8].color = new Color(1f,1f,1f,1f);
-
-//		battleLogContainer.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(800,50 * logIndex);
 	}
 
 	void AutoFight(){

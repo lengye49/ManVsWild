@@ -27,9 +27,6 @@ public class HeadUiManager : MonoBehaviour {
 
 	public Text seasonNow;
 
-	public Button hotkey0;
-	public Button hotkey1;
-
 	public void UpdateHeadUI(){
 		hpNow.text = GameData._playerData.hpNow.ToString ();
 		hpMax.text = "/" + GameData._playerData.property[1];
@@ -148,27 +145,6 @@ public class HeadUiManager : MonoBehaviour {
 		}
 	}
 
-//	public void UpdateHotkeys(){
-//		if (GameData._playerData.Hotkey0 != 0) {
-//			hotkey0.gameObject.SetActive (true);
-//			hotkey0.gameObject.GetComponentInChildren<Text> ().text = LoadTxt.MatDic [(int)(GameData._playerData.Hotkey0 / 10000)].name;
-//			hotkey0.interactable = true;
-//		} else {
-//			hotkey0.gameObject.SetActive (false);
-////			hotkey0.gameObject.GetComponentInChildren<Text> ().text = "";
-////			hotkey0.interactable = false;
-//		}
-//
-//		if (GameData._playerData.Hotkey1 != 0) {
-//			hotkey1.gameObject.SetActive (true);
-//			hotkey1.gameObject.GetComponentInChildren<Text> ().text = LoadTxt.MatDic [(int)(GameData._playerData.Hotkey1 / 10000)].name;
-//			hotkey1.interactable = true;
-//		} else {
-//			hotkey1.gameObject.SetActive (false);
-////			hotkey1.gameObject.GetComponentInChildren<Text> ().text = "";
-////			hotkey1.interactable = false;
-//		}
-//	}
 
 	string GetDate(){
 		string s = "";

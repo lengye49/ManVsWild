@@ -50,35 +50,9 @@ public class LoadTxt : MonoBehaviour {
 		LoadThief ();
 		LoadAchievement ();
 		LoadDungeonTreasure ();
-
-//        CheckReward();
 	}
 		
-//    测试代码，检测怪物掉落是否正确
-//    void CheckReward(){
-//        Debug.Log("Checking Reward...");
-//        foreach (int key in MonsterDic.Keys)
-//        {
-//            string s = "This key = " + key + ", this drop = ";
-//            foreach (int k in MonsterDic[key].drop.Keys)
-//            {
-//                s += k + "," + MonsterDic[key].drop[k] + ";";
-//            }
-//            Debug.Log(s);
-//
-//            Dictionary<int,int> drop = Algorithms.GetReward(MonsterDic[key].drop);
-//            if (drop.Count > 0)
-//            {
-//                s = "Real drop is ";
-//                foreach (int k in drop.Keys)
-//                {
-//                    s += MatDic[k].name + "+" + drop[k] + ",";
-//                }
-//                s = s.Substring(0, s.Length - 1);
-//                Debug.Log(s);
-//            }
-//        }
-//    }
+
 
 
 	void LoadBuildings()
@@ -188,7 +162,6 @@ public class LoadTxt : MonoBehaviour {
 			m [i].speed = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
 			m [i].range = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
 			m [i].vitalSensibility = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
-//			Debug.Log ("This monster id = " + m [i].id);
 
 			string s = ReadTxt.GetDataByRowAndCol (strs, i + 1, 8);
 			if (s.Contains ("|")) {

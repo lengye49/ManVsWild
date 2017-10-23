@@ -15,6 +15,8 @@ public class BackpackActions : MonoBehaviour {
 	public Text AmmoNum;
 	public Text Mount;
     public Text BpNum;
+    public Text Renown;
+    public Text RenownName;
 
 	public GameObject contentB;
 	private GameObject bpCell;
@@ -33,8 +35,38 @@ public class BackpackActions : MonoBehaviour {
         BpNum.text = "(" + GameData._playerData.bp.Count + "/" + _bpNum + ")";
 		UpdateCharacter();
 		UpdateBpContent ();
+        SetRenown();
 	}
 
+    void SetRenown(){
+        int r = GameData._playerData.Renown;
+        Renown.text = r.ToString();
+        if (r < 50)
+        {
+            RenownName.text = "籍籍无名";
+            RenownName.color = GameConfigs.MatColor[0];
+        }
+        else if (r < 200)
+        {
+            RenownName.text = "小有名气";
+            RenownName.color = GameConfigs.MatColor[1];
+        }
+        else if (r < 400)
+        {
+            RenownName.text = "声名远扬";
+            RenownName.color = GameConfigs.MatColor[2];
+        }
+        else if (r < 800)
+        {
+            RenownName.text = "威名赫赫";
+            RenownName.color = GameConfigs.MatColor[3];
+        }
+        else
+        {
+            RenownName.text = "威震天下";
+            RenownName.color = GameConfigs.MatColor[4];
+        }
+    }
 
 	void UpdateCharacter(){
         

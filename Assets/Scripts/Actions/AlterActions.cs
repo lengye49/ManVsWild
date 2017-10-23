@@ -10,6 +10,7 @@ public class AlterActions : MonoBehaviour {
 	public Text memoryPoolState;
 	public Button storeButton;
 	public Button recoverButton;
+
 	private GameData _gameData;
 
 	void Start(){
@@ -53,6 +54,8 @@ public class AlterActions : MonoBehaviour {
 		_gameData.ReStartLoad ();
 		GetComponentInParent<PanelManager>().GoToPanel("Home");
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+        GameObject head = GameObject.FindGameObjectWithTag("HeadUI");
+        head.GetComponent<HeadUiManager>().UpdateHeadUI();
 	}
 		
 }
