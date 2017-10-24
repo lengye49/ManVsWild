@@ -403,7 +403,7 @@ public class PanelManager : MonoBehaviour {
 		i = Algorithms.GetResultByWeight (weight);
 		Thief _thisThief = LoadTxt.ThiefDic [ids [i]];
 
-		int antiAlert = LoadTxt.MonsterDic [_thisThief.monsterId].level;
+		int antiAlert = LoadTxt.GetMonster(_thisThief.monsterId).level;
 		int alert = GetGuardAlert ();
 
 		//发现概率
@@ -439,14 +439,14 @@ public class PanelManager : MonoBehaviour {
 	void CatchThief(Thief t){
 		
 		string s = "你获得了";
-		Dictionary<int,int> drop = Algorithms.GetReward (LoadTxt.MonsterDic [t.monsterId].drop);
+		Dictionary<int,int> drop = Algorithms.GetReward (LoadTxt.GetMonster(t.monsterId).drop);
 		foreach (int key in drop.Keys) {
 			_gameData.AddItem (key * 10000, drop [key]);
 			s += LoadTxt.MatDic [key].name + " ×" + drop [key];
 			break;
 		}
-		_logManager.AddLog (t.name + "试图盗窃，但是被守卫抓住了。" + s);
-//		Debug.Log (t.name + "试图盗窃，但是被守卫抓住了。" + s);
+		_logManager.AddLog (t.name + "试图盗窃，但是被你的守卫抓住了。" + s);
+
 		//Achievement
 		this.gameObject.GetComponentInParent<AchieveActions>().CatchThief(t.id);
 	}

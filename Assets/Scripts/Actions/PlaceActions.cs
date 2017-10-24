@@ -489,21 +489,11 @@ public class PlaceActions : MonoBehaviour {
 		ArrayList monsterList = new ArrayList ();
         if (_mapNow.id == 21)
         {
-            foreach (int key in LoadTxt.MonsterDic.Keys)
-            {
-                if (LoadTxt.MonsterDic[key].level < minLv || LoadTxt.MonsterDic[key].level > maxLv || LoadTxt.MonsterDic[key].livePlace != 1)
-                    continue;
-                monsterList.Add(LoadTxt.MonsterDic[key]);
-            }
+			monsterList = LoadTxt.GetMonster (minLv, maxLv, 1);
         }
         else if (_mapNow.id == 25)
         {
-            foreach (int key in LoadTxt.MonsterDic.Keys)
-            {
-                if (LoadTxt.MonsterDic[key].level < minLv || LoadTxt.MonsterDic[key].level > maxLv || LoadTxt.MonsterDic[key].livePlace != 2)
-                    continue;
-                monsterList.Add(LoadTxt.MonsterDic[key]);
-            }
+			monsterList = LoadTxt.GetMonster (minLv, maxLv, 2);
         }
 
 		Monster m = new Monster ();
@@ -511,7 +501,7 @@ public class PlaceActions : MonoBehaviour {
 			int index = Random.Range (0, monsterList.Count - 1);
 			m = monsterList [index] as Monster;
 		} else {
-			m = LoadTxt.MonsterDic [100];
+			m = LoadTxt.GetMonster(100);
 		}
 
 		return m;
@@ -1152,7 +1142,7 @@ public class PlaceActions : MonoBehaviour {
 		Monster[] m = new Monster[weight.Length];
 		int i = 0;
 		foreach(int key in GameConfigs.GhostDic.Keys){
-			m [i] = LoadTxt.MonsterDic [key];
+			m [i] = LoadTxt.GetMonster(key);
 			weight [i++] = GameConfigs.GhostDic [key];
 		}
 		i = Algorithms.GetResultByWeight (weight);
@@ -1342,11 +1332,11 @@ public class PlaceActions : MonoBehaviour {
 			weight [i - 1] = int.Parse (ss [1]);
 		}
 		int index = Algorithms.GetResultByWeight (weight);
-		int num = Algorithms.GetIndexByRange (1, 1 + LoadTxt.MonsterDic [ids [index]].groupNum);
+		int num = Algorithms.GetIndexByRange (1, 1 + LoadTxt.GetMonster (ids [index]).groupNum);
 
 		Monster[] m = new Monster[num];
-		for(int i=0;i<m.Length;i++)
-			m [i] = LoadTxt.MonsterDic [ids [index]];
+		for (int i = 0; i < m.Length; i++)
+			m [i] = LoadTxt.GetMonster (ids [index]);
 		_panelManager.GoToPanel ("Battle");
 
 		int r = Algorithms.GetIndexByRange(0,100);
@@ -1362,7 +1352,7 @@ public class PlaceActions : MonoBehaviour {
 			return;
 		int monsterId = int.Parse (s [3]);
 		Monster[] m = new Monster[1];
-		m [0] = LoadTxt.MonsterDic [monsterId];
+		m [0] = LoadTxt.GetMonster(monsterId);
 		Debug.Log ("Challange Monster : " + m [0].name);
 		_panelManager.GoToPanel ("Battle");
 		_battleActions.InitializeBattleField (m, false);

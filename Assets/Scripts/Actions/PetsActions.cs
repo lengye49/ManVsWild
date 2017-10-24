@@ -51,7 +51,8 @@ public class PetsActions : MonoBehaviour {
 			
 		foreach (int key in GameData._playerData.Pets.Keys) {
 			openPetCell++;
-			usedSpace += LoadTxt.MonsterDic [GameData._playerData.Pets [key].monsterId].canCapture;
+			Monster m = LoadTxt.GetMonster (GameData._playerData.Pets [key].monsterId);
+			usedSpace += m.canCapture;
 		}
 		spaceText.text = "空间(" + usedSpace + "/" + petSpace + ")";
 
@@ -87,7 +88,8 @@ public class PetsActions : MonoBehaviour {
 
 	void SetPetCellState(GameObject o,Pet p){
 		Text[] t = o.GetComponentsInChildren<Text> ();
-		t [0].text = LoadTxt.MonsterDic[p.monsterId].name;
+		Monster m = LoadTxt.GetMonster (p.monsterId);
+		t [0].text = m.name;
 		switch (p.state) {
 		case 0:
 			t [1].text = "放养";
@@ -102,7 +104,7 @@ public class PetsActions : MonoBehaviour {
 			t [1].text = "放养";
 			break;
 		}
-		t[2].text = LoadTxt.MonsterDic[p.monsterId].canCapture.ToString();
+		t[2].text = m.canCapture.ToString();
 	}
 
 	public void CallInDetail(Pet p,int index){
@@ -115,7 +117,8 @@ public class PetsActions : MonoBehaviour {
 	void UpdateDetail(){
 		Pet p = _localPet;
 		Text[] t = Detail.gameObject.GetComponentsInChildren<Text> ();
-		t [0].text = LoadTxt.MonsterDic [p.monsterId].name;
+		Monster m = LoadTxt.GetMonster (p.monsterId);
+		t [0].text = _localPet.name;
 		t [1].text = "描述";
 
 		switch (p.state) {
@@ -131,8 +134,8 @@ public class PetsActions : MonoBehaviour {
 		default:
 			break;
 		}
-		t [3].text = LoadTxt.MonsterDic [p.monsterId].canCapture.ToString ();
-		t [4].text = LoadTxt.MonsterDic [p.monsterId].name;
+		t [3].text = m.canCapture.ToString ();
+		t [4].text = m.name;
 		t [5].text = p.speed.ToString ();
 		t [6].text = p.alertness.ToString ();
 	}
@@ -211,7 +214,7 @@ public class PetsActions : MonoBehaviour {
 			RemoveMount ();
 		}
 		string s = "你屠宰了" + _localPet.name + "。";
-		Monster m = LoadTxt.MonsterDic [_localPet.monsterId];
+		Monster m = LoadTxt.GetMonster(_localPet.monsterId);
 		Dictionary<int,int> r = Algorithms.GetReward (m.drop);
 		if (r.Count > 0) {
 			foreach (int key in r.Keys) {

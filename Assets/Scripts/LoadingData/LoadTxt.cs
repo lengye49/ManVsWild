@@ -13,11 +13,128 @@ public class LoadTxt : MonoBehaviour {
 	public static Dictionary<int,Plants> PlantsDic;
 	public static Dictionary<int,Maps> MapDic;
 	public static Dictionary<int,Places> PlaceDic;
-	public static Dictionary<int,Monster> MonsterDic;
 	public static Dictionary<int,Technique> TechDic;
 	public static Dictionary<int,Thief> ThiefDic;
 	public static Dictionary<int,Achievement> AchievementDic;
 	public static Dictionary<int,DungeonTreasure> DungeonTreasureList;
+
+	public static Monster GetMonster(int mId){
+		string[][] strs = ReadTxt.ReadText("monster");
+		Monster m = new Monster();
+		for (int i = 0; i < strs.Length-1; i++) {
+			m.id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (m.id != mId)
+				continue;
+			m.name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			m.level = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
+			m.model = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+			m.spirit = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
+			m.speed = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
+			m.range = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
+			m.vitalSensibility = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
+
+			string s = ReadTxt.GetDataByRowAndCol (strs, i + 1, 8);
+			int skillId = 0;
+			if (s.Contains ("|")) {
+				string[] ss = s.Split ('|');
+				m.skillList = new Skill[ss.Length];
+				for (int j = 0; j < ss.Length; j++) {
+					skillId = int.Parse (ss [j]);
+					m.skillList [j] = GetSkill (skillId);
+				}
+			} else {
+				m.skillList = new Skill[1];
+				skillId = int.Parse (s);
+				m.skillList [0] = GetSkill (skillId);
+			}
+
+			s=ReadTxt.GetDataByRowAndCol (strs, i + 1, 9);
+			string[] s1 = s.Split('|');
+			m.bodyPart = new string[3];
+			for (int j = 0; j < m.bodyPart.Length; j++)
+				m.bodyPart [j] = s1 [j];
+
+			string[][] re = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 10));
+			m.drop = new Dictionary<int,float>();
+			if (re != null) {
+				for (int j = 0; j < re.Length; j++)
+					m.drop.Add (int.Parse (re [j] [0]), float.Parse (re [j] [1]));
+			}
+
+			m.canCapture = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 11));
+			m.groupNum = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 12));
+			m.mapOpen = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 13));
+			m.renown = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 14));
+			m.livePlace = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 15));
+			return m;
+		}
+
+		Debug.Log ("没有找到怪物--" + mId);
+		return new Monster ();
+	}
+
+	/// <summary>
+	/// 用于获取地牢的怪物，需要提供最小等级和最大等级
+	/// </summary>
+	/// <returns>The monster.</returns>
+	/// <param name="minLv">Minimum lv.</param>
+	/// <param name="maxLv">Max lv.</param>
+	public static ArrayList GetMonster(int minLv,int maxLv,int livePlace){
+		ArrayList mList = new ArrayList ();
+		string[][] strs = ReadTxt.ReadText("monster");
+		Monster m = new Monster();
+		for (int i = 0; i < strs.Length-1; i++) {
+			m.level = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
+			m.livePlace = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 15));
+			if (m.level < minLv || m.level > maxLv || m.livePlace != livePlace)
+				continue;
+
+			m.id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			m.name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			m.model = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+			m.spirit = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
+			m.speed = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
+			m.range = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
+			m.vitalSensibility = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
+
+			string s = ReadTxt.GetDataByRowAndCol (strs, i + 1, 8);
+			int skillId = 0;
+			if (s.Contains ("|")) {
+				string[] ss = s.Split ('|');
+				m.skillList = new Skill[ss.Length];
+				for (int j = 0; j < ss.Length; j++) {
+					skillId = int.Parse (ss [j]);
+					m.skillList [j] = GetSkill (skillId);
+				}
+			} else {
+				m.skillList = new Skill[1];
+				skillId = int.Parse (s);
+				m.skillList [0] = GetSkill (skillId);
+			}
+
+			s=ReadTxt.GetDataByRowAndCol (strs, i + 1, 9);
+			string[] s1 = s.Split('|');
+			m.bodyPart = new string[3];
+			for (int j = 0; j < m.bodyPart.Length; j++)
+				m.bodyPart [j] = s1 [j];
+
+			string[][] re = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 10));
+			m.drop = new Dictionary<int,float>();
+			if (re != null) {
+				for (int j = 0; j < re.Length; j++)
+					m.drop.Add (int.Parse (re [j] [0]), float.Parse (re [j] [1]));
+			}
+
+			m.canCapture = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 11));
+			m.groupNum = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 12));
+			m.mapOpen = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 13));
+			m.renown = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 14));
+			mList.Add(m);
+		}
+
+		return mList;
+	
+	}
 
 	public static MonsterTitle GetMonsterTitle(int mtId){
 		string[][] strs = ReadTxt.ReadText ("monster_title");
@@ -87,7 +204,6 @@ public class LoadTxt : MonoBehaviour {
 		PlantsDic = new Dictionary<int, Plants> ();
 		MapDic = new Dictionary<int, Maps> ();
 		PlaceDic = new Dictionary<int, Places> ();
-		MonsterDic = new Dictionary<int, Monster> ();
 		TechDic = new Dictionary<int, Technique> ();
 		ThiefDic = new Dictionary<int, Thief> ();
 		AchievementDic = new Dictionary<int, Achievement> ();
@@ -98,7 +214,6 @@ public class LoadTxt : MonoBehaviour {
 		LoadPlants ();
 		LoadMaps ();
 		LoadTech ();
-		LoadMonster ();
 		LoadExtra ();
 		LoadThief ();
 		LoadAchievement ();
@@ -199,57 +314,6 @@ public class LoadTxt : MonoBehaviour {
 			mats [i].quality = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 13));
             mats [i].description = ReadTxt.GetDataByRowAndCol (strs, i + 1, 14);
 			MatDic.Add (mats [i].id, mats [i]);
-		}
-	}
-
-	void LoadMonster(){
-		string[][] strs = ReadTxt.ReadText("monster");
-		Monster[] m = new Monster[strs.Length-1];
-		for (int i = 0; i < m.Length; i++) {
-			m [i] = new Monster ();
-			m [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-			m [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
-			m [i].level = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
-			m [i].model = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
-			m [i].spirit = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
-			m [i].speed = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
-			m [i].range = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
-			m [i].vitalSensibility = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
-
-			string s = ReadTxt.GetDataByRowAndCol (strs, i + 1, 8);
-			int skillId = 0;
-			if (s.Contains ("|")) {
-				string[] ss = s.Split ('|');
-				m [i].skillList = new Skill[ss.Length];
-				for (int j = 0; j < ss.Length; j++) {
-					skillId = int.Parse (ss [j]);
-					m [i].skillList [j] = GetSkill (skillId);
-				}
-			} else {
-				m [i].skillList = new Skill[1];
-				skillId = int.Parse (s);
-				m [i].skillList [0] = GetSkill (skillId);
-			}
-
-			s=ReadTxt.GetDataByRowAndCol (strs, i + 1, 9);
-			string[] s1 = s.Split('|');
-			m [i].bodyPart = new string[3];
-			for (int j = 0; j < m [i].bodyPart.Length; j++)
-				m [i].bodyPart [j] = s1 [j];
-
-			string[][] re = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 10));
-            m[i].drop = new Dictionary<int,float>();
-			if (re != null) {
-				for (int j = 0; j < re.Length; j++)
-					m [i].drop.Add (int.Parse (re [j] [0]), float.Parse (re [j] [1]));
-			}
-
-			m [i].canCapture = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 11));
-			m [i].groupNum = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 12));
-			m [i].mapOpen = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 13));
-			m [i].renown = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 14));
-            m[i].livePlace = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 15));
-			MonsterDic.Add (m [i].id, m [i]);
 		}
 	}
 

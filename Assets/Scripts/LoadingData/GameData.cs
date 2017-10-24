@@ -1094,7 +1094,7 @@ public class GameData : MonoBehaviour {
 	public int GetUsedPetSpace(){
 		int usedPetSpace = 0;
 		foreach (int key in GameData._playerData.Pets.Keys) {
-			usedPetSpace += LoadTxt.MonsterDic [GameData._playerData.Pets [key].monsterId].canCapture;
+			usedPetSpace += LoadTxt.GetMonster(GameData._playerData.Pets [key].monsterId).canCapture;
 		}
 		return usedPetSpace;
 	}
