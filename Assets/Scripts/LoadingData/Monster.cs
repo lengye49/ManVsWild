@@ -10,7 +10,7 @@ public class Monster {
 	public float speed;
 	public float range;
 	public int vitalSensibility;
-	public int[] skills;
+	public Skill[] skillList;
 	public string[] bodyPart;
 	public Dictionary<int,float> drop;
 	public int canCapture;
@@ -45,7 +45,7 @@ public class Unit{
 	public float dodge;
 	public float speed;
 	public float range;
-	public int[] skills;
+	public Skill[] skillList;
 	public Dictionary<int,float> drop;
 	public int vitalSensibility;
 	public string hit_Body;
@@ -92,3 +92,4 @@ public class SkillEffect{
 	public int type;
 	public int param;
 }
+

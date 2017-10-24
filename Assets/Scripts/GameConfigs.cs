@@ -117,4 +117,6 @@ public class GameConfigs{
     //温度变化 春夏秋冬
     public static float[] TempChangeDay = {0.2f,1f,0.2f,-0.5f};
     public static float[] TempChangeNight = { -0.2f, 0.5f, -0.2f, -1f };
+
+	public static int MonsterTitleCount = 11;
 }

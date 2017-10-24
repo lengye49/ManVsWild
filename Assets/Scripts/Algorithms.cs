@@ -78,10 +78,10 @@ public class Algorithms  {
 			return 1;
 	}
 
-	public static int CalculateDamage(float atk, float def, int skillId, int hitRate,bool isMyAtk){
+	public static int CalculateDamage(float atk, float def, Skill s, int hitRate,bool isMyAtk){
 		float dam = atk * (1 - def / (GameConfigs.defParam + def));
 		if (!isMyAtk) {
-			dam *= (LoadTxt.skillDic [skillId].power / 100f);
+			dam *= (s.power / 100f);
 		}
 		return (int)dam;
 	}

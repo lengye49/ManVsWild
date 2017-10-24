@@ -93,7 +93,7 @@ public class BattleActions : MonoBehaviour {
 		int r = Random.Range(0, 999);
 		if (r > 900)
 		{
-			int titleIndex = Algorithms.GetIndexByRange(0, LoadTxt.MonsterTitleDic.Count - 1);
+			int titleIndex = Algorithms.GetIndexByRange(0, GameConfigs.MonsterTitleCount - 1);
 			GetEnemyProperty(thisMonsters[thisEnemyIndex - 1], titleIndex);
 		}
 		else
@@ -152,18 +152,20 @@ public class BattleActions : MonoBehaviour {
 		enemy.name = m.name;
 		enemy.level = m.level;
 
-		enemy.hp = LoadTxt.MonsterModelDic [m.model].hp + LoadTxt.MonsterModelDic [m.model].hp_inc * (m.level - 1);
+		MonsterModel md = LoadTxt.GetMonsterModel (m.model);
+
+		enemy.hp = md.hp + md.hp_inc * (m.level - 1);
 		enemyMaxHp = enemy.hp;
 		enemy.spirit = m.spirit;
-		enemy.atk = LoadTxt.MonsterModelDic [m.model].atk + LoadTxt.MonsterModelDic [m.model].atk_inc * (m.level - 1);
+		enemy.atk = md.atk + md.atk_inc * (m.level - 1);
 		Debug.Log("ThisEnemyInitAtk = " + enemy.atk);
-		enemy.def = LoadTxt.MonsterModelDic [m.model].def + LoadTxt.MonsterModelDic [m.model].def_inc * (m.level - 1);
-		enemy.hit = LoadTxt.MonsterModelDic [m.model].hit;
-		enemy.dodge = LoadTxt.MonsterModelDic [m.model].dodge;
+		enemy.def = md.def + md.def_inc * (m.level - 1);
+		enemy.hit = md.hit;
+		enemy.dodge = md.dodge;
 		enemy.speed = m.speed;
 		enemy.range = m.range;
 		enemy.castSpeedBonus = 0;
-		enemy.skills = m.skills;
+		enemy.skillList = m.skillList;
 		enemy.drop = m.drop;
 		enemy.vitalSensibility = m.vitalSensibility;
 		enemy.hit_Body = m.bodyPart[0];
@@ -176,14 +178,15 @@ public class BattleActions : MonoBehaviour {
 
 	void GetEnemyProperty(Monster m,int titleIndex){
 		GetEnemyProperty(m);
-		enemy.name +=  "[" + LoadTxt.MonsterTitleDic [titleIndex].title + "]";
-		enemy.hp *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].hpBonus ;
+		MonsterTitle mt = LoadTxt.GetMonsterTitle (titleIndex);
+		enemy.name +=  "[" + mt.title + "]";
+		enemy.hp *= 1.0f + mt.hpBonus ;
 		enemyMaxHp = enemy.hp;
-		enemy.atk *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].atkBonus ;
-		enemy.def *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].defBonus ;
-		enemy.dodge *= 1.0f + LoadTxt.MonsterTitleDic [titleIndex].dodgeBonus ;
-		enemy.speed *= (1.0f + LoadTxt.MonsterTitleDic [titleIndex].speedBonus );
-		enemy.castSpeedBonus = LoadTxt.MonsterTitleDic [titleIndex].attSpeedBonus ;
+		enemy.atk *= 1.0f + mt.atkBonus ;
+		enemy.def *= 1.0f + mt.defBonus ;
+		enemy.dodge *= 1.0f + mt.dodgeBonus ;
+		enemy.speed *= (1.0f + mt.speedBonus );
+		enemy.castSpeedBonus = mt.attSpeedBonus;
 	}
 
 	void ResetPanel(){
@@ -283,11 +286,11 @@ public class BattleActions : MonoBehaviour {
 		SetActions ();
 	}
 
-	void Fight(int skillId){
-		AddEffect (LoadTxt.skillDic [skillId], true,0);
+	void Fight(Skill s){
+		AddEffect (s, true,0);
 	}
 
-	void Fight(float hit,float dodge,float vitalSensibility,float spirit,float atk,float def,int skillId,bool isMyAtk){
+	void Fight(float hit,float dodge,float vitalSensibility,float spirit,float atk,float def,Skill s,bool isMyAtk){
 		int hitRate = Algorithms.IsDodgeOrCrit (hit, dodge, vitalSensibility, spirit);
 		string hitPart = "";
 		if (hitRate == 0) {
@@ -300,19 +303,19 @@ public class BattleActions : MonoBehaviour {
 			hitPart = isMyAtk ? GetHitPart (enemy.hit_Vital) : "头部";
 		}
 
-		int dam = Algorithms.CalculateDamage (atk, def, skillId, hitRate,isMyAtk);
+		int dam = Algorithms.CalculateDamage (atk, def, s, hitRate,isMyAtk);
 		Debug.Log ("Atk = " + atk + ", Dam = " + dam);
 
 		if (isMyAtk) {
 			enemy.hp -= dam;
 			SetEnemyHpSlider ();
-			if(skillId>0)
-				AddEffect (LoadTxt.skillDic [skillId], isMyAtk, dam);
+//			if(s>0)
+//				AddEffect (LoadTxt.skillDic [skillId], isMyAtk, dam);
 			AddLog ("你击中了" + enemy.name + "的" + hitPart + "，造成"+dam+"点伤害。", 0);
 		} else {
 			_gameData.ChangeProperty (0, -dam);
 			SetMyHpSlider ();
-			AddEffect (LoadTxt.skillDic [skillId], isMyAtk, dam);
+			AddEffect (s, isMyAtk, dam);
 			AddLog (enemy.name + "击中了你的" + hitPart + "，造成"+dam+"点伤害。", 0);
 		}
 
@@ -570,15 +573,15 @@ public class BattleActions : MonoBehaviour {
 	}
 
 	public void MeleeFight(){
-		int skillId = LoadTxt.MatDic [(int)(GameData._playerData.MeleeId/10000)].skillId;
+//		int skillId = LoadTxt.MatDic [(int)(GameData._playerData.MeleeId/10000)].skillId;
 		myNextTurn += GameData._playerData.property [21];
 		SetPoint ();
-		Fight (GameData._playerData.property [16], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], GameData._playerData.property [13], enemy.def, skillId, true);
+		Fight (GameData._playerData.property [16], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], GameData._playerData.property [13], enemy.def, new Skill(), true);
 		//Achievement
 		_achieveActions.Fight ("Melee");
 	}
 	public void RangedFight(){
-		int skillId = LoadTxt.MatDic [(int)(GameData._playerData.RangedId/10000)].skillId;
+//		int skillId = LoadTxt.MatDic [(int)(GameData._playerData.RangedId/10000)].skillId;
 		myNextTurn += GameData._playerData.property [22];
 
 		float att = GameData._playerData.property [14];
@@ -591,7 +594,7 @@ public class BattleActions : MonoBehaviour {
 			att += LoadTxt.MatDic [ammoId].property [14];
 		
 		SetPoint ();
-		Fight (GameData._playerData.property [17], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], att, enemy.def, skillId, true);
+		Fight (GameData._playerData.property [17], enemy.dodge, enemy.vitalSensibility, GameData._playerData.property [2], att, enemy.def, new Skill(), true);
 
 		GameData._playerData.AmmoNum--;
 		_gameData.StoreData ("AmmoNum", GameData._playerData.AmmoNum);
@@ -639,7 +642,7 @@ public class BattleActions : MonoBehaviour {
 		myNextTurn++;
 		SetPoint ();
 		float rate = 0.2f - enemy.level / 100 * 0.5f;
-		Debug.Log ("Capture Rate = " + rate);
+
 		rate *= GameData._playerData.CaptureRate;
 		int i = Algorithms.GetIndexByRange (0, 10000);
 		if (i < (int)(rate * 10000)) {
@@ -670,10 +673,10 @@ public class BattleActions : MonoBehaviour {
 	}
 
 	void EnemyCastSkill(){
-		int index = Algorithms.GetIndexByRange (0, enemy.skills.Length);
-		enemyNextTurn += LoadTxt.skillDic [enemy.skills [index]].castSpeed * (1 - enemy.castSpeedBonus);
+		int index = Algorithms.GetIndexByRange (0, enemy.skillList.Length);
+		enemyNextTurn += enemy.skillList[index].castSpeed * (1 - enemy.castSpeedBonus);
 		SetPoint ();
-		Fight (enemy.hit, GameData._playerData.property [18], 90, enemy.spirit, enemy.atk, GameData._playerData.property [15], enemy.skills [index], false);
+		Fight (enemy.hit, GameData._playerData.property [18], 90, enemy.spirit, enemy.atk, GameData._playerData.property [15], enemy.skillList [index], false);
 	}
 
 	public void OnAuto(){

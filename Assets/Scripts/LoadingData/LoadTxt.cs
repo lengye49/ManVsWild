@@ -14,14 +14,71 @@ public class LoadTxt : MonoBehaviour {
 	public static Dictionary<int,Maps> MapDic;
 	public static Dictionary<int,Places> PlaceDic;
 	public static Dictionary<int,Monster> MonsterDic;
-	public static Dictionary<int,MonsterModel> MonsterModelDic;
-	public static Dictionary<int,MonsterTitle> MonsterTitleDic;
-	public static Dictionary<int,Skill> skillDic;//3
-	public static Dictionary<int,SkillEffect> SkillEffectDic;//4
 	public static Dictionary<int,Technique> TechDic;
 	public static Dictionary<int,Thief> ThiefDic;
 	public static Dictionary<int,Achievement> AchievementDic;
 	public static Dictionary<int,DungeonTreasure> DungeonTreasureList;
+
+	public static MonsterTitle GetMonsterTitle(int mtId){
+		string[][] strs = ReadTxt.ReadText ("monster_title");
+		MonsterTitle mt = new MonsterTitle();
+		for (int i = 0; i < strs.Length-1; i++) {
+			mt.id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (mt.id != mtId)
+				continue;
+			mt.title = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			mt.hpBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
+			mt.atkBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+			mt.defBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
+			mt.attSpeedBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
+			mt.speedBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
+			mt.dodgeBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
+			return mt;
+		}
+		Debug.Log ("没有找到怪物后缀--" + mtId);
+		return new MonsterTitle ();
+	}
+
+
+	public static MonsterModel GetMonsterModel(int mdId){
+		string[][] strs = ReadTxt.ReadText ("monster_model");
+		MonsterModel mm = new MonsterModel();
+		for (int i = 0; i < strs.Length -1; i++) {
+			mm.modelType = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (mm.modelType != mdId)
+				continue;
+			mm.hp = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
+			mm.hp_inc = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
+			mm.atk = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+			mm.atk_inc = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
+			mm.def = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
+			mm.def_inc = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
+			mm.hit = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
+			mm.dodge = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 8));
+			return mm;
+		}
+		Debug.Log ("没有找到怪物模板--" + mdId);
+		return new MonsterModel ();
+	}
+
+	public static Skill GetSkill(int skillId){
+		string[][] strs = ReadTxt.ReadText ("skill");
+		Skill s = new Skill();
+		for (int i = 0; i < strs.Length-1; i++) {
+			s.id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (s.id != skillId)
+				continue;
+			s.name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			s.target = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
+			s.power = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+			s.effectId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
+			s.effectProp = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
+			s.castSpeed = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
+			return s;
+		}
+		Debug.Log ("没有找到技能--" + skillId);
+		return new Skill ();
+	}
 
 	void Awake () {
 		MatDic = new Dictionary<int, Mats> ();
@@ -31,10 +88,6 @@ public class LoadTxt : MonoBehaviour {
 		MapDic = new Dictionary<int, Maps> ();
 		PlaceDic = new Dictionary<int, Places> ();
 		MonsterDic = new Dictionary<int, Monster> ();
-		MonsterModelDic = new Dictionary<int, MonsterModel> ();
-		MonsterTitleDic = new Dictionary<int, MonsterTitle> ();
-		skillDic = new Dictionary<int, Skill> ();
-		SkillEffectDic = new Dictionary<int, SkillEffect> ();
 		TechDic = new Dictionary<int, Technique> ();
 		ThiefDic = new Dictionary<int, Thief> ();
 		AchievementDic = new Dictionary<int, Achievement> ();
@@ -164,14 +217,18 @@ public class LoadTxt : MonoBehaviour {
 			m [i].vitalSensibility = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
 
 			string s = ReadTxt.GetDataByRowAndCol (strs, i + 1, 8);
+			int skillId = 0;
 			if (s.Contains ("|")) {
 				string[] ss = s.Split ('|');
-				m [i].skills = new int[ss.Length];
-				for (int j = 0; j < ss.Length; j++)
-					m [i].skills [j] = int.Parse (ss [j]);
+				m [i].skillList = new Skill[ss.Length];
+				for (int j = 0; j < ss.Length; j++) {
+					skillId = int.Parse (ss [j]);
+					m [i].skillList [j] = GetSkill (skillId);
+				}
 			} else {
-				m [i].skills = new int[1];
-				m [i].skills [0] = int.Parse (s);
+				m [i].skillList = new Skill[1];
+				skillId = int.Parse (s);
+				m [i].skillList [0] = GetSkill (skillId);
 			}
 
 			s=ReadTxt.GetDataByRowAndCol (strs, i + 1, 9);
@@ -193,53 +250,6 @@ public class LoadTxt : MonoBehaviour {
 			m [i].renown = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 14));
             m[i].livePlace = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 15));
 			MonsterDic.Add (m [i].id, m [i]);
-		}
-
-		strs = ReadTxt.ReadText ("monster_title");
-		MonsterTitle[] mt = new MonsterTitle[strs.Length - 1];
-		for (int i = 0; i < mt.Length; i++) {
-			mt [i] = new MonsterTitle ();
-			mt [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-			mt [i].title = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
-			mt [i].hpBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
-			mt [i].atkBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
-			mt [i].defBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
-			mt [i].attSpeedBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
-			mt [i].speedBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
-			mt [i].dodgeBonus = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
-
-			MonsterTitleDic.Add (mt [i].id, mt [i]);
-		}
-
-		strs = ReadTxt.ReadText ("monster_model");
-		MonsterModel[] mm = new MonsterModel[strs.Length - 1];
-		for (int i = 0; i < mm.Length; i++) {
-			mm [i] = new MonsterModel ();
-			mm [i].modelType = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-			mm [i].hp = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
-			mm [i].hp_inc = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
-			mm [i].atk = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
-			mm [i].atk_inc = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
-			mm [i].def = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
-			mm [i].def_inc = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
-			mm [i].hit = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
-			mm [i].dodge = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 8));
-			MonsterModelDic.Add (mm [i].modelType, mm [i]);
-		}
-
-		strs = ReadTxt.ReadText ("skill");
-		Skill[] skills = new Skill[strs.Length - 1];
-		for (int i = 0; i < skills.Length; i++) {
-			skills [i] = new Skill ();
-			skills[i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-			skills[i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
-			skills[i].target = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
-			skills[i].power = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
-			skills[i].effectId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
-			skills[i].effectProp = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
-			skills[i].castSpeed = float.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
-
-			skillDic.Add (skills [i].id, skills [i]);
 		}
 	}
 
