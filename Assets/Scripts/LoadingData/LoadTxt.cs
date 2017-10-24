@@ -8,15 +8,100 @@ public class LoadTxt : MonoBehaviour {
 	public static Mats[] mats;
 
 	public static Dictionary<int,Mats> MatDic;
-	public static Dictionary<int,Extra_Weapon> ExtraMelee;
-	public static Dictionary<int,Extra_Weapon> ExtraRanged;
-	public static Dictionary<int,Plants> PlantsDic;
 	public static Dictionary<int,Maps> MapDic;
 	public static Dictionary<int,Places> PlaceDic;
 	public static Dictionary<int,Technique> TechDic;
 	public static Dictionary<int,Thief> ThiefDic;
 	public static Dictionary<int,Achievement> AchievementDic;
-	public static Dictionary<int,DungeonTreasure> DungeonTreasureList;
+
+	public  static DungeonTreasure GetDungeonTreasure(int dtId){
+		string[][] strs = ReadTxt.ReadText("dungeon_treasure");
+		DungeonTreasure dt = new DungeonTreasure();
+		for (int i = 0; i < strs.Length-1; i++) {
+			dt.id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (dt.id != dtId)
+				continue;
+			string[][] p = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
+			dt.reward = new Dictionary<int, int> ();
+			for (int j = 0; j < p.Length; j++) {
+				dt.reward.Add (int.Parse (p [j] [0]), int.Parse (p [j] [1]));
+			}
+			return dt;
+		}
+		Debug.Log ("没有找到地牢宝藏--" + dtId);
+		return new DungeonTreasure ();
+	}
+
+	public static Plants GetPlant(int pId){
+		string[][] strs = ReadTxt.ReadText ("plants");
+		Plants p = new Plants();
+		for (int i = 0; i < strs.Length-1; i++) {
+			p.plantType = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (p.plantType != pId)
+				continue;
+
+			string[][] s= ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
+			if (s != null) {
+				p.plantReq = new Dictionary<int, int> ();
+				for (int j = 0; j < s.Length; j++)
+					p.plantReq.Add (int.Parse (s [j] [0]), int.Parse (s [j] [1]));
+			}
+			p.plantTime = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
+			p.plantGrowCycle = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+
+			string[][] ss = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
+			if (ss != null) {
+				p.plantObtain = new Dictionary<int, int> ();
+				for (int j = 0; j < ss.Length; j++)
+					p.plantObtain.Add (int.Parse (ss [j] [0]), int.Parse (ss [j] [1]));
+			}
+			return p;
+		}
+		Debug.Log ("没有找到种植类型--" + pId);
+		return new Plants ();
+	}
+
+	public static Extra_Weapon GetExtraRanged(int exId){
+		string[][] strs = ReadTxt.ReadText ("extra_ranged");
+		Extra_Weapon ex = new Extra_Weapon();
+		for (int i = 0; i < strs.Length-1; i++) {
+			ex.id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (ex.id != exId)
+				continue;
+
+			ex.name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			string[][] prop = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
+			if (prop != null) {
+				ex.property = new Dictionary<int, float> ();
+				for (int j = 0; j < prop.Length; j++)
+					ex.property.Add (int.Parse (prop [j] [0]), float.Parse (prop [j] [1]));
+			}
+			return ex;
+		}
+		Debug.Log ("没有找到远程武器后缀--" + exId);
+		return new Extra_Weapon ();
+	}
+
+	public static Extra_Weapon GetExtraMelee(int exId){
+		string[][] strs = ReadTxt.ReadText ("extra_melee");
+		Extra_Weapon ex = new Extra_Weapon();
+		for (int i = 0; i < strs.Length-1; i++) {
+			ex.id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (ex.id != exId)
+				continue;
+			
+			ex.name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			string[][] prop = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
+			if (prop != null) {
+				ex.property = new Dictionary<int, float> ();
+				for (int j = 0; j < prop.Length; j++)
+					ex.property.Add (int.Parse (prop [j] [0]), float.Parse (prop [j] [1]));
+			}
+			return ex;
+		}
+		Debug.Log ("没有找到近战武器后缀--" + exId);
+		return new Extra_Weapon ();
+	}
 
 	public static Monster GetMonster(int mId){
 		string[][] strs = ReadTxt.ReadText("monster");
@@ -155,8 +240,7 @@ public class LoadTxt : MonoBehaviour {
 		Debug.Log ("没有找到怪物后缀--" + mtId);
 		return new MonsterTitle ();
 	}
-
-
+		
 	public static MonsterModel GetMonsterModel(int mdId){
 		string[][] strs = ReadTxt.ReadText ("monster_model");
 		MonsterModel mm = new MonsterModel();
@@ -199,25 +283,18 @@ public class LoadTxt : MonoBehaviour {
 
 	void Awake () {
 		MatDic = new Dictionary<int, Mats> ();
-		ExtraMelee = new Dictionary<int, Extra_Weapon> ();
-		ExtraRanged = new Dictionary<int, Extra_Weapon> ();
-		PlantsDic = new Dictionary<int, Plants> ();
 		MapDic = new Dictionary<int, Maps> ();
 		PlaceDic = new Dictionary<int, Places> ();
 		TechDic = new Dictionary<int, Technique> ();
 		ThiefDic = new Dictionary<int, Thief> ();
 		AchievementDic = new Dictionary<int, Achievement> ();
-		DungeonTreasureList = new Dictionary<int, DungeonTreasure> ();
 
 		LoadBuildings ();
 		LoadMats ();
-		LoadPlants ();
 		LoadMaps ();
 		LoadTech ();
-		LoadExtra ();
 		LoadThief ();
 		LoadAchievement ();
-		LoadDungeonTreasure ();
 	}
 		
 
@@ -369,83 +446,6 @@ public class LoadTxt : MonoBehaviour {
 			AchievementDic.Add (a [i].id, a [i]);
 		}
 	}
-
-	void LoadExtra(){
-		string[][] strs = ReadTxt.ReadText ("extra_melee");
-		Extra_Weapon[] ex = new Extra_Weapon[strs.Length - 1];
-		for (int i = 0; i < ex.Length; i++) {
-			ex [i] = new Extra_Weapon ();
-			ex [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-			ex [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
-			string[][] prop = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
-			if (prop != null) {
-				ex [i].property = new Dictionary<int, float> ();
-				for (int j = 0; j < prop.Length; j++)
-					ex [i].property.Add (int.Parse (prop [j] [0]), float.Parse (prop [j] [1]));
-			}
-
-			ExtraMelee.Add (ex [i].id, ex [i]);
-		}
-
-		strs = ReadTxt.ReadText ("extra_ranged");
-		ex = new Extra_Weapon[strs.Length - 1];
-		for (int i = 0; i < ex.Length; i++) {
-			ex [i] = new Extra_Weapon ();
-			ex [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-			ex [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
-			string[][] prop = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
-			if (prop != null) {
-				ex [i].property = new Dictionary<int, float> ();
-				for (int j = 0; j < prop.Length; j++)
-					ex [i].property.Add (int.Parse (prop [j] [0]), float.Parse (prop [j] [1]));
-			}
-
-			ExtraRanged.Add (ex [i].id, ex [i]);
-		}
-	}
-
-	void LoadDungeonTreasure(){
-		string[][] strs = ReadTxt.ReadText("dungeon_treasure");
-		DungeonTreasure[] dt = new DungeonTreasure[strs.Length - 1];
-		for (int i = 0; i < dt.Length; i++) {
-			dt [i] = new DungeonTreasure ();
-			dt [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-
-			string[][] p = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
-			dt [i].reward = new Dictionary<int, int> ();
-			for (int j = 0; j < p.Length; j++) {
-				dt [i].reward.Add (int.Parse (p [j] [0]), int.Parse (p [j] [1]));
-			}
-
-			DungeonTreasureList.Add (dt [i].id, dt [i]);
-		}
-	}
-
-	void LoadPlants(){
-		string[][] strs = ReadTxt.ReadText ("plants");
-		Plants[] p = new Plants[strs.Length - 1];
-		for (int i = 0; i < p.Length; i++) {
-			p [i] = new Plants ();
-			p [i].plantType = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-			string[][] s= ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
-			if (s != null) {
-				p [i].plantReq = new Dictionary<int, int> ();
-				for (int j = 0; j < s.Length; j++)
-					p [i].plantReq.Add (int.Parse (s [j] [0]), int.Parse (s [j] [1]));
-			}
-			p [i].plantTime = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
-			p [i].plantGrowCycle = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
-
-			string[][] ss = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
-			if (ss != null) {
-				p [i].plantObtain = new Dictionary<int, int> ();
-				for (int j = 0; j < ss.Length; j++)
-					p [i].plantObtain.Add (int.Parse (ss [j] [0]), int.Parse (ss [j] [1]));
-			}
-
-			PlantsDic.Add (p [i].plantType, p [i]);
-		}
-	}		
 		
 	void LoadMaps(){
 		string[][] strs = ReadTxt.ReadText ("maps");

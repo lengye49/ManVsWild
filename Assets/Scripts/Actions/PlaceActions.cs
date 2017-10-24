@@ -316,7 +316,7 @@ public class PlaceActions : MonoBehaviour {
         Debug.Log(r);
 		if (r < 10) {
 			int r4 = (int)(dungeonLevel / 10) + 1;
-			int matId = Algorithms.GetResultByDic (LoadTxt.DungeonTreasureList [r4].reward);
+			int matId = Algorithms.GetResultByDic (LoadTxt.GetDungeonTreasure(r4).reward);
 			int num = 1;
 			if (LoadTxt.MatDic [matId].price < 100) {
 				num = Algorithms.GetIndexByRange (1, 4);
@@ -574,7 +574,7 @@ public class PlaceActions : MonoBehaviour {
         Debug.Log(r);
         if (r < 0) {
             int r4 = (int)(dungeonLevel / 10) + 1;
-            int matId = Algorithms.GetResultByDic (LoadTxt.DungeonTreasureList [r4].reward);
+			int matId = Algorithms.GetResultByDic (LoadTxt.GetDungeonTreasure(r4).reward);
             int num = 1;
             if (LoadTxt.MatDic [matId].price < 100) {
                 num = Algorithms.GetIndexByRange (1, 4);

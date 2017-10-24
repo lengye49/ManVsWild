@@ -933,13 +933,13 @@ public class GameData : MonoBehaviour {
 		}
 		int extra = (int)((id % 10000) / 1000);
 		if (LoadTxt.MatDic [(int)(id / 10000)].type == 3) {
-			Extra_Weapon ew = LoadTxt.ExtraMelee [extra];
+			Extra_Weapon ew = LoadTxt.GetExtraMelee(extra);
 			foreach (int key in ew.property.Keys) {
 				_playerData.property [key] += ew.property [key];
 			}
 		}
 		if (LoadTxt.MatDic [(int)(id / 10000)].type != 4) {
-			Extra_Weapon ew = LoadTxt.ExtraRanged [extra];
+			Extra_Weapon ew = LoadTxt.GetExtraRanged(extra);
 			foreach (int key in ew.property.Keys) {
 				_playerData.property [key] += ew.property [key];
 			}

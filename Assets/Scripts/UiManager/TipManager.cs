@@ -883,10 +883,10 @@ public class TipManager : MonoBehaviour {
 		string itemName = m.name;
 		if (itemId % 10000 != 0) {
 			if (LoadTxt.MatDic [orgId].type == 3) {
-				itemName += "[" +LoadTxt.ExtraMelee [ex].name +"]";
+				itemName += "[" + LoadTxt.GetExtraMelee (ex).name + "]";
 			}
 			if (LoadTxt.MatDic [orgId].type == 4) {
-				itemName += "[" + LoadTxt.ExtraRanged [ex].name +"]";
+				itemName += "[" + LoadTxt.GetExtraRanged (ex).name + "]";
 			}
 		}
 
@@ -912,9 +912,10 @@ public class TipManager : MonoBehaviour {
 		float p;
 		if (itemId % 10000 != 0) {
 			if (LoadTxt.MatDic [orgId].type == 3) {
-				foreach (int key in LoadTxt.ExtraMelee[ex].property.Keys) {
+				Extra_Weapon extraM = LoadTxt.GetExtraMelee(ex);
+				foreach (int key in extraM.property.Keys) {
 					de = PlayerData.GetPropName (key)+" ";
-					p = LoadTxt.ExtraMelee [ex].property [key];
+					p = extraM.property [key];
 					de += (p > 0 ? "+" : "-");
 					if (key < 25)
 						de += p.ToString ();
@@ -930,9 +931,10 @@ public class TipManager : MonoBehaviour {
 				}
 			}
 			if (LoadTxt.MatDic [orgId].type == 4) {
-				foreach (int key in LoadTxt.ExtraRanged[ex].property.Keys) {
+				Extra_Weapon extraR = LoadTxt.GetExtraRanged (ex);
+				foreach (int key in extraR.property.Keys) {
 					de = PlayerData.GetPropName (key)+" ";
-					p = LoadTxt.ExtraRanged [ex].property [key];
+					p = extraR.property [key];
 					de += (p > 0 ? "+" : "-");
 					if (key < 25)
 						de += p.ToString ();

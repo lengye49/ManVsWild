@@ -69,6 +69,7 @@ public class FarmActions : MonoBehaviour {
 	void SetFarmState(GameObject o, FarmState f,int j,int key){
 		Text[] t = o.GetComponentsInChildren<Text> ();
 		Button b = o.GetComponentInChildren<Button> ();
+		Plants p = LoadTxt.GetPlant (f.plantType);
 
 		if (f.plantType==0)
 			t[0].text = "农田";
@@ -92,7 +93,7 @@ public class FarmActions : MonoBehaviour {
 			b.name = key.ToString()+"|Prepare";
 			t [3].text = "准备";
 		} else {
-			bool isMature = IsMature (f.plantTime, LoadTxt.PlantsDic [f.plantType]);
+			bool isMature = IsMature (f.plantTime, p);
 			t [1].text = isMature ? "(收获)" : "(等待)";
 			t [1].color = isMature ? Color.green : Color.black;
 			if (isMature) {
@@ -111,7 +112,7 @@ public class FarmActions : MonoBehaviour {
 				b.name = key.ToString()+"|Charge";
 				t [3].text = "收获";
 			} else {
-				t [2].text = "Time left : " + GetLeftTime (f.plantTime, LoadTxt.PlantsDic [f.plantType]);
+				t [2].text = "Time left : " + GetLeftTime (f.plantTime, p);
 				b .interactable = false;
 				b .name = key.ToString()+"|Charge";
 				t [3].text = "收获";
@@ -143,7 +144,7 @@ public class FarmActions : MonoBehaviour {
 
 	public void ChargeCrop(int index){
 		Dictionary<int,int> r = new Dictionary<int, int> ();
-		Plants p = LoadTxt.PlantsDic [GameData._playerData.Farms [index].plantType];
+		Plants p = LoadTxt.GetPlant (GameData._playerData.Farms [index].plantType);
 		int num;
 		switch (p.plantType) {
 		case 0:
@@ -199,7 +200,8 @@ public class FarmActions : MonoBehaviour {
         int i = 2;
         bool canPrepare = true;
 
-        Dictionary<int,int> d = LoadTxt.PlantsDic[plantType].plantReq;
+		Plants p = LoadTxt.GetPlant(plantType);
+		Dictionary<int,int> d = p.plantReq;
         foreach (int key in d.Keys) {
             t[i].text= LoadTxt.MatDic [key].name + " ×" + d [key];
             if (_gameData.CountInBp(key) < d[key])
@@ -213,35 +215,33 @@ public class FarmActions : MonoBehaviour {
         }
         plantingTip.GetComponentInChildren<Button>().interactable = canPrepare;
 
-		t[5].text= LoadTxt.PlantsDic [plantType].plantTime + " 时";
-		t[7].text = LoadTxt.PlantsDic[plantType].plantGrowCycle + " 天";
+		t[5].text= p.plantTime + " 时";
+		t[7].text = p.plantGrowCycle + " 天";
 		t[8].text= "准备";
 	}
 
 	public void Prepare(){
-        
-
-
 		int index = int.Parse (plantingTip.gameObject.name);
 		int plantType = GameData._playerData.Farms [index].plantType;;
+		Plants p = LoadTxt.GetPlant (plantType);
 
-        foreach (int key in LoadTxt.PlantsDic[plantType].plantReq.Keys)
+		foreach (int key in p.plantReq.Keys)
         {
-            if (_gameData.CountInBp(key) < LoadTxt.PlantsDic[plantType].plantReq[key])
+			if (_gameData.CountInBp(key) < p.plantReq[key])
                 return;
         }
             
         int t = _loading.CallInLoadingBar(60);
 
-        StartCoroutine(GetPrepared(plantType, index, t));
+		StartCoroutine(GetPrepared(p, index, t));
 	}
 
-    IEnumerator GetPrepared(int plantType,int index,int waitTime){
+	IEnumerator GetPrepared(Plants p,int index,int waitTime){
         yield return new WaitForSeconds(waitTime);
 
-        _gameData.ChangeTime (LoadTxt.PlantsDic [plantType].plantTime * 60);
-        foreach (int key in LoadTxt.PlantsDic[plantType].plantReq.Keys) {
-            _gameData.ConsumeItem (key, LoadTxt.PlantsDic [plantType].plantReq [key]);
+		_gameData.ChangeTime (p.plantTime * 60);
+		foreach (int key in p.plantReq.Keys) {
+			_gameData.ConsumeItem (key, p.plantReq [key]);
         }
         GameData._playerData.Farms [index].plantTime = GameData._playerData.minutesPassed;
         CallOutPlantingTip ();
