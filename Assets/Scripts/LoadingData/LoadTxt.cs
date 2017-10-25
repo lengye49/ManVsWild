@@ -4,15 +4,76 @@ using System.Collections.Generic;
 
 public class LoadTxt : MonoBehaviour {
 
-	public static Building[] buildings;
 	public static Mats[] mats;
 
 	public static Dictionary<int,Mats> MatDic;
 	public static Dictionary<int,Maps> MapDic;
 	public static Dictionary<int,Places> PlaceDic;
-	public static Dictionary<int,Technique> TechDic;
-	public static Dictionary<int,Thief> ThiefDic;
-	public static Dictionary<int,Achievement> AchievementDic;
+
+	void Awake () {
+		MatDic = new Dictionary<int, Mats> ();
+		MapDic = new Dictionary<int, Maps> ();
+		PlaceDic = new Dictionary<int, Places> ();
+
+		LoadMats ();
+		LoadMaps ();
+	}
+
+	public static Thief[] GetThiefList(){
+		string[][] strs = ReadTxt.ReadText("thief");
+		Thief[] t = new Thief[strs.Length-1];
+		for (int i = 0; i < strs.Length; i++) {
+			t[i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			t[i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			t[i].monsterId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
+			t[i].weight = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+		}
+		return t;
+	}
+
+	public static Thief GetThief(int tId){
+		string[][] strs = ReadTxt.ReadText("thief");
+		Thief t = new Thief();
+		for (int i = 0; i < strs.Length; i++) {
+			t.id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (t.id != tId)
+				continue;
+			t.name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			t.monsterId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
+			t.weight = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+			return t;
+		}
+		Debug.Log ("没有找到盗贼--" + tId);
+		return new Thief ();
+	}
+
+	public static Achievement[] GetAllAchievement(){
+		string[][] strs = ReadTxt.ReadText ("achievement");
+		Achievement[] a = new Achievement[strs.Length-1];
+		for (int i = 0; i < strs.Length-1; i++) {
+			a[i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			a[i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			a[i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
+			a[i].req = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+		}
+		return a;
+	}
+
+	public static Achievement GetAchievement(int acId){
+		string[][] strs = ReadTxt.ReadText ("achievement");
+		Achievement a = new Achievement();
+		for (int i = 0; i < strs.Length-1; i++) {
+			a.id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (a.id != acId)
+				continue;
+			a.name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			a.desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
+			a.req = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+			return a;
+		}
+		Debug.Log ("没有找到成就--" + acId);
+		return new Achievement ();
+	}
 
 	public  static DungeonTreasure GetDungeonTreasure(int dtId){
 		string[][] strs = ReadTxt.ReadText("dungeon_treasure");
@@ -281,82 +342,28 @@ public class LoadTxt : MonoBehaviour {
 		return new Skill ();
 	}
 
-	void Awake () {
-		MatDic = new Dictionary<int, Mats> ();
-		MapDic = new Dictionary<int, Maps> ();
-		PlaceDic = new Dictionary<int, Places> ();
-		TechDic = new Dictionary<int, Technique> ();
-		ThiefDic = new Dictionary<int, Thief> ();
-		AchievementDic = new Dictionary<int, Achievement> ();
-
-		LoadBuildings ();
-		LoadMats ();
-		LoadMaps ();
-		LoadTech ();
-		LoadThief ();
-		LoadAchievement ();
-	}
-		
-
-
-
-	void LoadBuildings()
-	{
+	public static Building GetBuilding(string bName,int lv){
 		string[][] strs = ReadTxt.ReadText("buildings");
-		buildings = new Building[strs.Length-1];
-		for (int i=0; i<buildings.Length; i++) {
-			buildings [i] = new Building ();
-			buildings [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0)); //i+1 means to remove the first line
-			buildings [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
-			buildings [i].maxLv = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
-			SetMaxLv (buildings [i].name, buildings [i].maxLv);
+		Building b = new Building();
+		for (int i=0; i<strs.Length-1; i++) {
+			b.id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0)); 
+			b.name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			if (b.name != bName || b.id != lv)
+				continue;
+			
+			b.maxLv = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
 			string rs = ReadTxt.GetDataByRowAndCol (strs, i + 1, 3);
 			if (rs != "") {	
 				string[][] req = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
 				for (int j = 0; j < req.Length; j++)
-					buildings [i].combReq.Add (int.Parse (req [j] [0]), int.Parse (req [j] [1]));
+					b.combReq.Add (int.Parse (req [j] [0]), int.Parse (req [j] [1]));
 			}
-			buildings [i].tips = ReadTxt.GetDataByRowAndCol (strs, i + 1, 4);
-			buildings [i].timeCost = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
+			b.tips = ReadTxt.GetDataByRowAndCol (strs, i + 1, 4);
+			b.timeCost = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
+			return b;
 		}
-	}
-
-	void SetMaxLv(string buildingName,int maxLv){
-		switch (buildingName) {
-		case "休息室":
-			GameConfigs.MaxLv_BedRoom = maxLv;
-			break;
-		case "仓库":
-			GameConfigs.MaxLv_Warehouse = maxLv;
-			break;
-		case "厨房":
-			GameConfigs.MaxLv_Kitchen = maxLv;
-			break;
-		case "工作台":
-			GameConfigs.MaxLv_Workshop = maxLv;
-			break;
-		case "研究室":
-			GameConfigs.MaxLv_Study = maxLv;
-			break;
-		case "农田":
-			GameConfigs.MaxLv_Farm = maxLv;
-			break;
-		case "宠物笼":
-			GameConfigs.MaxLv_Pets = maxLv;
-			break;
-		case "水井":
-			GameConfigs.MaxLv_Well = maxLv;
-			break;
-		case "成就":
-			GameConfigs.MaxLv_Achievement = maxLv;
-			break;
-		case "祭坛":
-			GameConfigs.MaxLv_Altar = maxLv;
-			break;
-		default:
-			Debug.Log ("Wrong Building Name" + buildingName);
-			break;
-		}
+		Debug.Log ("没有找到建筑--" + bName);
+		return new Building ();
 	}
 
 	void LoadMats(){
@@ -394,7 +401,7 @@ public class LoadTxt : MonoBehaviour {
 		}
 	}
 
-	void LoadTech(){
+	public static Technique[] GetTechList(){
 		string[][] strs = ReadTxt.ReadText ("techniques");
 		Technique[] techs = new Technique[strs.Length - 1];
 		for (int i = 0; i < techs.Length; i++) {
@@ -413,38 +420,34 @@ public class LoadTxt : MonoBehaviour {
 			}
 			techs[i].timeCost = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
 			techs[i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 7);
-//			Debug.Log (techs [i].id + "," + techs [i].name);
-			TechDic.Add (techs [i].id, techs [i]);
 		}
+		return techs;
 	}
 
-	void LoadThief(){
-		string[][] strs = ReadTxt.ReadText("thief");
-		Thief[] t = new Thief[strs.Length - 1];
-		for (int i = 0; i < t.Length; i++) {
-			t [i] = new Thief ();
-			t [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-			t [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
-			t [i].monsterId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
-			t [i].weight = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
-
-			ThiefDic.Add (t [i].id, t [i]);
+	public static Technique GetTech(int techId){
+		string[][] strs = ReadTxt.ReadText ("techniques");
+		Technique techs = new Technique();
+		for (int i = 0; i < strs.Length-1; i++) {
+			techs.id=int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (techs.id != techId)
+				continue;
+			techs.name=ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+			techs.type=int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
+			techs.lv=int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+			techs.maxLv=int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
+			techs.req = new Dictionary<int, int> ();
+			string[][] ss = ReadTxt.GetRequire (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
+			if (ss != null) {
+				for (int j = 0; j < ss.Length; j++) {
+					techs.req.Add (int.Parse (ss [j] [0]), int.Parse (ss [j] [1]));
+				}
+			}
+			techs.timeCost = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
+			techs.desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 7);
+			return techs;
 		}
-	}
-
-	void LoadAchievement(){
-		string[][] strs = ReadTxt.ReadText ("achievement");
-		Achievement[] a = new Achievement[strs.Length - 1];
-		for (int i = 0; i < a.Length; i++) {
-			a [i] = new Achievement ();
-			a [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-			a [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
-			a [i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
-			a [i].req = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
-
-//			Debug.Log ("id = " + a [i].id + ", name = " + a [i].name + ", req = " + a [i].req);
-			AchievementDic.Add (a [i].id, a [i]);
-		}
+		Debug.Log ("没有找到科技--" + techId);
+		return new Technique ();
 	}
 		
 	void LoadMaps(){
@@ -518,7 +521,6 @@ public class LoadTxt : MonoBehaviour {
 	}
 
 	public void StorePlaceUnit(PlaceUnit pu){
-//		p [pu.unitId] = pu;
 		PlayerPrefs.SetString ("PlaceUnit" + pu.unitId + "Para", pu.actionParam);
 	}
 }

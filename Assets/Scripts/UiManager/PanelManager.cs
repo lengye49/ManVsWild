@@ -392,16 +392,17 @@ public class PanelManager : MonoBehaviour {
 		GameData._playerData.lastThiefTime = GameData._playerData.dayNow;
 		_gameData.StoreData ("LastThiefTime", GameData._playerData.lastThiefTime);
 
-		int[] weight = new int[LoadTxt.ThiefDic.Count];
+		Thief[] tList = LoadTxt.GetThiefList ();
+		int[] weight = new int[tList.Length];
 		int[] ids = new int[weight.Length];
 		int i = 0;
-		foreach (int key in LoadTxt.ThiefDic.Keys) {
-			weight [i] = LoadTxt.ThiefDic [key].weight;
+		for (int key = 0;key<tList.Length;key++) {
+			weight [i] = tList[key].weight;
 			ids [i] = key;
 			i++;
 		}
 		i = Algorithms.GetResultByWeight (weight);
-		Thief _thisThief = LoadTxt.ThiefDic [ids [i]];
+		Thief _thisThief = tList[ids [i]];
 
 		int antiAlert = LoadTxt.GetMonster(_thisThief.monsterId).level;
 		int alert = GetGuardAlert ();

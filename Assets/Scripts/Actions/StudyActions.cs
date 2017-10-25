@@ -19,10 +19,11 @@ public class StudyActions : MonoBehaviour {
 	public void UpdateStudy(){
 		ClearContents ();
 		int i = 0;
-		foreach (int key in LoadTxt.TechDic.Keys) {
-			int lv = LoadTxt.TechDic [key].lv;
-			int maxlv = LoadTxt.TechDic [key].maxLv;
-			int learntLv = GameData._playerData.techLevels [LoadTxt.TechDic [key].type];
+		Technique[] tList = LoadTxt.GetTechList ();
+		for (int key=0;key<tList.Length;key++) {
+			int lv = tList [key].lv;
+			int maxlv = tList [key].maxLv;
+			int learntLv = GameData._playerData.techLevels [tList[key].type];
 			if (lv >= maxlv || lv != (learntLv + 1))
 				continue;
 			GameObject o;
@@ -37,9 +38,9 @@ public class StudyActions : MonoBehaviour {
 				o = studyCells [i] as GameObject;
 				o.SetActive (true);
 			}
-			o.name = LoadTxt.TechDic[key].id.ToString();
+			o.name = tList[key].id.ToString();
 			Text[] t = o.GetComponentsInChildren<Text> ();
-			t [0].text = LoadTxt.TechDic[key].name;
+			t [0].text = tList[key].name;
 			i++;
 		}
 

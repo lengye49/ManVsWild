@@ -27,13 +27,13 @@ public class GameConfigs{
 	public static int warehouseAdd = 5;
 
 	public static int MaxLv_BedRoom = 3;
-	public static int MaxLv_Warehouse = 3;
-	public static int MaxLv_Kitchen = 3;
+	public static int MaxLv_Warehouse = 10;
+	public static int MaxLv_Kitchen = 2;
 	public static int MaxLv_Workshop = 3;
 	public static int MaxLv_Study = 1;
-	public static int MaxLv_Farm = 3;
-	public static int MaxLv_Pets = 3;
-	public static int MaxLv_Well = 3;
+	public static int MaxLv_Farm = 4;
+	public static int MaxLv_Pets = 5;
+	public static int MaxLv_Well = 1;
 	public static int MaxLv_Achievement = 1;
 	public static int MaxLv_Altar = 1;
 

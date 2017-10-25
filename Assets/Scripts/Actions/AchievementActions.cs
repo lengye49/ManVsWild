@@ -18,8 +18,8 @@ public class AchievementActions : MonoBehaviour {
 	}
 
 	public void UpdateAchievement(){
-
-		for (int i = achievementCells.Count; i < LoadTxt.AchievementDic.Count; i++) {
+		Achievement[] a = LoadTxt.GetAllAchievement ();
+		for (int i = achievementCells.Count; i < a.Length; i++) {
 			GameObject o = Instantiate (achievementCell) as GameObject;
 			o.SetActive (true);
 			o.transform.SetParent (ContentA.transform);
@@ -29,9 +29,9 @@ public class AchievementActions : MonoBehaviour {
 		}
 
 		int index = 0;
-		foreach(int key in LoadTxt.AchievementDic.Keys) {
+		for(int key=0;key<a.Length;key++) {
 			GameObject o = achievementCells [index] as GameObject;
-			SetAchievement (o, LoadTxt.AchievementDic [key]);
+			SetAchievement (o, a [key]);
 			index++;
 		}
 		ContentA.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(900,110 * achievementCells.Count);

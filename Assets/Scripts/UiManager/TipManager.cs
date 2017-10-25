@@ -70,111 +70,45 @@ public class TipManager : MonoBehaviour {
 		buildTipButton[1].gameObject.GetComponentInChildren<Text>().text = "开工"; 
 		buildTipButton [1].gameObject.name = buildingName;
 
+		Building b = new Building ();
 		switch (buildingName) {
 		case "BedRoom":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "休息室" && b.id == GameData._playerData.BedRoomOpen + 1) {
-					buildTipText [0].text = "休息室";
-					SetTipDesc (b);
-					buildTipButton [1].interactable = CheckReq (b.combReq);
-					break;
-				}
-			}
+			b = LoadTxt.GetBuilding ("休息室", GameData._playerData.BedRoomOpen + 1);
 			break;
 		case "Warehouse":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "仓库" && b.id == GameData._playerData.WarehouseOpen + 1) {
-					buildTipText [0].text = "仓库";
-					SetTipDesc (b);
-					buildTipButton [1].interactable = CheckReq (b.combReq);
-					break;
-				}
-			}
+			b = LoadTxt.GetBuilding ("仓库", GameData._playerData.WarehouseOpen + 1);
 			break;
 		case "Kitchen":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "厨房" && b.id == GameData._playerData.KitchenOpen + 1) {
-					buildTipText [0].text = "厨房";
-					SetTipDesc (b);
-					buildTipButton [1].interactable = CheckReq (b.combReq);
-					break;
-				}
-			}
+			b = LoadTxt.GetBuilding ("厨房", GameData._playerData.KitchenOpen + 1);
 			break;
 		case "Workshop":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "工作台" && b.id == GameData._playerData.WorkshopOpen + 1) {
-					buildTipText [0].text = "工作台";
-					SetTipDesc (b);
-					buildTipButton [1].interactable = CheckReq (b.combReq);
-					break;
-				}
-			}
+			b = LoadTxt.GetBuilding ("工作台", GameData._playerData.WorkshopOpen + 1);
 			break;
 		case "Well":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "水井" && b.id == GameData._playerData.WellOpen + 1) {
-					buildTipText [0].text= "水井";
-					SetTipDesc (b);
-					buildTipButton [1].interactable = CheckReq (b.combReq);
-					break;
-				}
-			}
+			b = LoadTxt.GetBuilding ("水井", GameData._playerData.WellOpen + 1);
 			break;
 		case "Study":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "研究室" && b.id == GameData._playerData.StudyOpen + 1) {
-					buildTipText [0].text = "研究室";
-					SetTipDesc (b);
-					buildTipButton [1].interactable = CheckReq (b.combReq);
-					break;
-				}
-			}
+			b = LoadTxt.GetBuilding ("研究室", GameData._playerData.StudyOpen + 1);
 			break;
 		case "Farm":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "农田" && b.id == GameData._playerData.FarmOpen + 1) {
-					buildTipText [0].text = "农田";
-					SetTipDesc (b);
-					buildTipButton [1].interactable = CheckReq (b.combReq);
-					break;
-				}
-			}
+			b = LoadTxt.GetBuilding ("农田", GameData._playerData.FarmOpen + 1);
 			break;
 		case "Pets":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "宠物笼" && b.id == GameData._playerData.PetsOpen + 1) {
-					buildTipText [0].text = "宠物笼";
-					SetTipDesc (b);
-					buildTipButton [1].interactable = CheckReq (b.combReq);
-					break;
-				}
-			}
+			b = LoadTxt.GetBuilding ("宠物笼", GameData._playerData.PetsOpen + 1);
 			break;
 		case "Achievement":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "成就" && b.id == GameData._playerData.AchievementOpen + 1) {
-					buildTipText [0].text = "成就";
-					SetTipDesc (b);
-					buildTipButton [1].interactable = CheckReq (b.combReq);
-					break;
-				}
-			}
+			b = LoadTxt.GetBuilding ("成就", GameData._playerData.AchievementOpen + 1);
 			break;
 		case "Altar":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "祭坛" && b.id == GameData._playerData.AltarOpen + 1) {
-					buildTipText [0].text = "祭坛";
-					SetTipDesc (b);
-					buildTipButton [1].interactable = CheckReq (b.combReq);
-					break;
-				}
-			}
+			b = LoadTxt.GetBuilding ("祭坛", GameData._playerData.AltarOpen + 1);
 			break;
 		default:
-			Debug.Log ("Wrong buildingName!");
+			Debug.Log ("没有找到建筑--" + buildingName);
 			break;
 		}
+		buildTipText [0].text = b.name;
+		SetTipDesc (b);
+		buildTipButton [1].interactable = CheckReq (b.combReq);
 	}
 
 	void SetTipDesc(Building b){
@@ -449,117 +383,82 @@ public class TipManager : MonoBehaviour {
 
 	public void ConstructBuilding(){
 		string s = buildTipButton [1].gameObject.name;
+		Building b = new Building ();
 		switch (s) {
 		case "BedRoom":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "休息室" && b.id == GameData._playerData.BedRoomOpen + 1) {
-					if (!CheckReq (b.combReq))
-						break;
-					else {
-						StartCoroutine (WaitAndBuildRoom (b));
-						break;
-					}
-				}
+			b = LoadTxt.GetBuilding ("休息室", GameData._playerData.BedRoomOpen + 1);
+			if (!CheckReq (b.combReq))
+				break;
+			else {
+				StartCoroutine (WaitAndBuildRoom (b));
+				break;
 			}
-			break;
 		case "Warehouse":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "仓库" && b.id == GameData._playerData.WarehouseOpen + 1) {
-					if (!CheckReq (b.combReq))
-						break;
-					else {
-						StartCoroutine (WaitAndBuildWarehouse (b));
-						break;
-					}
-				}
+			b = LoadTxt.GetBuilding ("仓库", GameData._playerData.WarehouseOpen + 1);
+			if (!CheckReq (b.combReq))
+				break;
+			else {
+				StartCoroutine (WaitAndBuildWarehouse (b));
+				break;
 			}
-			break;
 		case "Kitchen":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "厨房" && b.id == GameData._playerData.KitchenOpen + 1) {
-					if (!CheckReq (b.combReq))
-						break;
-					else {
-						StartCoroutine (WaitAndBuildKitchen (b));
-						break;
-					}
-				}
+			b = LoadTxt.GetBuilding ("厨房", GameData._playerData.KitchenOpen + 1);
+			if (!CheckReq (b.combReq))
+				break;
+			else {
+				StartCoroutine (WaitAndBuildKitchen (b));
+				break;
 			}
-			break;
 		case "Workshop":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "工作台" && b.id == GameData._playerData.WorkshopOpen + 1) {
-					if (!CheckReq (b.combReq))
-						break;
-					else {
-						StartCoroutine (WaitAndBuildWorkshop (b));
-						break;
-					}
-				}
+			b = LoadTxt.GetBuilding ("工作台", GameData._playerData.WorkshopOpen + 1);
+			if (!CheckReq (b.combReq))
+				break;
+			else {
+				StartCoroutine (WaitAndBuildWorkshop (b));
+				break;
 			}
-			break;
 		case "Study":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "研究室" && b.id == GameData._playerData.StudyOpen + 1) {
-					if (!CheckReq (b.combReq))
-						break;
-					else {
-						StartCoroutine (WaitAndBuildStudy (b));
-						break;
-					}
-				}
+			b = LoadTxt.GetBuilding ("研究室", GameData._playerData.StudyOpen + 1);
+			if (!CheckReq (b.combReq))
+				break;
+			else {
+				StartCoroutine (WaitAndBuildStudy (b));
+				break;
 			}
-			break;
 		case "Farm":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "农田" && b.id == GameData._playerData.FarmOpen + 1) {
-					if (!CheckReq (b.combReq))
-						break;
-					else {
-						StartCoroutine (WaitAndBuildFarm (b));
-						break;
-					}
-				}
+			b = LoadTxt.GetBuilding ("农田", GameData._playerData.FarmOpen + 1);
+			if (!CheckReq (b.combReq))
+				break;
+			else {
+				StartCoroutine (WaitAndBuildFarm (b));
+				break;
 			}
-			break;
 		case "Pets":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "宠物笼" && b.id == GameData._playerData.PetsOpen + 1) {
-					if (!CheckReq (b.combReq))
-						break;
-					else {
-						StartCoroutine (WaitAndBuildPets (b));
-						break;
-					}
-				}
+			b = LoadTxt.GetBuilding ("宠物笼", GameData._playerData.PetsOpen + 1);
+			if (!CheckReq (b.combReq))
+				break;
+			else {
+				StartCoroutine (WaitAndBuildPets (b));
+				break;
 			}
-			break;
 		case "Well":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "水井" && b.id == GameData._playerData.WellOpen + 1) {
-					if (!CheckReq (b.combReq))
-						break;
-					else {
-						StartCoroutine (WaitAndBuildWell (b));
-						break;
-					}
-				}
+			b = LoadTxt.GetBuilding ("水井", GameData._playerData.WellOpen + 1);
+			if (!CheckReq (b.combReq))
+				break;
+			else {
+				StartCoroutine (WaitAndBuildWell (b));
+				break;
 			}
-			break;
 		case "MailBox":
 			break;
 		case "Altar":
-			foreach (Building b in LoadTxt.buildings) {
-				if (b.name == "祭坛" && b.id == GameData._playerData.AltarOpen + 1) {
-					if (!CheckReq (b.combReq))
-						break;
-					else {
-						StartCoroutine (WaitAndBuildAltar (b));
-						break;
-					}
-				}
+			b = LoadTxt.GetBuilding ("祭坛", GameData._playerData.AltarOpen + 1);
+			if (!CheckReq (b.combReq))
+				break;
+			else {
+				StartCoroutine (WaitAndBuildAltar (b));
+				break;
 			}
-			break;
 		default:
 			break;
 		}
@@ -735,12 +634,13 @@ public class TipManager : MonoBehaviour {
 	public void ShowTechTips(int techId){
 		ShowTechTip ();
 		ClearTechTipTexts ();
-		techTipText [0].text = LoadTxt.TechDic[techId].name;
+		Technique t = LoadTxt.GetTech (techId);
+		techTipText [0].text = t.name;
 		techTipButton[0].gameObject.GetComponentInChildren<Text>().text ="取消"; 
 		techTipButton[1].gameObject.GetComponentInChildren<Text>().text ="研究"; 
-		techTipButton [1].interactable = CheckReq (LoadTxt.TechDic[techId].req);
+		techTipButton [1].interactable = CheckReq (t.req);
 		techTipButton [1].gameObject.name = techId.ToString ();
-		SetTechTipDesc (LoadTxt.TechDic [techId]);
+		SetTechTipDesc (t);
 	}
 
 	void SetTechTipDesc(Technique t){
@@ -794,20 +694,20 @@ public class TipManager : MonoBehaviour {
 
 	void StudyTech(){
 		int techId = int.Parse (techTipButton [1].gameObject.name);
-		foreach (int key in LoadTxt.TechDic[techId].req.Keys) {
-			_gameData.ConsumeItem (key, LoadTxt.TechDic [techId].req [key]);
+		Technique t = LoadTxt.GetTech (techId);
+		foreach (int key in t.req.Keys) {
+			_gameData.ConsumeItem (key, t.req [key]);
 		}
 		MoveTechTipPanel ();
-		_floating.CallInFloating (LoadTxt.TechDic [techId].name + " Completed!", 0);
-		LearntTech (techId);
+		_floating.CallInFloating (t.name + " Completed!", 0);
+		LearntTech (t);
 		_studyActions.UpdateStudy();
 
 		//Achievement
 		this.gameObject.GetComponent<AchieveActions>().TechUpgrade();
 	}
 
-	void LearntTech(int techId){
-		Technique t = LoadTxt.TechDic [techId];
+	void LearntTech(Technique t){
 		GameData._playerData.techLevels [t.type] = t.lv;
 		switch (t.type) {
 		case 1:
@@ -863,7 +763,6 @@ public class TipManager : MonoBehaviour {
 			GameData._playerData.WaterCollectingRate = GameConfigs.WaterCollectingRate [t.lv];
 			break;
 		default:
-			Debug.Log ("错误的科技ID = " + techId);
 			break;
 		}
 	}
