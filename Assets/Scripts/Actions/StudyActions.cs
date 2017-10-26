@@ -6,17 +6,15 @@ using System.Collections.Generic;
 public class StudyActions : MonoBehaviour {
 
 	public GameObject contentS;
-
 	private GameObject studyCell;
-	private ArrayList studyCells;
+	private ArrayList studyCells = new ArrayList ();
 
-	void Start () {
-		studyCell= Instantiate (Resources.Load ("studyCell")) as GameObject;
-		studyCell.SetActive (false);
-		studyCells = new ArrayList ();
-	}
 
 	public void UpdateStudy(){
+		Destroy (studyCell);
+		studyCell= Instantiate (Resources.Load ("studyCell")) as GameObject;
+		studyCell.SetActive (false);
+
 		ClearContents ();
 		int i = 0;
 		Technique[] tList = LoadTxt.GetTechList ();
@@ -61,5 +59,14 @@ public class StudyActions : MonoBehaviour {
 			for (int j = 0; j < t.Length; j++)
 				t [j].text = "";
 		}
+	}
+
+	public void OnLeave(){
+		Destroy (studyCell);
+		if (studyCells == null)
+			return;
+		foreach (GameObject o in studyCells)
+			Destroy (o);
+		studyCells.Clear ();
 	}
 }

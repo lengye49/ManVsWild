@@ -57,7 +57,7 @@ public class ExploreActions : MonoBehaviour {
 
 		int j = 0;
 		foreach (int key in GameData._playerData.MapOpenState.Keys) {
-			if (GameData._playerData.MapOpenState [key] == 1 && key!=GameData._playerData.mapNow) {
+			if (GameData._playerData.MapOpenState [key] == 1 && key!=GameData._playerData.placeNowId) {
 				GameObject o = mapCells [j] as GameObject;
 				o.gameObject.name = key.ToString ();
 				SetMapCell (o, key);
@@ -71,11 +71,10 @@ public class ExploreActions : MonoBehaviour {
 	void SetMapCell(GameObject o,int mapId){
 		Text[] t = o.GetComponentsInChildren<Text> ();
 		t [0].text = LoadTxt.MapDic [mapId].name;
-		int m = TravelTime (LoadTxt.MapDic [GameData._playerData.mapNow].distances [mapId]);
+		int m = TravelTime (LoadTxt.MapDic [GameData._playerData.placeNowId].distances [mapId]);
 		string s = GetTimeFormat (m);
 		t [1].text = LoadTxt.MapDic [mapId].desc;
 		t [2].text = s;
-//		t [3].text = "出发";
 	}
 
 	void ClearContents(GameObject o){
@@ -112,10 +111,10 @@ public class ExploreActions : MonoBehaviour {
 	}
 
 	void GoToMap(){
-        int min = TravelTime (LoadTxt.MapDic [GameData._playerData.mapNow].distances [mapGoing.id]);
+        int min = TravelTime (LoadTxt.MapDic [GameData._playerData.placeNowId].distances [mapGoing.id]);
         _gameData.ChangeTime (min);
-        GameData._playerData.mapNow = mapGoing.id;
-        _gameData.StoreData ("mapNow", mapGoing.id);
+        GameData._playerData.placeNowId = mapGoing.id;
+        _gameData.StoreData ("PlaceNowId", mapGoing.id);
 
 		_panelManager.MapGoing = mapGoing;
 		if (mapGoing.id == 0) {

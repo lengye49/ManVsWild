@@ -20,19 +20,15 @@ public class BackpackActions : MonoBehaviour {
 
 	public GameObject contentB;
 	private GameObject bpCell;
-	private ArrayList bpCells;
-	private int _bpNum;
-
-	void Start () {
-		bpCell = Instantiate (Resources.Load ("bpCellNormal")) as GameObject;
-		bpCell.SetActive (false);
-		bpCells = new ArrayList ();
-		UpdataPanel ();
-	}
+	private ArrayList bpCells = new ArrayList ();
 	
 	public void UpdataPanel(){
-		_bpNum = GameData._playerData.bpNum;
-        BpNum.text = "(" + GameData._playerData.bp.Count + "/" + _bpNum + ")";
+
+		Destroy (bpCell);
+		bpCell = Instantiate (Resources.Load ("bpCellNormal")) as GameObject;
+		bpCell.SetActive (false);
+
+		BpNum.text = "(" + GameData._playerData.bp.Count + "/" + GameData._playerData.bpNum + ")";
 		UpdateCharacter();
 		UpdateBpContent ();
         SetRenown();
@@ -105,9 +101,14 @@ public class BackpackActions : MonoBehaviour {
     }
 
 	void UpdateBpContent (){
-		if (bpCells.Count<_bpNum) {
+		
+		for (int i = 0; i < bpCells.Count; i++) {
+			ClearContent (bpCells [i] as GameObject);
+		}
+
+		if (bpCells.Count<GameData._playerData.bp.Count) {
 			int n = bpCells.Count;
-			for (int i = n; i < _bpNum; i++) {
+			for (int i = n; i < GameData._playerData.bp.Count; i++) {
 				GameObject o = Instantiate (bpCell) as GameObject;
 				o.SetActive (true);
 				o.transform.SetParent (contentB.transform);
@@ -116,18 +117,15 @@ public class BackpackActions : MonoBehaviour {
 				bpCells.Add (o);
 				ClearContent (o);
 			}
-			contentB.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(375,80 * bpCells.Count);
-		}
-
-		for (int i = 0; i < bpCells.Count; i++) {
-			ClearContent (bpCells [i] as GameObject);
+			contentB.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(375,80 * GameData._playerData.bp.Count);
 		}
 
 		int j = 0;
 		foreach (int key in GameData._playerData.bp.Keys) {
-			if (j >= _bpNum)
+			if (j >= GameData._playerData.bpNum)
 				return;
 			GameObject o = bpCells [j] as GameObject;
+			o.SetActive (true);
 			o.gameObject.name = key.ToString ();
 			o.GetComponent<Button> ().interactable = true;
 			Text[] t = o.GetComponentsInChildren<Text> ();
@@ -142,5 +140,14 @@ public class BackpackActions : MonoBehaviour {
 		for (int i = 0; i < ts.Length; i++)
 			ts [i].text = "";
 		o.GetComponent<Button> ().interactable = false;
+	}
+
+	public void OnLeave(){
+		Destroy (bpCell);
+		if (bpCells == null)
+			return;
+		foreach (GameObject o in bpCells)
+			Destroy (o);
+		bpCells.Clear ();
 	}
 }

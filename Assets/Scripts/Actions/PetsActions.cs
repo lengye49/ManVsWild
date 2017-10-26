@@ -14,7 +14,7 @@ public class PetsActions : MonoBehaviour {
 	public LogManager _logManager;
 
 	private GameObject petCell;
-	private ArrayList petCells;
+	private ArrayList petCells = new ArrayList ();
 	private int openPetCell;
 
 	private int petSpace;
@@ -25,9 +25,7 @@ public class PetsActions : MonoBehaviour {
 	private Pet _localPet;
 
 	void Start(){
-		petCell = Instantiate (Resources.Load ("petCell")) as GameObject;
-		petCell.SetActive (false);
-		petCells = new ArrayList ();
+		
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 	}
@@ -39,6 +37,10 @@ public class PetsActions : MonoBehaviour {
 	}
 
 	void SetPetCells(){
+		Destroy (petCell);
+		petCell = Instantiate (Resources.Load ("petCell")) as GameObject;
+		petCell.SetActive (false);
+
 		petSpace = GameData._playerData.PetsOpen * 10;
 
 		openPetCell = 0;
@@ -59,7 +61,6 @@ public class PetsActions : MonoBehaviour {
 		if (openPetCell > petCells.Count) {
 			for (int i = petCells.Count; i < openPetCell; i++) {
 				GameObject o = Instantiate (petCell) as GameObject;
-				o.SetActive (true);
 				o.transform.SetParent (contentP.transform);
 				o.transform.localPosition = Vector3.zero;
 				o.transform.localScale = Vector3.one;
@@ -83,7 +84,7 @@ public class PetsActions : MonoBehaviour {
 				j++;
 		}
 
-		contentP.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(800,100 * petCells.Count);
+		contentP.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(800,100 * openPetCell);
 	}
 
 	void SetPetCellState(GameObject o,Pet p){
@@ -246,5 +247,14 @@ public class PetsActions : MonoBehaviour {
 	void StorePetState(){
 		_gameData.StoreData ("Pets", _gameData.GetstrFromPets (GameData._playerData.Pets));
 		GameData._playerData.Pets = _gameData.GetPetListFromStr (PlayerPrefs.GetString ("Pets", "100|1|50|Hello;100|0|20|Kitty"));
+	}
+
+	public void OnLeave(){
+		Destroy (petCell);
+		if (petCells == null)
+			return;
+		foreach (GameObject o in petCells)
+			Destroy (o);	
+		petCells.Clear ();
 	}
 }

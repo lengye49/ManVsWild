@@ -19,9 +19,9 @@ public class GameData : MonoBehaviour {
 
 	void Awake () {
 
-		//*测试代码，删除所有数据
-		PlayerPrefs.DeleteAll ();
-		/*******************/
+//		//*测试代码，删除所有数据
+//		PlayerPrefs.DeleteAll ();
+//		/*******************/
 
 		_playerData = new PlayerData ();
 		LoadAchievements ();
@@ -107,7 +107,7 @@ public class GameData : MonoBehaviour {
 		_playerData.AltarOpen = PlayerPrefs.GetInt ("AltarOpen" + s, 0);
 
 		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "11000000|50;11010000|20;41000000|5;42000000|2;42140000|10"));
-		_playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" + s, ""));
+		_playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" + s, "41000000|999;42000000|999"));
 
 		_playerData.HasMemmory = PlayerPrefs.GetInt ("HasMemmory" + s, 0);
 
@@ -133,8 +133,7 @@ public class GameData : MonoBehaviour {
 		_playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
 
 																									 //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
-		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1|1|1|1|0|0|0|0|0"));
-		_playerData.mapNow = PlayerPrefs.GetInt ("mapNow" + s, 0);
+		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
 		_playerData.dungeonLevelMax = PlayerPrefs.GetInt ("DungeonLevelMax" + s, 0);
         _playerData.tunnelLevelMax = PlayerPrefs.GetInt ("TunnelLevelMax" + s, 0);
 
@@ -250,7 +249,6 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("PetRecord" + s, _playerData.PetRecord);
 
 		PlayerPrefs.SetString ("MapOpenState" + s, GetStrFromMapOpenState (_playerData.MapOpenState));
-		PlayerPrefs.SetInt ("mapNow" + s, _playerData.mapNow);
 		PlayerPrefs.SetInt ("DungeonLevelMax" + s, _playerData.dungeonLevelMax);
         PlayerPrefs.SetInt ("TunnelLevelMax" + s, _playerData.tunnelLevelMax);
 

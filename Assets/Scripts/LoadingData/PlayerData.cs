@@ -100,7 +100,6 @@ public class PlayerData  {
 	public int PetRecord;
 
 	public Dictionary<int,int> MapOpenState;
-	public int mapNow;
 
     //地牢已经通关的层数
 	public int dungeonLevelMax;

@@ -72,15 +72,20 @@ public class PanelManager : MonoBehaviour {
 	}
 
 	public void GoToPanel(string panelName){
+		if (panelName=="Home" && GameData._playerData.placeNowId!=0) {
+			Explore.GetComponent<ExploreActions> ().GoToPlace (0);
+			return;
+		}
 		switch (panelName) {
-            case "Home":
-                Home.DOLocalMoveX(0, tweenerTime);
-                Home.gameObject.GetComponentInChildren<HomeManager>().UpdateContent();
-                if (_PanelNow == Explore && _FatherPanel == Place)
-                    CheckThiefActivities();
-                _FatherPanel = null;
-                _PanelNow.DOLocalMoveX(restPointLeftX, tweenerTime);
-
+			case "Home":
+				Home.DOLocalMoveX (0, tweenerTime);
+				Home.gameObject.GetComponentInChildren<HomeManager> ().UpdateContent ();
+				if (_PanelNow == Explore && _FatherPanel == Place)
+					CheckThiefActivities ();
+				_FatherPanel = null;
+				if(_PanelNow!=Home)
+					_PanelNow.DOLocalMoveX (restPointLeftX, tweenerTime);
+				OnHome ();
                 _PanelNow = Home;
                 GameData._playerData.placeNowId = 0;
                 _gameData.StoreData("PlaceNowId", 0);
@@ -378,6 +383,19 @@ public class PanelManager : MonoBehaviour {
                 Debug.Log("The panel name is wrong with " + panelName);
                 break;
 		}
+	}
+
+	/// <summary>
+	/// 用于销毁所有临时生成的游戏物体
+	/// </summary>
+	void OnHome(){
+		Achievement.GetComponent<AchievementActions> ().OnLeave ();
+		Backpack.GetComponent<BackpackActions> ().OnLeave ();
+		Farm.GetComponent<FarmActions> ().OnLeave ();
+		Making.GetComponent<MakingActions> ().OnLeave ();
+		Pets.GetComponent<PetsActions> ().OnLeave ();
+		Study.GetComponent<StudyActions> ().OnLeave ();
+		Warehouse.GetComponent<WarehouseActions> ().OnLeave ();
 	}
 
 	void CheckThiefActivities(){

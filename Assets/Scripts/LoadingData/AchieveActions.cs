@@ -12,7 +12,7 @@ public class AchieveActions : MonoBehaviour {
 		_log = GetComponentInChildren<LogManager> ();
 	}
 
-	public string GetProgress(int id){
+	public static string GetProgress(int id){
 		int openCount = 0;
 		string s = "";
 		switch (id) {

@@ -8,15 +8,13 @@ public class MakingActions : MonoBehaviour {
 	public GameObject upgradeButton;
 
 	private GameObject makingCell;
-	private ArrayList makingCells;
-
-	void Start(){
-		makingCell= Instantiate (Resources.Load ("makingCell")) as GameObject;
-		makingCell.SetActive (false);
-		makingCells = new ArrayList ();
-	}
+	private ArrayList makingCells = new ArrayList ();
 
 	public void UpdatePanel(string makingType){
+		Destroy (makingCell);
+		makingCell= Instantiate (Resources.Load ("makingCell")) as GameObject;
+		makingCell.SetActive (false);
+
 		ClearContents ();
 		if (makingType == "Kitchen" && GameData._playerData.KitchenOpen<GameConfigs.MaxLv_Kitchen)
 			upgradeButton.SetActive (true);
@@ -68,5 +66,14 @@ public class MakingActions : MonoBehaviour {
 			for (int j = 0; j < t.Length; j++)
 				t [j].text = "";
 		}
+	}
+
+	public void OnLeave(){
+		Destroy (makingCell);
+		if (makingCells == null)
+			return;
+		foreach (GameObject o in makingCells)
+			Destroy (o);
+		makingCells.Clear ();
 	}
 }

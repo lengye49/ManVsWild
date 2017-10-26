@@ -12,20 +12,22 @@ public class FarmActions : MonoBehaviour {
     public LoadingBar _loading;
 
 	private GameObject farmCell;
-	private ArrayList farmCells;
+	private ArrayList farmCells = new ArrayList ();
+
 	private int openFarmlands;
 	private GameData _gameData;
 	private FloatingActions _floating;
 
 	void Start () {
-		farmCell = Instantiate (Resources.Load ("farmCell")) as GameObject;
-		farmCell.SetActive (false);
-		farmCells = new ArrayList ();
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 	}
 
 	public void UpdateFarm(){
+		Destroy (farmCell);
+		farmCell = Instantiate (Resources.Load ("farmCell")) as GameObject;
+		farmCell.SetActive (false);
+
 		plantingTip.localPosition = new Vector3 (150, 2000, 0);
 		openFarmlands = 0;
 
@@ -39,7 +41,6 @@ public class FarmActions : MonoBehaviour {
 		if (openFarmlands > farmCells.Count) {
 			for (int i = farmCells.Count; i < openFarmlands; i++) {
 				GameObject o = Instantiate (farmCell) as GameObject;
-				o.SetActive (true);
 				o.transform.SetParent (ContentF.transform);
 				o.transform.localPosition = Vector3.zero;
 				o.transform.localScale = Vector3.one;
@@ -52,6 +53,7 @@ public class FarmActions : MonoBehaviour {
 		foreach (int key in GameData._playerData.Farms.Keys) {
 			if (GameData._playerData.Farms [key].open > 0) {
 				GameObject o = farmCells [j] as GameObject;
+				o.SetActive (true);
 				SetFarmState (o, GameData._playerData.Farms [key], j,key);
 				j++;
 			}
@@ -250,5 +252,14 @@ public class FarmActions : MonoBehaviour {
 
 	public void CallOutPlantingTip(){
 		plantingTip.DOLocalMoveY (2000, 0.3f);
+	}
+
+	public void OnLeave(){
+		Destroy (farmCell);
+		if (farmCells == null)
+			return;
+		foreach (GameObject o in farmCells)
+			Destroy (o);
+		farmCells.Clear ();
 	}
 }

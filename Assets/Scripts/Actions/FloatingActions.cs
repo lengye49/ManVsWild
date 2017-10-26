@@ -6,18 +6,10 @@ using DG.Tweening;
 
 public class FloatingActions : MonoBehaviour {
 
-	private GameObject floatingCell;
 	private float upTime = 0.2f;
 	private float waitTime = 1f;
 	private float disappearTime = 0.5f;
-	private ArrayList floatingCells;
-
-	void Start () {
-		floatingCells = new ArrayList ();
-		floatingCell = Instantiate (Resources.Load ("floatingCell")) as GameObject;
-		floatingCell.SetActive (false);
-		floatingCell.SetActive (false);
-	}
+	private GameObject f;
 
 	/// <summary>
 	/// Calls in floating.
@@ -25,14 +17,7 @@ public class FloatingActions : MonoBehaviour {
 	/// <param name="str">Float text.</param>
 	/// <param name="floatType">Float type:0Good,1Bad.</param>
 	public void CallInFloating(string str,int floatType){
-		GameObject f;
-		if (floatingCells.Count > 0) {
-			f = floatingCells [0] as GameObject;
-			floatingCells.RemoveAt (0);
-		} else {
-			f = Instantiate (floatingCell) as GameObject;
-			f.SetActive (true);
-		}
+		f = Instantiate (Resources.Load ("floatingCell")) as GameObject;;
 		f.transform.SetParent (this.gameObject.transform);
 		f.SetActive (true);
 		Text t = f.GetComponentInChildren<Text> ();
@@ -51,30 +36,30 @@ public class FloatingActions : MonoBehaviour {
 			break;
 		}
 		t.color = c;
-		StartFloat (f);
+		StartFloat ();
 	}
-	void StartFloat(GameObject f){
+	void StartFloat(){
 		f.transform.localPosition = Vector3.zero;
 		f.transform.localScale = new Vector3 (0.1f, 0.1f, 1);
 		f.transform.DOLocalMoveY (100, upTime);
 		f.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 1f),upTime);
 		f.GetComponentInChildren<Text> ().DOFade (1, upTime);
-		StartCoroutine (WaitAndNext (f));
-	}
-	void EndFloat(GameObject f){
-		f.transform.DOLocalMoveY (250, disappearTime);
-		f.GetComponentInChildren<Text>().DOFade (0, disappearTime);
-		StartCoroutine (WaitAndEnd (f));
-	}
-		
-	IEnumerator WaitAndNext(GameObject f){
-		yield return new WaitForSeconds (upTime + waitTime);
-		EndFloat (f);
+		StartCoroutine (WaitAndNext ());
 	}
 
-	IEnumerator WaitAndEnd(GameObject f){
+	IEnumerator WaitAndNext(){
+		yield return new WaitForSeconds (upTime + waitTime);
+		EndFloat ();
+	}
+
+	void EndFloat(){
+		f.transform.DOLocalMoveY (250, disappearTime);
+		f.GetComponentInChildren<Text>().DOFade (0, disappearTime);
+		StartCoroutine (WaitAndEnd ());
+	}
+
+	IEnumerator WaitAndEnd(){
 		yield return new WaitForSeconds (disappearTime);
-		f.SetActive (false);
-		floatingCells.Add (f);
+		Destroy (f);
 	}
 }

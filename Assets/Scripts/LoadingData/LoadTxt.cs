@@ -51,6 +51,7 @@ public class LoadTxt : MonoBehaviour {
 		string[][] strs = ReadTxt.ReadText ("achievement");
 		Achievement[] a = new Achievement[strs.Length-1];
 		for (int i = 0; i < strs.Length-1; i++) {
+			a [i] = new Achievement ();
 			a[i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
 			a[i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
 			a[i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
@@ -75,7 +76,7 @@ public class LoadTxt : MonoBehaviour {
 		return new Achievement ();
 	}
 
-	public  static DungeonTreasure GetDungeonTreasure(int dtId){
+	public static DungeonTreasure GetDungeonTreasure(int dtId){
 		string[][] strs = ReadTxt.ReadText("dungeon_treasure");
 		DungeonTreasure dt = new DungeonTreasure();
 		for (int i = 0; i < strs.Length-1; i++) {
