@@ -229,8 +229,9 @@ public class LoadTxt : MonoBehaviour {
 	public static ArrayList GetMonster(int minLv,int maxLv,int livePlace){
 		ArrayList mList = new ArrayList ();
 		string[][] strs = ReadTxt.ReadText("monster");
-		Monster m = new Monster();
+
 		for (int i = 0; i < strs.Length-1; i++) {
+			Monster m = new Monster();
 			m.level = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));
 			m.livePlace = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 15));
 			if (m.level < minLv || m.level > maxLv || m.livePlace != livePlace)

@@ -851,23 +851,17 @@ public class TipManager : MonoBehaviour {
 		}
 
 		commonTipButton [0].gameObject.GetComponentInChildren<Text> ().text = "丢弃";
-		commonTipButton [2].gameObject.GetComponentInChildren<Text> ().text = "快捷键1";
-		commonTipButton [3].gameObject.GetComponentInChildren<Text> ().text = "快捷键2";
 		commonTipButton [1].gameObject.SetActive (true);
 		switch (type) {
 		case 0:
 			commonTipButton [0].gameObject.SetActive (true);
 			commonTipButton[0].gameObject.name = "warehouse_warehouse|"+itemId;
 			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "取出";
-			commonTipButton [2].gameObject.SetActive (false);
-			commonTipButton [3].gameObject.SetActive (false);
 			break;
 		case 1:
 			commonTipButton [0].gameObject.SetActive (true);
 			commonTipButton[0].gameObject.name = "warehouse_backpack|"+itemId;
 			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "存放";
-			commonTipButton [2].gameObject.SetActive (false);
-			commonTipButton [3].gameObject.SetActive (false);
 			break;
 		case 2:
 			commonTipButton [0].gameObject.SetActive (true);
@@ -875,15 +869,11 @@ public class TipManager : MonoBehaviour {
 			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "使用";
 			bool canUse = !(m.property == null);
 			commonTipButton [1].interactable = canUse;
-			commonTipButton [2].gameObject.SetActive (m.type==2);
-			commonTipButton [3].gameObject.SetActive (m.type==2);
 			break;
 		case 3:
 		case 4:
 			commonTipButton [0].gameObject.SetActive (false);
 			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "卸下";
-			commonTipButton [2].gameObject.SetActive (false);
-			commonTipButton [3].gameObject.SetActive (false);
 			break;
 		default:
 			break;
@@ -902,8 +892,6 @@ public class TipManager : MonoBehaviour {
 		commonTipText [4].text = "速度: " + m.speed;
 		commonTipButton [0].gameObject.SetActive (false);
 		commonTipButton [1].gameObject.SetActive (false);
-		commonTipButton [2].gameObject.SetActive (false);
-		commonTipButton [3].gameObject.SetActive (false);
 	}
 		
 	void ShowTipPanel(){
@@ -960,7 +948,6 @@ public class TipManager : MonoBehaviour {
 	public void OnActionButton1(){
 		string actionType = commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text;
 		int itemId = int.Parse (commonTipButton [1].gameObject.name);
-		Debug.Log (itemId);
 		int equipType = LoadTxt.MatDic [(int)(itemId / 10000)].type;
 		switch (actionType) {
         case "取出":

@@ -82,7 +82,6 @@ public class PlayerData  {
 	public int HeadId;
 	public int BodyId;
 	public int ShoeId;
-//	public int AccessoryId;
 	public int AmmoId;
 	public int AmmoNum;
 	public Pet Mount;

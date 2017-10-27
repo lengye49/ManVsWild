@@ -73,8 +73,8 @@ public class PlaceActions : MonoBehaviour {
         } else if (_mapNow.id == 25){
             if (!newPlace)
                 return;
-            tunnelLevel = GameData._playerData.tunnelLevelMax + 1;
-
+			tunnelLevel = GameData._playerData.tunnelLevelMax + 1;
+			InitializeTunnel ();
         }else {
 			SetDetailPosition ();
 			SetPlace (_mapNow);
@@ -313,9 +313,8 @@ public class PlaceActions : MonoBehaviour {
 		//Get Dungeon Rewards According to the Level;
 		//1 Reward 10%, 2 Monster 15%, 3 Buff&Debuff 10%, 4 Nothing: Text 13%, 5 Nothing 
 		int r = Algorithms.GetIndexByRange(0,100);
-        Debug.Log(r);
 		if (r < 10) {
-			int r4 = (int)(dungeonLevel / 10) + 1;
+			int r4 = (int)((dungeonLevel-1) / 10) + 1;
 			int matId = Algorithms.GetResultByDic (LoadTxt.GetDungeonTreasure(r4).reward);
 			int num = 1;
 			if (LoadTxt.MatDic [matId].price < 100) {
@@ -329,7 +328,7 @@ public class PlaceActions : MonoBehaviour {
 			int r1 = Algorithms.GetIndexByRange (1, 3);
 			Monster[] ms = new Monster[r1];
 			for (int i = 0; i < r1; i++) {
-				ms [i] = GetNewMonster ();
+				ms [i] = GetNewMonster (1);
 			}
 			_panelManager.GoToPanel ("Battle");
 			r1 = Algorithms.GetIndexByRange(0,100);
@@ -470,35 +469,40 @@ public class PlaceActions : MonoBehaviour {
 			else if (r2 < 84) {
 				_gameData.ChangeProperty (2, 999);
 				_logManager.AddLog("受到生命的祝福，精神回满。");
-			}else {
-				Debug.Log ("Nothing Happened");
 			}
 		} 
-		else {
-			Debug.Log ("Nothing Happened");
-		}
 	}
         
 
-	Monster GetNewMonster(){
+	Monster GetNewMonster(int dType){
 		int minLv = 1;
-		int maxLv = 35 + (int)(dungeonLevel / 10) * 5;
-		if (dungeonLevel % 10 == 0) {
-			minLv = maxLv - 5;
+		int maxLv = 35;
+		if (dType == 1) {
+			maxLv += (int)(dungeonLevel / 10) * 5;
+			if (dungeonLevel % 10 == 0) {
+				minLv = maxLv - 5;
+			}
+		} else {
+			maxLv = 100;
 		}
-		ArrayList monsterList = new ArrayList ();
-        if (_mapNow.id == 21)
-        {
-			monsterList = LoadTxt.GetMonster (minLv, maxLv, 1);
-        }
-        else if (_mapNow.id == 25)
-        {
-			monsterList = LoadTxt.GetMonster (minLv, maxLv, 2);
-        }
 
+		ArrayList monsterList = new ArrayList ();
+		monsterList = LoadTxt.GetMonster (minLv, maxLv, dType);
+
+//        if (_mapNow.id == 21)
+//        {
+//			monsterList = LoadTxt.GetMonster (minLv, maxLv, 1);
+//        }
+//        else if (_mapNow.id == 25)
+//        {
+//			monsterList = LoadTxt.GetMonster (minLv, maxLv, 2);
+//        }
+//
+		Debug.Log ("monsterList = " + monsterList.Count);
 		Monster m = new Monster ();
 		if (monsterList.Count > 0) {
 			int index = Random.Range (0, monsterList.Count - 1);
+			Debug.Log (index);
 			m = monsterList [index] as Monster;
 		} else {
 			m = LoadTxt.GetMonster(100);
@@ -551,7 +555,7 @@ public class PlaceActions : MonoBehaviour {
     //******************************************隧道地图*******************************************
 
     void InitializeTunnel(){
-        dungeonLevelText.text = "时空隧道 - " + dungeonLevel + "/10层";
+        dungeonLevelText.text = "时空隧道 - " + tunnelLevel + "/10层";
 
         dungeonRect.localPosition = Vector3.zero;
         placeRect.localPosition = new Vector3 (-10000, 0, 0);
@@ -571,9 +575,8 @@ public class PlaceActions : MonoBehaviour {
         //Get Tunnel Rewards According to the Level;
         //1 Reward 0%, 2 Monster 30%, 3 Buff&Debuff 20%, 4 Nothing: Text 13%, 5 Nothing 
         int r = Algorithms.GetIndexByRange(0,100);
-        Debug.Log(r);
         if (r < 0) {
-            int r4 = (int)(dungeonLevel / 10) + 1;
+            int r4 = tunnelLevel;
 			int matId = Algorithms.GetResultByDic (LoadTxt.GetDungeonTreasure(r4).reward);
             int num = 1;
             if (LoadTxt.MatDic [matId].price < 100) {
@@ -587,7 +590,7 @@ public class PlaceActions : MonoBehaviour {
             int r1 = Algorithms.GetIndexByRange (1, 3);
             Monster[] ms = new Monster[r1];
             for (int i = 0; i < r1; i++) {
-                ms [i] = GetNewMonster ();
+                ms [i] = GetNewMonster (2);
             }
             _panelManager.GoToPanel ("Battle");
             r1 = Algorithms.GetIndexByRange(0,100);

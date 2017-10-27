@@ -67,7 +67,7 @@ public class Algorithms  {
 		float hitRate = 1 - dodge * dodge / (dodge + 3 * hit)/100 * SpiritParam (spirit);
 		float dodgeRate =1-hitRate;
 		float critRate = hit * hit / (hit + dodge * 8)/100 * (1 - vitalSensibility/100f) * SpiritParam (spirit);
-		Debug.Log ("Dodge:" + dodgeRate + " Crit:" + critRate);
+//		Debug.Log ("Dodge:" + dodgeRate + " Crit:" + critRate);
 		float r = Random.Range (0F, 1F);
 //		Debug.Log ("Random:" + r);
 		if (r < dodgeRate)

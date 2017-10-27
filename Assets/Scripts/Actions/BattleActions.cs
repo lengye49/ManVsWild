@@ -191,7 +191,11 @@ public class BattleActions : MonoBehaviour {
 
 	void ResetPanel(){
 		int maxdistance = Mathf.Max ((int)(enemy.range), (int)GameData._playerData.property [19], (int)GameData._playerData.property [20]);
-		distance = Algorithms.GetIndexByRange (1, maxdistance + 1);
+		int r = Random.Range (0, 100);
+		if (r < 75)
+			distance = Random.Range (0, (int)GameData._playerData.property [19]);
+		else
+			distance = Random.Range(0, maxdistance);
 
 		enemyName.text = enemy.name;
 		enemyDistance.text = distance.ToString() +"m";
@@ -304,7 +308,7 @@ public class BattleActions : MonoBehaviour {
 		}
 
 		int dam = Algorithms.CalculateDamage (atk, def, s, hitRate,isMyAtk);
-		Debug.Log ("Atk = " + atk + ", Dam = " + dam);
+//		Debug.Log ("Atk = " + atk + ", Dam = " + dam);
 
 		if (isMyAtk) {
 			enemy.hp -= dam;

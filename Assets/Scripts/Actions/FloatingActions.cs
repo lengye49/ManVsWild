@@ -9,7 +9,6 @@ public class FloatingActions : MonoBehaviour {
 	private float upTime = 0.2f;
 	private float waitTime = 1f;
 	private float disappearTime = 0.5f;
-	private GameObject f;
 
 	/// <summary>
 	/// Calls in floating.
@@ -17,7 +16,8 @@ public class FloatingActions : MonoBehaviour {
 	/// <param name="str">Float text.</param>
 	/// <param name="floatType">Float type:0Good,1Bad.</param>
 	public void CallInFloating(string str,int floatType){
-		f = Instantiate (Resources.Load ("floatingCell")) as GameObject;;
+		GameObject f = Instantiate (Resources.Load ("floatingCell")) as GameObject;;
+
 		f.transform.SetParent (this.gameObject.transform);
 		f.SetActive (true);
 		Text t = f.GetComponentInChildren<Text> ();
@@ -36,29 +36,29 @@ public class FloatingActions : MonoBehaviour {
 			break;
 		}
 		t.color = c;
-		StartFloat ();
+		StartFloat (f);
 	}
-	void StartFloat(){
+	void StartFloat(GameObject f){
 		f.transform.localPosition = Vector3.zero;
 		f.transform.localScale = new Vector3 (0.1f, 0.1f, 1);
 		f.transform.DOLocalMoveY (100, upTime);
 		f.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 1f),upTime);
 		f.GetComponentInChildren<Text> ().DOFade (1, upTime);
-		StartCoroutine (WaitAndNext ());
+		StartCoroutine (WaitAndNext (f));
 	}
 
-	IEnumerator WaitAndNext(){
+	IEnumerator WaitAndNext(GameObject f){
 		yield return new WaitForSeconds (upTime + waitTime);
-		EndFloat ();
+		EndFloat (f);
 	}
 
-	void EndFloat(){
+	void EndFloat(GameObject f){
 		f.transform.DOLocalMoveY (250, disappearTime);
 		f.GetComponentInChildren<Text>().DOFade (0, disappearTime);
-		StartCoroutine (WaitAndEnd ());
+		StartCoroutine (WaitAndEnd (f));
 	}
 
-	IEnumerator WaitAndEnd(){
+	IEnumerator WaitAndEnd(GameObject f){
 		yield return new WaitForSeconds (disappearTime);
 		Destroy (f);
 	}

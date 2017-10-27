@@ -54,6 +54,6 @@ public class DeathActions : MonoBehaviour {
     IEnumerator WriteLetter(float t, string s){
         yield return new WaitForSeconds(t);
         txt += s;
-        deathMsg.text += txt;
+        deathMsg.text = txt;
     }
 }
