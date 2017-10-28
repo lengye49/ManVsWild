@@ -45,7 +45,7 @@ public class SerendipityActions : MonoBehaviour {
     void Update(){
 		if (isAd) {
 			studyButton.interactable = Vungle.isAdvertAvailable ();
-			studyText.text = Vungle.isAdvertAvailable () ? "观看" : "加载中";
+			studyText.text = Vungle.isAdvertAvailable () ? "查看" : "加载中";
 		}
     }
 
@@ -225,7 +225,7 @@ public class SerendipityActions : MonoBehaviour {
         messageList.Add(39,"幽暗丛林的精灵大多喜好和平，除了那些嗜杀的暗精灵。");
         messageList.Add(40,"荒原上的食人魔不仅仅吃人，实际上人类的肉又少又难吃，他们反而更喜欢吃兽人和动物。");
 		messageList.Add(41,"精神会影响人的命中率，同时也是释放魔法的必要条件。");
-		messageList.Add(42,"挑战NPC没有什么收益，但却非常危险，因此一定要小心为上。");
+		messageList.Add(42,"挑战NPC收益较低，但却非常危险，一定要小心为上。");
 		messageList.Add(43,"NPC实力强大，请谨慎挑战，挑战之前务必保存记忆。");
 		messageList.Add(44,"NPC实力强大，请谨慎挑战，挑战之前务必保存记忆。");
     }

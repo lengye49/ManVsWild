@@ -113,14 +113,14 @@ public class GameData : MonoBehaviour {
 
 		_playerData.LearnedBlueprints = GetDicFormStr (PlayerPrefs.GetString ("LearnedBlueprints" + s, ""));
 
-		_playerData.MeleeId = PlayerPrefs.GetInt ("MeleeId" + s, 1210000);
-        _playerData.RangedId = PlayerPrefs.GetInt ("RangedId" + s, 2060000);
-        _playerData.MagicId = PlayerPrefs.GetInt ("MagicId" + s, 3020000);
-		_playerData.HeadId = PlayerPrefs.GetInt ("HeadId" + s, 5110000);
-		_playerData.BodyId = PlayerPrefs.GetInt ("BodyId" + s, 6120000);
-		_playerData.ShoeId = PlayerPrefs.GetInt ("ShoeId" + s, 7060000);
-		_playerData.AmmoId = PlayerPrefs.GetInt ("AmmoId" + s, 4020000);
-		_playerData.AmmoNum = PlayerPrefs.GetInt ("AmmoNum" + s, 999);
+		_playerData.MeleeId = PlayerPrefs.GetInt ("MeleeId" + s, 1000000);
+        _playerData.RangedId = PlayerPrefs.GetInt ("RangedId" + s, 0);
+        _playerData.MagicId = PlayerPrefs.GetInt ("MagicId" + s, 0);
+		_playerData.HeadId = PlayerPrefs.GetInt ("HeadId" + s, 0);
+		_playerData.BodyId = PlayerPrefs.GetInt ("BodyId" + s, 0);
+		_playerData.ShoeId = PlayerPrefs.GetInt ("ShoeId" + s, 0);
+		_playerData.AmmoId = PlayerPrefs.GetInt ("AmmoId" + s, 0);
+		_playerData.AmmoNum = PlayerPrefs.GetInt ("AmmoNum" + s, 0);
 		_playerData.Mount = GetMount (PlayerPrefs.GetString ("Mount" + s, ""));
 
 		_playerData.LastWithdrawWaterTime = PlayerPrefs.GetInt ("LastWithdrawWaterTime" + s, 0);
@@ -133,7 +133,7 @@ public class GameData : MonoBehaviour {
 		_playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
 
 																									 //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
-		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1|1|1|0|0|0|0|0|0"));
+		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
 		_playerData.dungeonLevelMax = 99;// PlayerPrefs.GetInt ("DungeonLevelMax" + s, 0);
         _playerData.tunnelLevelMax = PlayerPrefs.GetInt ("TunnelLevelMax" + s, 0);
 
@@ -1040,54 +1040,80 @@ public class GameData : MonoBehaviour {
 	}
 
 	public void ChangeEquip(int equipId){
-		int equipType = LoadTxt.MatDic [(int)(equipId / 10000)].type;
-		TakeOffEquip (equipType);
-		int num = 1;
-		switch (equipType) {
-		case 3:
-			_playerData.MeleeId = equipId;
-			StoreData ("MeleeId", equipId);
-			break;
-		case 4:
-			_playerData.RangedId = equipId;
-			StoreData ("RangedId", equipId);
-			break;
-		case 5:
-			_playerData.MagicId = equipId;
-			StoreData ("MagicId", equipId);
-			break;
-		case 6:
-			_playerData.HeadId = equipId;
-			StoreData ("HeadId", equipId);
-			break;
-		case 7:
-			_playerData.BodyId = equipId;
-			StoreData ("BodyId", equipId);
-			break;
-		case 8:
-			_playerData.ShoeId = equipId;
-			StoreData ("ShoeId", equipId);
-			break;
-		case 9:
-			break;
-		case 10:
-			if (equipId == _playerData.AmmoId) {
-				_playerData.AmmoNum += _playerData.bp [_playerData.AmmoId];
-				StoreData ("AmmoNum", _playerData.bp [_playerData.AmmoId]);
-			} else {
-				_playerData.AmmoId = equipId;
-				StoreData ("AmmoId", equipId);
-				_playerData.AmmoNum = _playerData.bp [_playerData.AmmoId];
-				StoreData ("AmmoNum", _playerData.bp [_playerData.AmmoId]);
-			}
-			num = _playerData.bp [_playerData.AmmoId];
-			break;
-		default:
-			break;
-		}
-		UpdateProperty ();
-		DeleteItemInBp (equipId, num);
-	}
+        int equipType = LoadTxt.MatDic[(int)(equipId / 10000)].type;
+        int num = 1;
+        int oldId = 0;
+        switch (equipType)
+        {
+            case 3:
+                oldId = _playerData.MeleeId;
+                _playerData.MeleeId = equipId;
+                DeleteItemInBp(equipId, num);
+                AddItem(oldId, 1);
+                StoreData("MeleeId", equipId);
+                break;
+            case 4:
+                oldId = _playerData.RangedId;
+                _playerData.RangedId = equipId;
+                DeleteItemInBp(equipId, num);
+                AddItem(oldId, 1);
+                StoreData("RangedId", equipId);
+                break;
+            case 5:
+                oldId = _playerData.MagicId;
+                _playerData.MagicId = equipId;
+                DeleteItemInBp(equipId, num);
+                AddItem(oldId, 1);
+                StoreData("MagicId", equipId);
+                break;
+            case 6:
+                oldId = _playerData.HeadId;
+                _playerData.HeadId = equipId;
+                DeleteItemInBp(equipId, num);
+                AddItem(oldId, 1);
+                StoreData("HeadId", equipId);
+                break;
+            case 7:
+                oldId = _playerData.BodyId;
+                _playerData.BodyId = equipId;
+                DeleteItemInBp(equipId, num);
+                AddItem(oldId, 1);
+                StoreData("BodyId", equipId);
+                break;
+            case 8:
+                oldId = _playerData.ShoeId;
+                _playerData.ShoeId = equipId;
+                DeleteItemInBp(equipId, num);
+                AddItem(oldId, 1);
+                StoreData("ShoeId", equipId);
+                break;
+            case 9:
+                break;
+            case 10:
+                oldId = _playerData.AmmoId;
+                num = _playerData.AmmoNum;
+                DeleteItemInBp(oldId, num);
+                if (equipId == _playerData.AmmoId)
+                {
+                    _playerData.AmmoNum += _playerData.bp[_playerData.AmmoId];
+                    StoreData("AmmoNum", _playerData.bp[_playerData.AmmoId]);
+                }
+                else
+                {
+                    _playerData.AmmoId = equipId;
+                    StoreData("AmmoId", equipId);
+                    int n = _playerData.bp[equipId];
+                    _playerData.AmmoNum = n;
+                    StoreData("AmmoNum", n);
+                    DeleteItemInBp(equipId, n);
+                    AddItem(oldId, num);
+                }
+                break;
+            default:
+                break;
+        }
+        UpdateProperty();
+    }
 
 	public int GetUsedPetSpace(){
 		int usedPetSpace = 0;
@@ -1248,11 +1274,11 @@ public class GameData : MonoBehaviour {
 	/// 获得第一次进贡
 	/// </summary>
 	public void GetFirstTribute(){
-		StoreItem (41000000, 5);
-		StoreItem (41010000, 10);
-		string s = "附近居民听说你的到来，向你表达善意。";
+		StoreItem (41000000, 30);
+		StoreItem (41010000, 100);
+		string s = "附近的居民非常友善，他们热情的欢迎你，";
 		_logManager.AddLog (1f,s);
-		s = "他们送来 水+5，种子+5 已放入仓库。";
+		s = "送来 水+30，小麦+100 已放入你的仓库。";
 		_logManager.AddLog (2f,s);
 	}
 

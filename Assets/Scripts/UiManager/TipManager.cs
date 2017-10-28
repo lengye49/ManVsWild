@@ -699,7 +699,8 @@ public class TipManager : MonoBehaviour {
 			_gameData.ConsumeItem (key, t.req [key]);
 		}
 		MoveTechTipPanel ();
-		_floating.CallInFloating (t.name + " Completed!", 0);
+		_floating.CallInFloating ("已经完成 "+t.name + " 的研究!", 0);
+        _logManager.AddLog("已经完成 " + t.name + " 的研究!",true);
 		LearntTech (t);
 		_studyActions.UpdateStudy();
 
@@ -765,6 +766,7 @@ public class TipManager : MonoBehaviour {
 		default:
 			break;
 		}
+        _gameData.StoreData("TechList", _gameData.GetStrFromTechList(GameData._playerData.techLevels));
 	}
 
 	/// <summary>
@@ -855,17 +857,17 @@ public class TipManager : MonoBehaviour {
 		switch (type) {
 		case 0:
 			commonTipButton [0].gameObject.SetActive (true);
-			commonTipButton[0].gameObject.name = "warehouse_warehouse|"+itemId;
+			commonTipButton [0].gameObject.name = "warehouse_warehouse|"+itemId;
 			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "取出";
 			break;
 		case 1:
 			commonTipButton [0].gameObject.SetActive (true);
-			commonTipButton[0].gameObject.name = "warehouse_backpack|"+itemId;
+			commonTipButton [0].gameObject.name = "warehouse_backpack|"+itemId;
 			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "存放";
 			break;
 		case 2:
 			commonTipButton [0].gameObject.SetActive (true);
-			commonTipButton[0].gameObject.name = "backpack_backpack|"+itemId;
+			commonTipButton [0].gameObject.name = "backpack_backpack|"+itemId;
 			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "使用";
 			bool canUse = !(m.property == null);
 			commonTipButton [1].interactable = canUse;
@@ -960,7 +962,7 @@ public class TipManager : MonoBehaviour {
 			_warehouseActions.UpdatePanel ();
 			MoveCommonTipPanel ();
 			break;
-            case "存放":
+        case "存放":
             if (GameData._playerData.wh.Count >= (GameConfigs.warehouseMin + GameConfigs.warehouseAdd * (GameData._playerData.WarehouseOpen-1)))
             {
                 _floating.CallInFloating("仓库已满", 1);

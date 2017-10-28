@@ -49,7 +49,7 @@ public class GameConfigs{
 //	public static int tempMax=60;
 
 									//   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6  7  8  9 0 1 2 3 4 5 6 7 8
-	public static int[] BasicProperty = {0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,95,80,20,2,0,2,0,5,0,0,0,0,0};
+	public static int[] BasicProperty = {0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,95,80,20,2,0,1,0,5,0,0,0,0,0};
 	//0hpNow 1hpMax 2spiritNow 3spiritMax 4foodNow 5foodMax 6waterNow 7waterMax 8strengthNow 9strengthMax 10-12 tempNow/Min/Max
 	//13MeleeDamage 14RangedDamage 15Def 16MeleePrecise 17RangePrecise 18Dodge 19MeleeDistance 20RangedDistance
 	//21MeleeAttackSpeed 22RangedAttackSpeed 23MoveSpeed 24MagicDamage 25MeleePercent 26RangePercent 27MeleeSpeedPercent 28RangedSpeedPercent
@@ -91,7 +91,7 @@ public class GameConfigs{
 	public static int[] ArcheryMeleeDamage = {0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200};
 	public static int[] ArcheryMeleePrecise = {0,0,0,0,0,5,0,0,0,0,10,0,0,0,0,15,0,0,0,0,20};
 	public static float[] WitchcraftPower = {1f,1.1f,1.25f,1.5f};
-	public static float[] WitchcraftCostRate={1f,0.8f,0.5f};
+	public static float[] WitchcraftCostRate={1f,0.8f,0.4f};
 	public static float[] CaptureRate = {1f,1.2f,1.5f,2f};
 	public static float[] SpotRate = {0.5f,0.4f,0.25f};
 	public static float[] SearchRate = { 1f, 1.5f };

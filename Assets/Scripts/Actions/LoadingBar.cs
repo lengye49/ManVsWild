@@ -18,13 +18,13 @@ public class LoadingBar : MonoBehaviour {
 	}
 
 	public int CallInLoadingBar(int costMin){
-		int max = Mathf.Min (1200, 600 + costMin * 4);
-		totalTime = (int)(Random.Range (600, max)/1200);
+//		int max = 1999;
+		totalTime = 1;
 		value = 0;
 		this.gameObject.SetActive (true);
 		this.gameObject.transform.localPosition = new Vector3 (0f, -666f, 0f);
 		StartLoading ();
-		return totalTime + 2;
+		return 1;
 	}
 
 	void StartLoading(){
@@ -38,10 +38,10 @@ public class LoadingBar : MonoBehaviour {
 		}else{
 			loadingTxt = "进行中...";
 		}
-		loadingBar.value = value;
+        loadingBar.value = value * 2f;
 		loadingText.text = loadingTxt;
-		fillImage.color = new Color (0, Mathf.Max (0, (value + 1) / 2), 0f, 1f);
-		if (value < 1)
+		fillImage.color = new Color (0, Mathf.Max (0, (value + 0.5f) / 1f), 0f, 1f);
+		if (value < 0.5)
 			StartCoroutine (LoadingInProgress ());
 		else {
 			this.gameObject.SetActive (false);
