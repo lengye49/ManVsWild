@@ -34,12 +34,59 @@ public class GameData : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// 死亡或重新开始时不会重置的数据
+	/// 重新开始和读取记忆时不会重置的数据
 	/// </summary>
 	void LoadStaticData(){
 		meleeIdUsedData = PlayerPrefs.GetInt ("MeleeIdUsed", 1);
 		rangedIdUsedData= PlayerPrefs.GetInt ("RangedIdUsed", 1);
 		battleCount = PlayerPrefs.GetInt ("BattleCount", 0);
+	}
+
+	void DeleteAllData(){
+		int meleeUsed = PlayerPrefs.GetInt ("MeleeIdUsed", 1);
+		int rangedUsed =  PlayerPrefs.GetInt ("RangedIdUsed", 1);
+		int battleCount = PlayerPrefs.GetInt ("BattleCount", 0);
+		string techStr = PlayerPrefs.GetString ("Achievements", "1|0;2|0;3|0;4|0;5|0;6|0;7|0;8|0;9|0;10|0;11|0;12|0;13|0;14|0;15|0;16|0;17|0;18|0;19|0;20|0;21|0;22|0;23|0;24|0;25|0;26|0;27|0;28|0;29|0;30|0;31|0;32|0;33|0;34|0;35|0;36|0;37|0;38|0;39|0;40|0");
+		int thiefCaught = PlayerPrefs.GetInt ("ThiefCaught", 0);
+		int ghostKill = PlayerPrefs.GetInt ("GhostKill", 0);
+		int ghostBossKill = PlayerPrefs.GetInt ("GhostBossKill", 0);
+		int ghostKingKill = PlayerPrefs.GetInt ("GhostKingKill", 0);
+		string wineTasted =  (PlayerPrefs.GetString ("WineTasted", ""));
+		string foodCooked =  (PlayerPrefs.GetString ("FoodCooked", ""));
+		string meleeCollected =  (PlayerPrefs.GetString ("MeleeCollected", ""));
+		string rangedCollected =  (PlayerPrefs.GetString ("RangedCollected", ""));
+		string magicCollected =  (PlayerPrefs.GetString ("MagicCollected", ""));
+		int monsterKilled = PlayerPrefs.GetInt ("MonsterKilled", 0);
+		int sleepTime = PlayerPrefs.GetInt ("SleepTime", 0);
+		int dragonKilled = PlayerPrefs.GetInt ("DragonKilled", 0);
+		int legendThiefCaught = PlayerPrefs.GetInt ("LegendThiefCaught", 0);
+		int meleeAttackCount = PlayerPrefs.GetInt ("MeleeAttackCount", 0);
+		int rangedAttackCount = PlayerPrefs.GetInt ("RangedAttackCount", 0);
+		int magicAttackCount = PlayerPrefs.GetInt ("MagicAttackCount", 0);
+
+		PlayerPrefs.DeleteAll ();
+
+		PlayerPrefs.SetInt ("MeleeIdUsed", meleeUsed);
+		PlayerPrefs.SetInt ("RangedIdUsed", rangedUsed);
+		PlayerPrefs.SetInt ("BattleCount", battleCount);
+		PlayerPrefs.SetString ("Achievements", techStr);
+		PlayerPrefs.SetInt ("ThiefCaught" , thiefCaught);
+		PlayerPrefs.SetInt ("GhostKill" , ghostKill);
+		PlayerPrefs.SetInt ("GhostBossKill" , ghostBossKill);
+		PlayerPrefs.SetInt ("GhostKingKill" , ghostKingKill);
+		PlayerPrefs.SetString ("WineTasted" ,  wineTasted);
+		PlayerPrefs.SetString ("FoodCooked" ,  foodCooked);
+		PlayerPrefs.SetString ("MeleeCollected" ,  meleeCollected);
+		PlayerPrefs.SetString ("RangedCollected" , rangedCollected);
+		PlayerPrefs.SetString ("MagicCollected" , magicCollected);
+		PlayerPrefs.SetInt ("MonsterKilled" , monsterKilled);
+		PlayerPrefs.SetInt ("SleepTime" , sleepTime);
+		PlayerPrefs.SetInt ("DragonKilled" , dragonKilled);
+		PlayerPrefs.SetInt ("LegendThiefCaught" , legendThiefCaught);
+		PlayerPrefs.SetInt ("MeleeAttackCount" , meleeAttackCount);
+		PlayerPrefs.SetInt ("RangedAttackCount" , rangedAttackCount);
+		PlayerPrefs.SetInt ("MagicAttackCount", magicAttackCount);
+	
 	}
 
 	void LoadAchievements(){
@@ -133,7 +180,7 @@ public class GameData : MonoBehaviour {
 		_playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
 
 																									 //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
-		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
+		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|0|0|0|0|0|0|0|0|1|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
 		_playerData.dungeonLevelMax = 99;// PlayerPrefs.GetInt ("DungeonLevelMax" + s, 0);
         _playerData.tunnelLevelMax = PlayerPrefs.GetInt ("TunnelLevelMax" + s, 0);
 
@@ -155,25 +202,6 @@ public class GameData : MonoBehaviour {
 		_playerData.GhostComingProp = GameConfigs.GhostComingProp [0];//这个科技还没做
 		_playerData.ThiefDefence = 0.3f;
 		//科技结束
-
-		//成就读取
-		_playerData.thiefCaught = PlayerPrefs.GetInt ("ThiefCaught", 0);
-		_playerData.ghostKill = PlayerPrefs.GetInt ("GhostKill", 0);
-		_playerData.ghostBossKill = PlayerPrefs.GetInt ("GhostBossKill", 0);
-		_playerData.ghostKingKill = PlayerPrefs.GetInt ("GhostKingKill", 0);
-		_playerData.wineTasted = GetIntFromStr (PlayerPrefs.GetString ("WineTasted", ""));
-		_playerData.foodCooked = GetIntFromStr (PlayerPrefs.GetString ("FoodCooked", ""));
-		_playerData.meleeCollected = GetIntFromStr (PlayerPrefs.GetString ("MeleeCollected", ""));
-		_playerData.rangedCollected = GetIntFromStr (PlayerPrefs.GetString ("RangedCollected", ""));
-		_playerData.magicCollected = GetIntFromStr (PlayerPrefs.GetString ("MagicCollected", ""));
-		_playerData.monsterKilled = PlayerPrefs.GetInt ("MonsterKilled", 0);
-		_playerData.sleepTime = PlayerPrefs.GetInt ("SleepTime", 0);
-		_playerData.dragonKilled = PlayerPrefs.GetInt ("DragonKilled", 0);
-		_playerData.legendThiefCaught = PlayerPrefs.GetInt ("LegendThiefCaught", 0);
-		_playerData.meleeAttackCount = PlayerPrefs.GetInt ("MeleeAttackCount", 0);
-		_playerData.rangedAttackCount = PlayerPrefs.GetInt ("RangedAttackCount", 0);
-		_playerData.magicAttackCount = PlayerPrefs.GetInt ("MagicAttackCount", 0);
-		//成就结束
 
 		_playerData.lastThiefTime = PlayerPrefs.GetInt ("LastThiefTime", 0);
 		_playerData.petsCaptured = PlayerPrefs.GetInt ("PetsCaptured", 0);
@@ -252,23 +280,6 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("DungeonLevelMax" + s, _playerData.dungeonLevelMax);
         PlayerPrefs.SetInt ("TunnelLevelMax" + s, _playerData.tunnelLevelMax);
 
-		PlayerPrefs.SetInt ("ThiefCaught" + s, _playerData.thiefCaught);
-		PlayerPrefs.SetInt ("GhostKill" + s, _playerData.ghostKill);
-		PlayerPrefs.SetInt ("GhostBossKill" + s, _playerData.ghostBossKill);
-		PlayerPrefs.SetInt ("GhostKingKill" + s, _playerData.ghostKingKill);
-		PlayerPrefs.SetString ("WineTasted" + s, GetStrFromInt (_playerData.wineTasted));
-		PlayerPrefs.SetString ("FoodCooked" + s, GetStrFromInt (_playerData.foodCooked));
-		PlayerPrefs.SetString ("MeleeCollected" + s, GetStrFromInt (_playerData.meleeCollected));
-		PlayerPrefs.SetString ("RangedCollected" + s, GetStrFromInt (_playerData.rangedCollected));
-		PlayerPrefs.SetString ("MagicCollected" + s, GetStrFromInt (_playerData.magicCollected));
-		PlayerPrefs.SetInt ("MonsterKilled" + s, _playerData.monsterKilled);
-		PlayerPrefs.SetInt ("SleepTime" + s, _playerData.sleepTime);
-		PlayerPrefs.SetInt ("DragonKilled" + s, _playerData.dragonKilled);
-		PlayerPrefs.SetInt ("LegendThiefCaught" + s, _playerData.legendThiefCaught);
-		PlayerPrefs.SetInt ("MeleeAttackCount" + s, _playerData.meleeAttackCount);
-		PlayerPrefs.SetInt ("RangedAttackCount" + s, _playerData.rangedAttackCount);
-		PlayerPrefs.SetInt ("MagicAttackCount" + s, _playerData.magicAttackCount);
-
 		PlayerPrefs.SetInt ("LastThiefTime" + s, _playerData.lastThiefTime);
 		PlayerPrefs.SetInt ("Renown" + s, _playerData.Renown);
 		PlayerPrefs.SetInt ("PetsCaptured" + s, _playerData.petsCaptured);
@@ -292,7 +303,7 @@ public class GameData : MonoBehaviour {
 	}
 
 	public void ReStartLoad(){
-		PlayerPrefs.DeleteAll ();
+		DeleteAllData ();
 		LoadAllData (false);
 		StoreData (true);
 	}
