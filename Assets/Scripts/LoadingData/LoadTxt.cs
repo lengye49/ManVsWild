@@ -13,7 +13,7 @@ public class LoadTxt : MonoBehaviour {
 	void Awake () {
 		MatDic = new Dictionary<int, Mats> ();
 		MapDic = new Dictionary<int, Maps> ();
-		PlaceDic = new Dictionary<int, Places> ();
+		
 
 		LoadMats ();
 		LoadMaps ();
@@ -485,6 +485,7 @@ public class LoadTxt : MonoBehaviour {
 	private PlaceUnit[] p;
 
 	public void LoadPlaces(bool isRebirth){
+        PlaceDic = new Dictionary<int, Places> ();
 		string[][] strs = ReadTxt.ReadText ("places");
 		p = new PlaceUnit[strs.Length-1];
 		for (int i = 0; i < p.Length; i++) {

@@ -25,7 +25,7 @@ public class GameData : MonoBehaviour {
 
 		_playerData = new PlayerData ();
 		LoadAchievements ();
-		LoadAllData (false);
+		LoadAllData ();
 		LoadStaticData ();
 		_headUiManager = gameObject.GetComponentInChildren<HeadUiManager> ();
 		_loadTxt = this.gameObject.GetComponent<LoadTxt> ();
@@ -118,113 +118,165 @@ public class GameData : MonoBehaviour {
 	/// <summary>
 	/// Load Player Data From Local File.
 	/// </summary>
-	void LoadAllData(bool isMemory){
-		string s = isMemory ? "_Memory" : "";
+	void LoadAllData(){
+        _playerData.firstTimeInGame = PlayerPrefs.GetInt("FirstTimeInGame", 0);
 
-		_playerData.firstTimeInGame = PlayerPrefs.GetInt ("FirstTimeInGame", 0);
+        _playerData.techLevels = GetTechList(PlayerPrefs.GetString("TechList", "1|0;2|0;3|0;4|0;5|0;6|0;7|0;8|0;9|0;10|0;11|0;12|0;13|0;14|0;15|0;16|0;17|0"));
 
-		_playerData.techLevels = GetTechList (PlayerPrefs.GetString ("TechList", "1|0;2|0;3|0;4|0;5|0;6|0;7|0;8|0;9|0;10|0;11|0;12|0;13|0;14|0;15|0;16|0;17|0"));
+        _playerData.hpNow = PlayerPrefs.GetInt("hpNow", 100);
+        _playerData.spiritNow = PlayerPrefs.GetInt("spiritNow", 100);
+        _playerData.foodNow = PlayerPrefs.GetInt("foodNow", 100);
+        _playerData.waterNow = PlayerPrefs.GetInt("waterNow", 100);
+        _playerData.strengthNow = PlayerPrefs.GetInt("strengthNow", 100);
+        _playerData.tempNow = PlayerPrefs.GetFloat("tempNow", 20);
 
-		_playerData.hpNow = PlayerPrefs.GetInt ("hpNow" + s, 100);
-		_playerData.spiritNow = PlayerPrefs.GetInt ("spiritNow" + s, 100);
-		_playerData.foodNow = PlayerPrefs.GetInt ("foodNow" + s, 100);
-		_playerData.waterNow = PlayerPrefs.GetInt ("waterNow" + s, 100);
-		_playerData.strengthNow = PlayerPrefs.GetInt ("strengthNow" + s, 100);
-        _playerData.tempNow = PlayerPrefs.GetFloat ("tempNow" + s, 20);
+        _playerData.HpMax = PlayerPrefs.GetInt("HpMax", 100);
+        _playerData.SpiritMax = PlayerPrefs.GetInt("SpiritMax", 100);
+        _playerData.FoodMax = PlayerPrefs.GetInt("FoodMax", 100);
+        _playerData.WaterMax = PlayerPrefs.GetInt("Watermax", 100);
+        _playerData.StrengthMax = PlayerPrefs.GetInt("StrengthMax", 100);
+        _playerData.TempMax = PlayerPrefs.GetFloat("TempMax", 60);
+        _playerData.TempMin = PlayerPrefs.GetFloat("TempMin", -60);
 
-		_playerData.HpMax = PlayerPrefs.GetInt ("HpMax" + s, 100);
-		_playerData.SpiritMax = PlayerPrefs.GetInt ("SpiritMax" + s, 100);
-		_playerData.FoodMax = PlayerPrefs.GetInt ("FoodMax" + s, 100);
-		_playerData.WaterMax = PlayerPrefs.GetInt ("Watermax" + s, 100);
-		_playerData.StrengthMax = PlayerPrefs.GetInt ("StrengthMax" + s, 100);
-		_playerData.TempMax = PlayerPrefs.GetFloat ("TempMax" + s, 60);
-        _playerData.TempMin = PlayerPrefs.GetFloat ("TempMin" + s, -60);
+        _playerData.minutesPassed = PlayerPrefs.GetInt("minutesPassed", 0);
 
-		_playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" + s, 0);
+        _playerData.BedRoomOpen = PlayerPrefs.GetInt("BedRoomOpen", 0);
+        _playerData.WarehouseOpen = PlayerPrefs.GetInt("WarehouseOpen", 0);
+        _playerData.KitchenOpen = PlayerPrefs.GetInt("KitchenOpen", 0);
+        _playerData.WorkshopOpen = PlayerPrefs.GetInt("WorkshopOpen", 0);
+        _playerData.StudyOpen = PlayerPrefs.GetInt("StudyOpen", 0);
+        _playerData.FarmOpen = PlayerPrefs.GetInt("FarmOpen", 0);
+        _playerData.PetsOpen = PlayerPrefs.GetInt("PetsOpen", 0);
+        _playerData.WellOpen = PlayerPrefs.GetInt("WellOpen", 0);
+        _playerData.AchievementOpen = PlayerPrefs.GetInt("AchievementOpen", 0);
+        _playerData.AltarOpen = PlayerPrefs.GetInt("AltarOpen", 0);
 
-		_playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen" + s, 0);
-		_playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" + s, 0);
-		_playerData.KitchenOpen = PlayerPrefs.GetInt ("KitchenOpen" + s, 0);
-		_playerData.WorkshopOpen = PlayerPrefs.GetInt ("WorkshopOpen" + s, 0);
-		_playerData.StudyOpen = PlayerPrefs.GetInt ("StudyOpen" + s, 0);
-		_playerData.FarmOpen = PlayerPrefs.GetInt ("FarmOpen" + s, 0);
-		_playerData.PetsOpen = PlayerPrefs.GetInt ("PetsOpen" + s, 0);
-		_playerData.WellOpen = PlayerPrefs.GetInt ("WellOpen" + s, 0);
-		_playerData.AchievementOpen = PlayerPrefs.GetInt ("AchievementOpen" + s, 0);
-		_playerData.AltarOpen = PlayerPrefs.GetInt ("AltarOpen" + s, 0);
+        _playerData.bp = GetDicFormStr(PlayerPrefs.GetString("bp", "11000000|50;11010000|20;41000000|5;42000000|2;42140000|10"));
+        _playerData.wh = GetDicFormStr(PlayerPrefs.GetString("wh", "41000000|999;42000000|999"));
 
-		_playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" + s, "11000000|50;11010000|20;41000000|5;42000000|2;42140000|10"));
-		_playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" + s, "41000000|999;42000000|999"));
+        _playerData.HasMemmory = PlayerPrefs.GetInt("HasMemmory", 0);
 
-		_playerData.HasMemmory = PlayerPrefs.GetInt ("HasMemmory" + s, 0);
+        _playerData.LearnedBlueprints = GetDicFormStr(PlayerPrefs.GetString("LearnedBlueprints", ""));
 
-		_playerData.LearnedBlueprints = GetDicFormStr (PlayerPrefs.GetString ("LearnedBlueprints" + s, ""));
+        _playerData.MeleeId = PlayerPrefs.GetInt("MeleeId", 1000000);
+        _playerData.RangedId = PlayerPrefs.GetInt("RangedId", 0);
+        _playerData.MagicId = PlayerPrefs.GetInt("MagicId", 0);
+        _playerData.HeadId = PlayerPrefs.GetInt("HeadId", 0);
+        _playerData.BodyId = PlayerPrefs.GetInt("BodyId", 0);
+        _playerData.ShoeId = PlayerPrefs.GetInt("ShoeId", 0);
+        _playerData.AmmoId = PlayerPrefs.GetInt("AmmoId", 0);
+        _playerData.AmmoNum = PlayerPrefs.GetInt("AmmoNum", 0);
+        _playerData.Mount = GetMount(PlayerPrefs.GetString("Mount", ""));
 
-		_playerData.MeleeId = PlayerPrefs.GetInt ("MeleeId" + s, 1000000);
-        _playerData.RangedId = PlayerPrefs.GetInt ("RangedId" + s, 0);
-        _playerData.MagicId = PlayerPrefs.GetInt ("MagicId" + s, 0);
-		_playerData.HeadId = PlayerPrefs.GetInt ("HeadId" + s, 0);
-		_playerData.BodyId = PlayerPrefs.GetInt ("BodyId" + s, 0);
-		_playerData.ShoeId = PlayerPrefs.GetInt ("ShoeId" + s, 0);
-		_playerData.AmmoId = PlayerPrefs.GetInt ("AmmoId" + s, 0);
-		_playerData.AmmoNum = PlayerPrefs.GetInt ("AmmoNum" + s, 0);
-		_playerData.Mount = GetMount (PlayerPrefs.GetString ("Mount" + s, ""));
+        _playerData.LastWithdrawWaterTime = PlayerPrefs.GetInt("LastWithdrawWaterTime", 0);
 
-		_playerData.LastWithdrawWaterTime = PlayerPrefs.GetInt ("LastWithdrawWaterTime" + s, 0);
+        _playerData.Renown = PlayerPrefs.GetInt("Renown", 0);
 
-		_playerData.Renown = PlayerPrefs.GetInt ("Renown" + s, 0);
+        _playerData.Farms = GetFarmStateFromStr(PlayerPrefs.GetString("Farms", "0|0|1|0;1|0|2|0;2|0|3|0;3|0|0|0;4|0|0|0;5|0|0|0;6|0|0|0;7|0|0|0"));
 
-		_playerData.Farms = GetFarmStateFromStr (PlayerPrefs.GetString ("Farms" + s, "0|0|1|0;1|0|2|0;2|0|3|0;3|0|0|0;4|0|0|0;5|0|0|0;6|0|0|0;7|0|0|0"));
+        _playerData.Pets = GetPetListFromStr(PlayerPrefs.GetString("Pets", ""));//"100|1|50|15|Hello;100|0|20|10|Kitty"));
+        _playerData.PetRecord = PlayerPrefs.GetInt("PetRecord", 0);
 
-		_playerData.Pets = GetPetListFromStr (PlayerPrefs.GetString ("Pets" + s, ""));//"100|1|50|15|Hello;100|0|20|10|Kitty"));
-		_playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
+                                                                                               //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
+        _playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|0|0|0|0|0|0|0|0|1|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
+        _playerData.dungeonLevelMax = PlayerPrefs.GetInt("DungeonLevelMax", 0);
+        _playerData.tunnelLevelMax = PlayerPrefs.GetInt("TunnelLevelMax", 0);
 
-																									 //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
-		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState" + s, "1|1|1|0|0|0|0|0|0|0|0|1|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
-		_playerData.dungeonLevelMax = 99;// PlayerPrefs.GetInt ("DungeonLevelMax" + s, 0);
-        _playerData.tunnelLevelMax = PlayerPrefs.GetInt ("TunnelLevelMax" + s, 0);
+        //科技只需要读取，不需要存储
+        _playerData.bpNum = _playerData.techLevels[1] * GameConfigs.IncBpNum + GameConfigs.BasicBpNum; 
+        _playerData.ConstructTimeDiscount = GameConfigs.ConstructionDiscount[_playerData.techLevels[2]];
+        _playerData.TheftLossDiscount = GameConfigs.TheftDiscount[_playerData.techLevels[3]];
+        _playerData.HarvestIncrease = GameConfigs.HarvestIncrease[_playerData.techLevels[4]];
+        _playerData.OenologyIncrease = GameConfigs.OenologyIncrease[_playerData.techLevels[5]];
+        _playerData.MagicPower = GameConfigs.WitchcraftPower[_playerData.techLevels[8]];
+        _playerData.MagicCostRate = GameConfigs.WitchcraftCostRate[_playerData.techLevels[10]];
+        _playerData.CaptureRate = GameConfigs.CaptureRate[_playerData.techLevels[11]];
+        _playerData.SpotRate = GameConfigs.SpotRate[_playerData.techLevels[12]];
+        _playerData.SearchRate = GameConfigs.SearchRate[_playerData.techLevels[13]];
+        _playerData.BlackSmithTimeDiscount = GameConfigs.BlackSmithTimeDiscount[_playerData.techLevels[15]];
+        _playerData.CookingTimeDiscount = GameConfigs.CookingTimeDiscount[_playerData.techLevels[16]];
+        _playerData.CookingIncreaseRate = GameConfigs.CookingIncreaseRate[_playerData.techLevels[16]];
+        _playerData.WaterCollectingRate = GameConfigs.WaterCollectingRate[_playerData.techLevels[17]];
+        _playerData.GhostComingProp = GameConfigs.GhostComingProp[0];//这个科技还没做
+        _playerData.ThiefDefence = 0.3f;
+        //科技结束
 
-		//科技只需要读取，不需要存储
-		_playerData.bpNum = _playerData.techLevels [1] * GameConfigs.IncBpNum + GameConfigs.BasicBpNum; 
-		_playerData.ConstructTimeDiscount = GameConfigs.ConstructionDiscount [_playerData.techLevels [2]];
-		_playerData.TheftLossDiscount = GameConfigs.TheftDiscount [_playerData.techLevels [3]];
-		_playerData.HarvestIncrease = GameConfigs.HarvestIncrease [_playerData.techLevels [4]];
-		_playerData.OenologyIncrease = GameConfigs.OenologyIncrease [_playerData.techLevels [5]];
-		_playerData.MagicPower = GameConfigs.WitchcraftPower [_playerData.techLevels [8]];
-		_playerData.MagicCostRate = GameConfigs.WitchcraftCostRate [_playerData.techLevels [10]];
-		_playerData.CaptureRate = GameConfigs.CaptureRate [_playerData.techLevels [11]];
-		_playerData.SpotRate = GameConfigs.SpotRate [_playerData.techLevels [12]];
-		_playerData.SearchRate = GameConfigs.SearchRate [_playerData.techLevels [13]];
-		_playerData.BlackSmithTimeDiscount = GameConfigs.BlackSmithTimeDiscount [_playerData.techLevels [15]];
-		_playerData.CookingTimeDiscount = GameConfigs.CookingTimeDiscount [_playerData.techLevels [16]];
-		_playerData.CookingIncreaseRate = GameConfigs.CookingIncreaseRate [_playerData.techLevels [16]];
-		_playerData.WaterCollectingRate = GameConfigs.WaterCollectingRate [_playerData.techLevels [17]];
-		_playerData.GhostComingProp = GameConfigs.GhostComingProp [0];//这个科技还没做
-		_playerData.ThiefDefence = 0.3f;
-		//科技结束
+        _playerData.lastThiefTime = PlayerPrefs.GetInt("LastThiefTime", 0);
+        _playerData.petsCaptured = PlayerPrefs.GetInt("PetsCaptured", 0);
+        _playerData.wineDrinked = PlayerPrefs.GetInt("WineDrinked", 0);
 
-		_playerData.lastThiefTime = PlayerPrefs.GetInt ("LastThiefTime", 0);
-		_playerData.petsCaptured = PlayerPrefs.GetInt ("PetsCaptured", 0);
-		_playerData.wineDrinked = PlayerPrefs.GetInt ("WineDrinked", 0);
-
-		_playerData.placeNowId = PlayerPrefs.GetInt ("PlaceNowId", 0);
-
-		if (isMemory) {
-			_loadTxt.LoadPlaces (isMemory);
-		}
-			
-		UpdateProperty ();
-
-	}
+        _playerData.placeNowId = PlayerPrefs.GetInt("PlaceNowId", 0);
 		
+        UpdateProperty();
+
+    }
+		
+    void RebirthLoading(){ 
+        string s = "_Memory";
+        _playerData.firstTimeInGame = PlayerPrefs.GetInt ("FirstTimeInGame"+s, 0);
+        _playerData.techLevels = GetTechList (PlayerPrefs.GetString ("TechList"+s, "1|0;2|0;3|0;4|0;5|0;6|0;7|0;8|0;9|0;10|0;11|0;12|0;13|0;14|0;15|0;16|0;17|0"));
+        _playerData.hpNow = PlayerPrefs.GetInt ("hpNow"+s , 100);
+        _playerData.spiritNow = PlayerPrefs.GetInt ("spiritNow" +s, 100);
+        _playerData.foodNow = PlayerPrefs.GetInt ("foodNow" +s, 100);
+        _playerData.waterNow = PlayerPrefs.GetInt ("waterNow" +s, 100);
+        _playerData.strengthNow = PlayerPrefs.GetInt ("strengthNow"+s , 100);
+        _playerData.tempNow = PlayerPrefs.GetFloat ("tempNow" +s, 20);
+        _playerData.HpMax = PlayerPrefs.GetInt ("HpMax" +s, 100);
+        _playerData.SpiritMax = PlayerPrefs.GetInt ("SpiritMax" +s, 100);
+        _playerData.FoodMax = PlayerPrefs.GetInt ("FoodMax"+s , 100);
+        _playerData.WaterMax = PlayerPrefs.GetInt ("Watermax" +s, 100);
+        _playerData.StrengthMax = PlayerPrefs.GetInt ("StrengthMax"+s , 100);
+        _playerData.TempMax = PlayerPrefs.GetFloat ("TempMax" +s, 60);
+        _playerData.TempMin = PlayerPrefs.GetFloat ("TempMin"+s , -60);
+        _playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" +s, 0);
+        _playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen"+s , 0);
+        _playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" +s, 0);
+        _playerData.KitchenOpen = PlayerPrefs.GetInt ("KitchenOpen" +s, 0);
+        _playerData.WorkshopOpen = PlayerPrefs.GetInt ("WorkshopOpen" +s, 0);
+        _playerData.StudyOpen = PlayerPrefs.GetInt ("StudyOpen" +s, 0);
+        _playerData.FarmOpen = PlayerPrefs.GetInt ("FarmOpen" +s, 0);
+        _playerData.PetsOpen = PlayerPrefs.GetInt ("PetsOpen" +s, 0);
+        _playerData.WellOpen = PlayerPrefs.GetInt ("WellOpen" +s, 0);
+        _playerData.AchievementOpen = PlayerPrefs.GetInt ("AchievementOpen" +s, 0);
+        _playerData.AltarOpen = PlayerPrefs.GetInt ("AltarOpen"+s , 0);
+        _playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" +s, "11000000|50;11010000|20;41000000|5;42000000|2;42140000|10"));
+        _playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" +s, "41000000|999;42000000|999"));
+        _playerData.HasMemmory = PlayerPrefs.GetInt ("HasMemmory" +s, 0);
+        _playerData.LearnedBlueprints = GetDicFormStr (PlayerPrefs.GetString ("LearnedBlueprints" +s, ""));
+        _playerData.MeleeId = PlayerPrefs.GetInt ("MeleeId" +s, 1000000);
+        _playerData.RangedId = PlayerPrefs.GetInt ("RangedId" +s, 0);
+        _playerData.MagicId = PlayerPrefs.GetInt ("MagicId"+s , 0);
+        _playerData.HeadId = PlayerPrefs.GetInt ("HeadId" +s, 0);
+        _playerData.BodyId = PlayerPrefs.GetInt ("BodyId"+s , 0);
+        _playerData.ShoeId = PlayerPrefs.GetInt ("ShoeId" +s, 0);
+        _playerData.AmmoId = PlayerPrefs.GetInt ("AmmoId" +s, 0);
+        _playerData.AmmoNum = PlayerPrefs.GetInt ("AmmoNum" +s, 0);
+        _playerData.Mount = GetMount (PlayerPrefs.GetString ("Mount"+s , ""));
+        _playerData.LastWithdrawWaterTime = PlayerPrefs.GetInt ("LastWithdrawWaterTime"+s , 0);
+        _playerData.Renown = PlayerPrefs.GetInt ("Renown" +s, 0);
+        _playerData.Farms = GetFarmStateFromStr (PlayerPrefs.GetString ("Farms" +s, "0|0|1|0;1|0|2|0;2|0|3|0;3|0|0|0;4|0|0|0;5|0|0|0;6|0|0|0;7|0|0|0"));
+        _playerData.Pets = GetPetListFromStr (PlayerPrefs.GetString ("Pets" +s, ""));
+        _playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
+        _playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState"+s , "1|1|1|0|0|0|0|0|0|0|0|1|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
+        _playerData.dungeonLevelMax = PlayerPrefs.GetInt ("DungeonLevelMax"+s, 0);
+        _playerData.tunnelLevelMax = PlayerPrefs.GetInt ("TunnelLevelMax"+s,0);
+        _playerData.lastThiefTime = PlayerPrefs.GetInt ("LastThiefTime"+s, 0);
+        _playerData.petsCaptured = PlayerPrefs.GetInt ("PetsCaptured"+s, 0);
+        _playerData.wineDrinked = PlayerPrefs.GetInt ("WineDrinked"+s, 0);
+        _playerData.placeNowId = PlayerPrefs.GetInt ("PlaceNowId"+s, 0);
+        _loadTxt.LoadPlaces (true);
+
+        PlayerPrefs.DeleteAll();
+
+        StoreData(false);
+    }
+
 	void StoreData(bool isRebirth)
 	{
 		string s = isRebirth ? "" : "_Memory";
 
-		PlayerPrefs.SetInt ("FirstTimeInGame", _playerData.firstTimeInGame);
-
+        PlayerPrefs.SetInt("FirstTimeInGame" + s, _playerData.firstTimeInGame);
 		PlayerPrefs.SetString ("TechList" + s, GetStrFromTechList (_playerData.techLevels));
-
 		PlayerPrefs.SetInt ("hpNow" + s, _playerData.hpNow);
 		PlayerPrefs.SetInt ("spiritNow" + s, _playerData.spiritNow);
 		PlayerPrefs.SetInt ("foodNow" + s, _playerData.foodNow);
@@ -238,9 +290,7 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("StrengthMax" + s, _playerData.StrengthMax);
         PlayerPrefs.SetFloat ("TempMin" + s, _playerData.TempMin);
         PlayerPrefs.SetFloat ("TempMax" + s, _playerData.TempMax);
-
 		PlayerPrefs.SetInt ("minutesPassed" + s, _playerData.minutesPassed);
-
 		PlayerPrefs.SetInt ("BedRoomOpen" + s, _playerData.BedRoomOpen);
 		PlayerPrefs.SetInt ("WarehouseOpen" + s, _playerData.WarehouseOpen);
 		PlayerPrefs.SetInt ("KitchenOpen" + s, _playerData.KitchenOpen);
@@ -251,14 +301,10 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("WellOpen" + s, _playerData.WellOpen);
 		PlayerPrefs.SetInt ("AchievementOpen" + s, _playerData.AchievementOpen);
 		PlayerPrefs.SetInt ("AltarOpen" + s, _playerData.AltarOpen);
-
 		PlayerPrefs.SetString ("bp" + s, GetStrFromDic (_playerData.bp));
 		PlayerPrefs.SetString ("wh" + s, GetStrFromDic (_playerData.wh));
-
 		PlayerPrefs.SetInt ("HasMemmory" + s, _playerData.HasMemmory);
-
 		PlayerPrefs.SetString ("LearnedBlueprints" + s, GetStrFromDic (_playerData.LearnedBlueprints));
-
 		PlayerPrefs.SetInt ("MeleeId" + s, _playerData.MeleeId);
 		PlayerPrefs.SetInt ("RangedId" + s, _playerData.RangedId);
 		PlayerPrefs.SetInt ("MagicId" + s, _playerData.MagicId);
@@ -268,25 +314,18 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("AmmoId" + s, _playerData.AmmoId);
 		PlayerPrefs.SetInt ("AmmoNum" + s, _playerData.AmmoNum);
 		PlayerPrefs.SetString ("Mount" + s, GetStrFromMount (_playerData.Mount));
-
 		PlayerPrefs.SetInt ("LastWithdrawWaterTime" + s, _playerData.LastWithdrawWaterTime);
-
 		PlayerPrefs.SetString ("Farms" + s, GetStrFromFarmState (_playerData.Farms));
-
 		PlayerPrefs.SetString ("Pets" + s, GetstrFromPets (_playerData.Pets));
 		PlayerPrefs.SetInt ("PetRecord" + s, _playerData.PetRecord);
-
 		PlayerPrefs.SetString ("MapOpenState" + s, GetStrFromMapOpenState (_playerData.MapOpenState));
 		PlayerPrefs.SetInt ("DungeonLevelMax" + s, _playerData.dungeonLevelMax);
         PlayerPrefs.SetInt ("TunnelLevelMax" + s, _playerData.tunnelLevelMax);
-
 		PlayerPrefs.SetInt ("LastThiefTime" + s, _playerData.lastThiefTime);
 		PlayerPrefs.SetInt ("Renown" + s, _playerData.Renown);
 		PlayerPrefs.SetInt ("PetsCaptured" + s, _playerData.petsCaptured);
 		PlayerPrefs.SetInt ("WineDrinked" + s, _playerData.wineDrinked);
-
 		PlayerPrefs.SetInt ("PlaceNowId" + s, _playerData.placeNowId);
-
 		_loadTxt.StorePlaceMemmory (isRebirth);
 	}
 
@@ -296,15 +335,16 @@ public class GameData : MonoBehaviour {
 		StoreData (false);
 	}
 
+
+    //游戏内加载存档
 	public void RebirthLoad(){
-		//游戏内加载存档
-		LoadAllData (true);
-		StoreData (true);
+        RebirthLoad();
 	}
 
+    //重新开始游戏
 	public void ReStartLoad(){
 		DeleteAllData ();
-		LoadAllData (false);
+		LoadAllData ();
 		StoreData (true);
 	}
 
