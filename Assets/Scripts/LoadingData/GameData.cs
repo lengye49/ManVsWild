@@ -268,7 +268,8 @@ public class GameData : MonoBehaviour {
 
         PlayerPrefs.DeleteAll();
 
-        StoreData(false);
+		StoreData(true);
+		StoreData (false);
     }
 
 	void StoreData(bool isRebirth)
@@ -338,7 +339,7 @@ public class GameData : MonoBehaviour {
 
     //游戏内加载存档
 	public void RebirthLoad(){
-        RebirthLoad();
+		RebirthLoading();
 	}
 
     //重新开始游戏

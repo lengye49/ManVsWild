@@ -22,7 +22,7 @@ public class AlterActions : MonoBehaviour {
         if (GameData._playerData.bp.ContainsKey(22020000))
             num = GameData._playerData.bp[22020000];
 
-        ssNum.text = num + "/" + GameConfigs.SoulStoneForStoreMem;
+		ssNum.text = GameConfigs.SoulStoneForStoreMem + "/" + num;
         ssNum.color = (num >= GameConfigs.SoulStoneForStoreMem) ? Color.green : Color.red;
         storeButton.interactable = (num >= GameConfigs.SoulStoneForStoreMem);
 
