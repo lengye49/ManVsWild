@@ -152,7 +152,7 @@ public class GameData : MonoBehaviour {
         _playerData.AltarOpen = PlayerPrefs.GetInt("AltarOpen", 0);
 
         _playerData.bp = GetDicFormStr(PlayerPrefs.GetString("bp", "11000000|50;11010000|20;41000000|5;42000000|2;42140000|10"));
-        _playerData.wh = GetDicFormStr(PlayerPrefs.GetString("wh", "41000000|999;42000000|999"));
+        _playerData.wh = GetDicFormStr(PlayerPrefs.GetString("wh", ""));
 
         _playerData.HasMemmory = PlayerPrefs.GetInt("HasMemmory", 0);
 
@@ -178,7 +178,7 @@ public class GameData : MonoBehaviour {
         _playerData.PetRecord = PlayerPrefs.GetInt("PetRecord", 0);
 
                                                                                                //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
-        _playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|0|0|0|0|0|0|0|0|1|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
+        _playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
         _playerData.dungeonLevelMax = PlayerPrefs.GetInt("DungeonLevelMax", 0);
         _playerData.tunnelLevelMax = PlayerPrefs.GetInt("TunnelLevelMax", 0);
 
@@ -240,7 +240,7 @@ public class GameData : MonoBehaviour {
         _playerData.AchievementOpen = PlayerPrefs.GetInt ("AchievementOpen" +s, 0);
         _playerData.AltarOpen = PlayerPrefs.GetInt ("AltarOpen"+s , 0);
         _playerData.bp = GetDicFormStr (PlayerPrefs.GetString ("bp" +s, "11000000|50;11010000|20;41000000|5;42000000|2;42140000|10"));
-        _playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" +s, "41000000|999;42000000|999"));
+        _playerData.wh = GetDicFormStr (PlayerPrefs.GetString ("wh" +s, ""));
         _playerData.HasMemmory = PlayerPrefs.GetInt ("HasMemmory" +s, 0);
         _playerData.LearnedBlueprints = GetDicFormStr (PlayerPrefs.GetString ("LearnedBlueprints" +s, ""));
         _playerData.MeleeId = PlayerPrefs.GetInt ("MeleeId" +s, 1000000);
@@ -257,7 +257,7 @@ public class GameData : MonoBehaviour {
         _playerData.Farms = GetFarmStateFromStr (PlayerPrefs.GetString ("Farms" +s, "0|0|1|0;1|0|2|0;2|0|3|0;3|0|0|0;4|0|0|0;5|0|0|0;6|0|0|0;7|0|0|0"));
         _playerData.Pets = GetPetListFromStr (PlayerPrefs.GetString ("Pets" +s, ""));
         _playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
-        _playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState"+s , "1|1|1|0|0|0|0|0|0|0|0|1|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
+        _playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState"+s , "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
         _playerData.dungeonLevelMax = PlayerPrefs.GetInt ("DungeonLevelMax"+s, 0);
         _playerData.tunnelLevelMax = PlayerPrefs.GetInt ("TunnelLevelMax"+s,0);
         _playerData.lastThiefTime = PlayerPrefs.GetInt ("LastThiefTime"+s, 0);

@@ -516,12 +516,5 @@ public class PanelManager : MonoBehaviour {
 		}
 			
 	}
-
-	public void CheckThief100(){
-		for (int i = 0; i < 100; i++) {
-			CheckThiefActivities ();
-		}
-	}
-
 }
 
