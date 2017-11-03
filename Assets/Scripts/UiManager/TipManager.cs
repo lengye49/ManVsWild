@@ -247,6 +247,7 @@ public class TipManager : MonoBehaviour {
 		}
 
 		_homeManager.UpdateContent ();
+
 	}
 
 	IEnumerator WaitAndBuildStudy(Building b){
