@@ -152,6 +152,7 @@ public class PanelManager : MonoBehaviour {
                     else
                         _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
                     Workshop.DOLocalMoveX(0, tweenerTime);
+                    this.gameObject.GetComponentInChildren<WorkshopActions>().UpdateWorkshop();
                     _FatherPanel = Home;
                     _PanelNow = Workshop;
                 }

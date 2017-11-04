@@ -464,7 +464,7 @@ public class BattleActions : MonoBehaviour {
 			_gameData.StoreData ("MapOpenState", _gameData.GetStrFromMapOpenState (GameData._playerData.MapOpenState));
 			s = "他告诉你去往" + LoadTxt.MapDic [enemy.mapOpen].name + "的方向。";
 			AddLog (s, 1);
-			_logManager.AddLog ("你发现了去" + LoadTxt.MapDic [enemy.mapOpen].name + "的路。");
+            _logManager.AddLog("你发现了去" + LoadTxt.MapDic[enemy.mapOpen].name + "的路。", true);
 		}
 
 		Dictionary<int,int> drop = Algorithms.GetReward (enemy.drop);

@@ -171,6 +171,7 @@ public class TipManager : MonoBehaviour {
 
 		_homeManager.UpdateContent ();
 		this.gameObject.GetComponentInChildren<RoomActions> ().UpdateRoomStates ();
+        this.gameObject.GetComponent<AchieveActions> ().ConstructBulding ();
 	}
 
 	IEnumerator WaitAndBuildWarehouse(Building b){
@@ -199,6 +200,7 @@ public class TipManager : MonoBehaviour {
 
 		_homeManager.UpdateContent ();
 		this.gameObject.GetComponentInChildren<WarehouseActions> ().UpdatePanel ();
+        this.gameObject.GetComponent<AchieveActions> ().ConstructBulding ();
 	}
 
 	IEnumerator WaitAndBuildKitchen(Building b){
@@ -224,6 +226,7 @@ public class TipManager : MonoBehaviour {
 
 		_homeManager.UpdateContent ();
 		this.gameObject.GetComponentInChildren<MakingActions> ().UpdatePanel ("Kitchen");
+        this.gameObject.GetComponent<AchieveActions> ().ConstructBulding ();
 	}
 
 	IEnumerator WaitAndBuildWorkshop(Building b){
@@ -247,7 +250,8 @@ public class TipManager : MonoBehaviour {
 		}
 
 		_homeManager.UpdateContent ();
-
+        this.gameObject.GetComponentInChildren<WorkshopActions>().UpdateWorkshop();
+        this.gameObject.GetComponent<AchieveActions> ().ConstructBulding ();
 	}
 
 	IEnumerator WaitAndBuildStudy(Building b){
@@ -271,6 +275,7 @@ public class TipManager : MonoBehaviour {
 		}
 
 		_homeManager.UpdateContent ();
+        this.gameObject.GetComponent<AchieveActions> ().ConstructBulding ();
 	}
 
 	IEnumerator WaitAndBuildFarm(Building b){
@@ -304,7 +309,8 @@ public class TipManager : MonoBehaviour {
 		}
 		this.gameObject.GetComponentInChildren<FarmActions> ().UpdateFarm ();
 		_homeManager.UpdateContent ();
-	}
+        this.gameObject.GetComponent<AchieveActions> ().ConstructBulding ();
+    }
 
 	IEnumerator WaitAndBuildPets(Building b){
 		int t = _loadingBar.CallInLoadingBar (b.timeCost * 60);
@@ -326,6 +332,7 @@ public class TipManager : MonoBehaviour {
 			_logManager.AddLog ("宠物笼已升级到等级"+ GameData._playerData.PetsOpen,true);
 		}
 		this.gameObject.GetComponentInChildren<PetsActions> ().UpdatePets ();
+        this.gameObject.GetComponent<AchieveActions> ().ConstructBulding ();
 		_homeManager.UpdateContent ();
 	}
 
@@ -353,6 +360,7 @@ public class TipManager : MonoBehaviour {
 
 		GameData._playerData.LastWithdrawWaterTime = GameData._playerData.minutesPassed;
 		_gameData.StoreData ("LastWithdrawWaterTime", GameData._playerData.LastWithdrawWaterTime);
+        this.gameObject.GetComponent<AchieveActions> ().ConstructBulding ();
 
 	}
 
@@ -380,6 +388,7 @@ public class TipManager : MonoBehaviour {
 		}
 
 		_homeManager.UpdateContent ();
+        this.gameObject.GetComponent<AchieveActions> ().ConstructBulding ();
 	}
 
 	public void ConstructBuilding(){
@@ -465,7 +474,6 @@ public class TipManager : MonoBehaviour {
 		}
 
 		MoveBuildTip ();
-		this.gameObject.GetComponent<AchieveActions> ().ConstructBulding ();
 	}
 
 	public void OnBuildTipCover(){
@@ -580,10 +588,11 @@ public class TipManager : MonoBehaviour {
 
 		bool isKitchen = LoadTxt.MatDic [targetId].makingType == "Kitchen";
 		float discount = isKitchen ? GameData._playerData.CookingTimeDiscount : GameData._playerData.BlackSmithTimeDiscount;
-		_gameData.ChangeTime ((int)(LoadTxt.MatDic [targetId].makingTime * 60 *discount));
-
+		
+        _gameData.ChangeTime ((int)(LoadTxt.MatDic [targetId].makingTime * 60 *discount));
 		_floating.CallInFloating (LoadTxt.MatDic [targetId].name + " +" + LoadTxt.MatDic[targetId].combGet, 0);
-		int combGet = LoadTxt.MatDic [targetId].combGet;
+		
+        int combGet = LoadTxt.MatDic [targetId].combGet;
 		if (isKitchen)
 			combGet = (int)(LoadTxt.MatDic [targetId].combGet * Algorithms.GetIndexByRange (100, (int)(100 * GameData._playerData.CookingIncreaseRate) + 1) / 100);
 		_gameData.AddItem (GenerateItemId (targetId), combGet);
@@ -593,6 +602,7 @@ public class TipManager : MonoBehaviour {
 		//Achievement
 		if (isKitchen)	
 			this.gameObject.GetComponent<AchieveActions> ().CookFood (targetId);
+        
 		switch (LoadTxt.MatDic [targetId].type) {
 		case 3:
 			this.gameObject.GetComponent<AchieveActions> ().CollectMeleeWeapon (targetId);

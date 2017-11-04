@@ -27,7 +27,7 @@ public class BackpackActions : MonoBehaviour {
 		Destroy (bpCell);
 		bpCell = Instantiate (Resources.Load ("bpCellNormal")) as GameObject;
 		bpCell.SetActive (false);
-
+//        Debug.Log(PlayerPrefs.GetString("bp",""));
 		BpNum.text = "(" + GameData._playerData.bp.Count + "/" + GameData._playerData.bpNum + ")";
 		UpdateCharacter();
 		UpdateBpContent ();
@@ -122,8 +122,15 @@ public class BackpackActions : MonoBehaviour {
 
 		int j = 0;
 		foreach (int key in GameData._playerData.bp.Keys) {
+            if (!LoadTxt.MatDic.ContainsKey((int)(key / 10000)))
+            {
+                GetComponentInParent<GameData>().DeleteItemInBp(key);
+                continue;
+            }
+
 			if (j >= GameData._playerData.bpNum)
 				return;
+//            Debug.Log(key);
 			GameObject o = bpCells [j] as GameObject;
 			o.SetActive (true);
 			o.gameObject.name = key.ToString ();

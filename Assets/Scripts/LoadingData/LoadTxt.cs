@@ -22,7 +22,8 @@ public class LoadTxt : MonoBehaviour {
 	public static Thief[] GetThiefList(){
 		string[][] strs = ReadTxt.ReadText("thief");
 		Thief[] t = new Thief[strs.Length-1];
-		for (int i = 0; i < strs.Length; i++) {
+		for (int i = 0; i < strs.Length-1; i++) {
+            t[i] = new Thief();
 			t[i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
 			t[i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
 			t[i].monsterId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 2));

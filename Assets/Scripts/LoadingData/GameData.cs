@@ -416,8 +416,11 @@ public class GameData : MonoBehaviour {
 	void ChangeDay(){
 		string txt = "第" + _playerData.dayNow + "天开始了，加油！";
 		_logManager.AddLog (txt);
-        if(_playerData.dayNow==20)
-            _logManager.AddLog("随着你的居住地的发展，渐渐引起了附近盗贼的注意。请严加防范，安排宠物看守房屋或者升级科技都可以有效减少盗贼的入侵损失。");
+        if (_playerData.dayNow == 20)
+        {
+            _logManager.AddLog("随着你的居住地的发展，渐渐引起了附近盗贼的注意。");
+            _logManager.AddLog("请严加防范，安排宠物看守房屋或者升级科技都可以有效减少盗贼的入侵损失。");
+        }
 	}
 
 	void ChangeMonth(){
@@ -647,6 +650,9 @@ public class GameData : MonoBehaviour {
 	/// <param name="itemId">Item identifier*10000.</param>
 	/// <param name="num">Number.</param>
 	public void AddItem(int itemId,int num){
+        if (!LoadTxt.MatDic.ContainsKey((int)(itemId / 10000)))
+            return;
+
         if (_playerData.bp.ContainsKey(itemId))
             _playerData.bp[itemId] += num;
         else
@@ -672,22 +678,27 @@ public class GameData : MonoBehaviour {
 	/// <param name="num">Number.</param>
 	public void ConsumeItem(int Id,int num){
 		int i = num;
+        Dictionary<int,int> d = new Dictionary<int, int>();
 		foreach (int key in _playerData.bp.Keys) {
-			
 			if ((int)(key / 10000) != Id)
 				continue;
 			
 			if (_playerData.bp [key] > i) {
-				_playerData.bp [key] -= i;
+                d.Add(key, i);
 				break;
 			} else if (_playerData.bp [key] == i) {
-				_playerData.bp.Remove (key);
+                d.Add(key, i);
 				break;
 			} else {
 				i -= _playerData.bp [key];
-				_playerData.bp.Remove (key);
+                d.Add(key, _playerData.bp[key]);
 			}
 		}
+        foreach (int key in d.Keys)
+        {
+            DeleteItemInBp(key, d[key]);
+        }
+
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
 	}
 
@@ -697,6 +708,9 @@ public class GameData : MonoBehaviour {
 	/// </summary>
 	/// <param name="itemId">Item identifier.</param>
 	public void DeleteItemInBp(int itemId){
+        if (!_playerData.bp.ContainsKey(itemId))
+            return;
+
 		_playerData.bp.Remove (itemId);
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
 	}
@@ -707,6 +721,9 @@ public class GameData : MonoBehaviour {
 	/// <param name="itemId">Item identifier.</param>
 	/// <param name="num">Number.</param>
 	void DeleteItemInBp(int itemId,int num){
+        if (!_playerData.bp.ContainsKey(itemId))
+            return;
+
 		if(_playerData.bp[itemId]>num)
 			_playerData.bp[itemId] -= num;
 		else
@@ -1150,11 +1167,11 @@ public class GameData : MonoBehaviour {
             case 10:
                 oldId = _playerData.AmmoId;
                 num = _playerData.AmmoNum;
-                DeleteItemInBp(oldId, num);
                 if (equipId == _playerData.AmmoId)
                 {
                     _playerData.AmmoNum += _playerData.bp[_playerData.AmmoId];
                     StoreData("AmmoNum", _playerData.bp[_playerData.AmmoId]);
+                    DeleteItemInBp(equipId);
                 }
                 else
                 {
@@ -1163,7 +1180,7 @@ public class GameData : MonoBehaviour {
                     int n = _playerData.bp[equipId];
                     _playerData.AmmoNum = n;
                     StoreData("AmmoNum", n);
-                    DeleteItemInBp(equipId, n);
+                    DeleteItemInBp(equipId);
                     AddItem(oldId, num);
                 }
                 break;

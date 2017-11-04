@@ -20,9 +20,9 @@ public class StudyActions : MonoBehaviour {
 		Technique[] tList = LoadTxt.GetTechList ();
 		for (int key=0;key<tList.Length;key++) {
 			int lv = tList [key].lv;
-			int maxlv = tList [key].maxLv;
+//			int maxlv = tList [key].maxLv;
 			int learntLv = GameData._playerData.techLevels [tList[key].type];
-			if (lv >= maxlv || lv != (learntLv + 1))
+			if (lv != (learntLv + 1))
 				continue;
 			GameObject o;
 			if (i >= studyCells.Count) {

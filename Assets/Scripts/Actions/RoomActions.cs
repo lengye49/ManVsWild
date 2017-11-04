@@ -91,7 +91,7 @@ public class RoomActions : MonoBehaviour {
 
 	void SetHotBathState(){
 		hotBathMat1Text.text = "水 ×" + GameConfigs.WaterForBath;
-		hotBathMat2Text.text = "木头 ×" + GameConfigs.WoodForHotBath;
+		hotBathMat2Text.text = "木材 ×" + GameConfigs.WoodForHotBath;
 		hotBathRecoverText.text = "可增加" + GameConfigs.TempRecoverPerHotBath + "℃体温, 增加" + GameConfigs.SpiritRecoverPerBath+"点精神";
 		if (!GameData._playerData.bp.ContainsKey (GameConfigs.WaterId)) {
 			hotBathMat1Text.color = Color.red;

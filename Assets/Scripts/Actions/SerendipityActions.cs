@@ -91,6 +91,7 @@ public class SerendipityActions : MonoBehaviour {
             noticeText.text = "(手记，记录着失落之地的一些信息。)";
 			studyText.text = "查看";
             studyButton.interactable = true;
+            isAd = false;
         }
         else
         {
@@ -98,6 +99,7 @@ public class SerendipityActions : MonoBehaviour {
             detailText.text = "你发现了一个留影魔法石，不妨看看里面记录着什么，或许会有意想不到的收获。";
             noticeText.text = "(这是一条广告，观看完毕将获得一些灵魂石，下载相关内容将获得额外奖励。)";
             studyButton.interactable = Vungle.isAdvertAvailable();
+            isAd = true;
         }
         studyText.name = sType.ToString();
     }

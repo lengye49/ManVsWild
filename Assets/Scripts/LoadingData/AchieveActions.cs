@@ -509,7 +509,7 @@ public class AchieveActions : MonoBehaviour {
 		if (GameData._playerData.Achievements [17] == 0) {
 			if(GameData._playerData.BedRoomOpen == 0)
 				return;
-				if(GameData._playerData.WarehouseOpen ==0)
+			if(GameData._playerData.WarehouseOpen ==0)
 				return;
 			if (GameData._playerData.KitchenOpen==0)
 				return;

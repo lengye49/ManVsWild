@@ -738,11 +738,17 @@ public class PlaceActions : MonoBehaviour {
 			}
 		}
 			
+        int j = 0;
 		for (int i = 0; i < _place.placeUnits.Count; i++) {
 			PlaceUnit pu = _place.placeUnits [i] as PlaceUnit;
-			GameObject o = placeCells [i] as GameObject;
-			o.gameObject.name = pu.unitId.ToString ();
-			SetPlaceCellState (o, pu);
+            string[] s = pu.actionParam.Split (';');
+            if (s[0] == "1")
+            {
+                GameObject o = placeCells [j] as GameObject;
+                o.gameObject.name = pu.unitId.ToString ();
+                SetPlaceCellState (o, pu);
+                j++;
+            }
 		}
 
 		if (placeCells.Count > count)

@@ -16,7 +16,7 @@ public class GameConfigs{
 	public static int TimeForBath = 1;
 	public static int WaterId = 41000000;
 	public static int WaterForBath = 5;
-	public static int WoodId = 42140000;
+	public static int WoodId = 11000000;
 	public static int WoodForHotBath = 5;
 
 	public static int bpNumMax = 50;
@@ -96,8 +96,8 @@ public class GameConfigs{
 	public static float[] SpotRate = {0.5f,0.4f,0.25f};
 	public static float[] SearchRate = { 1f, 1.5f };
 	public static float[] BlackSmithTimeDiscount = { 1f, 0.9f, 0.7f, 0.5f };
-	public static float[] CookingTimeDiscount = { 1f, 0.8f, 0.5f };
-	public static float[] CookingIncreaseRate = { 1f, 1.5f, 2.5f };
+	public static float[] CookingTimeDiscount = { 1f, 0.9f, 0.7f,0.5f };
+	public static float[] CookingIncreaseRate = { 1f, 1.5f, 2f ,2.5f};
 	public static float[] WaterCollectingRate = { 1f, 1.2f, 1.5f };
 	public static float[] GhostComingProp = { 0.05f, 0.02f, 0.01f };
 
