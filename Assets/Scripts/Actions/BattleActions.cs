@@ -666,6 +666,8 @@ public class BattleActions : MonoBehaviour {
 		}else{
 			captureFailTime++;
 			AddLog ("你试图抓捕" + enemy.name + "，但是失败了。", 0);
+            if(captureFailTime>=3)
+                AddLog ("已经超过捕捉上限，该猎物不能被捕捉了。", 0);
 			CheckEnemyAction ();
 		}
 	}
