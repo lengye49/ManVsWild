@@ -234,7 +234,8 @@ public class PanelManager : MonoBehaviour {
                 _PanelNow = Battle;
                 break;
             case "Place":
-                Place.gameObject.GetComponent<PlaceActions>().PlayBackGroundMusic(mapGoing.id);
+                if (_PanelNow != Battle)
+                    Place.gameObject.GetComponent<PlaceActions>().PlayBackGroundMusic(mapGoing.id);
 
                 if (mapGoing.id == 0)
                 {

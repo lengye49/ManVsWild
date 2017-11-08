@@ -47,7 +47,10 @@ public class GameData : MonoBehaviour {
 		int rangedUsed =  PlayerPrefs.GetInt ("RangedIdUsed", 1);
 		int battleCount = PlayerPrefs.GetInt ("BattleCount", 0);
 		string techStr = PlayerPrefs.GetString ("Achievements", "1|0;2|0;3|0;4|0;5|0;6|0;7|0;8|0;9|0;10|0;11|0;12|0;13|0;14|0;15|0;16|0;17|0;18|0;19|0;20|0;21|0;22|0;23|0;24|0;25|0;26|0;27|0;28|0;29|0;30|0;31|0;32|0;33|0;34|0;35|0;36|0;37|0;38|0;39|0;40|0");
-		int thiefCaught = PlayerPrefs.GetInt ("ThiefCaught", 0);
+       
+        print(techStr);
+
+        int thiefCaught = PlayerPrefs.GetInt ("ThiefCaught", 0);
 		int ghostKill = PlayerPrefs.GetInt ("GhostKill", 0);
 		int ghostBossKill = PlayerPrefs.GetInt ("GhostBossKill", 0);
 		int ghostKingKill = PlayerPrefs.GetInt ("GhostKingKill", 0);
@@ -72,6 +75,9 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("RangedIdUsed", rangedUsed);
 		PlayerPrefs.SetInt ("BattleCount", battleCount);
 		PlayerPrefs.SetString ("Achievements", techStr);
+
+        print(PlayerPrefs.GetString("Achievements"));
+
 		PlayerPrefs.SetInt ("ThiefCaught" , thiefCaught);
 		PlayerPrefs.SetInt ("GhostKill" , ghostKill);
 		PlayerPrefs.SetInt ("GhostBossKill" , ghostBossKill);
@@ -93,6 +99,7 @@ public class GameData : MonoBehaviour {
 	}
 
 	void LoadAchievements(){
+        print(PlayerPrefs.GetString("Achievements"));
 		_playerData.Achievements = GetTechList(PlayerPrefs.GetString("Achievements","1|0;2|0;3|0;4|0;5|0;6|0;7|0;8|0;9|0;10|0;11|0;12|0;13|0;14|0;15|0;16|0;17|0;18|0;19|0;20|0;21|0;22|0;23|0;24|0;25|0;26|0;27|0;28|0;29|0;30|0;31|0;32|0;33|0;34|0;35|0;36|0;37|0;38|0;39|0;40|0"));
 	}
 
@@ -274,8 +281,6 @@ public class GameData : MonoBehaviour {
         
         _loadTxt.LoadPlaces (true);
 
-        PlayerPrefs.DeleteAll();
-
 		StoreData(true);
 		StoreData (false);
     }
@@ -333,6 +338,7 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("LastThiefTime" + s, _playerData.lastThiefTime);
 		PlayerPrefs.SetInt ("Renown" + s, _playerData.Renown);
 		PlayerPrefs.SetInt ("PlaceNowId" + s, _playerData.placeNowId);
+
 		_loadTxt.StorePlaceMemmory (isRebirth);
 	}
 

@@ -110,7 +110,7 @@ public class PlaySound : MonoBehaviour {
 			}
 			break;
 		default:
-			Debug.Log ("Wrong soundName = " + soundName);
+//			Debug.Log ("Wrong soundName = " + soundName);
 			break;
 		}
 	}

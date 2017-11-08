@@ -50,10 +50,10 @@ public class AchieveActions : MonoBehaviour {
 			s += GameData._playerData.meleeCollected.Length + "/" + LoadTxt.GetAchievement(11).req;
 			break;
 		case 12:
-			s += GameData._playerData.rangedCollected.Length + "/" + LoadTxt.GetAchievement(12).req;
+			s += GameData._playerData.magicCollected.Length + "/" + LoadTxt.GetAchievement(12).req;
 			break;
 		case 13:
-			s += GameData._playerData.magicCollected.Length + "/" + LoadTxt.GetAchievement(13).req;
+			s += GameData._playerData.rangedCollected.Length + "/" + LoadTxt.GetAchievement(13).req;
 			break;
 		case 14:
 			s += GameData._playerData.petsCaptured + "/" + LoadTxt.GetAchievement(14).req;
@@ -351,10 +351,10 @@ public class AchieveActions : MonoBehaviour {
 		rNew [rNew.Length-1] = itemId;
 		GameData._playerData.rangedCollected = rNew;
 		_gameData.StoreData ("RangedCollected", _gameData.GetStrFromInt (rNew));
-		if (GameData._playerData.Achievements [12] == 0) {
-			Achievement a = LoadTxt.GetAchievement (12);
+		if (GameData._playerData.Achievements [13] == 0) {
+			Achievement a = LoadTxt.GetAchievement (13);
 			if (rNew.Length >= a.req) {
-				StoreAchievement (12);
+				StoreAchievement (13);
 				_floating.CallInFloating ("达成新成就:" + a.name,0);
 				_log.AddLog ("达成新成就:" + a.name,true);
 			}
@@ -379,10 +379,10 @@ public class AchieveActions : MonoBehaviour {
 		GameData._playerData.magicCollected = mNew;
 		_gameData.StoreData ("MagicCollected", _gameData.GetStrFromInt (mNew));
 
-		if (GameData._playerData.Achievements [13] == 0) {
-			Achievement a = LoadTxt.GetAchievement (13);
+		if (GameData._playerData.Achievements [12] == 0) {
+			Achievement a = LoadTxt.GetAchievement (12);
 			if (mNew.Length >= a.req) {
-				StoreAchievement (13);
+				StoreAchievement (12);
 				_floating.CallInFloating ("达成新成就:" + a.name,0);
 				_log.AddLog ("达成新成就:" + a.name,true);
 			}
@@ -479,7 +479,7 @@ public class AchieveActions : MonoBehaviour {
 		GameData._playerData.sleepTime += t;
 		_gameData.StoreData ("SleepTime", GameData._playerData.sleepTime);
 
-		if (GameData._playerData.Achievements [21] == 1) {
+		if (GameData._playerData.Achievements [21] == 0) {
 			Achievement a = LoadTxt.GetAchievement (21);
 			if (GameData._playerData.sleepTime >= a.req) {
 				StoreAchievement (21);
@@ -567,7 +567,7 @@ public class AchieveActions : MonoBehaviour {
 			GameData._playerData.meleeAttackCount++;
 			_gameData.StoreData ("MeleeAttackCount", GameData._playerData.meleeAttackCount);
 			if (GameData._playerData.Achievements [25] == 0) {
-				a = LoadTxt.GetAchievement (26);
+				a = LoadTxt.GetAchievement (25);
 				if (GameData._playerData.meleeAttackCount >= a.req) {
 					StoreAchievement (25);
 					_floating.CallInFloating ("达成新成就:" + a.name,0);
