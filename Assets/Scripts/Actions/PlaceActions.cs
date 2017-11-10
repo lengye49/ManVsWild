@@ -217,6 +217,8 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	public void OpenDungeonCover(int index){
+        _gameData.ChangeTime(10);
+
         if (dungeonCellState[index] == 1)
         {
             if (index == thisExitIndex)
