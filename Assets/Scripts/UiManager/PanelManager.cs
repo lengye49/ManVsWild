@@ -80,7 +80,7 @@ public class PanelManager : MonoBehaviour {
 			case "Home":
 				Home.DOLocalMoveX (0, tweenerTime);
 				Home.gameObject.GetComponentInChildren<HomeManager> ().UpdateContent ();
-				if (_PanelNow == Explore && _FatherPanel == Place)
+                if (_PanelNow == Place || _FatherPanel == Place)
 					CheckThiefActivities ();
 				_FatherPanel = null;
 				if(_PanelNow!=Home)
@@ -402,12 +402,18 @@ public class PanelManager : MonoBehaviour {
 
 	void CheckThiefActivities(){
 
+        //开始日期
 		if (GameData._playerData.dayNow <= GameConfigs.StartThiefEvent)
 			return;
+        //上次盗贼光顾时间
 		if (GameData._playerData.lastThiefTime >= GameData._playerData.dayNow - 3)
 			return;
-		if (Algorithms.GetIndexByRange (0, 100) >= (int)(GameData._playerData.ThiefDefence*100f))
-			return;
+
+        //触发盗贼概率
+        int r=Algorithms.GetIndexByRange (0, 100);
+//        Debug.Log(r);
+        if (r >= (int)(GameData._playerData.ThiefDefence * 100f))
+            return;
 
 		GameData._playerData.lastThiefTime = GameData._playerData.dayNow;
 		_gameData.StoreData ("LastThiefTime", GameData._playerData.lastThiefTime);
@@ -436,7 +442,7 @@ public class PanelManager : MonoBehaviour {
 		else
 			p = alert * 10000 / (alert + antiAlert);
 
-		int r = Random.Range (0, 10000);
+		r = Random.Range (0, 10000);
 
 		if (r <= p) {
 			CatchThief (_thisThief);
