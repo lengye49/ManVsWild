@@ -135,6 +135,7 @@ public class PetsActions : MonoBehaviour {
 		default:
 			break;
 		}
+		t [2].color = Color.green;
 		t [3].text = m.canCapture.ToString ();
 		t [4].text = m.name;
 		t [5].text = p.speed.ToString ();
