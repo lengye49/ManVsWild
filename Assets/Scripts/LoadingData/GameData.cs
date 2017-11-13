@@ -19,10 +19,7 @@ public class GameData : MonoBehaviour {
 
 	void Awake () {
 
-//		//*测试代码，删除所有数据
-//		PlayerPrefs.DeleteAll ();
-//		/*******************/
-
+//        PlayerPrefs.DeleteAll();
 		_playerData = new PlayerData ();
 		LoadAchievements ();
 		LoadAllData ();
