@@ -19,7 +19,7 @@ public class GameData : MonoBehaviour {
 
 	void Awake () {
 
-        PlayerPrefs.DeleteAll();
+//        PlayerPrefs.DeleteAll();
 
 		_playerData = new PlayerData ();
 		LoadAchievements ();
@@ -154,19 +154,20 @@ public class GameData : MonoBehaviour {
         _playerData.AchievementOpen = PlayerPrefs.GetInt("AchievementOpen", 0);
         _playerData.AltarOpen = PlayerPrefs.GetInt("AltarOpen", 0);
         _playerData.bp = GetDicFormStr(PlayerPrefs.GetString("bp", "11000000|50;11010000|20;41000000|5;42000000|2;42140000|10"));
+//        _playerData.bp = GetDicFormStr(PlayerPrefs.GetString("bp", "11000000|999;11010000|999;41000000|999;31020000|999;22000000|999;22010000|999;21030000|999;21040000|999;21000000|999"));
         _playerData.wh = GetDicFormStr(PlayerPrefs.GetString("wh", ""));
         _playerData.HasMemmory = PlayerPrefs.GetInt("HasMemmory", 0);
         _playerData.LearnedBlueprints = GetDicFormStr(PlayerPrefs.GetString("LearnedBlueprints", ""));
 
 		//初始装备
-		_playerData.MeleeId = PlayerPrefs.GetInt("MeleeId", 1210000);//1000000);
-        _playerData.RangedId = PlayerPrefs.GetInt("RangedId", 2070000);
-        _playerData.MagicId = PlayerPrefs.GetInt("MagicId", 3030000);
-        _playerData.HeadId = PlayerPrefs.GetInt("HeadId", 5120000);
-        _playerData.BodyId = PlayerPrefs.GetInt("BodyId", 6130000);
-        _playerData.ShoeId = PlayerPrefs.GetInt("ShoeId", 7060000);
-        _playerData.AmmoId = PlayerPrefs.GetInt("AmmoId", 4030000);
-        _playerData.AmmoNum = PlayerPrefs.GetInt("AmmoNum", 9999);
+		_playerData.MeleeId = PlayerPrefs.GetInt("MeleeId", 1000000);
+        _playerData.RangedId = PlayerPrefs.GetInt("RangedId", 0);
+        _playerData.MagicId = PlayerPrefs.GetInt("MagicId", 0);
+        _playerData.HeadId = PlayerPrefs.GetInt("HeadId", 0);
+        _playerData.BodyId = PlayerPrefs.GetInt("BodyId", 0);
+        _playerData.ShoeId = PlayerPrefs.GetInt("ShoeId", 0);
+        _playerData.AmmoId = PlayerPrefs.GetInt("AmmoId", 0);
+        _playerData.AmmoNum = PlayerPrefs.GetInt("AmmoNum", 0);
         _playerData.Mount = GetMount(PlayerPrefs.GetString("Mount", ""));
 
         _playerData.LastWithdrawWaterTime = PlayerPrefs.GetInt("LastWithdrawWaterTime", 0);
@@ -175,8 +176,8 @@ public class GameData : MonoBehaviour {
         _playerData.Pets = GetPetListFromStr(PlayerPrefs.GetString("Pets", ""));//"100|1|50|15|Hello;100|0|20|10|Kitty"));
         _playerData.PetRecord = PlayerPrefs.GetInt("PetRecord", 0);
                                                                                                //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
-//        _playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|0|0|0|0"));
-		_playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0|0|0|0|0"));
+        _playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|0|0|0|0"));
+//		_playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0|0|0|0|0"));
         _playerData.dungeonLevelMax = PlayerPrefs.GetInt("DungeonLevelMax", 0);
         _playerData.tunnelLevelMax = PlayerPrefs.GetInt("TunnelLevelMax", 0);
 		_playerData.placeNowId = PlayerPrefs.GetInt("PlaceNowId", 0);
