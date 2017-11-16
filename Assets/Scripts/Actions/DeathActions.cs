@@ -7,8 +7,11 @@ public class DeathActions : MonoBehaviour {
 	public Text deathMsg;
 	public Button rebirthButton;
     private string txt;
+	private bool isPrinting=false;
 
 	public void UpdateDeath(string cause){
+		if (isPrinting)
+			return;
 
 		switch (cause) {
 		case "Spirit":
@@ -38,6 +41,7 @@ public class DeathActions : MonoBehaviour {
 	}
 
     void TypeWritter(string s){
+		isPrinting = true;
         txt = "";
         float t = 0f;
         float pop = 0.1f;
@@ -49,6 +53,8 @@ public class DeathActions : MonoBehaviour {
             ss = s.Substring(i, 1);
             StartCoroutine(WriteLetter(t, ss));
         }
+
+		StartCoroutine (ResetPrint());
     }
 
     IEnumerator WriteLetter(float t, string s){
@@ -56,4 +62,9 @@ public class DeathActions : MonoBehaviour {
         txt += s;
         deathMsg.text = txt;
     }
+
+	IEnumerator ResetPrint(){
+		yield return new WaitForSeconds (3f);
+		isPrinting = false;
+	}
 }

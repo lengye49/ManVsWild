@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 
 public class PetsActions : MonoBehaviour {
 
@@ -25,7 +24,6 @@ public class PetsActions : MonoBehaviour {
 	private Pet _localPet;
 
 	void Start(){
-		
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
 		_floating = GameObject.Find ("FloatingSystem").GetComponent<FloatingActions> ();
 	}
@@ -111,7 +109,7 @@ public class PetsActions : MonoBehaviour {
 	public void CallInDetail(Pet p,int index){
 		_localPet = p;
 		_localIndex = index;
-		Detail.DOLocalMoveY (0, 0.3f);
+		Detail.localPosition = new Vector3 (150, 0, 0);
 		UpdateDetail ();
 	}
 
@@ -143,8 +141,8 @@ public class PetsActions : MonoBehaviour {
 	}
 
 	public void CallOutDetail(){
-		if (Detail.localPosition.y > -10 && Detail.localPosition.y < 10)
-			Detail.DOLocalMoveY (-2000f, 0.3f);
+		if (Detail.localPosition.y > -1 && Detail.localPosition.y < 1)
+			Detail.localPosition = new Vector3 (0, -2000, 0);
 	}
 
 	void ClearContents(GameObject o){

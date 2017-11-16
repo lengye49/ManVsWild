@@ -64,7 +64,7 @@ public class GameConfigs{
 	public static int FetchingStrength = 5;
 	public static int FetchingTime = 60;
 	public static int SearchTime = 60;
-	public static int SearchRewardsNum = 8;
+	public static int SearchRewardsNum = 5;
 	public static int CollectTime = 60;
 	public static int CollectStrength=5;
 	public static int HuntTime = 60;

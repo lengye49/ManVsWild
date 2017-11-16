@@ -13,7 +13,6 @@ public class LoadTxt : MonoBehaviour {
 	void Awake () {
 		MatDic = new Dictionary<int, Mats> ();
 		MapDic = new Dictionary<int, Maps> ();
-		
 
 		LoadMats ();
 		LoadMaps ();
@@ -57,7 +56,6 @@ public class LoadTxt : MonoBehaviour {
 			a[i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
 			a[i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
 			a[i].req = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
-//			Debug.Log (a [i].id + "\t" + a [i].desc);
 		}
 		return a;
 	}

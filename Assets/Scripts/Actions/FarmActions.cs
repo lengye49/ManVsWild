@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 
 public class FarmActions : MonoBehaviour {
 
@@ -84,11 +83,11 @@ public class FarmActions : MonoBehaviour {
 			if (f.plantType == 0)
 				t [2].text = "可在此种植作物。";
 			else if (f.plantType == 1)
-				t [2].text = "可在此酿造红酒";
+				t [2].text = "可在此酿造二锅头";
 			else if (f.plantType == 2)
 				t [2].text = "可在此酿造啤酒";
 			else if (f.plantType == 3)
-				t [2].text = "可在此酿造白酒";
+				t [2].text = "可在此酿造威士忌";
 			else
 				Debug.Log ("wrong plantType!!");
 			b.interactable = true;
@@ -102,11 +101,11 @@ public class FarmActions : MonoBehaviour {
 				if (f.plantType == 0)
 					t [2].text = "作物已经成熟。";
 				else if (f.plantType == 1)
-					t [2].text = "红酒已经酿制完成。";
+					t [2].text = "二锅头已经酿制完成。";
 				else if (f.plantType == 2)
 					t [2].text = "啤酒已经酿制完成。";
 				else if (f.plantType == 3)
-					t [2].text = "白酒已经酿制完成。";
+					t [2].text = "威士忌已经酿制完成。";
 				else
 					Debug.Log ("wrong plantType!!");
 
@@ -114,7 +113,7 @@ public class FarmActions : MonoBehaviour {
 				b.name = key.ToString()+"|Charge";
 				t [3].text = "收获";
 			} else {
-				t [2].text = "Time left : " + GetLeftTime (f.plantTime, p);
+				t [2].text = "剩余时间 : " + GetLeftTime (f.plantTime, p);
 				b .interactable = false;
 				b .name = key.ToString()+"|Charge";
 				t [3].text = "收获";
@@ -130,11 +129,11 @@ public class FarmActions : MonoBehaviour {
 		int t1 = t + p.plantGrowCycle * 24 * 60;
 		int t2 = t1 - GameData._playerData.minutesPassed;
 		if (t2 >= 24 * 60)
-			return (int)((t2) / 60 / 24) + " days";
+			return (int)((t2) / 60 / 24) + " 天";
 		else {
 			int h = (int)(t2 / 60);
 			int m = t2 - 60 * h;
-			return h + " hours" + m + " minutes";
+			return h + " 时" + m + " 分";
 		}
 	}
 
@@ -176,8 +175,8 @@ public class FarmActions : MonoBehaviour {
 		
 	public void CallInPlantingTip(int index){
 		plantingTip.gameObject.SetActive (true);
-		if (plantingTip.transform.localPosition.y != 0)
-			plantingTip.DOLocalMoveY (0, 0.3f);
+		if (plantingTip.transform.localPosition.y > 1 || plantingTip.transform.localPosition.y < -1)
+			plantingTip.localPosition = new Vector3 (150, 0, 0);
 		int plantType = GameData._playerData.Farms [index].plantType;
 		plantingTip.gameObject.name = index.ToString();
 		Text[] t = plantingTip.gameObject.GetComponentsInChildren<Text> ();
@@ -187,13 +186,13 @@ public class FarmActions : MonoBehaviour {
 			t [0].text = "作物";
 			break;
 		case 1:
-			t [0].text = "红酒";
+			t [0].text = "二锅头";
 			break;
 		case 2:
 			t [0].text = "啤酒";
 			break;
 		case 3:
-			t [0].text = "白酒";
+			t [0].text = "威士忌";
 			break;
 		default:
 			break;
@@ -251,7 +250,7 @@ public class FarmActions : MonoBehaviour {
     }
 
 	public void CallOutPlantingTip(){
-		plantingTip.DOLocalMoveY (2000, 0.3f);
+		plantingTip.localPosition = new Vector3 (150, 2000, 0);
 	}
 
 	public void OnLeave(){

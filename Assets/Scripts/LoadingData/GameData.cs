@@ -40,14 +40,12 @@ public class GameData : MonoBehaviour {
 		battleCount = PlayerPrefs.GetInt ("BattleCount", 0);
 	}
 
+#region 重新开始游戏时清除记忆
 	void DeleteAllData(){
 		int meleeUsed = PlayerPrefs.GetInt ("MeleeIdUsed", 1);
 		int rangedUsed =  PlayerPrefs.GetInt ("RangedIdUsed", 1);
 		int battleCount = PlayerPrefs.GetInt ("BattleCount", 0);
 		string techStr = PlayerPrefs.GetString ("Achievements", "1|0;2|0;3|0;4|0;5|0;6|0;7|0;8|0;9|0;10|0;11|0;12|0;13|0;14|0;15|0;16|0;17|0;18|0;19|0;20|0;21|0;22|0;23|0;24|0;25|0;26|0;27|0;28|0;29|0;30|0;31|0;32|0;33|0;34|0;35|0;36|0;37|0;38|0;39|0;40|0");
-       
-        print(techStr);
-
         int thiefCaught = PlayerPrefs.GetInt ("ThiefCaught", 0);
 		int ghostKill = PlayerPrefs.GetInt ("GhostKill", 0);
 		int ghostBossKill = PlayerPrefs.GetInt ("GhostBossKill", 0);
@@ -96,33 +94,14 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("WineDrinked" , wineDrinked);
 	}
 
+#endregion
+
 	void LoadAchievements(){
-        print(PlayerPrefs.GetString("Achievements"));
 		_playerData.Achievements = GetTechList(PlayerPrefs.GetString("Achievements","1|0;2|0;3|0;4|0;5|0;6|0;7|0;8|0;9|0;10|0;11|0;12|0;13|0;14|0;15|0;16|0;17|0;18|0;19|0;20|0;21|0;22|0;23|0;24|0;25|0;26|0;27|0;28|0;29|0;30|0;31|0;32|0;33|0;34|0;35|0;36|0;37|0;38|0;39|0;40|0"));
 	}
 
-	int[] GetIntFromStr(string str){
-		int[] i;
-		if (str == "")
-			return new int[0];
-		else {
-			string[] s = str.Split ('|');
-			i = new int[s.Length];
-			for (int j = 0; j < i.Length; j++)
-				i [j] = int.Parse (s [j]);
-		}
-		return i;
-	}
 
-	public string GetStrFromInt(int[] i){
-		string s = "";
-		for(int j=0;j<i.Length;j++)
-			s+=i[j]+"|";
-		if (s.Length > 0)
-			s = s.Substring (0, s.Length - 1);
-		return s;
-	}
-
+#region 进入游戏时加载存档
 	/// <summary>
 	/// Load Player Data From Local File.
 	/// </summary>
@@ -226,7 +205,9 @@ public class GameData : MonoBehaviour {
         UpdateProperty();
 
     }
-		
+#endregion	
+
+#region 加载存档时读取存档
     void RebirthLoading(){ 
         string s = "_Memory";
         _playerData.firstTimeInGame = PlayerPrefs.GetInt ("FirstTimeInGame"+s, 0);
@@ -284,6 +265,7 @@ public class GameData : MonoBehaviour {
 		StoreData(true);
 		StoreData (false);
     }
+#endregion
 
 	void StoreData(bool isRebirth)
 	{
@@ -357,9 +339,33 @@ public class GameData : MonoBehaviour {
     //重新开始游戏
 	public void ReStartLoad(){
 		DeleteAllData ();
+		_loadTxt.LoadPlaces (false);
 		LoadAllData ();
 		StoreData (true);
 	}
+
+	int[] GetIntFromStr(string str){
+		int[] i;
+		if (str == "")
+			return new int[0];
+		else {
+			string[] s = str.Split ('|');
+			i = new int[s.Length];
+			for (int j = 0; j < i.Length; j++)
+				i [j] = int.Parse (s [j]);
+		}
+		return i;
+	}
+
+	public string GetStrFromInt(int[] i){
+		string s = "";
+		for(int j=0;j<i.Length;j++)
+			s+=i[j]+"|";
+		if (s.Length > 0)
+			s = s.Substring (0, s.Length - 1);
+		return s;
+	}
+
 
 	/// <summary>
 	/// Change Time by Minutes
@@ -1356,10 +1362,10 @@ public class GameData : MonoBehaviour {
 	/// </summary>
 	public void GetFirstTribute(){
 		StoreItem (41000000, 30);
-		StoreItem (41010000, 100);
+		StoreItem (41010000, 50);
 		string s = "附近的居民非常友善，他们热情的欢迎你，";
 		_logManager.AddLog (1f,s);
-		s = "送来 水+30，小麦+100 已放入你的仓库。";
+		s = "送来 水+30，小麦+50 已放入你的仓库。";
 		_logManager.AddLog (2f,s);
 	}
 
