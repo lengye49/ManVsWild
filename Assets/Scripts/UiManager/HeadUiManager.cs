@@ -15,6 +15,8 @@ public class HeadUiManager : MonoBehaviour {
 	public Text strengthMax;
 	public Text tempNow;
 
+	public LogManager _log;
+
 	public Image HpImage;
 	public Image SpiritImage;
 	public Image FoodImage;
@@ -186,6 +188,34 @@ public class HeadUiManager : MonoBehaviour {
 		s += (GameData._playerData.hourNow > 9 ? "" : "0") + GameData._playerData.hourNow.ToString () + ":";
 		s += (GameData._playerData.minuteNow > 9 ? "" : "0") + GameData._playerData.minuteNow.ToString ();
 		return s;
+	}
+
+	public void OnProperty(string pName){
+		switch (pName) {
+		case "hp":
+			_log.AddLog ("生命值，生存属性。");
+			break;
+		case "spirit":
+			_log.AddLog ("精神，生存属性；施法媒介；影响命中。");
+			break;
+		case "food":
+			_log.AddLog ("饱腹值，生存属性，会随时间降低。");
+			break;
+		case "water":
+			_log.AddLog ("水分，生存属性，会随时间降低。");
+			break;
+		case "strength":
+			_log.AddLog ("体力，采集活动需要体力才能进行。");
+			break;
+		case "temp":
+			_log.AddLog ("体温，生存属性，-30℃~50℃。");
+			break;
+		case "time":
+			_log.AddLog ("已存活天数和当前时间。");
+			break;
+		default:
+			break;
+		}
 	}
 
 

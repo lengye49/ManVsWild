@@ -234,7 +234,7 @@ public class PanelManager : MonoBehaviour {
                 _PanelNow = Battle;
                 break;
             case "Place":
-                if (_PanelNow != Battle)
+                if (_PanelNow != Battle && _PanelNow != Backpack && _PanelNow != Explore)
                     Place.gameObject.GetComponent<PlaceActions>().PlayBackGroundMusic(mapGoing.id);
 
                 if (mapGoing.id == 0)
@@ -472,7 +472,7 @@ public class PanelManager : MonoBehaviour {
 			s += LoadTxt.MatDic [key].name + " ×" + drop [key];
 			break;
 		}
-		_logManager.AddLog (t.name + "试图盗窃，但是被你的守卫抓住了。" + s);
+		_logManager.AddLog (t.name + "溜进你的家里试图盗窃，但被守卫抓住了。" + s);
 
 		//Achievement
 		this.gameObject.GetComponentInParent<AchieveActions>().CatchThief(t.id);
@@ -517,12 +517,10 @@ public class PanelManager : MonoBehaviour {
 		if (s != "") {
 			s = s.Substring (0, s.Length - 1) + "。";
 			_logManager.AddLog ("警告!" + t.name + "闯入家中。" + s);
-//			Debug.Log ("警告!" + t.name + "闯入家中。" + s);	
 		} else {
-			_logManager.AddLog ("警告!" + t.name + "闯入家中。但什么都没看上，空手而去。");
-//			Debug.Log ("警告!" + t.name + "闯入家中。但什么都没看上，空手而去。");
+			_logManager.AddLog ("警告!" + t.name + "闯入家中。但空手而去。");
 		}
-			
+		_logManager.AddLog ("你可以升级科技减少损失或安排宠物抵御盗贼。");
 	}
 }
 

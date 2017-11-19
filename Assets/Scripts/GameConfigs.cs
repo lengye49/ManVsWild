@@ -10,8 +10,8 @@ public class GameConfigs{
 	public static int[] StrengthRecoverPerRestHour = new int[4]{6,10,10,10};
 	public static int SpiritRecoverPerRestHour = 1;
 
-	public static int TempRecoverPerNormalBath = -10;
-	public static int TempRecoverPerHotBath = 10;
+	public static int TempRecoverPerNormalBath = -6;
+	public static int TempRecoverPerHotBath = 6;
 	public static int SpiritRecoverPerBath = 3;
 	public static int TimeForBath = 1;
 	public static int WaterId = 41000000;

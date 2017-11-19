@@ -459,12 +459,19 @@ public class BattleActions : MonoBehaviour {
 		string s = "你击败了" + enemy.name + "。";
 		AddLog (s, 1);
 
-		if (enemy.mapOpen > 0 && GameData._playerData.MapOpenState [enemy.mapOpen] == 0) {
-			GameData._playerData.MapOpenState [enemy.mapOpen] = 1;
-			_gameData.StoreData ("MapOpenState", _gameData.GetStrFromMapOpenState (GameData._playerData.MapOpenState));
-			s = "他告诉你去往" + LoadTxt.MapDic [enemy.mapOpen].name + "的方向。";
-			AddLog (s, 1);
-            _logManager.AddLog("你发现了去" + LoadTxt.MapDic[enemy.mapOpen].name + "的路。", true);
+		if (enemy.mapOpen > 0) {
+			if (GameData._playerData.MapOpenState [enemy.mapOpen] == 0) {
+				GameData._playerData.MapOpenState [enemy.mapOpen] = 1;
+				_gameData.StoreData ("MapOpenState", _gameData.GetStrFromMapOpenState (GameData._playerData.MapOpenState));
+				s = "他告诉你去往" + LoadTxt.MapDic [enemy.mapOpen].name + "的方向。";
+				AddLog (s, 1);
+				_logManager.AddLog ("你发现了去" + LoadTxt.MapDic [enemy.mapOpen].name + "的路。", true);
+			} else {
+				s = "他告诉你去往" + LoadTxt.MapDic [enemy.mapOpen].name + "的方向。";
+				AddLog (s, 1);
+				s = "但是你已经知道了。";
+				AddLog (s, 1);
+			}
 		}
 
 		Dictionary<int,int> drop = Algorithms.GetReward (enemy.drop);
@@ -500,7 +507,7 @@ public class BattleActions : MonoBehaviour {
 			AddLog (s,1);
 		} else {			
 			if (enemy.renown > 0) {
-				s += enemy.renown + "点声望。";
+				s += "获得了" + enemy.renown + "点声望。";
 				AddLog (s,1);
 			} 
 		}

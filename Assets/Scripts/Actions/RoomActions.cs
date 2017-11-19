@@ -34,7 +34,7 @@ public class RoomActions : MonoBehaviour {
 	}
 
 	public void UpdateRoomStates(){
-		restTime = 5;
+		restTime = 17;
 		SetRestState ();
 		SetUpgradeState ();
 		if (GameData._playerData.BedRoomOpen >= 2) {
@@ -62,7 +62,7 @@ public class RoomActions : MonoBehaviour {
 
 	void SetRestState(){
 		restTimeText.text = restTime + "h";
-		restRecoverText.text = "可增加" + GameConfigs.StrengthRecoverPerRestHour [GameData._playerData.BedRoomOpen - 1] * restTime + "点力量, " + GameConfigs.SpiritRecoverPerRestHour * restTime + "点精神";
+		restRecoverText.text = "可增加 " + GameConfigs.StrengthRecoverPerRestHour [GameData._playerData.BedRoomOpen - 1] * restTime + " 体力, " + GameConfigs.SpiritRecoverPerRestHour * restTime + "点精神";
 		addButton.interactable = !(restTime >= restTimeMax);
 		reduceButton.interactable = !(restTime <= restTimeMin);
 	}

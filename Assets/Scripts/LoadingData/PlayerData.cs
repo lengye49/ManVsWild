@@ -118,8 +118,8 @@ public class PlayerData  {
 		case 5: return "食物上限";
 		case 6: return "水";
 		case 7: return "水上限";
-		case 8: return "力量";
-		case 9: return "力量上限";
+		case 8: return "体力";
+		case 9: return "体力上限";
 		case 10: return "温度";
 		case 11: return "温度下限";
 		case 12: return "温度上限";

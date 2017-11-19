@@ -762,7 +762,6 @@ public class TipManager : MonoBehaviour {
 			GameData._playerData.SearchRate = GameConfigs.SearchRate [t.lv];
 			break;
 		case 14:
-			
 			break;
 		case 15:
 			GameData._playerData.BlackSmithTimeDiscount = GameConfigs.BlackSmithTimeDiscount [t.lv];

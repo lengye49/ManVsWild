@@ -223,8 +223,8 @@ public class GameData : MonoBehaviour {
         _playerData.FoodMax = PlayerPrefs.GetInt ("FoodMax"+s , 100);
         _playerData.WaterMax = PlayerPrefs.GetInt ("Watermax" +s, 100);
         _playerData.StrengthMax = PlayerPrefs.GetInt ("StrengthMax"+s , 100);
-        _playerData.TempMax = PlayerPrefs.GetFloat ("TempMax" +s, 60);
-        _playerData.TempMin = PlayerPrefs.GetFloat ("TempMin"+s , -60);
+        _playerData.TempMax = PlayerPrefs.GetFloat ("TempMax" +s, 50);
+        _playerData.TempMin = PlayerPrefs.GetFloat ("TempMin"+s , -30);
         _playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" +s, 0);
         _playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen"+s , 0);
         _playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" +s, 0);
@@ -584,11 +584,11 @@ public class GameData : MonoBehaviour {
             _headUiManager.UpdateHeadUI("strengthNow");
             UpdateProperty(8, _playerData.strengthNow);
 
-            if (lastProp > _playerData.StrengthMax * 0.3f && _playerData.strengthNow <= _playerData.StrengthMax * 0.3f)
-            {
-                _logManager.AddLog("你当前的[力量]较低，力量过低时无法进行采集活动。");
-                _logManager.AddLog(1f, "可以通过休息恢复力量。");
-            }
+//            if (lastProp > _playerData.StrengthMax * 0.3f && _playerData.strengthNow <= _playerData.StrengthMax * 0.3f)
+//            {
+//                _logManager.AddLog("你当前的[力量]较低，力量过低时无法进行采集活动。");
+//                _logManager.AddLog(1f, "可以通过休息恢复力量。");
+//            }
 			break;
 		case 9:
 			_playerData.StrengthMax += value;

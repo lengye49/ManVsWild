@@ -919,7 +919,7 @@ public class PlaceActions : MonoBehaviour {
 		t [3].text = "可能获得:";
 		t [4].text = ac;
 		t [5].text = "耗时: "+GameConfigs.CuttingTime + "分";
-		t [6].text = "消耗:"+ GameConfigs.CuttingStrength + "力量";
+		t [6].text = "消耗:"+ GameConfigs.CuttingStrength + "体力";
 
 		Button[] b = resourceDetail.gameObject.GetComponentsInChildren<Button> ();
 		b [0].gameObject.GetComponentInChildren<Text> ().text = "伐木";
@@ -946,7 +946,7 @@ public class PlaceActions : MonoBehaviour {
 		t [3].text = "可能获得:";
 		t [4].text = "石料,各类矿产";
 		t [5].text = "耗时: "+GameConfigs.DiggingTime + "分";
-		t [6].text = "消耗: " + GameConfigs.DiggingStrength + "力量";
+		t [6].text = "消耗: " + GameConfigs.DiggingStrength + " 体力";
 
 		Button b = resourceDetail.gameObject.GetComponentInChildren<Button> ();
 		b.gameObject.GetComponentInChildren<Text> ().text = "挖掘";
@@ -971,7 +971,7 @@ public class PlaceActions : MonoBehaviour {
 		t [3].text = "可能获得:";
 		t [4].text = ac;
 		t [5].text = "耗时: "+GameConfigs.FetchingTime + "分";
-		t [6].text = "消耗: " + GameConfigs.FetchingStrength + " 力量";
+		t [6].text = "消耗: " + GameConfigs.FetchingStrength + " 体力";
 
 		Button b = resourceDetail.gameObject.GetComponentInChildren<Button> ();
 		b.gameObject.GetComponentInChildren<Text> ().text = "提水";
@@ -1017,7 +1017,7 @@ public class PlaceActions : MonoBehaviour {
 		t [3].text = "可能获得:";
 		t [4].text = ac;
 		t [5].text = "耗时: "+GameConfigs.CollectTime + "分";
-		t [6].text = "消耗: " + GameConfigs.CollectStrength + "力量";
+		t [6].text = "消耗: " + GameConfigs.CollectStrength + " 体力";
 
 		Button b = resourceDetail.gameObject.GetComponentInChildren<Button> ();
 		b.gameObject.GetComponentInChildren<Text>().text = "收获";
@@ -1073,28 +1073,28 @@ public class PlaceActions : MonoBehaviour {
 		switch (t) {
 		case "伐木":
 			if (GameData._playerData.strengthNow < GameConfigs.CuttingStrength) {
-				_floating.CallInFloating ("力量不足", 1);
+				_floating.CallInFloating ("体力不足", 1);
 				break;
 			}
 			StartCoroutine (StartCut ());
 			break;
 		case "挖掘":
 			if (GameData._playerData.strengthNow < GameConfigs.DiggingStrength) {
-				_floating.CallInFloating ("力量不足", 1);
+				_floating.CallInFloating ("体力不足", 1);
 				return;
 			}
 			StartCoroutine (StartDig ());
 			break;
 		case "提水":
 			if (GameData._playerData.strengthNow < GameConfigs.FetchingStrength) {
-				_floating.CallInFloating ("力量不足", 1);
+				_floating.CallInFloating ("体力不足", 1);
 				return;
 			}
 			StartCoroutine (StartFetch ());
 			break;
 		case "收获":
 			if (GameData._playerData.strengthNow < GameConfigs.FetchingStrength) {
-				_floating.CallInFloating ("力量不足", 1);
+				_floating.CallInFloating ("体力不足", 1);
 				return;
 			}
 			StartCoroutine (StartFetch ());
