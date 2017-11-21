@@ -433,10 +433,11 @@ public class GameData : MonoBehaviour {
             _logManager.AddLog("随着你的居住地的发展，渐渐引起了附近盗贼的注意。");
             _logManager.AddLog("请严加防范，安排宠物看守房屋或者升级科技都可以有效减少盗贼的入侵损失。");
         }
+        GetDailyTribute();
 	}
 
 	void ChangeMonth(){
-	
+        GetMonthlyTribute();
 	}
 
 	void ChangeSeason(){
@@ -1274,6 +1275,7 @@ public class GameData : MonoBehaviour {
 		this.gameObject.GetComponent<AchieveActions> ().RenownChange ();
 	}
 
+#region 获得朝贡
 	/// <summary>
 	/// 获得每日的奖励和提示信息
 	/// </summary>
@@ -1298,12 +1300,12 @@ public class GameData : MonoBehaviour {
 		}
 		if (d == 7 && _playerData.WarehouseOpen==1) {
 			StoreItem (33020000, 5);//空间宝石
-			_logManager.AddLog( "镇长派人送来了一些战斗记录。");
+			_logManager.AddLog( "镇长送来了他笔记，里面记录了一些实战经验。");
 			_logManager.AddLog( "战士训练手册+5 已放入仓库。");
 		}
 		if (d == 12 && _playerData.WarehouseOpen==1) {
 			StoreItem (33040000, 5);//空间宝石
-			_logManager.AddLog( "镇长派人送来了一些战斗记录。");
+            _logManager.AddLog( "镇长送来了他笔记，里面记录了一些实战经验。");
 			_logManager.AddLog( "射术精要+5 已放入仓库。");
 		}
 
@@ -1368,11 +1370,13 @@ public class GameData : MonoBehaviour {
 		s = "送来 水+30，小麦+50 已放入你的仓库。";
 		_logManager.AddLog (2f,s);
 	}
+#endregion
 
 	public Text inputWords;
 	public void AddItemById(){
 		int id = int.Parse (inputWords.text);
 		AddItem (id, 100);
 	}
+
 
 }
