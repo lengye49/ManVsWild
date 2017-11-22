@@ -632,10 +632,18 @@ public class BattleActions : MonoBehaviour {
 		myNextTurn += 1;
 		SetPoint ();
 		_gameData.ChangeProperty (2, -(int)(LoadTxt.MatDic [GameData._playerData.MagicId/10000].castSpirit * GameData._playerData.MagicCostRate));
-		int dam = (int)(GameData._playerData.property [24] * GameData._playerData.MagicPower * Algorithms.GetIndexByRange (80, 120) / 100);
-		enemy.hp -= dam;
-		enemy.hp = Mathf.Max (0, enemy.hp);
-		AddLog ("你使用了" + LoadTxt.MatDic [GameData._playerData.MagicId / 10000].name + ",对" + enemy.name + "造成" + dam + "点伤害。", 0);
+
+		print (GameData._playerData.MagicId);
+		if (GameData._playerData.MagicId / 10000 == 303) {
+			int heal = (int)(GameData._playerData.property [24] * GameData._playerData.MagicPower / 10);
+			_gameData.ChangeProperty (0, heal);
+			AddLog ("你使用了" + LoadTxt.MatDic [GameData._playerData.MagicId / 10000].name + ",回复了" + heal + "点生命。", 0);
+		} else {
+			int dam = (int)(GameData._playerData.property [24] * GameData._playerData.MagicPower );
+			enemy.hp -= dam;
+			enemy.hp = Mathf.Max (0, enemy.hp);
+			AddLog ("你使用了" + LoadTxt.MatDic [GameData._playerData.MagicId / 10000].name + ",对" + enemy.name + "造成" + dam + "点伤害。", 0);
+		}
 
 		SetEnemyHpSlider ();
 		SetMyHpSlider ();

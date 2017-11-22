@@ -155,7 +155,7 @@ public class GameData : MonoBehaviour {
         _playerData.Pets = GetPetListFromStr(PlayerPrefs.GetString("Pets", ""));//"100|1|50|15|Hello;100|0|20|10|Kitty"));
         _playerData.PetRecord = PlayerPrefs.GetInt("PetRecord", 0);
                                                                                                //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
-        _playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|0|0|0|0"));
+        _playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
 //		_playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0|0|0|0|0"));
         _playerData.dungeonLevelMax = PlayerPrefs.GetInt("DungeonLevelMax", 0);
         _playerData.tunnelLevelMax = PlayerPrefs.GetInt("TunnelLevelMax", 0);
@@ -254,7 +254,7 @@ public class GameData : MonoBehaviour {
         _playerData.Farms = GetFarmStateFromStr (PlayerPrefs.GetString ("Farms" +s, "0|0|1|0;1|0|2|0;2|0|3|0;3|0|0|0;4|0|0|0;5|0|0|0;6|0|0|0;7|0|0|0"));
         _playerData.Pets = GetPetListFromStr (PlayerPrefs.GetString ("Pets" +s, ""));
         _playerData.PetRecord = PlayerPrefs.GetInt("PetRecord"+s,0);
-		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState"+s , "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|0|0|0|0"));
+		_playerData.MapOpenState = GetMapOpenStateFromStr (PlayerPrefs.GetString ("MapOpenState"+s , "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
         _playerData.dungeonLevelMax = PlayerPrefs.GetInt ("DungeonLevelMax"+s, 0);
         _playerData.tunnelLevelMax = PlayerPrefs.GetInt ("TunnelLevelMax"+s,0);
 		_playerData.placeNowId = PlayerPrefs.GetInt ("PlaceNowId"+s, 0);
