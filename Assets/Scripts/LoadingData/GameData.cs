@@ -629,12 +629,12 @@ public class GameData : MonoBehaviour {
 			_headUiManager.UpdateHeadUI ("tempNow");
 			UpdateProperty (10, _playerData.tempNow);
 
-            if (lastTemp < (_playerData.property [12] -20) && _playerData.tempNow >= (_playerData.property [12] +20)) {
-				_logManager.AddLog ("你当前体温过高，高温极限为" + _playerData.property [11] + "℃。");
+            if (lastTemp < (_playerData.property [12] -15) && _playerData.tempNow >= (_playerData.property [12] -15)) {
+				_logManager.AddLog ("你当前体温过高，高温极限为" + _playerData.property [12] + "℃。");
 				_logManager.AddLog (1f, "可以通过喝冰水、洗澡等降低体温。");
 			}
 
-            if (lastTemp > (_playerData.property [11] +10) && _playerData.tempNow <= (_playerData.property [11] +10)) {
+            if (lastTemp > (_playerData.property [11] +15) && _playerData.tempNow <= (_playerData.property [11] +15)) {
 				_logManager.AddLog ("你当前体温过低，低温极限为" + _playerData.property [11] + "℃。");
 				_logManager.AddLog (1f, "可以通过使用火把、喝酒等提高体温。");
 			}
