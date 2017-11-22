@@ -351,9 +351,9 @@ public class PlaceActions : MonoBehaviour {
             }
             else if (r2 < 8)
             {
-                r3 = Algorithms.GetIndexByRange(10, 30);
+                r3 = Algorithms.GetIndexByRange(10, 20);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("一只猴子朝你扔了个核桃，生命+" + r3);
+                _logManager.AddLog("一只猴子朝你扔了六个核桃，生命+" + r3);
             }
             else if (r2 < 10)
             {

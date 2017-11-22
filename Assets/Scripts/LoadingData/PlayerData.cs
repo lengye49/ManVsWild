@@ -54,7 +54,7 @@ public class PlayerData  {
     /// <value>The season now.</value>
 	public int seasonNow
 	{
-		get{return (int)(minutesPassed / 60 / 24 / 90) % 4;}
+		get{return (int)(minutesPassed / 60 / 24 / 30) % 4;}
 	}
 
 	public int BedRoomOpen;

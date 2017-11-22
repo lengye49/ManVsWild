@@ -177,8 +177,17 @@ public class PetsActions : MonoBehaviour {
 			_localPet.state = 0;
 			s += "停止骑乘" + _localPet.name+"。";
 		} else {
+            foreach (int key in GameData._playerData.Pets.Keys)
+            {
+                if (GameData._playerData.Pets[key].state == 1)
+                    GameData._playerData.Pets[key].state = 0;
+            }
+
 			_localPet.state = 1;
-			AddMount (_localPet);
+            GameData._playerData.Mount = _localPet;
+            _gameData.StoreData ("Mount", _gameData.GetStrFromMount (GameData._playerData.Mount));
+            _gameData.UpdateProperty ();
+
 			s += "开始骑乘" + _localPet.name+"。";
 			//Achievement
 			this.gameObject.GetComponentInParent<AchieveActions> ().MountPet (_localPet.monsterId);
@@ -233,12 +242,6 @@ public class PetsActions : MonoBehaviour {
 
 	void RemoveMount(){
 		GameData._playerData.Mount = new Pet ();
-		_gameData.StoreData ("Mount", _gameData.GetStrFromMount (GameData._playerData.Mount));
-		_gameData.UpdateProperty ();
-	}
-
-	void AddMount(Pet p){
-		GameData._playerData.Mount = p;
 		_gameData.StoreData ("Mount", _gameData.GetStrFromMount (GameData._playerData.Mount));
 		_gameData.UpdateProperty ();
 	}

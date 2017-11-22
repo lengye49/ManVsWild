@@ -84,8 +84,17 @@ public class BattleActions : MonoBehaviour {
 
 		SetEnemy ();
 
-		if (isAttacked)
-			EnemyCastSkill ();
+        if (isAttacked)
+        {
+            if (distance > enemy.range)
+            {
+                Move(true, enemy.speed, true);
+            }
+            else
+            {
+                EnemyCastSkill();
+            }
+        }
 	}
 
 	void SetEnemy(){
@@ -164,6 +173,7 @@ public class BattleActions : MonoBehaviour {
 		enemy.dodge = md.dodge;
 		enemy.speed = m.speed;
 		enemy.range = m.range;
+//        print(m.range);
 		enemy.castSpeedBonus = 0;
 		enemy.skillList = m.skillList;
 		enemy.drop = m.drop;
@@ -406,11 +416,11 @@ public class BattleActions : MonoBehaviour {
 					break;
 				case 107:
 					if (isMyAtk) {
-						enemyNextTurn += 5;
-						AddLog (enemy.name + "受到[束缚]效果，5秒内无法行动。", 0);
+						enemyNextTurn += 3;
+						AddLog (enemy.name + "受到[束缚]效果，3秒内无法行动。", 0);
 					} else {
-						myNextTurn += 5;
-						AddLog ("你受到[束缚]效果，5秒内无法行动。", 0);
+						myNextTurn += 3;
+						AddLog ("你受到[束缚]效果，3秒内无法行动。", 0);
 					}
 					break;
 				case 109:
@@ -681,7 +691,11 @@ public class BattleActions : MonoBehaviour {
 
 	void CheckEnemyAction(){
 		while (enemyNextTurn < myNextTurn) {
-			EnemyCastSkill ();
+            if (distance > enemy.range) {
+                Move (true, enemy.speed,true);
+            } else {
+                EnemyCastSkill ();
+            }
 		}
 	}
 

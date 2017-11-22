@@ -120,7 +120,7 @@ public class GameData : MonoBehaviour {
         _playerData.WaterMax = PlayerPrefs.GetInt("Watermax", 100);
         _playerData.StrengthMax = PlayerPrefs.GetInt("StrengthMax", 100);
         _playerData.TempMax = PlayerPrefs.GetFloat("TempMax", 60);
-        _playerData.TempMin = PlayerPrefs.GetFloat("TempMin", -60);
+        _playerData.TempMin = PlayerPrefs.GetFloat("TempMin", -40);
         _playerData.minutesPassed = PlayerPrefs.GetInt("minutesPassed", 0);
         _playerData.BedRoomOpen = PlayerPrefs.GetInt("BedRoomOpen", 0);
         _playerData.WarehouseOpen = PlayerPrefs.GetInt("WarehouseOpen", 0);
@@ -223,8 +223,8 @@ public class GameData : MonoBehaviour {
         _playerData.FoodMax = PlayerPrefs.GetInt ("FoodMax"+s , 100);
         _playerData.WaterMax = PlayerPrefs.GetInt ("Watermax" +s, 100);
         _playerData.StrengthMax = PlayerPrefs.GetInt ("StrengthMax"+s , 100);
-        _playerData.TempMax = PlayerPrefs.GetFloat ("TempMax" +s, 50);
-        _playerData.TempMin = PlayerPrefs.GetFloat ("TempMin"+s , -30);
+        _playerData.TempMax = PlayerPrefs.GetFloat ("TempMax" +s, 60);
+        _playerData.TempMin = PlayerPrefs.GetFloat ("TempMin"+s , -40);
         _playerData.minutesPassed = PlayerPrefs.GetInt ("minutesPassed" +s, 0);
         _playerData.BedRoomOpen = PlayerPrefs.GetInt ("BedRoomOpen"+s , 0);
         _playerData.WarehouseOpen = PlayerPrefs.GetInt ("WarehouseOpen" +s, 0);
@@ -629,12 +629,12 @@ public class GameData : MonoBehaviour {
 			_headUiManager.UpdateHeadUI ("tempNow");
 			UpdateProperty (10, _playerData.tempNow);
 
-			if (lastTemp < _playerData.property [12] * 0.7f && _playerData.tempNow >= _playerData.property [12] * 0.7f) {
+            if (lastTemp < (_playerData.property [12] -20) && _playerData.tempNow >= (_playerData.property [12] +20)) {
 				_logManager.AddLog ("你当前体温过高，高温极限为" + _playerData.property [11] + "℃。");
 				_logManager.AddLog (1f, "可以通过喝冰水、洗澡等降低体温。");
 			}
 
-			if (lastTemp > _playerData.property [11] * 0.7f && _playerData.tempNow <= _playerData.property [11] * 0.7f) {
+            if (lastTemp > (_playerData.property [11] +10) && _playerData.tempNow <= (_playerData.property [11] +10)) {
 				_logManager.AddLog ("你当前体温过低，低温极限为" + _playerData.property [11] + "℃。");
 				_logManager.AddLog (1f, "可以通过使用火把、喝酒等提高体温。");
 			}
@@ -1378,5 +1378,11 @@ public class GameData : MonoBehaviour {
 		AddItem (id, 100);
 	}
 
+    public void HealAll(){
+        ChangeProperty(0, 100);
+        ChangeProperty(2, 100);
+        ChangeProperty(4, 100);
+        ChangeProperty(6, 100);
+    }
 
 }

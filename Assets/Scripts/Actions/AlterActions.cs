@@ -10,6 +10,7 @@ public class AlterActions : MonoBehaviour {
 	public Text memoryPoolState;
 	public Button storeButton;
 	public Button recoverButton;
+    public FloatingActions _floating;
 
 	private GameData _gameData;
 
@@ -42,6 +43,7 @@ public class AlterActions : MonoBehaviour {
         _gameData.ConsumeItem(2202, GameConfigs.SoulStoneForStoreMem);
 		_gameData.StoreMemmory ();
 		UpdateAltar ();
+        _floating.CallInFloating("存档成功", 0);
 	}
 
 	public void RecoverMemory(){
