@@ -7,7 +7,7 @@ using DG.Tweening;
 public class FloatingActions : MonoBehaviour {
 
 	private float upTime = 0.2f;
-	private float waitTime = 1f;
+	private float waitTime = 1.3f;
 	private float disappearTime = 0.5f;
 
 	/// <summary>

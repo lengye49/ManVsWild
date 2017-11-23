@@ -34,7 +34,7 @@ public class RoomActions : MonoBehaviour {
 	}
 
 	public void UpdateRoomStates(){
-		restTime = 17;
+		restTime = 10;
 		SetRestState ();
 		SetUpgradeState ();
 		if (GameData._playerData.BedRoomOpen >= 2) {

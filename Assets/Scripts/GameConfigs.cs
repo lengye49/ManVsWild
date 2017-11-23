@@ -7,7 +7,7 @@ public class GameConfigs{
 	public static int WaterCostPerHour = 1;
 	public static int SpiritCostPerBattle = 1;
 
-	public static int[] StrengthRecoverPerRestHour = new int[4]{6,10,10,10};
+	public static int[] StrengthRecoverPerRestHour = new int[4]{10,10,10,10};
 	public static int SpiritRecoverPerRestHour = 1;
 
 	public static int TempRecoverPerNormalBath = -6;

@@ -324,7 +324,8 @@ public class PlaceActions : MonoBehaviour {
 			}
 			_gameData.AddItem (matId * 10000, num);
             string s = LoadTxt.MatDic[matId].name + "+" + num;
-            _logManager.AddLog("你捡到了" + s + "。");
+//            _logManager.AddLog("你捡到了" + s + "。");
+			_floating.CallInFloating ("你捡到了" + s + "。", 0);
 
 		} else if (r < 25) {
 			int r1 = Algorithms.GetIndexByRange (1, 3);
@@ -342,135 +343,158 @@ public class PlaceActions : MonoBehaviour {
 			int r2 = Algorithms.GetIndexByRange (0, 100);
 			int r3;
 
-            //******************************************掉血**********
+            //******************************************回血**********
             if (r2 < 5)
             {
                 r3 = Algorithms.GetIndexByRange(3, 6);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("你捡到一块绷带，生命+" + r3);
+//                _logManager.AddLog("你捡到一块绷带，生命+" + r3);
+				_floating.CallInFloating ("你捡到一块绷带，生命+" + r3, 0);
             }
             else if (r2 < 8)
             {
                 r3 = Algorithms.GetIndexByRange(10, 20);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("一只猴子朝你扔了六个核桃，生命+" + r3);
+//                _logManager.AddLog("一只猴子朝你扔了六个核桃，生命+" + r3);
+				_floating.CallInFloating ("一只猴子朝你扔了六个核桃，生命+" + r3, 0);
+
             }
             else if (r2 < 10)
             {
                 r3 = Algorithms.GetIndexByRange(20, 60);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("一阵愉悦而纯净的力量扑面而来，生命+" + r3);
+//                _logManager.AddLog("一阵愉悦而纯净的力量扑面而来，生命+" + r3);
+				_floating.CallInFloating("一阵愉悦而纯净的力量扑面而来，生命+" + r3,0);
             }
 
-            //******************************************回血**********
+            //******************************************扣血**********
             else if (r2 < 14)
             {
                 r3 = -Algorithms.GetIndexByRange(1, 5);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("不小心踩到了陷阱，生命" + r3);
+//                _logManager.AddLog("不小心踩到了陷阱，生命" + r3);
+				_floating.CallInFloating("不小心踩到了陷阱，生命" + r3,1);
             }
             else if (r2 < 18)
             {
                 r3 = -Algorithms.GetIndexByRange(3, 7);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("打开宝箱，一股腐败气息铺面而来，生命" + r3 );
+//                _logManager.AddLog("打开宝箱，一股腐败气息铺面而来，生命" + r3 );
+				_floating.CallInFloating("打开宝箱，一股腐败气息铺面而来，生命" + r3,1);
             }
             else if (r2 < 20) {
                 r3 = -Algorithms.GetIndexByRange (4, 8);
                 _gameData.ChangeProperty (0, r3);
-                _logManager.AddLog("你遭到莫名的袭击，生命" + r3);
+//                _logManager.AddLog("你遭到莫名的袭击，生命" + r3);
+				_floating.CallInFloating("你遭到莫名的袭击，生命" + r3,1);
             }  
 
             //******************************************恢复精神**********
             else if (r2 < 24) {
 				r3 = Algorithms.GetIndexByRange (2, 6);
 				_gameData.ChangeProperty (2, r3);
-                _logManager.AddLog("一个友善的精灵朝你使用精神之泉，精神+" + r3 );
+//                _logManager.AddLog("一个友善的精灵朝你使用精神之泉，精神+" + r3 );
+				_floating.CallInFloating("一个友善的精灵朝你使用精神之泉，精神+" + r3 ,0);
             }
             else if (r2 < 28) {
                 r3 = Algorithms.GetIndexByRange (5, 10);
                 _gameData.ChangeProperty (2, r3);
-                _logManager.AddLog("你被远古战士雕像激励，精神+" + r3 );
+//                _logManager.AddLog("你被远古战士雕像激励，精神+" + r3 );
+				_floating.CallInFloating("你被远古战士雕像激励，精神+" + r3 ,0);
             }  
             else if (r2 < 30) {
                 r3 = Algorithms.GetIndexByRange (10, 30);
                 _gameData.ChangeProperty (2, r3);
-                _logManager.AddLog("你找到了精神之泉，精神+" + r3 );
+//                _logManager.AddLog("你找到了精神之泉，精神+" + r3 );
+				_floating.CallInFloating("你找到了精神之泉，精神+" + r3,0);
             } 
 
             //******************************************扣除精神**********
             else if (r2 < 35) {
 				r3 = -Algorithms.GetIndexByRange (1, 4);
 				_gameData.ChangeProperty (2, r3);
-				_logManager.AddLog("你感到一阵头晕目眩，精神" + r3 );
+//				_logManager.AddLog("你感到一阵头晕目眩，精神" + r3 );
+				_floating.CallInFloating ("你感到一阵头晕目眩，精神" + r3, 1);
 			}
 			else if (r2 < 40) {
 				r3 = -Algorithms.GetIndexByRange (3, 6);
 				_gameData.ChangeProperty (2, r3);
-				_logManager.AddLog("你受到恶魔雕像的惊吓，精神" + r3 );
+//				_logManager.AddLog("你受到恶魔雕像的惊吓，精神" + r3 );
+				_floating.CallInFloating("你受到恶魔雕像的惊吓，精神" + r3,1);
 			}
 
 			//******************************************恢复食物**********
 			else if (r2 < 43) {
 				r3 = Algorithms.GetIndexByRange (2, 6);
 				_gameData.ChangeProperty (4, r3);
-				_logManager.AddLog("你捡到了一片干硬的面包，食物+" + r3 );
+//				_logManager.AddLog("你捡到了一片干硬的面包，食物+" + r3 );
+				_floating.CallInFloating("你捡到了一片干硬的面包，食物+" + r3 ,0);
 			} 
 			else if (r2 < 50) {
 				r3 = Algorithms.GetIndexByRange (5, 10);
 				_gameData.ChangeProperty (4, r3);
-				_logManager.AddLog("好心的探险者分给你一些肉干，食物+" + r3 );
+//				_logManager.AddLog("好心的探险者分给你一些肉干，食物+" + r3 );
+				_floating.CallInFloating("好心的探险者分给你一些肉干，食物+" + r3 ,0);
 			} 
 
 			//******************************************恢复水分**********
 			else if (r2 < 54) {
 				r3 = Algorithms.GetIndexByRange (2, 6);
 				_gameData.ChangeProperty (6, r3);
-				_logManager.AddLog("捡到一个破旧的水囊，水+" + r3 );
+//				_logManager.AddLog("捡到一个破旧的水囊，水+" + r3 );
+				_floating.CallInFloating("捡到一个破旧的水囊，水+" + r3,0);
 			} 
 			else if (r2 < 58) {
 				r3 = Algorithms.GetIndexByRange (5, 10);
 				_gameData.ChangeProperty (6, r3);
-				_logManager.AddLog("好心的探险者分给你一些水，水+" + r3 );
+//				_logManager.AddLog("好心的探险者分给你一些水，水+" + r3 );
+				_floating.CallInFloating("好心的探险者分给你一些水，水+" + r3,0);
 			}
 			else if (r2 < 60) {
 				r3 = Algorithms.GetIndexByRange (10, 25);
 				_gameData.ChangeProperty (6, r3);
-				_logManager.AddLog("遇到一个地下泉眼，水+" + r3 );
+//				_logManager.AddLog("遇到一个地下泉眼，水+" + r3 );
+				_floating.CallInFloating ("遇到一个地下泉眼，水+" + r3, 0);
 			}
 
 			//******************************************改变体温**********
 			else if (r2 < 65) {
 				r3 = Algorithms.GetIndexByRange (1, 3);
 				_gameData.ChangeProperty (10, r3);
-				_logManager.AddLog("趟过一个温泉，温度+" + r3 );
+//				_logManager.AddLog("趟过一个温泉，温度+" + r3 );
+				_floating.CallInFloating ("趟过一个温泉，温度+" + r3, 0);
 			} 
 			else if (r2 < 70) {
 				r3 = Algorithms.GetIndexByRange (2, 5);
 				_gameData.ChangeProperty (10, r3);
 				_gameData.ChangeProperty(0, -r3);
-				_logManager.AddLog("地面突然冒出一团岩浆，温度+" + r3 + " ,生命-" + r3);
+//				_logManager.AddLog("地面突然冒出一团岩浆，温度+" + r3 + " ,生命-" + r3);
+				_floating.CallInFloating ("地面突然冒出一团岩浆，温度+" + r3 + " ,生命-" + r3, 1);
 			} 
 			else if (r2 < 75) {
 				r3 = -Algorithms.GetIndexByRange (1, 4);
 				_gameData.ChangeProperty (10, r3);
-				_logManager.AddLog("路过冰面，摔了一跤，温度" + r3 );
+//				_logManager.AddLog("路过冰面，摔了一跤，温度" + r3 );
+				_floating.CallInFloating ("路过冰面，摔了一跤，温度" + r3, 1);
 			} 
 			else if (r2 < 80) {
 				r3 = -Algorithms.GetIndexByRange (1, 4);
 				_gameData.ChangeProperty (10, r3);
 				_gameData.ChangeProperty(2, r3);
-				_logManager.AddLog("一阵刺骨的阴风吹过，温度" + r3 + " ,精神" + r3 );
+//				_logManager.AddLog("一阵刺骨的阴风吹过，温度" + r3 + " ,精神" + r3 );
+				_floating.CallInFloating("一阵刺骨的阴风吹过，温度" + r3 + " ,精神" + r3,1);
 			} 
 
 			//******************************************特殊回复**********
 			else if (r2 < 82) {
 				_gameData.ChangeProperty (0, 999);
-				_logManager.AddLog("受到生命的祝福，生命回满。");
+//				_logManager.AddLog("受到生命的祝福，生命回满。");
+				_floating.CallInFloating ("受到生命的祝福，生命回满。", 0);
 			} 
 			else if (r2 < 84) {
 				_gameData.ChangeProperty (2, 999);
-				_logManager.AddLog("受到生命的祝福，精神回满。");
+//				_logManager.AddLog("受到生命的祝福，精神回满。");
+				_floating.CallInFloating ("受到生命的祝福，精神回满。", 0);
 			}
 		} 
 	}
@@ -483,6 +507,8 @@ public class PlaceActions : MonoBehaviour {
 			maxLv += (int)(dungeonLevel / 10) * 5;
 			if (dungeonLevel % 10 == 0) {
 				minLv = maxLv - 5;
+			} else {
+				minLv = maxLv - 25;
 			}
 		} else {
 			maxLv = 100;
@@ -586,7 +612,8 @@ public class PlaceActions : MonoBehaviour {
             }
             _gameData.AddItem (matId * 10000, num);
             string s = LoadTxt.MatDic[matId].name + "+" + num;
-            _logManager.AddLog("你捡到了" + s + "。");
+//            _logManager.AddLog("你捡到了" + s + "。");
+			_floating.CallInFloating("你捡到了" + s + "。",0);
 
         } else if (r < 30) {
             int r1 = Algorithms.GetIndexByRange (1, 3);
@@ -609,19 +636,22 @@ public class PlaceActions : MonoBehaviour {
             {
                 r3 = Algorithms.GetIndexByRange(3, 6);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("你捡到一块绷带，生命+" + r3);
+//                _logManager.AddLog("你捡到一块绷带，生命+" + r3);
+				_floating.CallInFloating ("你捡到一块绷带，生命+" + r3, 0);
             }
             else if (r2 < 5)
             {
                 r3 = Algorithms.GetIndexByRange(10, 30);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("恢复之光照耀着你，生命+" + r3);
+//                _logManager.AddLog("恢复之光照耀着你，生命+" + r3);
+				_floating.CallInFloating("恢复之光照耀着你，生命+" + r3,0);
             }
             else if (r2 < 10)
             {
                 r3 = Algorithms.GetIndexByRange(20, 60);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("一阵愉悦而纯净的力量扑面而来，生命+" + r3);
+//                _logManager.AddLog("一阵愉悦而纯净的力量扑面而来，生命+" + r3);
+				_floating.CallInFloating("一阵愉悦而纯净的力量扑面而来，生命+" + r3,0);
             }
 
             //******************************************回血**********
@@ -629,75 +659,88 @@ public class PlaceActions : MonoBehaviour {
             {
                 r3 = -Algorithms.GetIndexByRange(1, 5);
                 _gameData.ChangeProperty(0, r3);
-                _logManager.AddLog("不小心踩到了陷阱，生命" + r3);
+//                _logManager.AddLog("不小心踩到了陷阱，生命" + r3);
+				_floating.CallInFloating("不小心踩到了陷阱，生命" + r3,1);
             }
             else if (r2 < 20) {
                 r3 = -Algorithms.GetIndexByRange (4, 8);
                 _gameData.ChangeProperty (0, r3);
-                _logManager.AddLog("你碰到了时空裂缝，生命" + r3);
+//                _logManager.AddLog("你碰到了时空裂缝，生命" + r3);
+				_floating.CallInFloating ("你碰到了时空裂缝，生命" + r3, 1);
             }  
             else if (r2 < 24) {
                 r3 = Algorithms.GetIndexByRange (5, 10);
                 _gameData.ChangeProperty (2, r3);
-                _logManager.AddLog("你被远古战士雕像激励，精神+" + r3 );
+//                _logManager.AddLog("你被远古战士雕像激励，精神+" + r3 );
+				_floating.CallInFloating ("你被远古战士雕像激励，精神+" + r3, 0);
             }  
             else if (r2 < 30) {
                 r3 = Algorithms.GetIndexByRange (10, 30);
                 _gameData.ChangeProperty (2, r3);
-                _logManager.AddLog("你找到了精神之泉，精神+" + r3 );
+//                _logManager.AddLog("你找到了精神之泉，精神+" + r3 );
+				_floating.CallInFloating("你找到了精神之泉，精神+" + r3,0);
             } 
 
             //******************************************扣除精神**********
             else if (r2 < 40) {
                 r3 = -Algorithms.GetIndexByRange (1, 4);
                 _gameData.ChangeProperty (2, r3);
-                _logManager.AddLog("你感到一阵头晕目眩，精神" + r3 );
+//                _logManager.AddLog("你感到一阵头晕目眩，精神" + r3 );
+				_floating.CallInFloating ("你感到一阵头晕目眩，精神" + r3, 1);
             }
             //******************************************恢复食物**********
             else if (r2 < 43) {
                 r3 = Algorithms.GetIndexByRange (2, 6);
                 _gameData.ChangeProperty (4, r3);
-                _logManager.AddLog("你捡到了一片干硬的面包，食物+" + r3 );
+//                _logManager.AddLog("你捡到了一片干硬的面包，食物+" + r3 );
+				_floating.CallInFloating ("你捡到了一片干硬的面包，食物+" + r3, 0);
             } 
             else if (r2 < 50) {
                 r3 = Algorithms.GetIndexByRange (5, 10);
                 _gameData.ChangeProperty (4, r3);
-                _logManager.AddLog("好心的时空旅者分给你一些肉干，食物+" + r3 );
+//                _logManager.AddLog("好心的时空旅者分给你一些肉干，食物+" + r3 );
+				_floating.CallInFloating ("好心的时空旅者分给你一些肉干，食物+" + r3, 0);
             } 
 
             //******************************************恢复水分**********
             else if (r2 < 54) {
                 r3 = Algorithms.GetIndexByRange (2, 6);
                 _gameData.ChangeProperty (6, r3);
-                _logManager.AddLog("捡到一个破旧的水囊，水+" + r3 );
+//                _logManager.AddLog("捡到一个破旧的水囊，水+" + r3 );
+				_floating.CallInFloating("捡到一个破旧的水囊，水+" + r3 ,0);
             } 
             else if (r2 < 60) {
                 r3 = Algorithms.GetIndexByRange (5, 10);
                 _gameData.ChangeProperty (6, r3);
-                _logManager.AddLog("好心的时空旅者分给你一些水，水+" + r3 );
+//                _logManager.AddLog("好心的时空旅者分给你一些水，水+" + r3 );
+				_floating.CallInFloating("好心的时空旅者分给你一些水，水+" + r3,0 );
             }
             //******************************************改变体温**********
             else if (r2 < 70) {
                 r3 = Algorithms.GetIndexByRange (2, 5);
                 _gameData.ChangeProperty (10, r3);
                 _gameData.ChangeProperty(0, -r3);
-                _logManager.AddLog("地面突然冒出一团热量，温度+" + r3 + " ,生命-" + r3);
+//                _logManager.AddLog("地面突然冒出一团热量，温度+" + r3 + " ,生命-" + r3);
+				_floating.CallInFloating("地面突然冒出一团热量，温度+" + r3 + " ,生命-" + r3,1);
             } 
             else if (r2 < 80) {
                 r3 = -Algorithms.GetIndexByRange (1, 4);
                 _gameData.ChangeProperty (10, r3);
                 _gameData.ChangeProperty(2, r3);
-                _logManager.AddLog("一阵刺骨的阴风吹过，温度" + r3 + " ,精神" + r3 );
+//                _logManager.AddLog("一阵刺骨的阴风吹过，温度" + r3 + " ,精神" + r3 );
+				_floating.CallInFloating ("一阵刺骨的阴风吹过，温度" + r3 + " ,精神" + r3, 1);
             } 
 
             //******************************************特殊回复**********
             else if (r2 < 85) {
                 _gameData.ChangeProperty (0, 999);
-                _logManager.AddLog("受到生命的祝福，生命回满。");
+//                _logManager.AddLog("受到生命的祝福，生命回满。");
+				_floating.CallInFloating("受到生命的祝福，生命回满。",0);
             } 
             else if (r2 < 90) {
                 _gameData.ChangeProperty (2, 999);
-                _logManager.AddLog("受到精神的祝福，精神回满。");
+//                _logManager.AddLog("受到精神的祝福，精神回满。");
+				_floating.CallInFloating("受到精神的祝福，精神回满。",0);
             }else {
                 Debug.Log ("Nothing Happened");
             }
