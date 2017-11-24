@@ -590,12 +590,17 @@ public class TipManager : MonoBehaviour {
 		float discount = isKitchen ? GameData._playerData.CookingTimeDiscount : GameData._playerData.BlackSmithTimeDiscount;
 		
         _gameData.ChangeTime ((int)(LoadTxt.MatDic [targetId].makingTime * 60 *discount));
-		_floating.CallInFloating (LoadTxt.MatDic [targetId].name + " +" + LoadTxt.MatDic[targetId].combGet, 0);
+		
 		
         int combGet = LoadTxt.MatDic [targetId].combGet;
-		if (isKitchen)
-			combGet = (int)(LoadTxt.MatDic [targetId].combGet * Algorithms.GetIndexByRange (100, (int)(100 * GameData._playerData.CookingIncreaseRate) + 1) / 100);
+        if (isKitchen)
+        {
+            float r = Random.Range(1f, GameData._playerData.CookingIncreaseRate);
+            combGet = (int)(combGet * r);
+        }
 		_gameData.AddItem (GenerateItemId (targetId), combGet);
+        _floating.CallInFloating (LoadTxt.MatDic [targetId].name + " +" + combGet, 0);
+
 
 		SetMakingTipDesc(LoadTxt.MatDic[targetId]);
 

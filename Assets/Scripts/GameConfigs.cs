@@ -97,7 +97,7 @@ public class GameConfigs{
 	public static float[] SearchRate = { 1f, 1.5f };
 	public static float[] BlackSmithTimeDiscount = { 1f, 0.9f, 0.7f, 0.5f };
 	public static float[] CookingTimeDiscount = { 1f, 0.9f, 0.7f,0.5f };
-	public static float[] CookingIncreaseRate = { 1f, 1.5f, 2f ,2.5f};
+	public static float[] CookingIncreaseRate = { 1f, 1.2f, 1.5f ,1.8f};
 	public static float[] WaterCollectingRate = { 1f, 1.2f, 1.5f };
 	public static float[] GhostComingProp = { 0.05f, 0.02f, 0.01f };
 
