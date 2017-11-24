@@ -1300,7 +1300,7 @@ public class GameData : MonoBehaviour {
 
 		if (d == 3 && _playerData.WarehouseOpen==1) {
 			StoreItem (34020000, 5);//空间宝石
-			_logManager.AddLog( "镇上居民送来了一些材料。");
+			_logManager.AddLog( "小镇居民送来了一些材料。");
 			_logManager.AddLog( "空间宝石+5 已放入仓库。");
 		}
 		if (d == 5 && _playerData.WarehouseOpen==1) {
@@ -1308,9 +1308,9 @@ public class GameData : MonoBehaviour {
 			StoreItem (42000000, 10);
 			_logManager.AddLog( "镇长希望你能够照顾好自己后，多去闯荡。镇子很小，世界很大。");
 		}
-		if (d == 10 && _playerData.WarehouseOpen==1) {
+		if (d == 20 && _playerData.WarehouseOpen==1) {
 			StoreItem (34020000, 5);//空间宝石
-			_logManager.AddLog( "镇上居民送来了一些材料。");
+			_logManager.AddLog( "小镇居民送来了一些材料。");
 			_logManager.AddLog( "空间宝石+5 已放入仓库。");
 		}
 		if (d == 7 && _playerData.WarehouseOpen==1) {
@@ -1318,14 +1318,14 @@ public class GameData : MonoBehaviour {
 			_logManager.AddLog( "镇长送来了他笔记，里面记录了一些实战经验。");
 			_logManager.AddLog( "战士训练手册+5 已放入仓库。");
 		}
-		if (d == 12 && _playerData.WarehouseOpen==1) {
+		if (d == 14 && _playerData.WarehouseOpen==1) {
 			StoreItem (33040000, 5);//空间宝石
             _logManager.AddLog( "镇长送来了他笔记，里面记录了一些实战经验。");
 			_logManager.AddLog( "射术精要+5 已放入仓库。");
 		}
 
 		//进贡前的提醒
-		if (d % 30 == 27)
+		if (d % 30 == 28)
 			_logManager.AddLog ("镇上的居民将在3天后送来补给，请保证仓库有>5空位。");
 	}
 
@@ -1339,7 +1339,7 @@ public class GameData : MonoBehaviour {
 		if (r < 9) {
 			dic.Add (41000000, 20);//水
 			dic.Add (42000000, 20);//面包
-			s = "希望你能够更加勇敢，闯荡出一些名声，居民给你送来了一些补给。";
+			s = "镇长派人给你送来了一些补给。";
 		} else if (r < 99) {
 			dic.Add (41000000, 20);//水
 			dic.Add (42000000, 20);//面包
@@ -1361,7 +1361,7 @@ public class GameData : MonoBehaviour {
 				dic.Add (42020000, 30);//冰块
 				dic.Add (43000000, 20);//鸡尾酒
 			}
-			s = "居民对你非常仰慕，希望你能够继续保护他们。";
+			s = "小镇居民对你非常仰慕，给你送来了补给。";
 		}
 		_logManager.AddLog (s);
 		s = "";
@@ -1398,6 +1398,7 @@ public class GameData : MonoBehaviour {
         ChangeProperty(2, 100);
         ChangeProperty(4, 100);
         ChangeProperty(6, 100);
+		AddRenown (100);
     }
 
 }
