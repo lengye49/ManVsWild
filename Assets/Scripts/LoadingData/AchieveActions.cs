@@ -414,7 +414,7 @@ public class AchieveActions : MonoBehaviour {
 
 		//Dragon
 		if (GameData._playerData.Achievements [36] == 0) {
-			if(monsterId==1801 || monsterId==1802 || monsterId==1803) {
+            if(monsterId==1801 || monsterId==1802 || monsterId==1803 || monsterId==2448 || monsterId==2449 || monsterId==2450) {
 				a = LoadTxt.GetAchievement (36);
 				StoreAchievement (36);
 				_floating.CallInFloating ("达成新成就:" + a.name,0);

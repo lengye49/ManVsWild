@@ -472,6 +472,8 @@ public class PanelManager : MonoBehaviour {
 			s += LoadTxt.MatDic [key].name + " ×" + drop [key];
 			break;
 		}
+        if (drop.Count <= 0)
+            s = "";
 		_logManager.AddLog (t.name + "溜进你的家里试图盗窃，但被守卫抓住了。" + s);
 
 		//Achievement

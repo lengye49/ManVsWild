@@ -1257,6 +1257,8 @@ public class GameData : MonoBehaviour {
     public void OpenMap(int mapId){
         if (GameData._playerData.MapOpenState[mapId] == 1)
             return;
+        if (GameData._playerData.MapOpenState[mapId] == 3)
+            return;
 
         GameData._playerData.MapOpenState[mapId] = 1;
         StoreData("MapOpenState", GetStrFromMapOpenState(_playerData.MapOpenState));
@@ -1268,6 +1270,19 @@ public class GameData : MonoBehaviour {
         this.gameObject.GetComponentInParent<AchieveActions>().NewPlaceFind();
 
     }
+
+    /// <summary>
+    /// 关闭地牢/时空隧道
+    /// </summary>
+    /// <param name="mapId">Map identifier.</param>
+    public void CloseMap(int mapId){
+        if (GameData._playerData.MapOpenState[mapId] == 0)
+            return;
+        GameData._playerData.MapOpenState[mapId] = 3;
+        StoreData("MapOpenState", GetStrFromMapOpenState(_playerData.MapOpenState));
+    }
+
+
 
 	public void AddRenown(int num){
 		_playerData.Renown += num;

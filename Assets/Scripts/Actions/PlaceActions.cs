@@ -69,11 +69,21 @@ public class PlaceActions : MonoBehaviour {
 			if (!newPlace)
 				return;
 			dungeonLevel = GameData._playerData.dungeonLevelMax + 1;
+            if (dungeonLevel > 100)
+            {
+                dungeonLevel = 100;
+                _gameData.CloseMap(21);
+            }
 			InitializeDungeon ();
         } else if (_mapNow.id == 25){
             if (!newPlace)
                 return;
 			tunnelLevel = GameData._playerData.tunnelLevelMax + 1;
+            if (tunnelLevel > 10)
+            {
+                tunnelLevel = 10;
+                _gameData.CloseMap(25);
+            }
 			InitializeTunnel ();
         }else {
 			SetDetailPosition ();
@@ -170,7 +180,7 @@ public class PlaceActions : MonoBehaviour {
 	/// </summary>
 	/// <param name="lv">Lv.</param>
 	public void UpdatePlace(int lv){
-		dungeonLevel = lv;
+        dungeonLevel = lv;
 		InitializeDungeon ();
 	}
 
@@ -253,6 +263,7 @@ public class PlaceActions : MonoBehaviour {
             else
             {
                 _gameData.OpenMap(25);
+                _gameData.CloseMap(21);
                 CallInComplete(0);
             }
 
@@ -274,6 +285,7 @@ public class PlaceActions : MonoBehaviour {
             else
             {
                 CallInComplete(1);
+                _gameData.CloseMap(25);
                 _logManager.AddLog("通关模式已开启！");
             }
         }
