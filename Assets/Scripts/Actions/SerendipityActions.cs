@@ -63,11 +63,11 @@ public class SerendipityActions : MonoBehaviour {
         int r = Random.Range(0, 9999);
 
         //不触发意外事件
-        if (r > 600)
+        if (r > 750)
             return;
 
         //0信息 1广告
-        if (r > 200)
+        if (r > 400)
             ShowSerendipity(0);
         else
             ShowSerendipity(1);
@@ -145,19 +145,19 @@ public class SerendipityActions : MonoBehaviour {
         {
             //点击了下载按钮，奖励20灵魂石
             _gameData.AddItem(22020000,20);
-            GetComponentInChildren<LogManager>().AddLog("你获得了 灵魂石+20。");
+			GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了20灵魂石。",true);
         }
         else if (args.IsCompletedView)
         {
             //完成了播放，奖励10灵魂石
             _gameData.AddItem(22020000,10);
-            GetComponentInChildren<LogManager>().AddLog("你获得了 灵魂石+10。");
+			GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了10灵魂石。",true);
         }
         else
         {
             //未完成播放，没有奖励
             _gameData.AddItem(22020000,1);
-            GetComponentInChildren<LogManager>().AddLog("你获得了 灵魂石+1。");
+			GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了3灵魂石。",true);
         }
 
     }
