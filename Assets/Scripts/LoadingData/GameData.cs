@@ -1046,9 +1046,17 @@ public class GameData : MonoBehaviour {
 
 	public void EatFood(int itemId){
 		int id = (int)(itemId / 10000);
+		string s = "";
 		foreach (int key in LoadTxt.MatDic[id].property.Keys) {
-			ChangeProperty (key, (int)LoadTxt.MatDic [id].property [key]);
+			int v = (int)LoadTxt.MatDic [id].property [key];
+			ChangeProperty (key, v);
+			if (v > 0)
+				s += PlayerData.GetPropName (key) + "+" + v + " ";
+			else
+				s += PlayerData.GetPropName (key)  + v + " ";
 		}
+		s = s.Substring (0, s.Length - 1);
+		GetComponentInChildren<FloatingActions> ().CallInFloating (s, 0);
 		if (_playerData.bp [itemId] > 1)
 			_playerData.bp [itemId]--;
 		else

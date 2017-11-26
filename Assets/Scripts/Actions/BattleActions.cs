@@ -517,7 +517,7 @@ public class BattleActions : MonoBehaviour {
 			AddLog (s,1);
 		} else {			
 			if (enemy.renown > 0) {
-				s += "获得了" + enemy.renown + "点声望。";
+				s = "获得了" + enemy.renown + "点声望。";
 				AddLog (s,1);
 			} 
 		}

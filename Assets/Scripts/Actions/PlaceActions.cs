@@ -92,11 +92,13 @@ public class PlaceActions : MonoBehaviour {
 	}
 
 	public void PlayBackGroundMusic(int mapId){
-		int isRain = Random.Range (0, 10);
+		int isRain = Random.Range (0, 100);
 		string bgSoundName = "";
-		if (isRain < 2)
+		if (mapId == 0)
+			bgSoundName = "";
+		else if (isRain < 10)
 			bgSoundName = "rain_small";
-		else if (isRain < 3)
+		else if (isRain < 15)
 			bgSoundName = "rain_heavy";
 		else {
 			switch (mapId) {
