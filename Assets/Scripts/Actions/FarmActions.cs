@@ -83,7 +83,7 @@ public class FarmActions : MonoBehaviour {
 			if (f.plantType == 0)
 				t [2].text = "可在此种植作物。";
 			else if (f.plantType == 1)
-				t [2].text = "可在此酿造二锅头";
+				t [2].text = "可在此酿造果酒";
 			else if (f.plantType == 2)
 				t [2].text = "可在此酿造啤酒";
 			else if (f.plantType == 3)
@@ -101,7 +101,7 @@ public class FarmActions : MonoBehaviour {
 				if (f.plantType == 0)
 					t [2].text = "作物已经成熟。";
 				else if (f.plantType == 1)
-					t [2].text = "二锅头已经酿制完成。";
+					t [2].text = "果酒已经酿制完成。";
 				else if (f.plantType == 2)
 					t [2].text = "啤酒已经酿制完成。";
 				else if (f.plantType == 3)
@@ -186,7 +186,7 @@ public class FarmActions : MonoBehaviour {
 			t [0].text = "作物";
 			break;
 		case 1:
-			t [0].text = "二锅头";
+			t [0].text = "果酒";
 			break;
 		case 2:
 			t [0].text = "啤酒";
