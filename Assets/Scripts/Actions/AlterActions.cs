@@ -11,6 +11,7 @@ public class AlterActions : MonoBehaviour {
 	public Button storeButton;
 	public Button recoverButton;
     public FloatingActions _floating;
+	public LoadingBar _loadingBar;
 
 	private GameData _gameData;
 
@@ -28,7 +29,7 @@ public class AlterActions : MonoBehaviour {
         storeButton.interactable = (num >= GameConfigs.SoulStoneForStoreMem);
 
 		bool s = GameData._playerData.HasMemmory > 0;
-		memoryPoolState.text = s ? "已有存档" : "当前无存档";
+		memoryPoolState.text = s ? "已存档" : "无存档";
 		memoryPoolState.color = s ? Color.green : Color.red;
 		recoverButton.interactable = s;
 	}
@@ -49,6 +50,12 @@ public class AlterActions : MonoBehaviour {
 	public void RecoverMemory(){
 		this.gameObject.GetComponentInParent<AchieveActions> ().LoadMemmory (); //Achievement
 		_gameData.RebirthLoad ();
+		StartCoroutine (StartRebirth ());
+	}
+
+	IEnumerator StartRebirth(){
+		int t = _loadingBar.CallInLoadingBar (60);
+		yield return new WaitForSeconds (t);
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 	}
 

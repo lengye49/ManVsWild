@@ -1198,7 +1198,7 @@ public class PlaceActions : MonoBehaviour {
 		if (GameData._playerData.hourNow >= 5 && GameData._playerData.hourNow <= 19)
 			return false;
 		float r = Random.Range (0f, 100f);
-		Debug.Log ("出现幽灵的概率为" + GameData._playerData.GhostComingProp + ",随机数为" + r + "。");
+//		Debug.Log ("出现幽灵的概率为" + GameData._playerData.GhostComingProp + ",随机数为" + r + "。");
 
 		if (r < (100f * GameData._playerData.GhostComingProp))
 			return true;

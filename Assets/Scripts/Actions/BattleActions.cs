@@ -19,6 +19,7 @@ public class BattleActions : MonoBehaviour {
 
 	public Button bp;
 	public Button map;
+	public Button goHome;
 	public Button meleeAttack;
 	public Button rangedAttack;
 	public Button magicAttack;
@@ -61,6 +62,7 @@ public class BattleActions : MonoBehaviour {
 		thisMonsters = monsters;
 		bp.interactable = false;
 		map.interactable = false;
+		goHome.interactable = false;
 		thisEnemyIndex = 0;
 		autoButton.gameObject.SetActive (true);
 		returnButton.gameObject.SetActive (false);
@@ -123,6 +125,7 @@ public class BattleActions : MonoBehaviour {
 	void CallOutBattlePanel(){
 		bp.interactable = true;
 		map.interactable = true;
+		goHome.interactable = true;
 		this.gameObject.transform.localPosition = new Vector3 (-2000, 0, 0);
 	}
 		

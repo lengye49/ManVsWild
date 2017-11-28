@@ -485,6 +485,7 @@ public class LoadTxt : MonoBehaviour {
 	private PlaceUnit[] p;
 
 	public void LoadPlaces(bool isRebirth){
+//		Debug.Log ("正在读取数据*******************************************");
         PlaceDic = new Dictionary<int, Places> ();
 		string[][] strs = ReadTxt.ReadText ("places");
 		p = new PlaceUnit[strs.Length-1];
@@ -493,12 +494,16 @@ public class LoadTxt : MonoBehaviour {
 			p [i].unitId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
 			p [i].actionType = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
 
-			string s = "PlaceUnit" + p [i].unitId.ToString () + "Para" + (isRebirth ? "_Memmory" : "");
+			string s = "PlaceUnit" + p [i].unitId.ToString () + "Para" + (isRebirth ? "_Memory" : "");
+//			if (p [i].unitId == 103)
+//				Debug.Log (s);
 			if (PlayerPrefs.GetString (s, "") == "") {
 				p [i].actionParam = 1 + ";" + ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
 			} else {
 				p [i].actionParam = PlayerPrefs.GetString (s, "");
 			}
+//			if(p[i].unitId == 103)
+//				Debug.Log (p [i].unitId + ": " + p [i].actionParam);;
 			p [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 3);
 			p [i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 4);
 		}
@@ -515,15 +520,25 @@ public class LoadTxt : MonoBehaviour {
 		}
 	}
 
-	public void StorePlaceMemmory(bool isRebirth){
-		//如果不是rebirth，就存储当前数据到memmory；如果是rebirth，就用memmory覆盖当前数据
+	public void StorePlaceMemory(bool isRebirth){
+//		Debug.Log ("正在存储数据***************************************** " + isRebirth);
+		//isRebirth为真，存储当前数据
+		//isRebirth为假，用当前数据覆盖存档
 		string s = isRebirth?"":"_Memory";
 		for (int i = 0; i < p.Length; i++) {
 			PlayerPrefs.SetString ("PlaceUnit" + p [i].unitId.ToString() + "Para" + s, p [i].actionParam);
+//			if (p [i].unitId == 103)
+//				Debug.Log ("PlaceUnit" + p [i].unitId.ToString () + "Para" + s + ": " + p [i].actionParam);
 		}
 	}
 
 	public void StorePlaceUnit(PlaceUnit pu){
 		PlayerPrefs.SetString ("PlaceUnit" + pu.unitId + "Para", pu.actionParam);
+		for (int i = 0; i < p.Length; i++) {
+			if (p [i].unitId == pu.unitId) {
+				p [i].actionParam = pu.actionParam;
+				break;
+			}
+		}
 	}
 }

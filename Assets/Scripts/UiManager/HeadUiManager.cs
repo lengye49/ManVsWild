@@ -52,16 +52,18 @@ public class HeadUiManager : MonoBehaviour {
 
 		strengthNow.text = GameData._playerData.strengthNow.ToString ();
 		strengthMax.text = "/" + GameData._playerData.property[9];
-		strengthNow.color = Algorithms.GetDangerColor (GameData._playerData.strengthNow / GameData._playerData.property [9]);
+		strengthNow.color = new Color (1f, 1f, 1f, 1f);
 		StrengthImage.color = strengthNow.color;
 
         tempNow.text = GameData._playerData.tempNow.ToString("#0.0");
-		if ((GameData._playerData.tempNow >= (GameData._playerData.property [12] - 20)) || (GameData._playerData.tempNow <= (GameData._playerData.property [11] + 20)))
-			tempNow.color = new Color (1f, 1f, 0f, 1f);
-		else if ((GameData._playerData.tempNow >= (GameData._playerData.property [12] - 10)) || (GameData._playerData.tempNow <= (GameData._playerData.property [11] + 10)))
-			tempNow.color = new Color (1f, 0f, 0f, 1f);
+		if ((GameData._playerData.tempNow >= (GameData._playerData.property[12] -5)) || (GameData._playerData.tempNow <= (GameData._playerData.property[11] +5)))
+			tempNow.color = new Color(1f, 0f, 0f, 1f);
+		else if ((GameData._playerData.tempNow >= (GameData._playerData.property[12] -15)) || (GameData._playerData.tempNow <= (GameData._playerData.property[11] +15)))
+			tempNow.color = new Color(1f, 1f, 0f, 1f);
 		else
-			tempNow.color = new Color (1f, 1f, 1f, 1f);
+			tempNow.color = new Color(1f, 1f, 1f, 1f);
+
+		TempImage.color = tempNow.color;
 
 		TempImage.color = tempNow.color;
 
@@ -114,21 +116,21 @@ public class HeadUiManager : MonoBehaviour {
 			break;
 		case "strengthNow":
 			strengthNow.text = GameData._playerData.strengthNow.ToString ();
-			strengthNow.color = Algorithms.GetDangerColor (GameData._playerData.strengthNow / GameData._playerData.property [9]);
+			strengthNow.color = new Color (1f, 1f, 1f, 1f);
 			StrengthImage.color = strengthNow.color;
 			break;
 		case "strengthMax":
 			strengthMax.text = "/" + GameData._playerData.property[9];
-			strengthNow.color = Algorithms.GetDangerColor (GameData._playerData.strengthNow / GameData._playerData.property [9]);
+			strengthNow.color = new Color (1f, 1f, 1f, 1f);
 			StrengthImage.color = strengthNow.color;
 			break;
-        case "tempNow":
-            tempNow.text = GameData._playerData.tempNow.ToString("#0.0");
+		case "tempNow":
+			tempNow.text = GameData._playerData.tempNow.ToString ("#0.0");
 
-            if ((GameData._playerData.tempNow >= (GameData._playerData.property[12] * 0.75f)) || (GameData._playerData.tempNow <= (GameData._playerData.property[11] * 0.75f)))
-                tempNow.color = new Color(1f, 1f, 0f, 1f);
-            else if ((GameData._playerData.tempNow >= (GameData._playerData.property[12] * 0.75f)) || (GameData._playerData.tempNow <= (GameData._playerData.property[11] * 0.75f)))
+            if ((GameData._playerData.tempNow >= (GameData._playerData.property[12] -5)) || (GameData._playerData.tempNow <= (GameData._playerData.property[11] +5)))
                 tempNow.color = new Color(1f, 0f, 0f, 1f);
+            else if ((GameData._playerData.tempNow >= (GameData._playerData.property[12] -15)) || (GameData._playerData.tempNow <= (GameData._playerData.property[11] +15)))
+                tempNow.color = new Color(1f, 1f, 0f, 1f);
             else
                 tempNow.color = new Color(1f, 1f, 1f, 1f);
 
