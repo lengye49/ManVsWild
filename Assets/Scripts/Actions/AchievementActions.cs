@@ -11,6 +11,7 @@ public class AchievementActions : MonoBehaviour {
 
 
 	public void UpdateAchievement(){
+        OnLeave();
 		achievementCells = new ArrayList ();
 		achievementCell = Instantiate (Resources.Load ("achievementCell")) as GameObject;
 		achievementCell.SetActive (false);

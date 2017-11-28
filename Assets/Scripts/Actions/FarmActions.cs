@@ -245,6 +245,7 @@ public class FarmActions : MonoBehaviour {
 			_gameData.ConsumeItem (key, p.plantReq [key]);
         }
         GameData._playerData.Farms [index].plantTime = GameData._playerData.minutesPassed;
+        _gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));
         CallOutPlantingTip ();
         UpdateFarm ();
     }

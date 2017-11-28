@@ -870,30 +870,33 @@ public class TipManager : MonoBehaviour {
 		commonTipButton [0].gameObject.GetComponentInChildren<Text> ().text = "丢弃";
 		commonTipButton [1].gameObject.SetActive (true);
 		switch (type) {
-		case 0:
-			commonTipButton [0].gameObject.SetActive (true);
-			commonTipButton [0].gameObject.name = "warehouse_warehouse|"+itemId;
-			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "取出";
+            case 0:
+                commonTipButton[0].gameObject.SetActive(true);
+                commonTipButton[0].gameObject.name = "warehouse_warehouse|" + itemId;
+                commonTipButton[1].gameObject.GetComponentInChildren<Text>().text = "取出";
+                commonTipButton[1].interactable = true;
 			break;
-		case 1:
-			commonTipButton [0].gameObject.SetActive (true);
-			commonTipButton [0].gameObject.name = "warehouse_backpack|"+itemId;
-			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "存放";
+            case 1:
+                commonTipButton[0].gameObject.SetActive(true);
+                commonTipButton[0].gameObject.name = "warehouse_backpack|" + itemId;
+                commonTipButton[1].gameObject.GetComponentInChildren<Text>().text = "存放";
+                commonTipButton[1].interactable = true;
 			break;
-		case 2:
-			commonTipButton [0].gameObject.SetActive (true);
-			commonTipButton [0].gameObject.name = "backpack_backpack|"+itemId;
-			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "使用";
-			bool canUse = !(m.property == null);
-			commonTipButton [1].interactable = canUse;
+            case 2:
+                commonTipButton[0].gameObject.SetActive(true);
+                commonTipButton[0].gameObject.name = "backpack_backpack|" + itemId;
+                commonTipButton[1].gameObject.GetComponentInChildren<Text>().text = "使用";
+                bool canUse = !(m.property == null);
+                commonTipButton[1].interactable = canUse;
 			break;
-		case 3:
-		case 4:
-			commonTipButton [0].gameObject.SetActive (false);
-			commonTipButton [1].gameObject.GetComponentInChildren<Text> ().text = "卸下";
+            case 3:
+            case 4:
+                commonTipButton[0].gameObject.SetActive(false);
+                commonTipButton[1].gameObject.GetComponentInChildren<Text>().text = "卸下";
+                commonTipButton[1].interactable = true;
 			break;
-		default:
-			break;
+            default:
+                break;
 		}
 		commonTipButton [1].gameObject.name = itemId.ToString ();
 	}
