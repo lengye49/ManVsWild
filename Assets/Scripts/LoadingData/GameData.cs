@@ -1317,7 +1317,8 @@ public class GameData : MonoBehaviour {
 		if (d == 5 && _playerData.WarehouseOpen==1) {
 			StoreItem (41000000, 10);
 			StoreItem (42000000, 10);
-			_logManager.AddLog( "镇长希望你能够照顾好自己后，多去闯荡。镇子很小，世界很大。");
+			_logManager.AddLog( "镇长希望你能够照顾好自己后，多去闯荡。  镇子很小，世界很大。");
+			_logManager.AddLog( "水+10，馒头+10 已放入仓库。");
 		}
 		if (d == 20 && _playerData.WarehouseOpen==1) {
 			StoreItem (34020000, 5);//空间宝石
