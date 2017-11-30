@@ -63,11 +63,11 @@ public class SerendipityActions : MonoBehaviour {
         int r = Random.Range(0, 9999);
 
         //不触发意外事件
-        if (r > 400)
+        if (r > 500)
             return;
 
         //0信息 1广告
-        if (r > 200)
+        if (r > 250)
             ShowSerendipity(0);
         else
             ShowSerendipity(1);
