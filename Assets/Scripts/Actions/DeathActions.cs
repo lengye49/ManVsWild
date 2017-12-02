@@ -10,6 +10,7 @@ public class DeathActions : MonoBehaviour {
 	private bool isPrinting=false;
 
 	public void UpdateDeath(string cause){
+        PlayerPrefs.SetInt("IsDead", 1);
 		if (isPrinting)
 			return;
 

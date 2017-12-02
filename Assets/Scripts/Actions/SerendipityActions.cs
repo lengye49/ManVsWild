@@ -63,11 +63,11 @@ public class SerendipityActions : MonoBehaviour {
         int r = Random.Range(0, 9999);
 
         //不触发意外事件
-        if (r > 500)
+        if (r > 400)
             return;
 
         //0信息 1广告
-        if (r > 250)
+        if (r > 75)
             ShowSerendipity(0);
         else
             ShowSerendipity(1);
@@ -122,6 +122,8 @@ public class SerendipityActions : MonoBehaviour {
             Text t = NewMessage.GetComponentInChildren<Text>();
             int index = Algorithms.GetIndexByRange(0, messageList.Count);
             t.text = messageList[index];
+            _gameData.AddItem(22020000,2);
+            GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了2灵魂石。",true);
         }
         else
         {
@@ -156,7 +158,7 @@ public class SerendipityActions : MonoBehaviour {
         else
         {
             //未完成播放，没有奖励
-            _gameData.AddItem(22020000,1);
+            _gameData.AddItem(22020000,3);
 			GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了3灵魂石。",true);
         }
 

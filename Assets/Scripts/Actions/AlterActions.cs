@@ -17,6 +17,11 @@ public class AlterActions : MonoBehaviour {
 
 	void Start(){
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
+        if (PlayerPrefs.GetInt("IsDead", 0) > 0)
+        {
+            PlayerPrefs.SetInt("IsDead", 1);
+            RestartGame();
+        }
 	}
 
 	public void UpdateAltar(){
