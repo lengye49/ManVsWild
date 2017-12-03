@@ -17,11 +17,6 @@ public class AlterActions : MonoBehaviour {
 
 	void Start(){
 		_gameData = this.gameObject.GetComponentInParent<GameData> ();
-        if (PlayerPrefs.GetInt("IsDead", 0) > 0)
-        {
-            PlayerPrefs.SetInt("IsDead", 1);
-            RestartGame();
-        }
 	}
 
 	public void UpdateAltar(){
@@ -53,6 +48,7 @@ public class AlterActions : MonoBehaviour {
 	}
 
 	public void RecoverMemory(){
+		PlayerPrefs.SetInt ("IsDead", 0);
 		this.gameObject.GetComponentInParent<AchieveActions> ().LoadMemmory (); //Achievement
 		_gameData.RebirthLoad ();
 		StartCoroutine (StartRebirth ());
@@ -65,6 +61,7 @@ public class AlterActions : MonoBehaviour {
 	}
 
 	public void RestartGame(){
+		PlayerPrefs.SetInt ("IsDead", 0);
 		_gameData.ReStartLoad ();
 
 		GetComponentInParent<PanelManager>().GoToPanel("Home");

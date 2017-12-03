@@ -18,8 +18,6 @@ public class GameData : MonoBehaviour {
 	public LogManager _logManager;
 
 	void Awake () {
-
-
 		_playerData = new PlayerData ();
 		LoadAchievements ();
 		LoadAllData ();
@@ -28,6 +26,12 @@ public class GameData : MonoBehaviour {
 		_loadTxt = this.gameObject.GetComponent<LoadTxt> ();
 		_headUiManager.UpdateHeadUI ();
 		_loadTxt.LoadPlaces (false);
+
+		if (PlayerPrefs.GetInt ("IsDead", 0) > 0) {
+			GetComponentInChildren<PanelManager> ().GoToPanel ("Death");
+			GetComponentInChildren<DeathActions> ().UpdateDeath (PlayerPrefs.GetString ("DeathCause", "Hp"));
+		}
+
 	}
 
 	/// <summary>
@@ -1225,6 +1229,8 @@ public class GameData : MonoBehaviour {
 	public void AddPet(Pet p){
 		_playerData.Pets.Add (_playerData.PetRecord, p);
 		StoreData ("Pets", GetstrFromPets (GameData._playerData.Pets));
+		_playerData.Pets = GetPetListFromStr (PlayerPrefs.GetString ("Pets", ""));
+
 		_playerData.PetRecord++;
 		StoreData ("PetRecord", _playerData.PetRecord);
 	}

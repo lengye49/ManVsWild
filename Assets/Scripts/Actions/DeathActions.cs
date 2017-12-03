@@ -9,8 +9,10 @@ public class DeathActions : MonoBehaviour {
     private string txt;
 	private bool isPrinting=false;
 
+
 	public void UpdateDeath(string cause){
         PlayerPrefs.SetInt("IsDead", 1);
+		PlayerPrefs.SetString ("DeathCause", cause);
 		if (isPrinting)
 			return;
 

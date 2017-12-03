@@ -869,6 +869,8 @@ public class TipManager : MonoBehaviour {
 
 		commonTipButton [0].gameObject.GetComponentInChildren<Text> ().text = "丢弃";
 		commonTipButton [1].gameObject.SetActive (true);
+		commonTipButton[2].gameObject.GetComponentInChildren<Text>().text="取消";
+		commonTipButton [2].gameObject.SetActive (true);
 		switch (type) {
             case 0:
                 commonTipButton[0].gameObject.SetActive(true);

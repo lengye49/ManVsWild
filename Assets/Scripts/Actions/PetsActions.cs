@@ -35,7 +35,7 @@ public class PetsActions : MonoBehaviour {
 	}
 
 	void SetPetCells(){
-		Destroy (petCell);
+		OnLeave ();
 		petCell = Instantiate (Resources.Load ("petCell")) as GameObject;
 		petCell.SetActive (false);
 
@@ -75,17 +75,18 @@ public class PetsActions : MonoBehaviour {
 
 		int j = 0;
 		foreach (int key in GameData._playerData.Pets.Keys) {
-				GameObject o = petCells [j] as GameObject;
-				o.SetActive (true);
-				o.gameObject.name = j.ToString ();
-				SetPetCellState (o, GameData._playerData.Pets [key]);
-				j++;
+			GameObject o = petCells [j] as GameObject;
+			o.SetActive (true);
+			o.gameObject.name = key.ToString ();
+			SetPetCellState (o, GameData._playerData.Pets [key]);
+			j++;
 		}
 
 		contentP.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2(800,100 * openPetCell);
 	}
 
 	void SetPetCellState(GameObject o,Pet p){
+		
 		Text[] t = o.GetComponentsInChildren<Text> ();
 		Monster m = LoadTxt.GetMonster (p.monsterId);
 		t [0].text = m.name;
@@ -111,16 +112,18 @@ public class PetsActions : MonoBehaviour {
 		_localIndex = index;
 		Detail.localPosition = new Vector3 (150, 0, 0);
 		UpdateDetail ();
+		foreach (int key in GameData._playerData.Pets.Keys) {
+			Debug.Log ("Key = " + key + ", State = "+GameData._playerData.Pets[key].state);
+		}
 	}
 
 	void UpdateDetail(){
-		Pet p = _localPet;
 		Text[] t = Detail.gameObject.GetComponentsInChildren<Text> ();
-		Monster m = LoadTxt.GetMonster (p.monsterId);
+		Monster m = LoadTxt.GetMonster (_localPet.monsterId);
 		t [0].text = _localPet.name;
 		t [1].text = "描述";
 
-		switch (p.state) {
+		switch (_localPet.state) {
 		case 0:
 			t [2].text = "放养";
 			break;
@@ -136,8 +139,8 @@ public class PetsActions : MonoBehaviour {
 		t [2].color = Color.green;
 		t [3].text = m.canCapture.ToString ();
 		t [4].text = m.name;
-		t [5].text = p.speed.ToString ();
-		t [6].text = p.alertness.ToString ();
+		t [5].text = _localPet.speed.ToString ();
+		t [6].text = _localPet.alertness.ToString ();
 	}
 
 	public void CallOutDetail(){
@@ -162,7 +165,10 @@ public class PetsActions : MonoBehaviour {
 			_logManager.AddLog (_localPet.name + "开始守卫领地。");
 		else
 			_logManager.AddLog (_localPet.name + "停止守卫领地。");
-		
+
+		foreach (int key in GameData._playerData.Pets.Keys) {
+			Debug.Log ("Key = " + key + ", State = "+GameData._playerData.Pets[key].state);
+		}
 		GameData._playerData.Pets [_localIndex] = _localPet;
 		StorePetState ();
 		UpdateDetail ();
@@ -248,7 +254,7 @@ public class PetsActions : MonoBehaviour {
 
 	void StorePetState(){
 		_gameData.StoreData ("Pets", _gameData.GetstrFromPets (GameData._playerData.Pets));
-		GameData._playerData.Pets = _gameData.GetPetListFromStr (PlayerPrefs.GetString ("Pets", "100|1|50|Hello;100|0|20|Kitty"));
+		GameData._playerData.Pets = _gameData.GetPetListFromStr (PlayerPrefs.GetString ("Pets", ""));
 	}
 
 	public void OnLeave(){
