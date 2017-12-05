@@ -67,7 +67,7 @@ public class SerendipityActions : MonoBehaviour {
             return;
 
         //0信息 1广告
-        if (r > 75)
+        if (r > 50)
             ShowSerendipity(0);
         else
             ShowSerendipity(1);
@@ -123,7 +123,7 @@ public class SerendipityActions : MonoBehaviour {
             int index = Algorithms.GetIndexByRange(0, messageList.Count);
             t.text = messageList[index];
             _gameData.AddItem(22020000,2);
-            GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了2灵魂石。",true);
+            GetComponentInChildren<LogManager>().AddLog("你获得了2灵魂石。",true);
         }
         else
         {
@@ -146,20 +146,20 @@ public class SerendipityActions : MonoBehaviour {
         if (args.WasCallToActionClicked)
         {
             //点击了下载按钮，奖励20灵魂石
-            _gameData.AddItem(22020000,20);
-			GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了20灵魂石。",true);
+            _gameData.AddItem(22020000,30);
+			GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了30灵魂石。",true);
         }
         else if (args.IsCompletedView)
         {
             //完成了播放，奖励10灵魂石
-            _gameData.AddItem(22020000,10);
-			GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了10灵魂石。",true);
+            _gameData.AddItem(22020000,15);
+			GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了15灵魂石。",true);
         }
         else
         {
             //未完成播放，没有奖励
-            _gameData.AddItem(22020000,3);
-			GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了3灵魂石。",true);
+            _gameData.AddItem(22020000,2);
+			GetComponentInChildren<LogManager>().AddLog("你从留影石中获得了2灵魂石。",true);
         }
 
     }

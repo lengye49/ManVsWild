@@ -18,6 +18,25 @@ public class LoadTxt : MonoBehaviour {
 		LoadMaps ();
 	}
 
+	/// <summary>
+	/// 根据数量获取祭坛商品
+	/// </summary>
+	/// <returns>The altar shop list.</returns>
+	/// <param name="num">Number.</param>
+	public static ShopItem[] GetAltarShopList(int num){
+		string[][] strs = ReadTxt.ReadText("shop_item");
+		ShopItem[] s = new ShopItem[num];
+
+		int index;
+		for (int i = 0; i < num; i++) {
+			s [i] = new ShopItem ();
+			index = Random.Range (0, num - 1);
+			s [i].itemId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, index + 1, 0));
+			s [i].bundleNum = int.Parse (ReadTxt.GetDataByRowAndCol (strs, index + 1, 1));
+		}
+		return s;
+	}
+
 	public static Thief[] GetThiefList(){
 		string[][] strs = ReadTxt.ReadText("thief");
 		Thief[] t = new Thief[strs.Length-1];
