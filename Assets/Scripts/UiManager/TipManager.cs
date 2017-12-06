@@ -115,7 +115,7 @@ public class TipManager : MonoBehaviour {
 		int i = 2;
 		buildTipText [1].text = b.tips;
 		foreach (int key in b.combReq.Keys) {
-			if (_gameData.CountInBp(key)<b.combReq[key]) {
+			if (_gameData.CountInHome(key)<b.combReq[key]) {
 				buildTipText [i].text = LoadTxt.MatDic[key].name + " × " + b.combReq [key] + " /" + _gameData.CountInBp(key);
 				buildTipText [i].color = Color.red;
 			} else {

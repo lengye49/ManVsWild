@@ -722,6 +722,21 @@ public class GameData : MonoBehaviour {
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
 	}
 
+    /// <summary>
+    ///使用背包和仓库中的物品(4位ID),优先背包
+    /// </summary>
+    /// <param name="Id">Identifier.</param>
+    /// <param name="num">Number.</param>
+    public void ConsumeItemInHome(int Id,int num){
+        int i = num;
+        foreach (int key in _playerData.bp.Keys)
+        {
+            if ((int)(key / 10000) != Id)
+                continue;
+            
+        }
+    }
+
 
 	/// <summary>
 	/// 删除背包物品，id是8位.
@@ -821,6 +836,24 @@ public class GameData : MonoBehaviour {
 		return i;
 	}
 
+    /// <summary>
+    /// 计数背包和仓库中某类型的物品数量（4位ID）
+    /// </summary>
+    /// <returns>The in home.</returns>
+    /// <param name="itemId">Item identifier.</param>
+    public int CountInHome(int itemId){
+        int i = 0;
+        foreach (int key in _playerData.bp.Keys) {
+            if ((int)(key / 10000) == itemId)
+                i += _playerData.bp [key];
+        }
+        foreach (int key in _playerData.wh.Keys)
+        {
+            if ((int)(key / 10000) == itemId)
+                i += _playerData.bp [key];
+        }
+        return i;
+    }
 
 	Dictionary<int,int> GetDicFormStr(string originStr)
 	{
