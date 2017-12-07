@@ -406,7 +406,7 @@ public class PanelManager : MonoBehaviour {
 		if (GameData._playerData.dayNow <= GameConfigs.StartThiefEvent)
 			return;
         //上次盗贼光顾时间
-		if (GameData._playerData.lastThiefTime >= GameData._playerData.dayNow - 3)
+		if (GameData._playerData.lastThiefTime >= GameData._playerData.dayNow - 2)
 			return;
 
         //触发盗贼概率
@@ -508,7 +508,7 @@ public class PanelManager : MonoBehaviour {
 			}
 
 			//价值保护
-			if (value >= totalValue * 0.05f || value >= 300)
+			if (value >= totalValue * 0.2f || value >= 2000)
 				break;
 		}
 		_gameData.DeleteItemInWh (target);

@@ -205,7 +205,7 @@ public class FarmActions : MonoBehaviour {
 		Dictionary<int,int> d = p.plantReq;
         foreach (int key in d.Keys) {
             t[i].text= LoadTxt.MatDic [key].name + " ×" + d [key];
-            if (_gameData.CountInBp(key) < d[key])
+            if (_gameData.CountInHome(key) < d[key])
             {
                 t[i].color = Color.red;
                 canPrepare = false;
@@ -228,7 +228,7 @@ public class FarmActions : MonoBehaviour {
 
 		foreach (int key in p.plantReq.Keys)
         {
-			if (_gameData.CountInBp(key) < p.plantReq[key])
+			if (_gameData.CountInHome(key) < p.plantReq[key])
                 return;
         }
             
@@ -242,7 +242,7 @@ public class FarmActions : MonoBehaviour {
 
 		_gameData.ChangeTime (p.plantTime * 60);
 		foreach (int key in p.plantReq.Keys) {
-			_gameData.ConsumeItem (key, p.plantReq [key]);
+			_gameData.ConsumeItemInHome (key, p.plantReq [key]);
         }
         GameData._playerData.Farms [index].plantTime = GameData._playerData.minutesPassed;
         _gameData.StoreData ("Farms", _gameData.GetStrFromFarmState (GameData._playerData.Farms));

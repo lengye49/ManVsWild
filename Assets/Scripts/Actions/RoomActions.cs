@@ -77,13 +77,11 @@ public class RoomActions : MonoBehaviour {
 	void SetNormalBathState(){
 		bathMatText.text = "水 ×" + GameConfigs.WaterForBath;
 		normalBathRecoverText.text = "可降低" + GameConfigs.TempRecoverPerNormalBath + "℃体温, 增加 " + GameConfigs.SpiritRecoverPerBath+"点精神";
-		if (!GameData._playerData.bp.ContainsKey (GameConfigs.WaterId)) {
+
+		if (_gameData.CountInHome (GameConfigs.WaterId) < GameConfigs.WaterForBath) {
 			bathMatText.color = Color.red;
 			normalBathButton.interactable = false;
-		} else if (GameData._playerData.bp [GameConfigs.WaterId] < GameConfigs.WaterForBath) {
-			bathMatText.color = Color.red;
-			normalBathButton.interactable = false;
-		} else {
+		}else {
 			bathMatText.color = Color.green;
 			normalBathButton.interactable = true;
 		}
@@ -93,23 +91,20 @@ public class RoomActions : MonoBehaviour {
 		hotBathMat1Text.text = "水 ×" + GameConfigs.WaterForBath;
 		hotBathMat2Text.text = "木材 ×" + GameConfigs.WoodForHotBath;
 		hotBathRecoverText.text = "可增加" + GameConfigs.TempRecoverPerHotBath + "℃体温, 增加" + GameConfigs.SpiritRecoverPerBath+"点精神";
-		if (!GameData._playerData.bp.ContainsKey (GameConfigs.WaterId)) {
-			hotBathMat1Text.color = Color.red;
-		} else if (GameData._playerData.bp [GameConfigs.WaterId] < GameConfigs.WaterForBath) {
-			hotBathMat1Text.color = Color.red;
-		} else {
-			hotBathMat1Text.color = Color.green;
-		} 
 
-		if (!GameData._playerData.bp.ContainsKey (GameConfigs.WoodId)) {
+		if (_gameData.CountInHome (GameConfigs.WaterId) < GameConfigs.WaterForBath) {
+			hotBathMat1Text.color = Color.red;
+		}else {
+			bathMatText.color = Color.green;
+		}
+
+		if (_gameData.CountInHome (GameConfigs.WoodId) < GameConfigs.WoodForHotBath) {
 			hotBathMat2Text.color = Color.red;
-		} else if (GameData._playerData.bp [GameConfigs.WoodId] < GameConfigs.WoodForHotBath) {
-			hotBathMat2Text.color = Color.red;
-		} else {
+		}else {
 			hotBathMat2Text.color = Color.green;
 		}
 
-		hotBathButton.interactable = hotBathMat1Text.color == Color.green && hotBathMat2Text.color == Color.green;
+		hotBathButton.interactable = (hotBathMat1Text.color == Color.green && hotBathMat2Text.color == Color.green);
 	}
 
 	public void Rest(){
@@ -144,7 +139,7 @@ public class RoomActions : MonoBehaviour {
 	void ConfirmNormalBath(){
 		_gameData.ChangeProperty (10, GameConfigs.TempRecoverPerNormalBath);
 		_gameData.ChangeProperty (2, GameConfigs.SpiritRecoverPerBath);
-		_gameData.ConsumeItem (GameConfigs.WaterId, GameConfigs.WaterForBath);
+		_gameData.ConsumeItemInHome (GameConfigs.WaterId, GameConfigs.WaterForBath);
 		_gameData.ChangeTime (GameConfigs.TimeForBath * 60);
 	}
 		
@@ -161,8 +156,8 @@ public class RoomActions : MonoBehaviour {
 	void ConfirmHotBath(){
 		_gameData.ChangeProperty (10, GameConfigs.TempRecoverPerHotBath);
 		_gameData.ChangeProperty (2, GameConfigs.SpiritRecoverPerBath);
-		_gameData.ConsumeItem (GameConfigs.WaterId, GameConfigs.WaterForBath);
-		_gameData.ConsumeItem (GameConfigs.WoodId, GameConfigs.WoodForHotBath);
+		_gameData.ConsumeItemInHome (GameConfigs.WaterId, GameConfigs.WaterForBath);
+		_gameData.ConsumeItemInHome (GameConfigs.WoodId, GameConfigs.WoodForHotBath);
 		_gameData.ChangeTime (GameConfigs.TimeForBath * 60);
 	}
 }

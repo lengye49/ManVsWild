@@ -54,7 +54,7 @@ public class GameConfigs{
 	//13MeleeDamage 14RangedDamage 15Def 16MeleePrecise 17RangePrecise 18Dodge 19MeleeDistance 20RangedDistance
 	//21MeleeAttackSpeed 22RangedAttackSpeed 23MoveSpeed 24MagicDamage 25MeleePercent 26RangePercent 27MeleeSpeedPercent 28RangedSpeedPercent
 
-	public static int SoulStoneForStoreMem = 10;
+	public static int SoulStoneForStoreMem = 5;
 
 	public static int TreeGrowSpeed = 2;
 	public static int CuttingStrength = 5;

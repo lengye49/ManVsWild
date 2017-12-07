@@ -41,7 +41,7 @@ public class AlterActions : MonoBehaviour {
 
         if (num < GameConfigs.SoulStoneForStoreMem)
 			return;
-        _gameData.ConsumeItem(2202, GameConfigs.SoulStoneForStoreMem);
+		_gameData.ConsumeItemInHome(2202, GameConfigs.SoulStoneForStoreMem);
 		_gameData.StoreMemmory ();
 		UpdateAltar ();
         _floating.CallInFloating("存档成功", 0);

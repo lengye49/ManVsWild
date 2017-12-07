@@ -116,10 +116,10 @@ public class TipManager : MonoBehaviour {
 		buildTipText [1].text = b.tips;
 		foreach (int key in b.combReq.Keys) {
 			if (_gameData.CountInHome(key)<b.combReq[key]) {
-				buildTipText [i].text = LoadTxt.MatDic[key].name + " × " + b.combReq [key] + " /" + _gameData.CountInBp(key);
+				buildTipText [i].text = LoadTxt.MatDic[key].name + " × " + b.combReq [key] + " /" + _gameData.CountInHome(key);
 				buildTipText [i].color = Color.red;
 			} else {
-				buildTipText [i].text = LoadTxt.MatDic[key].name + " × " + b.combReq [key] + " /" + _gameData.CountInBp(key);
+				buildTipText [i].text = LoadTxt.MatDic[key].name + " × " + b.combReq [key] + " /" + _gameData.CountInHome(key);
 				buildTipText [i].color = Color.green;
 			}
 			i++;
@@ -157,7 +157,7 @@ public class TipManager : MonoBehaviour {
 	}
 	void BuildRoom(Building b){
 		foreach (int key in b.combReq.Keys) {
-			_gameData.ConsumeItem (key, b.combReq [key]);
+			_gameData.ConsumeItemInHome (key, b.combReq [key]);
 		}
 		GameData._playerData.BedRoomOpen++;
 		_gameData.StoreData ("BedRoomOpen", GameData._playerData.BedRoomOpen);
@@ -181,7 +181,7 @@ public class TipManager : MonoBehaviour {
 	}
 	void BuildWarehouse(Building b){
 		foreach (int key in b.combReq.Keys) {
-			_gameData.ConsumeItem (key, b.combReq [key]);
+			_gameData.ConsumeItemInHome (key, b.combReq [key]);
 		}
 
 		GameData._playerData.WarehouseOpen++;
@@ -210,7 +210,7 @@ public class TipManager : MonoBehaviour {
 	}
 	void BuildKitchen(Building b){
 		foreach (int key in b.combReq.Keys)
-			_gameData.ConsumeItem (key, b.combReq [key]);
+			_gameData.ConsumeItemInHome (key, b.combReq [key]);
 
 		GameData._playerData.KitchenOpen++;
 		_gameData.StoreData ("KitchenOpen", GameData._playerData.KitchenOpen);
@@ -236,7 +236,7 @@ public class TipManager : MonoBehaviour {
 	}
 	void BuildWorkshop(Building b){
 		foreach (int key in b.combReq.Keys)
-			_gameData.ConsumeItem (key, b.combReq [key]);
+			_gameData.ConsumeItemInHome (key, b.combReq [key]);
 
 		GameData._playerData.WorkshopOpen++;
 		_gameData.StoreData ("WorkshopOpen", GameData._playerData.WorkshopOpen);
@@ -261,7 +261,7 @@ public class TipManager : MonoBehaviour {
 	}
 	void BuildStudy(Building b){
 		foreach (int key in b.combReq.Keys)
-			_gameData.ConsumeItem (key, b.combReq [key]);
+			_gameData.ConsumeItemInHome (key, b.combReq [key]);
 
 		GameData._playerData.StudyOpen++;
 		_gameData.StoreData ("StudyOpen", GameData._playerData.StudyOpen);
@@ -285,7 +285,7 @@ public class TipManager : MonoBehaviour {
 	}
 	void BuildFarm(Building b){
 		foreach (int key in b.combReq.Keys)
-			_gameData.ConsumeItem (key, b.combReq [key]);
+			_gameData.ConsumeItemInHome (key, b.combReq [key]);
 
 		GameData._playerData.FarmOpen++;
 		_gameData.StoreData ("FarmOpen", GameData._playerData.FarmOpen);
@@ -319,7 +319,7 @@ public class TipManager : MonoBehaviour {
 	}
 	void BuildPets(Building b){
 		foreach (int key in b.combReq.Keys)
-			_gameData.ConsumeItem (key, b.combReq [key]);
+			_gameData.ConsumeItemInHome (key, b.combReq [key]);
 
 		GameData._playerData.PetsOpen++;
 		_gameData.StoreData ("PetsOpen", GameData._playerData.PetsOpen);
@@ -343,7 +343,7 @@ public class TipManager : MonoBehaviour {
 	}
 	void BuildWell(Building b){
 		foreach (int key in b.combReq.Keys)
-			_gameData.ConsumeItem (key, b.combReq [key]);
+			_gameData.ConsumeItemInHome (key, b.combReq [key]);
 
 		GameData._playerData.WellOpen++;
 		_gameData.StoreData ("WellOpen", GameData._playerData.WellOpen);
@@ -371,7 +371,7 @@ public class TipManager : MonoBehaviour {
 	}
 	void BuildAltar(Building b){
 		foreach (int key in b.combReq.Keys)
-			_gameData.ConsumeItem (key, b.combReq [key]);
+			_gameData.ConsumeItemInHome (key, b.combReq [key]);
 
 		GameData._playerData.AltarOpen++;
 		_gameData.StoreData ("AltarOpen", GameData._playerData.AltarOpen);
@@ -547,12 +547,12 @@ public class TipManager : MonoBehaviour {
 		makingTipText [i].alignment = TextAnchor.MiddleLeft;
 		i++;
 		foreach (int key in m.combReq.Keys) {
-			if (_gameData.CountInBp (key) < m.combReq [key]) {
-				makingTipText [i].text = LoadTxt.MatDic [key].name + " × " + m.combReq [key] + " /" + _gameData.CountInBp (key);
+			if (_gameData.CountInHome (key) < m.combReq [key]) {
+				makingTipText [i].text = LoadTxt.MatDic [key].name + " × " + m.combReq [key] + " /" + _gameData.CountInHome (key);
 				makingTipText [i].color = Color.red;
 				makingTipText [i].alignment = TextAnchor.MiddleCenter;
 			} else {
-				makingTipText [i].text = LoadTxt.MatDic [key].name + " × " + m.combReq [key] + " /" + _gameData.CountInBp (key);
+				makingTipText [i].text = LoadTxt.MatDic [key].name + " × " + m.combReq [key] + " /" + _gameData.CountInHome (key);
 				makingTipText [i].color = Color.green;
 				makingTipText [i].alignment = TextAnchor.MiddleCenter;
 			}
@@ -579,11 +579,11 @@ public class TipManager : MonoBehaviour {
 	void MakeItem(){
 		int targetId = int.Parse (makingTipButton [1].gameObject.name);
 		foreach (int key in LoadTxt.MatDic[targetId].combReq.Keys) {
-			if (_gameData.CountInBp (key) < LoadTxt.MatDic [targetId].combReq [key]) {
+			if (_gameData.CountInHome (key) < LoadTxt.MatDic [targetId].combReq [key]) {
 				_floating.CallInFloating ("材料不足！", 1);
 				return;
 			}
-			_gameData.ConsumeItem (key, LoadTxt.MatDic [targetId].combReq [key]);
+			_gameData.ConsumeItemInHome (key, LoadTxt.MatDic [targetId].combReq [key]);
 		}
 
 		bool isKitchen = LoadTxt.MatDic [targetId].makingType == "Kitchen";
@@ -663,11 +663,11 @@ public class TipManager : MonoBehaviour {
 		techTipText [1].text = t.desc;
 		int i = 2;
 		foreach (int key in t.req.Keys) {
-			if (_gameData.CountInBp (key) < t.req [key]) {
-				techTipText [i].text = LoadTxt.MatDic [key].name + " × " + t.req [key] + " /" + _gameData.CountInBp (key);
+			if (_gameData.CountInHome (key) < t.req [key]) {
+				techTipText [i].text = LoadTxt.MatDic [key].name + " × " + t.req [key] + " /" + _gameData.CountInHome (key);
 				techTipText [i].color = Color.red;
 			} else {
-				techTipText [i].text = LoadTxt.MatDic [key].name + " × " + t.req [key] + " /" + _gameData.CountInBp (key);
+				techTipText [i].text = LoadTxt.MatDic [key].name + " × " + t.req [key] + " /" + _gameData.CountInHome (key);
 				techTipText [i].color = Color.green;
 			}
 			i++;
@@ -712,7 +712,7 @@ public class TipManager : MonoBehaviour {
 		int techId = int.Parse (techTipButton [1].gameObject.name);
 		Technique t = LoadTxt.GetTech (techId);
 		foreach (int key in t.req.Keys) {
-			_gameData.ConsumeItem (key, t.req [key]);
+			_gameData.ConsumeItemInHome (key, t.req [key]);
 		}
 		MoveTechTipPanel ();
 		_floating.CallInFloating ("已经完成 "+t.name + " 的研究!", 0);
@@ -938,7 +938,7 @@ public class TipManager : MonoBehaviour {
 		
 	bool CheckReq(Dictionary<int,int> dic){
 		foreach (int key in dic.Keys) {
-			if (_gameData.CountInBp (key) < dic [key])
+			if (_gameData.CountInHome (key) < dic [key])
 				return false;
 		}
 		return true;

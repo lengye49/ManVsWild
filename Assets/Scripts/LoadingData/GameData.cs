@@ -406,7 +406,7 @@ public class GameData : MonoBehaviour {
 		if (_playerData.dayNow != lastDay) {
 			ChangeDay ();
 
-            if (lastDay < 1000 && _playerData.dayNow >= 1000)
+            if (lastDay < 100 && _playerData.dayNow >= 100)
                 OpenMap(25);
 		}
 
@@ -435,12 +435,18 @@ public class GameData : MonoBehaviour {
 	void ChangeDay(){
 		string txt = "第" + _playerData.dayNow + "天开始了，加油！";
 		_logManager.AddLog (txt);
+
         if (_playerData.dayNow == 20)
         {
             _logManager.AddLog("随着你的居住地的发展，渐渐引起了附近盗贼的注意。");
             _logManager.AddLog("请严加防范，安排宠物看守房屋或者升级科技都可以有效减少盗贼的入侵损失。");
         }
         GetDailyTribute();
+
+		if (_playerData.dayNow % 3 == 0) {
+			StoreMemmory ();
+			_logManager.AddLog ("存档已更新", true);
+		}
 	}
 
 	void ChangeMonth(){
@@ -729,12 +735,58 @@ public class GameData : MonoBehaviour {
     /// <param name="num">Number.</param>
     public void ConsumeItemInHome(int Id,int num){
         int i = num;
+		Dictionary<int,int> d = new Dictionary<int, int>();
+		//将背包中符合条件的加入d中
         foreach (int key in _playerData.bp.Keys)
         {
             if ((int)(key / 10000) != Id)
                 continue;
-            
+			
+			if (_playerData.bp [key] > i) {
+				d.Add(key, i);
+				i = 0;
+				break;
+			} else if (_playerData.bp [key] == i) {
+				d.Add(key, i);
+				i = 0;
+				break;
+			} else {
+				i -= _playerData.bp [key];
+				d.Add(key, _playerData.bp[key]);
+			}
         }
+		//删除背包中的d物品
+		foreach (int key in d.Keys)
+		{
+			DeleteItemInBp(key, d[key]);
+		}
+		if (i <= 0)
+			return;
+		d = new Dictionary<int, int> ();
+		//将仓库中符合条件的加入d中
+		foreach (int key in _playerData.wh.Keys)
+		{
+			if ((int)(key / 10000) != Id)
+				continue;
+
+			if (_playerData.wh [key] > i) {
+				d.Add(key, i);
+				i = 0;
+				break;
+			} else if (_playerData.wh [key] == i) {
+				d.Add(key, i);
+				i = 0;
+				break;
+			} else {
+				i -= _playerData.wh [key];
+				d.Add(key, _playerData.wh[key]);
+			}
+		}
+		//删除背包中的d物品
+		foreach (int key in d.Keys)
+		{
+			DeleteItemInWh(key, d[key]);
+		}
     }
 
 
@@ -765,6 +817,18 @@ public class GameData : MonoBehaviour {
 			_playerData.bp.Remove (itemId);
 
 		StoreData ("bp", GetStrFromDic (_playerData.bp));
+	}
+
+	void DeleteItemInWh(int itemId,int num){
+		if (!_playerData.wh.ContainsKey(itemId))
+			return;
+
+		if(_playerData.wh[itemId]>num)
+			_playerData.wh[itemId] -= num;
+		else
+			_playerData.wh.Remove (itemId);
+
+		StoreData ("wh", GetStrFromDic (_playerData.wh));
 	}
 
 	public void DeleteItemInWh(int itemId){
@@ -850,7 +914,7 @@ public class GameData : MonoBehaviour {
         foreach (int key in _playerData.wh.Keys)
         {
             if ((int)(key / 10000) == itemId)
-                i += _playerData.bp [key];
+				i += _playerData.wh [key];
         }
         return i;
     }

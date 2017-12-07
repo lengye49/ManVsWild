@@ -67,7 +67,7 @@ public class SerendipityActions : MonoBehaviour {
             return;
 
         //0信息 1广告
-        if (r > 50)
+        if (r > 100)
             ShowSerendipity(0);
         else
             ShowSerendipity(1);

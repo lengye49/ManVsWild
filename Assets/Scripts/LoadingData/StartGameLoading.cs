@@ -10,12 +10,21 @@ public class StartGameLoading : MonoBehaviour {
 	public Image fillImage;
 	public Text loadingTxt;
 	public Text loadingPercent;
-
+	private float t = 0;
+	bool isLoading = false;
 	// Use this for initialization
 	void Start () {
-		LoadGame ();
+
 	}
-	
+
+	void Update(){
+		t += Time.deltaTime;
+		if (t > 0.3f && !isLoading) {
+			isLoading = true;
+			LoadGame ();
+		}
+	}
+
 	public void LoadGame(){
 		StartCoroutine (StartLoading ());
 	}
@@ -49,13 +58,13 @@ public class StartGameLoading : MonoBehaviour {
 		fillImage.color = new Color (0, Mathf.Max (0, (value + 0.5f) / 1f), 0f, 1f);
 
 		if ((int)(v * 10) % 4 == 0) {
-			loadingTxt.text = "进行中";
+			loadingTxt.text = "加载中";
 		}else if((int)(v * 10) % 4 == 1){
 			loadingTxt.text = "进行中.";
 		}else if((int)(v * 10) % 4 == 2){
-			loadingTxt.text = "进行中..";
+			loadingTxt.text = "加载中..";
 		}else{
-			loadingTxt.text = "进行中...";
+			loadingTxt.text = "加载中...";
 		}
 		loadingPercent.text = value + "%";
 	}
