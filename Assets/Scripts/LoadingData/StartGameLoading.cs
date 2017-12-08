@@ -19,7 +19,7 @@ public class StartGameLoading : MonoBehaviour {
 
 	void Update(){
 		t += Time.deltaTime;
-		if (t > 0.3f && !isLoading) {
+		if (t > 0.1f && !isLoading) {
 			isLoading = true;
 			LoadGame ();
 		}
@@ -60,7 +60,7 @@ public class StartGameLoading : MonoBehaviour {
 		if ((int)(v * 10) % 4 == 0) {
 			loadingTxt.text = "加载中";
 		}else if((int)(v * 10) % 4 == 1){
-			loadingTxt.text = "进行中.";
+			loadingTxt.text = "加载中.";
 		}else if((int)(v * 10) % 4 == 2){
 			loadingTxt.text = "加载中..";
 		}else{

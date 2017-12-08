@@ -16,7 +16,7 @@ public class GameConfigs{
 	public static int TimeForBath = 1;
 	public static int WaterId = 41000000;
 	public static int WaterForBath = 5;
-	public static int WoodId = 11000000;
+	public static int WoodId = 1100;
 	public static int WoodForHotBath = 5;
 
 	public static int bpNumMax = 50;
@@ -119,4 +119,6 @@ public class GameConfigs{
     public static float[] TempChangeNight = { -0.2f, 0.5f, -0.2f, -1f };
 
 	public static int MonsterTitleCount = 11;
+
+	public static int MonsterUpgradeTime = 10;
 }

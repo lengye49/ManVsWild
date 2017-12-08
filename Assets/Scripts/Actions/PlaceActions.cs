@@ -86,8 +86,10 @@ public class PlaceActions : MonoBehaviour {
             }
 			InitializeTunnel ();
         }else {
-			SetDetailPosition ();
-			SetPlace (_mapNow);
+			if (newPlace) {
+				SetDetailPosition ();
+				SetPlace (_mapNow);
+			}
 		}
 	}
 

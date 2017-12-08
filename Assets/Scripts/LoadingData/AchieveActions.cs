@@ -149,7 +149,7 @@ public class AchieveActions : MonoBehaviour {
 				s = "1/1";
 			break;
 		case 37:
-			s += s += GameData._playerData.dungeonLevelMax + "/" + LoadTxt.GetAchievement(35).req;
+			s += s += GameData._playerData.dungeonLevelMax + "/" + LoadTxt.GetAchievement(37).req;
 			break;
 		case 38:
 			s += GameData._playerData.legendThiefCaught + "/" + LoadTxt.GetAchievement(38).req;

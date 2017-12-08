@@ -78,7 +78,7 @@ public class RoomActions : MonoBehaviour {
 		bathMatText.text = "水 ×" + GameConfigs.WaterForBath;
 		normalBathRecoverText.text = "可降低" + GameConfigs.TempRecoverPerNormalBath + "℃体温, 增加 " + GameConfigs.SpiritRecoverPerBath+"点精神";
 
-		if (_gameData.CountInHome (GameConfigs.WaterId) < GameConfigs.WaterForBath) {
+		if (_gameData.CountInHome (4100) < GameConfigs.WaterForBath) {
 			bathMatText.color = Color.red;
 			normalBathButton.interactable = false;
 		}else {
@@ -92,10 +92,10 @@ public class RoomActions : MonoBehaviour {
 		hotBathMat2Text.text = "木材 ×" + GameConfigs.WoodForHotBath;
 		hotBathRecoverText.text = "可增加" + GameConfigs.TempRecoverPerHotBath + "℃体温, 增加" + GameConfigs.SpiritRecoverPerBath+"点精神";
 
-		if (_gameData.CountInHome (GameConfigs.WaterId) < GameConfigs.WaterForBath) {
+		if (_gameData.CountInHome (4100) < GameConfigs.WaterForBath) {
 			hotBathMat1Text.color = Color.red;
 		}else {
-			bathMatText.color = Color.green;
+			hotBathMat1Text.color = Color.green;
 		}
 
 		if (_gameData.CountInHome (GameConfigs.WoodId) < GameConfigs.WoodForHotBath) {
@@ -139,7 +139,7 @@ public class RoomActions : MonoBehaviour {
 	void ConfirmNormalBath(){
 		_gameData.ChangeProperty (10, GameConfigs.TempRecoverPerNormalBath);
 		_gameData.ChangeProperty (2, GameConfigs.SpiritRecoverPerBath);
-		_gameData.ConsumeItemInHome (GameConfigs.WaterId, GameConfigs.WaterForBath);
+		_gameData.ConsumeItemInHome (4100, GameConfigs.WaterForBath);
 		_gameData.ChangeTime (GameConfigs.TimeForBath * 60);
 	}
 		
@@ -156,7 +156,7 @@ public class RoomActions : MonoBehaviour {
 	void ConfirmHotBath(){
 		_gameData.ChangeProperty (10, GameConfigs.TempRecoverPerHotBath);
 		_gameData.ChangeProperty (2, GameConfigs.SpiritRecoverPerBath);
-		_gameData.ConsumeItemInHome (GameConfigs.WaterId, GameConfigs.WaterForBath);
+		_gameData.ConsumeItemInHome (4100, GameConfigs.WaterForBath);
 		_gameData.ConsumeItemInHome (GameConfigs.WoodId, GameConfigs.WoodForHotBath);
 		_gameData.ChangeTime (GameConfigs.TimeForBath * 60);
 	}

@@ -162,16 +162,18 @@ public class BattleActions : MonoBehaviour {
 		enemy = new Unit ();
 		enemy.monsterId = m.id;
 		enemy.name = m.name;
-		enemy.level = m.level;
+		//怪物实力随等级增强
+		enemy.level = m.level + GameData._playerData.dayNow / GameConfigs.MonsterUpgradeTime;
+		Debug.Log (enemy.level);
 
 		MonsterModel md = LoadTxt.GetMonsterModel (m.model);
 
-		enemy.hp = md.hp + md.hp_inc * (m.level - 1);
+		enemy.hp = md.hp + md.hp_inc * (enemy.level - 1);
 		enemyMaxHp = enemy.hp;
 		enemy.spirit = m.spirit;
-		enemy.atk = md.atk + md.atk_inc * (m.level - 1);
+		enemy.atk = md.atk + md.atk_inc * (enemy.level - 1);
 		Debug.Log("ThisEnemyInitAtk = " + enemy.atk);
-		enemy.def = md.def + md.def_inc * (m.level - 1);
+		enemy.def = md.def + md.def_inc * (enemy.level - 1);
 		enemy.hit = md.hit;
 		enemy.dodge = md.dodge;
 		enemy.speed = m.speed;
@@ -380,19 +382,19 @@ public class BattleActions : MonoBehaviour {
 					break;
 				case 103:
 					if (isMyAtk) {
-						enemyNextTurn += 7;
+						enemyNextTurn += 4;
 						AddLog (enemy.name + "受到[眩晕]效果，7秒内无法行动。", 0);
 					} else {
-						myNextTurn += 7;
+						myNextTurn += 4;
 						AddLog ("你受到[眩晕]效果，7秒内无法行动", 0);
 					}
 					break;
 				case 104:
 					if (isMyAtk) {
-						enemyNextTurn += 7;
+						enemyNextTurn += 4;
 						AddLog (enemy.name + "受到[冰冻]效果，7秒内无法行动。", 0);
 					} else {
-						myNextTurn += 7;
+						myNextTurn += 4;
 						_gameData.ChangeProperty (10, -5);
 						AddLog ("你受到[冰冻]效果，7秒内无法行动，温度-5℃。", 0);
 					}
