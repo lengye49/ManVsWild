@@ -121,4 +121,8 @@ public class GameConfigs{
 	public static int MonsterTitleCount = 11;
 
 	public static int MonsterUpgradeTime = 10;
+
+	//献祭物品
+	public static int AltarMarkId = 21100000;
+	public static int DropDiscount = 5;
 }

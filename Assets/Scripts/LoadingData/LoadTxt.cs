@@ -393,6 +393,7 @@ public class LoadTxt : MonoBehaviour {
 		for (int i = 0; i < mats.Length; i++) {
 			mats [i] = new Mats ();
 			mats [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			Debug.Log (mats [i].id);
 			mats [i].type = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
 			mats [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
 			mats [i].desc = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));

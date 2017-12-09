@@ -867,7 +867,7 @@ public class TipManager : MonoBehaviour {
 			}
 		}
 
-		commonTipButton [0].gameObject.GetComponentInChildren<Text> ().text = "丢弃";
+		commonTipButton [0].gameObject.GetComponentInChildren<Text> ().text = "献祭";
 		commonTipButton [1].gameObject.SetActive (true);
 		commonTipButton[2].gameObject.GetComponentInChildren<Text>().text="取消";
 		commonTipButton [2].gameObject.SetActive (true);
@@ -954,16 +954,31 @@ public class TipManager : MonoBehaviour {
 		string[] s = commonTipButton [0].gameObject.name.Split('|');
 		string place = s [0];
 		int itemId = int.Parse (s [1]);
+		int price = LoadTxt.MatDic [itemId].price;
+		int num = 0;
 		if (place == "warehouse_warehouse") {
+			num = GameData._playerData.wh [itemId];
+			price = price * num / GameConfigs.DropDiscount;
+			_gameData.AddItem (GameConfigs.AltarMarkId, price);
+
 			_gameData.DeleteItemInWh (itemId);
 			_warehouseActions.UpdatePanel ();
 		} else if (place == "warehouse_backpack") {
+			num = GameData._playerData.bp [itemId];
+			price = price * num / GameConfigs.DropDiscount;
+			_gameData.AddItem (GameConfigs.AltarMarkId, price);
+
 			_gameData.DeleteItemInBp (itemId);
 			_warehouseActions.UpdatePanel ();
 		} else if (place == "backpack_backpack") {
+			num = GameData._playerData.bp [itemId];
+			price = price * num / GameConfigs.DropDiscount;
+			_gameData.AddItem (GameConfigs.AltarMarkId, price);
+
 			_gameData.DeleteItemInBp (itemId);
 			_backpackActions.UpdataPanel ();
 		}
+
 		OnNormalTipCover ();
 	}
 
