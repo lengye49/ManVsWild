@@ -23,18 +23,30 @@ public class LoadTxt : MonoBehaviour {
 	/// </summary>
 	/// <returns>The altar shop list.</returns>
 	/// <param name="num">Number.</param>
-	public static ShopItem[] GetAltarShopList(int num){
+	public static int[] GetAltarShopList(int num){
 		string[][] strs = ReadTxt.ReadText("shop_item");
-		ShopItem[] s = new ShopItem[num];
+		int[] s = new int[num];
 
 		int index;
 		for (int i = 0; i < num; i++) {
-			s [i] = new ShopItem ();
-			index = Random.Range (0, num - 1);
-			s [i].itemId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, index + 1, 0));
-			s [i].bundleNum = int.Parse (ReadTxt.GetDataByRowAndCol (strs, index + 1, 1));
+			index = Random.Range (0, strs.Length - 1);
+			s[i] = int.Parse (ReadTxt.GetDataByRowAndCol (strs, index + 1, 0));
 		}
 		return s;
+	}
+
+	public static ShopItem GetShopItem(int id){
+		string[][] strs = ReadTxt.ReadText("shop_item");
+		ShopItem s = new ShopItem ();
+		for (int i = 0; i < strs.Length - 1; i++) {
+			s.itemId = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
+			if (s.itemId != id)
+				continue;
+			s.bundleNum = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
+			return s;
+		}
+		Debug.Log ("没有找到祭品--" + id);
+		return new ShopItem ();
 	}
 
 	public static Thief[] GetThiefList(){
@@ -393,7 +405,7 @@ public class LoadTxt : MonoBehaviour {
 		for (int i = 0; i < mats.Length; i++) {
 			mats [i] = new Mats ();
 			mats [i].id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-			Debug.Log (mats [i].id);
+
 			mats [i].type = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
 			mats [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
 			mats [i].desc = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));

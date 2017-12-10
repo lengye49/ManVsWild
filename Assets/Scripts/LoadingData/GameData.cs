@@ -109,7 +109,7 @@ public class GameData : MonoBehaviour {
 	/// Load Player Data From Local File.
 	/// </summary>
 	void LoadAllData(){
-//		print ("Loading Data");
+
         _playerData.firstTimeInGame = PlayerPrefs.GetInt("FirstTimeInGame", 0);
         _playerData.techLevels = GetTechList(PlayerPrefs.GetString("TechList", "1|0;2|0;3|0;4|0;5|0;6|0;7|0;8|0;9|0;10|0;11|0;12|0;13|0;14|0;15|0;16|0;17|0"));
         _playerData.hpNow = PlayerPrefs.GetInt("hpNow", 100);
@@ -205,6 +205,11 @@ public class GameData : MonoBehaviour {
         _playerData.petsCaptured = PlayerPrefs.GetInt("PetsCaptured", 0);
         _playerData.wineDrinked = PlayerPrefs.GetInt("WineDrinked", 0);
 		//成就结束
+
+		//献祭列表
+		_playerData.sacrificeList = GetIntFromStr(PlayerPrefs.GetString ("SacrificeList", ""));
+		if (_playerData.sacrificeList.Length <= 0)
+			UpdateSacrificeList ();
 		
         UpdateProperty();
 
@@ -264,11 +269,12 @@ public class GameData : MonoBehaviour {
 		_playerData.tunnelLevelMax = PlayerPrefs.GetInt ("TunnelLevelMax" + s, 0);
 		_playerData.placeNowId = PlayerPrefs.GetInt ("PlaceNowId" + s, 0);
 		_playerData.lastThiefTime = PlayerPrefs.GetInt ("LastThiefTime" + s, 0);
+
+		_playerData.sacrificeList = GetIntFromStr(PlayerPrefs.GetString ("SacrificeList", ""));
         
 		_loadTxt.LoadPlaces (true);
 
 		StoreData (true);
-//		StoreData (false);
 	}
 #endregion
 
@@ -326,6 +332,7 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("LastThiefTime" + s, _playerData.lastThiefTime);
 		PlayerPrefs.SetInt ("Renown" + s, _playerData.Renown);
 		PlayerPrefs.SetInt ("PlaceNowId" + s, _playerData.placeNowId);
+		PlayerPrefs.SetString ("SacrificeList" + s, GetStrFromInt (_playerData.sacrificeList));
 
 		_loadTxt.StorePlaceMemory (isRebirth);
 	}
@@ -445,8 +452,14 @@ public class GameData : MonoBehaviour {
 
 		if (_playerData.dayNow % 3 == 0) {
 			StoreMemmory ();
-			_logManager.AddLog ("存档已更新", true);
+			UpdateSacrificeList ();
+			_logManager.AddLog ("已更新存档，祭品已更新", true);
 		}
+	}
+
+	void UpdateSacrificeList(){
+		_playerData.sacrificeList = LoadTxt.GetAltarShopList (4);
+		PlayerPrefs.SetString ("SacrificeList", GetStrFromInt (_playerData.sacrificeList));
 	}
 
 	void ChangeMonth(){

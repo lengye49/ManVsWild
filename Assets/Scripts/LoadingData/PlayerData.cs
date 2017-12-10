@@ -188,4 +188,6 @@ public class PlayerData  {
 	//是否第一次进入游戏，用于播放引导
 	public int firstTimeInGame;
 
+	//献祭列表
+	public int[] sacrificeList;
 }

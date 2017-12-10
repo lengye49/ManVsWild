@@ -158,13 +158,13 @@ public class BattleActions : MonoBehaviour {
 	}
 
 	void GetEnemyProperty(Monster m){
-		Debug.Log("thisEnemyId = " + m.id);
+//		Debug.Log("thisEnemyId = " + m.id);
 		enemy = new Unit ();
 		enemy.monsterId = m.id;
 		enemy.name = m.name;
 		//怪物实力随等级增强
 		enemy.level = m.level + GameData._playerData.dayNow / GameConfigs.MonsterUpgradeTime;
-		Debug.Log (enemy.level);
+//		Debug.Log (enemy.level);
 
 		MonsterModel md = LoadTxt.GetMonsterModel (m.model);
 
@@ -172,7 +172,7 @@ public class BattleActions : MonoBehaviour {
 		enemyMaxHp = enemy.hp;
 		enemy.spirit = m.spirit;
 		enemy.atk = md.atk + md.atk_inc * (enemy.level - 1);
-		Debug.Log("ThisEnemyInitAtk = " + enemy.atk);
+//		Debug.Log("ThisEnemyInitAtk = " + enemy.atk);
 		enemy.def = md.def + md.def_inc * (enemy.level - 1);
 		enemy.hit = md.hit;
 		enemy.dodge = md.dodge;
@@ -313,7 +313,7 @@ public class BattleActions : MonoBehaviour {
 		int hitRate = Algorithms.IsDodgeOrCrit (hit, dodge, vitalSensibility, spirit);
 		string hitPart = "";
 		if (hitRate == 0) {
-			Debug.Log ("Missed!");
+//			Debug.Log ("Missed!");
 			AddLog ((isMyAtk ? "你" : enemy.name) + "发起攻击，但是" + (isMyAtk ? enemy.name : "你") + "灵巧地躲开了!",0);
 			return;
 		} else if (hitRate == 1) {
@@ -639,15 +639,15 @@ public class BattleActions : MonoBehaviour {
 		_gameData.ChangeProperty (2, -(int)(LoadTxt.MatDic [GameData._playerData.MagicId/10000].castSpirit * GameData._playerData.MagicCostRate));
 
 		print (GameData._playerData.MagicId);
-		if (GameData._playerData.MagicId / 10000 == 303) {
+		if (GameData._playerData.MagicId / 10000 == 303 || GameData._playerData.MagicId / 10000 == 305) {
 			int heal = (int)(GameData._playerData.property [24] * GameData._playerData.MagicPower / 10);
 			_gameData.ChangeProperty (0, heal);
-			AddLog ("你使用了" + LoadTxt.MatDic [GameData._playerData.MagicId / 10000].name + ",回复了" + heal + "点生命。", 0);
+			AddLog ("你使用" + LoadTxt.MatDic [GameData._playerData.MagicId / 10000].name + ",回复了" + heal + "点生命。", 0);
 		} else {
 			int dam = (int)(GameData._playerData.property [24] * GameData._playerData.MagicPower );
 			enemy.hp -= dam;
 			enemy.hp = Mathf.Max (0, enemy.hp);
-			AddLog ("你使用了" + LoadTxt.MatDic [GameData._playerData.MagicId / 10000].name + ",对" + enemy.name + "造成" + dam + "点伤害。", 0);
+			AddLog ("你使用" + LoadTxt.MatDic [GameData._playerData.MagicId / 10000].name + ",对" + enemy.name + "造成" + dam + "点伤害。", 0);
 		}
 
 		SetEnemyHpSlider ();

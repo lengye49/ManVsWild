@@ -342,6 +342,7 @@ public class PanelManager : MonoBehaviour {
                         _PanelNow.DOLocalMoveX(restPointRightX, tweenerTime);
                     Altar.DOLocalMoveX(0, tweenerTime);
                     this.gameObject.GetComponentInChildren<AlterActions>().UpdateAltar();
+				this.gameObject.GetComponentInChildren<AlterActions>().UpdateSacrifice();
                     _FatherPanel = Home;
                     _PanelNow = Altar;
                 }
