@@ -190,4 +190,11 @@ public class PlayerData  {
 
 	//献祭列表
 	public int[] sacrificeList;
+
+    //执掌者认可
+    public int orderCamp;
+    public int truthCamp;
+    public int lifeCamp;
+    public int chaosCamp;
+    public int deathCamp;
 }

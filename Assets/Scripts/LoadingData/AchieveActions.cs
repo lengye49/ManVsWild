@@ -13,208 +13,281 @@ public class AchieveActions : MonoBehaviour {
 	}
 
 	public static string GetProgress(int id){
-		int openCount = 0;
-		string s = "";
-		switch (id) {
-		case 1:
-			s += GameData._playerData.thiefCaught + "/" + LoadTxt.GetAchievement(1).req;
-			break;
-		case 2:
-			s += GameData._playerData.ghostKill + "/" + LoadTxt.GetAchievement (2).req;
-			break;
-		case 3:
-			s += GameData._playerData.ghostBossKill + "/" + LoadTxt.GetAchievement (3).req;
-			break;
-		case 4:
-			s += GameData._playerData.ghostKingKill + "/" + LoadTxt.GetAchievement (4).req;
-			break;
-		case 5:
-			s += GameData._playerData.wineTasted.Length + "/" + LoadTxt.GetAchievement(5).req;
-			break;
-		case 6:
-			s += GameData._playerData.foodCooked.Length + "/" + LoadTxt.GetAchievement(6).req;
-			break;
-		case 7:
-			s += GameData._playerData.Renown + "/" + LoadTxt.GetAchievement(7).req;
-			break;
-		case 8:
-			s += GameData._playerData.Renown + "/" + LoadTxt.GetAchievement(8).req;
-			break;
-		case 9:
-			s += GameData._playerData.Renown + "/" + LoadTxt.GetAchievement(9).req;
-			break;
-		case 10:
-			s += GameData._playerData.Renown + "/" + LoadTxt.GetAchievement(10).req;
-			break;
-		case 11:
-			s += GameData._playerData.meleeCollected.Length + "/" + LoadTxt.GetAchievement(11).req;
-			break;
-		case 12:
-			s += GameData._playerData.magicCollected.Length + "/" + LoadTxt.GetAchievement(12).req;
-			break;
-		case 13:
-			s += GameData._playerData.rangedCollected.Length + "/" + LoadTxt.GetAchievement(13).req;
-			break;
-		case 14:
-			s += GameData._playerData.petsCaptured + "/" + LoadTxt.GetAchievement(14).req;
-			break;
-		case 15:
-			if (GameData._playerData.Achievements [15] == 0)
-				s = "0/1";
-			else
-				s = "1/1";
-			break;
-		case 16:
-			s += GameData._playerData.monsterKilled + "/" + LoadTxt.GetAchievement(16).req;
-			break;
-		case 17:
-			if (GameData._playerData.Achievements [17] == 0)
-				s = "0/1";
-			else
-				s = "1/1";
-			break;
-		case 18:
-			if (GameData._playerData.Achievements [18] == 0)
-				s = "0/1";
-			else
-				s = "1/1";
-			break;
-		case 19:
-			foreach (int key in GameData._playerData.MapOpenState.Keys) {
-				openCount += GameData._playerData.MapOpenState [key];
-			}
-			s += openCount + "/" + LoadTxt.GetAchievement(19).req;
-			break;
-		case 20:
-			s += GameData._playerData.dayNow + "/" + LoadTxt.GetAchievement(20).req;
-			break;
-		case 21:
-			s += GameData._playerData.sleepTime + "/" + LoadTxt.GetAchievement(21).req;
-			break;
-		case 22:
-			s += GameData._playerData.wineDrinked + "/" + LoadTxt.GetAchievement(22).req;
-			break;
-		case 23:
-			if (GameData._playerData.Achievements [23] == 0)
-				s = "0/1";
-			else
-				s = "1/1";
-			break;
-		case 24:
-			s += GameData._playerData.dungeonLevelMax + "/" + LoadTxt.GetAchievement(24).req;
-			break;
-		case 25:
-			s += GameData._playerData.meleeAttackCount + "/" + LoadTxt.GetAchievement(25).req;
-			break;
-		case 26:
-			s += GameData._playerData.rangedAttackCount + "/" + LoadTxt.GetAchievement(26).req;
-			break;
-		case 27:
-			s += GameData._playerData.magicAttackCount + "/" + LoadTxt.GetAchievement(27).req;
-			break;
-		case 28:
-			break;
-		case 29:
-			break;
-		case 30:
-			break;
-		case 31:
-			foreach (int key in GameData._playerData.MapOpenState.Keys) {
-				openCount += GameData._playerData.MapOpenState [key];
-			}
-			s += openCount + "/" + LoadTxt.GetAchievement(31).req;
-			break;
-		case 32:
-			s += GameData._playerData.dragonKilled + "/" + LoadTxt.GetAchievement(32).req;
-			break;
-		case 33:
-			if (GameData._playerData.Achievements [23] == 0)
-				s = "0/1";
-			else
-				s = "1/1";
-			break;
-		case 34:
-			s += GameData._playerData.dayNow + "/" + LoadTxt.GetAchievement(34).req;
-			break;
-		case 35:
-            if (GameData._playerData.Achievements [35] == 0)
-                s = "0/1";
-            else
-                s = "1/1";
-			break;
-		case 36:
-			if (GameData._playerData.Achievements [36] == 0)
-				s = "0/1";
-			else
-				s = "1/1";
-			break;
-		case 37:
-			s += s += GameData._playerData.dungeonLevelMax + "/" + LoadTxt.GetAchievement(37).req;
-			break;
-		case 38:
-			s += GameData._playerData.legendThiefCaught + "/" + LoadTxt.GetAchievement(38).req;
-			break;
-		case 39:
-			break;
-		case 40:
-			break;
-		default:
-			break;
-		}
-		return s;
-	}
+        int openCount = 0;
+        string s = "";
+        switch (id)
+        {
+            case 1:
+                s += GameData._playerData.thiefCaught + "/" + LoadTxt.GetAchievement(1).req;
+                break;
+            case 2:
+                s += GameData._playerData.ghostKill + "/" + LoadTxt.GetAchievement(2).req;
+                break;
+            case 3:
+                s += GameData._playerData.ghostBossKill + "/" + LoadTxt.GetAchievement(3).req;
+                break;
+            case 4:
+                s += GameData._playerData.ghostKingKill + "/" + LoadTxt.GetAchievement(4).req;
+                break;
+            case 5:
+                s += GameData._playerData.wineTasted.Length + "/" + LoadTxt.GetAchievement(5).req;
+                break;
+            case 6:
+                s += GameData._playerData.foodCooked.Length + "/" + LoadTxt.GetAchievement(6).req;
+                break;
+            case 7:
+                s += GameData._playerData.Renown + "/" + LoadTxt.GetAchievement(7).req;
+                break;
+            case 8:
+                s += GameData._playerData.Renown + "/" + LoadTxt.GetAchievement(8).req;
+                break;
+            case 9:
+                s += GameData._playerData.Renown + "/" + LoadTxt.GetAchievement(9).req;
+                break;
+            case 10:
+                s += GameData._playerData.Renown + "/" + LoadTxt.GetAchievement(10).req;
+                break;
+            case 11:
+                s += GameData._playerData.meleeCollected.Length + "/" + LoadTxt.GetAchievement(11).req;
+                break;
+            case 12:
+                s += GameData._playerData.magicCollected.Length + "/" + LoadTxt.GetAchievement(12).req;
+                break;
+            case 13:
+                s += GameData._playerData.rangedCollected.Length + "/" + LoadTxt.GetAchievement(13).req;
+                break;
+            case 14:
+                s += GameData._playerData.petsCaptured + "/" + LoadTxt.GetAchievement(14).req;
+                break;
+            case 15:
+                if (GameData._playerData.Achievements[15] == 0)
+                    s = "0/1";
+                else
+                    s = "1/1";
+                break;
+            case 16:
+                s += GameData._playerData.monsterKilled + "/" + LoadTxt.GetAchievement(16).req;
+                break;
+            case 17:
+                if (GameData._playerData.Achievements[17] == 0)
+                    s = "0/1";
+                else
+                    s = "1/1";
+                break;
+            case 18:
+                if (GameData._playerData.Achievements[18] == 0)
+                    s = "0/1";
+                else
+                    s = "1/1";
+                break;
+            case 19:
+                foreach (int key in GameData._playerData.MapOpenState.Keys)
+                {
+                    openCount += GameData._playerData.MapOpenState[key];
+                }
+                s += openCount + "/" + LoadTxt.GetAchievement(19).req;
+                break;
+            case 20:
+                s += GameData._playerData.dayNow + "/" + LoadTxt.GetAchievement(20).req;
+                break;
+            case 21:
+                s += GameData._playerData.sleepTime + "/" + LoadTxt.GetAchievement(21).req;
+                break;
+            case 22:
+                s += GameData._playerData.wineDrinked + "/" + LoadTxt.GetAchievement(22).req;
+                break;
+            case 23:
+                if (GameData._playerData.Achievements[23] == 0)
+                    s = "0/1";
+                else
+                    s = "1/1";
+                break;
+            case 24:
+                s += GameData._playerData.dungeonLevelMax + "/" + LoadTxt.GetAchievement(24).req;
+                break;
+            case 25:
+                s += GameData._playerData.meleeAttackCount + "/" + LoadTxt.GetAchievement(25).req;
+                break;
+            case 26:
+                s += GameData._playerData.rangedAttackCount + "/" + LoadTxt.GetAchievement(26).req;
+                break;
+            case 27:
+                s += GameData._playerData.magicAttackCount + "/" + LoadTxt.GetAchievement(27).req;
+                break;
+            case 28:
+                break;
+            case 29:
+                break;
+            case 30:
+                break;
+            case 31:
+                foreach (int key in GameData._playerData.MapOpenState.Keys)
+                {
+                    openCount += GameData._playerData.MapOpenState[key];
+                }
+                s += openCount + "/" + LoadTxt.GetAchievement(31).req;
+                break;
+            case 32:
+                s += GameData._playerData.dragonKilled + "/" + LoadTxt.GetAchievement(32).req;
+                break;
+            case 33:
+                if (GameData._playerData.Achievements[23] == 0)
+                    s = "0/1";
+                else
+                    s = "1/1";
+                break;
+            case 34:
+                s += GameData._playerData.dayNow + "/" + LoadTxt.GetAchievement(34).req;
+                break;
+            case 35:
+                if (GameData._playerData.Achievements[35] == 0)
+                    s = "0/1";
+                else
+                    s = "1/1";
+                break;
+            case 36:
+                if (GameData._playerData.Achievements[36] == 0)
+                    s = "0/1";
+                else
+                    s = "1/1";
+                break;
+            case 37:
+                s += s += GameData._playerData.dungeonLevelMax + "/" + LoadTxt.GetAchievement(37).req;
+                break;
+            case 38:
+                s += GameData._playerData.legendThiefCaught + "/" + LoadTxt.GetAchievement(38).req;
+                break;
+            case 39:
+                s += ReconizeCamp() + "/" + LoadTxt.GetAchievement(38).req;
+                break;
+            case 40:
+                break;
+            default:
+                break;
+        }
+        return s;
+    }
+
+    public static int ReconizeCamp(){
+        int i = 0;
+        if (GameData._playerData.orderCamp > 0)
+            i++;
+        if (GameData._playerData.truthCamp > 0)
+            i++;
+        if (GameData._playerData.lifeCamp > 0)
+            i++;
+        if (GameData._playerData.chaosCamp > 0)
+            i++;
+        if (GameData._playerData.deathCamp > 0)
+            i++;
+        return i;
+    }
 
 	public void DefeatEnemy(int monsterId){
 		Achievement a = new Achievement ();
-		if (monsterId == 1) {
-			//Ghost
-			GameData._playerData.ghostKill++;
-			_gameData.StoreData ("GhostKill", GameData._playerData.ghostKill);
-			a = LoadTxt.GetAchievement (2);
-			if (GameData._playerData.Achievements [2] == 0) {
-				if (GameData._playerData.ghostKill >= a.req) {
-					StoreAchievement (2);
-					_floating.CallInFloating ("达成新成就:" + a.name,0);
-					_log.AddLog ("达成新成就:" + a.name,true);
-				}
-			}
-		} else if (monsterId == 2) {
-			//GhostBoss
-			GameData._playerData.ghostBossKill++;
-			_gameData.StoreData ("GhostBossKill", GameData._playerData.ghostBossKill);
-			a = LoadTxt.GetAchievement (3);
-			if (GameData._playerData.Achievements [3] == 0) {
-				if (GameData._playerData.ghostBossKill >= a.req) {
-					StoreAchievement (3);
-					_floating.CallInFloating ("达成新成就:" + a.name,0);
-					_log.AddLog ("达成新成就:" + a.name,true);
-				}
-			}
-		} else if (monsterId == 3) {
-			//GhostKing
-			GameData._playerData.ghostKingKill++;
-			_gameData.StoreData ("GhostKingKill", GameData._playerData.ghostKingKill);
-			a = LoadTxt.GetAchievement (4);
-			if (GameData._playerData.Achievements [4] == 0) {
-				if (GameData._playerData.ghostKingKill >= a.req) {
-					StoreAchievement (4);
-					_floating.CallInFloating ("达成新成就:" + a.name,0);
-					_log.AddLog ("达成新成就:" + a.name,true);
-				}
-			}
-		} else if (monsterId == 1801 || monsterId == 1802 || monsterId == 1803) {
-			//Dragon
-			GameData._playerData.dragonKilled++;
-			_gameData.StoreData ("DragonKilled", GameData._playerData.dragonKilled);
-			a = LoadTxt.GetAchievement (32);
-			if(GameData._playerData.Achievements[32]==0){
-				if (GameData._playerData.dragonKilled >= a.req) {
-					StoreAchievement (32);
-					_floating.CallInFloating ("达成新成就:" + a.name,0);
-					_log.AddLog ("达成新成就:" + a.name,true);
-				}
-			}
-		}
+        if (monsterId == 1)
+        {
+            //Ghost
+            GameData._playerData.ghostKill++;
+            _gameData.StoreData("GhostKill", GameData._playerData.ghostKill);
+            a = LoadTxt.GetAchievement(2);
+            if (GameData._playerData.Achievements[2] == 0)
+            {
+                if (GameData._playerData.ghostKill >= a.req)
+                {
+                    StoreAchievement(2);
+                    _floating.CallInFloating("达成新成就:" + a.name, 0);
+                    _log.AddLog("达成新成就:" + a.name, true);
+                }
+            }
+        }
+        else if (monsterId == 2)
+        {
+            //GhostBoss
+            GameData._playerData.ghostBossKill++;
+            _gameData.StoreData("GhostBossKill", GameData._playerData.ghostBossKill);
+            a = LoadTxt.GetAchievement(3);
+            if (GameData._playerData.Achievements[3] == 0)
+            {
+                if (GameData._playerData.ghostBossKill >= a.req)
+                {
+                    StoreAchievement(3);
+                    _floating.CallInFloating("达成新成就:" + a.name, 0);
+                    _log.AddLog("达成新成就:" + a.name, true);
+                }
+            }
+        }
+        else if (monsterId == 3)
+        {
+            //GhostKing
+            GameData._playerData.ghostKingKill++;
+            _gameData.StoreData("GhostKingKill", GameData._playerData.ghostKingKill);
+            a = LoadTxt.GetAchievement(4);
+            if (GameData._playerData.Achievements[4] == 0)
+            {
+                if (GameData._playerData.ghostKingKill >= a.req)
+                {
+                    StoreAchievement(4);
+                    _floating.CallInFloating("达成新成就:" + a.name, 0);
+                    _log.AddLog("达成新成就:" + a.name, true);
+                }
+            }
+        }
+        else if (monsterId == 1801 || monsterId == 1802 || monsterId == 1803)
+        {
+            //Dragon
+            GameData._playerData.dragonKilled++;
+            _gameData.StoreData("DragonKilled", GameData._playerData.dragonKilled);
+            a = LoadTxt.GetAchievement(32);
+            if (GameData._playerData.Achievements[32] == 0)
+            {
+                if (GameData._playerData.dragonKilled >= a.req)
+                {
+                    StoreAchievement(32);
+                    _floating.CallInFloating("达成新成就:" + a.name, 0);
+                    _log.AddLog("达成新成就:" + a.name, true);
+                }
+            }
+        }
+        else if (monsterId == 3008 || monsterId == 3108 || monsterId == 3208 || monsterId == 3308 || monsterId == 3408)
+        {
+            if (GameData._playerData.Achievements[39] == 1)
+                return;
+            
+            if (monsterId == 3008)
+            {
+                GameData._playerData.orderCamp = 1;
+                _gameData.StoreData("OrderCamp", 1);
+            }
+            else if (monsterId == 3108)
+            {
+                GameData._playerData.truthCamp = 1;
+                _gameData.StoreData("TruthCamp", 1);
+            }
+            else if (monsterId == 3208)
+            {
+                GameData._playerData.lifeCamp = 1;
+                _gameData.StoreData("LifeCamp", 1);
+            }
+            else if (monsterId == 3308)
+            {
+                GameData._playerData.chaosCamp = 1;
+                _gameData.StoreData("ChaosCamp", 1);
+            }
+            else
+            {
+                GameData._playerData.deathCamp = 1;
+                _gameData.StoreData("DeathCamp", 1);
+            }
+
+            a = LoadTxt.GetAchievement(39);
+            if (ReconizeCamp() >=a.req)
+            {
+                StoreAchievement(39);
+                _floating.CallInFloating ("达成新成就:" + a.name, 0);
+                _log.AddLog ("达成新成就:" + a.name,true);
+            }
+        }
 
 		GameData._playerData.monsterKilled++;
 		_gameData.StoreData ("MonsterKilled", GameData._playerData.monsterKilled);

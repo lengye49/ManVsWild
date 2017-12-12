@@ -67,6 +67,11 @@ public class GameData : MonoBehaviour {
 		int magicAttackCount = PlayerPrefs.GetInt ("MagicAttackCount", 0);
 		int petsCaptured = PlayerPrefs.GetInt("PetsCaptured", 0);
 		int wineDrinked = PlayerPrefs.GetInt("WineDrinked", 0);
+        int orderCamp = PlayerPrefs.GetInt("OrderCamp", 0);
+        int truthCamp = PlayerPrefs.GetInt("TruthCamp", 0);
+        int lifeCamp = PlayerPrefs.GetInt("LifeCamp", 0);
+        int chaosCamp = PlayerPrefs.GetInt("ChaosCamp", 0);
+        int deathCamp = PlayerPrefs.GetInt("DeathCamp", 0);
 
 		PlayerPrefs.DeleteAll ();
 
@@ -74,9 +79,6 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("RangedIdUsed", rangedUsed);
 		PlayerPrefs.SetInt ("BattleCount", battleCount);
 		PlayerPrefs.SetString ("Achievements", techStr);
-
-        print(PlayerPrefs.GetString("Achievements"));
-
 		PlayerPrefs.SetInt ("ThiefCaught" , thiefCaught);
 		PlayerPrefs.SetInt ("GhostKill" , ghostKill);
 		PlayerPrefs.SetInt ("GhostBossKill" , ghostBossKill);
@@ -95,6 +97,11 @@ public class GameData : MonoBehaviour {
 		PlayerPrefs.SetInt ("MagicAttackCount", magicAttackCount);
 		PlayerPrefs.SetInt ("PetsCaptured" , petsCaptured);
 		PlayerPrefs.SetInt ("WineDrinked" , wineDrinked);
+        PlayerPrefs.SetInt ("OrderCamp" , orderCamp);
+        PlayerPrefs.SetInt ("TruthCamp" , truthCamp);
+        PlayerPrefs.SetInt ("LifeCamp" , lifeCamp);
+        PlayerPrefs.SetInt ("ChaosCamp" , chaosCamp);
+        PlayerPrefs.SetInt ("DeathCamp" , deathCamp);
 	}
 
 #endregion
@@ -204,6 +211,11 @@ public class GameData : MonoBehaviour {
 		_playerData.magicAttackCount = PlayerPrefs.GetInt ("MagicAttackCount", 0);
         _playerData.petsCaptured = PlayerPrefs.GetInt("PetsCaptured", 0);
         _playerData.wineDrinked = PlayerPrefs.GetInt("WineDrinked", 0);
+        _playerData.orderCamp = PlayerPrefs.GetInt("OrderCamp", 0);
+        _playerData.truthCamp = PlayerPrefs.GetInt("TruthCamp", 0);
+        _playerData.lifeCamp = PlayerPrefs.GetInt("LifeCamp", 0);
+        _playerData.chaosCamp = PlayerPrefs.GetInt("ChaosCamp", 0);
+        _playerData.deathCamp = PlayerPrefs.GetInt("DeathCamp", 0);
 		//成就结束
 
 		//献祭列表
