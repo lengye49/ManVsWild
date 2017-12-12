@@ -535,11 +535,11 @@ public class BattleActions : MonoBehaviour {
 
         if (enemy.monsterId == 3008 && GameData._playerData.orderCamp == 0)
         {
-            AddLog("你获得了帝国阵营的认可！", 0);
+            AddLog("你获得了秩序阵营的认可！", 0);
         }
         else if (enemy.monsterId == 3108 && GameData._playerData.truthCamp == 0)
         {
-            AddLog("你获得了魔法阵营的认可！", 0);
+            AddLog("你获得了真理阵营的认可！", 0);
         }
         else if (enemy.monsterId == 3208 && GameData._playerData.lifeCamp == 0)
         {
@@ -547,7 +547,7 @@ public class BattleActions : MonoBehaviour {
         }
         else if (enemy.monsterId == 3308 && GameData._playerData.chaosCamp == 0)
         {
-            AddLog("你获得了深渊阵营的认可！", 0);
+            AddLog("你获得了混乱阵营的认可！", 0);
         }
         else if (enemy.monsterId == 3408 && GameData._playerData.deathCamp == 0)
         {
