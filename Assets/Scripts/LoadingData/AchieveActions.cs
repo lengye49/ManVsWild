@@ -158,7 +158,7 @@ public class AchieveActions : MonoBehaviour {
                 s += GameData._playerData.legendThiefCaught + "/" + LoadTxt.GetAchievement(38).req;
                 break;
             case 39:
-                s += ReconizeCamp() + "/" + LoadTxt.GetAchievement(38).req;
+                s += ReconizeCamp() + "/" + LoadTxt.GetAchievement(39).req;
                 break;
             case 40:
                 break;

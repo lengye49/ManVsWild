@@ -18,6 +18,10 @@ public class LoadTxt : MonoBehaviour {
 		LoadMaps ();
 	}  
 
+	void Start(){
+		
+	}
+
 	/// <summary>
 	/// 根据数量获取祭坛商品
 	/// </summary>
@@ -527,15 +531,11 @@ public class LoadTxt : MonoBehaviour {
 			p [i].actionType = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 1));
 
 			string s = "PlaceUnit" + p [i].unitId.ToString () + "Para" + (isRebirth ? "_Memory" : "");
-//			if (p [i].unitId == 103)
-//				Debug.Log (s);
 			if (PlayerPrefs.GetString (s, "") == "") {
 				p [i].actionParam = 1 + ";" + ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
 			} else {
 				p [i].actionParam = PlayerPrefs.GetString (s, "");
 			}
-//			if(p[i].unitId == 103)
-//				Debug.Log (p [i].unitId + ": " + p [i].actionParam);;
 			p [i].name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 3);
 			p [i].desc = ReadTxt.GetDataByRowAndCol (strs, i + 1, 4);
 		}

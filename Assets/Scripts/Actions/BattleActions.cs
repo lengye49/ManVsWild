@@ -530,30 +530,31 @@ public class BattleActions : MonoBehaviour {
 		if (enemy.renown > 0)
 			_gameData.AddRenown (enemy.renown);
 
-		//添加成就
-		_achieveActions.DefeatEnemy (enemy.monsterId);
 
         if (enemy.monsterId == 3008 && GameData._playerData.orderCamp == 0)
         {
-            AddLog("你获得了秩序阵营的认可！", 0);
+            AddLog("你获得了秩序阵营的认可，秩序阵营决定退出战争。", 1);
         }
         else if (enemy.monsterId == 3108 && GameData._playerData.truthCamp == 0)
         {
-            AddLog("你获得了真理阵营的认可！", 0);
+            AddLog("你获得了真理阵营的认可，真理阵营决定不再挑起战争。", 1);
         }
         else if (enemy.monsterId == 3208 && GameData._playerData.lifeCamp == 0)
         {
-            AddLog("你获得了生命阵营的认可！", 0);
+            AddLog("你获得了生命阵营的认可，生命阵营决定回归森林。", 1);
         }
         else if (enemy.monsterId == 3308 && GameData._playerData.chaosCamp == 0)
         {
-            AddLog("你获得了混乱阵营的认可！", 0);
+            AddLog("你获得了混乱阵营的认可，混乱阵营决定退回深渊。", 1);
         }
         else if (enemy.monsterId == 3408 && GameData._playerData.deathCamp == 0)
         {
-            AddLog("你获得了死亡阵营的认可！", 0);
+            AddLog("你获得了死亡阵营的认可，死亡阵营决定保持沉寂。", 1);
         }
-            
+        
+		//添加成就
+		_achieveActions.DefeatEnemy (enemy.monsterId);
+
 		StartCoroutine (WaitAndCheck ());
 	}
 
@@ -660,7 +661,7 @@ public class BattleActions : MonoBehaviour {
 		SetPoint ();
 		_gameData.ChangeProperty (2, -(int)(LoadTxt.MatDic [GameData._playerData.MagicId/10000].castSpirit * GameData._playerData.MagicCostRate));
 
-		print (GameData._playerData.MagicId);
+//		print (GameData._playerData.MagicId);
 		if (GameData._playerData.MagicId / 10000 == 303 || GameData._playerData.MagicId / 10000 == 305) {
 			int heal = (int)(GameData._playerData.property [24] * GameData._playerData.MagicPower / 10);
 			_gameData.ChangeProperty (0, heal);

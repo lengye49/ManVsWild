@@ -67,7 +67,7 @@ public class SerendipityActions : MonoBehaviour {
             return;
 
         //0信息 1广告
-        if (r > 100)
+        if (r > 200)
             ShowSerendipity(0);
         else
             ShowSerendipity(1);
@@ -120,7 +120,13 @@ public class SerendipityActions : MonoBehaviour {
             NewMessage.DOBlendableScaleBy(Vector3.one, 0.5f);
 
             Text t = NewMessage.GetComponentInChildren<Text>();
-            int index = Algorithms.GetIndexByRange(0, messageList.Count);
+			int index = 0;
+
+			if (GameData._playerData.placeNowId < 26)
+				index = Random.Range (0, 44);
+			else
+				index = Random.Range (44, messageList.Count-1);
+			
             t.text = messageList[index];
             _gameData.AddItem(22020000,2);
             GetComponentInChildren<LogManager>().AddLog("你获得了2灵魂石。",true);
@@ -232,6 +238,14 @@ public class SerendipityActions : MonoBehaviour {
 		messageList.Add(42,"挑战NPC收益较低，但却非常危险，一定要小心为上。");
 		messageList.Add(43,"NPC实力强大，请谨慎挑战，挑战之前务必保存记忆。");
 		messageList.Add(44,"NPC实力强大，请谨慎挑战，挑战之前务必保存记忆。");
+		messageList.Add(45,"秩序阵营的人类不是这里的原住民，据说他们来自遥远的西方。");
+		messageList.Add(46,"西方大陆发生了巨变，那些可怜人才跑来这里。");
+		messageList.Add(47,"据说死亡阵营的正义之镰和灵魂巫女原来是一对夫妻。");
+		messageList.Add(48,"贪婪的矮人为了获得魔晶的能量，打开了深渊的传送门。");
+		messageList.Add(49,"精灵比较友善，但是对敌人却从不手软。");
+		messageList.Add(50,"高精灵和精灵虽然长得很像，但是前者迷恋真理，后者追从自由。");
+		messageList.Add(51,"法师塔里的那些老顽固，往往偏执的不可理喻。");
+		messageList.Add(52,"如果你想要永生，可以去死亡沼泽试试运气。但那种永生，肯定不是你想象的那么美好。");
     }
 
 }

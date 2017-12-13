@@ -27,7 +27,7 @@ public class LoadingBar : MonoBehaviour {
 	}
 
 	void StartLoading(){
-		value = value + 0.01f;
+		value = value + 0.03f;
 		if ((int)(value * 10) % 4 == 0) {
 			loadingTxt = "进行中";
 		}else if((int)(value * 10) % 4 == 1){
