@@ -290,6 +290,7 @@ public class PlaceActions : MonoBehaviour {
             {
                 CallInComplete(1);
                 _gameData.CloseMap(25);
+                _gameData.OpenMap(26);
                 _logManager.AddLog("通关模式已开启！");
             }
         }
@@ -1350,6 +1351,11 @@ public class PlaceActions : MonoBehaviour {
 		Dictionary<int,int> rewards = new Dictionary<int, int> ();
 		for (int i = 0; i < num; i++) {
 			int index = Algorithms.GetResultByWeight (weight);
+
+            //随出来的没有东西
+            if (index == 0)
+                continue;
+            
 			if (rewards.ContainsKey (ids [index])) {
 				rewards [ids [index]]++;
 			} else {
@@ -1360,7 +1366,12 @@ public class PlaceActions : MonoBehaviour {
 		if (rewards.Count >= 1) {
 			string newItems = "获得 ";
 			foreach (int key in rewards.Keys) {
-				_gameData.AddItem (key * 10000, rewards [key]);
+
+                //容错
+                if (key == 0)
+                    continue;
+				
+                _gameData.AddItem (key * 10000, rewards [key]);
 				newItems += LoadTxt.MatDic [key].name + " +" + rewards [key] + "\t";
 			}
 			newItems = newItems.Substring (0, newItems.Length - 1);

@@ -16,7 +16,7 @@ public class LoadTxt : MonoBehaviour {
 
 		LoadMats ();
 		LoadMaps ();
-	}
+	}  
 
 	/// <summary>
 	/// 根据数量获取祭坛商品

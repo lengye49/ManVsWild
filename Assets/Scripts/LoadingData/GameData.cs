@@ -32,6 +32,11 @@ public class GameData : MonoBehaviour {
 			GetComponentInChildren<DeathActions> ().UpdateDeath (PlayerPrefs.GetString ("DeathCause", "Hp"));
 		}
 
+        //对1.0版本的通关玩家进行处理
+        if (_playerData.MapOpenState[25] == 3 && _playerData.MapOpenState[26] == 0)
+        {
+            OpenMap(26);
+        }
 	}
 
 	/// <summary>
@@ -165,9 +170,18 @@ public class GameData : MonoBehaviour {
         _playerData.Farms = GetFarmStateFromStr(PlayerPrefs.GetString("Farms", "0|0|1|0;1|0|2|0;2|0|3|0;3|0|0|0;4|0|0|0;5|0|0|0;6|0|0|0;7|0|0|0"));
         _playerData.Pets = GetPetListFromStr(PlayerPrefs.GetString("Pets", ""));//"100|1|50|15|Hello;100|0|20|10|Kitty"));
         _playerData.PetRecord = PlayerPrefs.GetInt("PetRecord", 0);
-                                                                                               //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
-        _playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
-//		_playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0|0|0|0|0"));
+                                                                                               //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
+        _playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"));
+        //新版本对map字段进行处理
+        if (_playerData.MapOpenState.Count < 31)
+        {
+            string s = PlayerPrefs.GetString("MapOpenState", "");
+            s+="|0|0|0";
+            StoreData("MapOpenState", s);
+            _playerData.MapOpenState = GetMapOpenStateFromStr(PlayerPrefs.GetString("MapOpenState", ""));
+        }
+
+
         _playerData.dungeonLevelMax = PlayerPrefs.GetInt("DungeonLevelMax", 0);
         _playerData.tunnelLevelMax = PlayerPrefs.GetInt("TunnelLevelMax", 0);
 		_playerData.placeNowId = PlayerPrefs.GetInt("PlaceNowId", 0);
@@ -222,7 +236,7 @@ public class GameData : MonoBehaviour {
 		_playerData.sacrificeList = GetIntFromStr(PlayerPrefs.GetString ("SacrificeList", ""));
 		if (_playerData.sacrificeList.Length <= 0)
 			UpdateSacrificeList ();
-		
+
         UpdateProperty();
 
     }
@@ -1527,6 +1541,8 @@ public class GameData : MonoBehaviour {
 	}
 #endregion
 
+
+#region 测试脚本
 	public Text inputWords;
 	public void AddItemById(){
 		int id = int.Parse (inputWords.text);
@@ -1540,5 +1556,8 @@ public class GameData : MonoBehaviour {
         ChangeProperty(6, 100);
 		AddRenown (100);
     }
+        
 
+
+    #endregion
 }

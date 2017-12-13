@@ -18,7 +18,6 @@ public class LoadingBar : MonoBehaviour {
 	}
 
 	public int CallInLoadingBar(int costMin){
-//		int max = 1999;
 		totalTime = 1;
 		value = 0;
 		this.gameObject.SetActive (true);
@@ -51,7 +50,7 @@ public class LoadingBar : MonoBehaviour {
 
 
 	IEnumerator LoadingInProgress(){
-		float f = 0.01f*totalTime;
+		float f = 0.001f*totalTime;
 		yield return new WaitForSeconds (f);
 		StartLoading ();
 	}
