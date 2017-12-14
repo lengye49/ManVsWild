@@ -641,7 +641,7 @@ public class PlaceActions : MonoBehaviour {
 //            _logManager.AddLog("你捡到了" + s + "。");
 			_floating.CallInFloating("你捡到了" + s + "。",0);
 
-        } else if (r < 30) {
+        } else if (r < 20) {
             int r1 = Algorithms.GetIndexByRange (1, 3);
             Monster[] ms = new Monster[r1];
             for (int i = 0; i < r1; i++) {

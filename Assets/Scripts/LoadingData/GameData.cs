@@ -18,6 +18,7 @@ public class GameData : MonoBehaviour {
 	public LogManager _logManager;
 
 	void Awake () {
+//		PlayerPrefs.DeleteAll ();
 
 		_playerData = new PlayerData ();
 		LoadAchievements ();
