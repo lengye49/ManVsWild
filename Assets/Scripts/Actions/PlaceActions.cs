@@ -17,6 +17,7 @@ public class PlaceActions : MonoBehaviour {
     public RectTransform Complete;
     public GameObject completeDungeon;
     public GameObject completeTunnel;
+    public GameObject completeFinal;
     public ExploreActions _explore;
 
 	private GameObject placeCell;
@@ -297,10 +298,10 @@ public class PlaceActions : MonoBehaviour {
 	}
 
     /// <summary>
-    /// 打开信息面板，0地牢通关 1隧道通关
+    /// 打开信息面板，0地牢通关 1隧道通关 2最终通关
     /// </summary>
     /// <param name="t">T.</param>
-    void CallInComplete(int t){
+    public void CallInComplete(int t){
         Complete.gameObject.SetActive (true);
         Complete.transform.localScale = new Vector3 (0.01f, 0.01f, 1f);
         Complete.gameObject.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 0f), 0.3f);
@@ -309,11 +310,19 @@ public class PlaceActions : MonoBehaviour {
         {
             completeDungeon.SetActive(true);
             completeTunnel.SetActive(false);
+            completeFinal.SetActive(false);
+        }
+        else if (t == 1)
+        {
+            completeDungeon.SetActive(false);
+            completeTunnel.SetActive(true);
+            completeFinal.SetActive(false);
         }
         else
         {
             completeDungeon.SetActive(false);
-            completeTunnel.SetActive(true);
+            completeTunnel.SetActive(false);
+            completeFinal.SetActive(true);
         }
     }
 
@@ -1434,7 +1443,7 @@ public class PlaceActions : MonoBehaviour {
 		int monsterId = int.Parse (s [3]);
 		Monster[] m = new Monster[1];
 		m [0] = LoadTxt.GetMonster(monsterId);
-		Debug.Log ("Challange Monster : " + m [0].name);
+//		Debug.Log ("Challange Monster : " + m [0].name);
 		_panelManager.GoToPanel ("Battle");
 		_battleActions.InitializeBattleField (m, false);
 	}

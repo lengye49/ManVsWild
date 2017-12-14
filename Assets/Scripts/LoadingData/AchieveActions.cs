@@ -286,6 +286,7 @@ public class AchieveActions : MonoBehaviour {
                 StoreAchievement(39);
                 _floating.CallInFloating ("达成新成就:" + a.name, 0);
                 _log.AddLog ("达成新成就:" + a.name,true);
+                GetComponentInChildren<PlaceActions>().CallInComplete(2);
             }
         }
 
