@@ -1384,7 +1384,10 @@ public class PlaceActions : MonoBehaviour {
 				newItems += LoadTxt.MatDic [key].name + " +" + rewards [key] + "\t";
 			}
 			newItems = newItems.Substring (0, newItems.Length - 1);
-			_floating.CallInFloating (newItems, 0);
+			if (newItems != "获得")
+				_floating.CallInFloating (newItems, 0);
+			else
+				_floating.CallInFloating ("一无所获。", 0);
 
 			//Achievement
 			if (now == 0)
