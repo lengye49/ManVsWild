@@ -145,7 +145,7 @@ public class SerendipityActions : MonoBehaviour {
     }
 
     /// <summary>
-    /// 根据播放完成的事件来发送奖励，跳过无奖励，完成10灵魂石，下载20灵魂石。
+    /// 根据播放完成的事件来发送奖励
     /// </summary>
     /// <param name="args">Arguments.</param>
     void AdFinished(AdFinishedEventArgs args){
